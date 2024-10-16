@@ -1,0 +1,47 @@
+name: server
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'server/**'
+      - '.github/workflows/server.yaml'
+
+permissions:
+  contents: write
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.22.3'
+
+      - name: Download tools
+        run: |-
+          go install github.com/jzero-io/gorename@latest
+          go install github.com/jaronnie/grum@latest
+
+      - name: Upload to jaronnie/jzero-admin-deploy-server
+        run: |          
+          cd server
+          rm -rf .git
+          gorename server/internal server/server
+          cd ..
+          
+          GITHUB_TOKEN=${{ secrets.ACCESS_TOKEN }} grum clone https://github.com/jaronnie/jzero-admin-deploy-server
+          cd jzero-admin-deploy-server
+          git config user.name "dependabot[bot]"
+          git config user.email "49699333+dependabot[bot]@users.noreply.github.com"
+          find . -type f -mindepth 1 ! -path "./api/*" ! -path "./vercel.json" ! -path "./.git/*" -exec rm -rf {} +
+          cp -r ../server/. .
+          git add .
+          git diff-index --quiet HEAD || git commit -m "feat(server): update"
+          git push -f
