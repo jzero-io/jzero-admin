@@ -1,7 +1,8 @@
 syntax: v1
 
 gen:
-  # add custom gen flags
-
-  # add custom gen sdk flags
-  sdk:
+  git-change: true
+  split-api-types-dir: true
+  change-logic-types: true
+  regen-api-types: true
+  regen-api-handler: true
