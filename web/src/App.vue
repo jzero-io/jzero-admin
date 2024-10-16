@@ -25,7 +25,7 @@ const naiveDateLocale = computed(() => {
 
 const watermarkProps = computed<WatermarkProps>(() => {
   return {
-    content: themeStore.watermark?.text || 'SoybeanAdmin',
+    content: themeStore.watermark?.text || 'JzeroAdmin',
     cross: true,
     fullscreen: true,
     fontSize: 16,
