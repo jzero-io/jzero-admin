@@ -48,7 +48,7 @@ jobs:
           cd jzero-admin-deploy-web
           git config user.name "dependabot[bot]"
           git config user.email "49699333+dependabot[bot]@users.noreply.github.com"
-          rm -rf *
+          find . -type f -mindepth 1 ! -path "./vercel.json" ! -path "./.git/*" -exec rm -rf {} +
           mv ../web/dist/* ./
           git add .
           git diff-index --quiet HEAD || git commit -m "feat(web): update"
