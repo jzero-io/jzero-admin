@@ -34,5 +34,3 @@ dist
 
 # unix sock
 *.sock
-
-/server
