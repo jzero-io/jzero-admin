@@ -20,4 +20,6 @@
 
 [demo 演示地址](https://demo.jzero-admin.jaronnie.com)
 
-注意⚠️: 演示环境默认使用 sqlite 数据库, 不定期数据将会进行重置
+## 感谢
+
+* 使用在线 mysql 实例 [sqlpub](https://sqlpub.com)
