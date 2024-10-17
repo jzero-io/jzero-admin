@@ -1,8 +1,16 @@
 syntax: v1
 
 gen:
+  hooks:
+    before:
+      - jzero tools git-diff tools/migrate/tables || go run tools/migrate/main.go
+
   git-change: true
   split-api-types-dir: true
   change-logic-types: true
   regen-api-types: true
   regen-api-handler: true
+
+  model-mysql-datasource: true
+  model-mysql-datasource-url: "root:123456@tcp(127.0.0.1:33060)/jzero"
+  model-mysql-ignore-columns: []

@@ -20,6 +20,4 @@
 
 [demo 演示地址](https://demo.jzero-admin.jaronnie.com)
 
-## 感谢
-
-* [sqlhub](https://sqlpub.com) 提供在线 mysql 访问
+注意⚠️: 演示环境默认使用 sqlite 数据库, 不定期数据将会进行重置

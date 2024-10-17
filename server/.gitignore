@@ -32,5 +32,4 @@ logs
 # goreleaser output
 dist
 
-# unix sock
-*.sock
+data

@@ -5,3 +5,14 @@ rest:
 
 log:
     encoding: plain
+
+databaseType: sqlite
+
+sqlite:
+    path: data/jzero.db
+mysql:
+    host: 127.0.0.1
+    port: 33060
+    username: root
+    password: "123456"
+    database: jzero
