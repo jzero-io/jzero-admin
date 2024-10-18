@@ -163,6 +163,7 @@ const local: App.I18n.Schema = {
     document_unocss: 'UnoCSS文档',
     document_naive: 'Naive UI文档',
     document_antd: 'Ant Design Vue文档',
+    'user-center': '个人中心',
     about: '关于',
     manage: '系统管理',
     manage_user: '用户管理',
@@ -172,7 +173,7 @@ const local: App.I18n.Schema = {
     exception: '异常页',
     exception_403: '403',
     exception_404: '404',
-    exception_500: '500',
+    exception_500: '500'
   },
   page: {
     login: {

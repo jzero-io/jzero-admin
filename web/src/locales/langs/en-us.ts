@@ -163,6 +163,7 @@ const local: App.I18n.Schema = {
     document_unocss: 'UnoCSS Document',
     document_naive: 'Naive UI Document',
     document_antd: 'Ant Design Vue Document',
+    'user-center': 'User Center',
     about: 'About',
     manage: 'System Manage',
     manage_user: 'User Manage',
@@ -172,7 +173,7 @@ const local: App.I18n.Schema = {
     exception: 'Exception',
     exception_403: '403',
     exception_404: '404',
-    exception_500: '500',
+    exception_500: '500'
   },
   page: {
     login: {
