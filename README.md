@@ -23,3 +23,20 @@
 ## 感谢
 
 * 使用在线 mysql 实例 [sqlpub](https://sqlpub.com)
+
+## 路线图
+
+- [ ] 替换 apifox 接口为 jzero 框架接口
+  - [ ] /auth/login
+  - [ ] /auth/getUserInfo
+  - [ ] /auth/refreshToken
+  - [ ] /auth/error
+  - [ ] /route/getConstantRoutes
+  - [ ] /route/getUserRoutes
+  - [ ] /route/isRouteExist
+  - [ ] /systemManage/getUserList
+  - [ ] /systemManage/getRoleList
+  - [ ] /systemManage/getAllRoles
+  - [ ] /systemManage/getAllPages
+  - [ ] /systemManage/getMenuList/v2
+  - [ ] /systemManage/getMenuTree

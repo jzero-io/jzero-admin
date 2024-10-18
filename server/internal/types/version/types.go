@@ -9,10 +9,10 @@ var (
 	_ = time.Now()
 )
 
-type GetVersionRequest struct {
+type GetRequest struct {
 }
 
-type GetVersionResponse struct {
+type GetResponse struct {
 	Version   string `json:"version"`
 	GoVersion string `json:"goVersion"`
 	Commit    string `json:"commit"`

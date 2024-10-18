@@ -10,16 +10,16 @@ import (
 	types "server/internal/types/version"
 )
 
-func GetVersion(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func Get(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.GetVersionRequest
+		var req types.GetRequest
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return
 		}
 
-		l := version.NewGetVersion(r.Context(), svcCtx)
-		resp, err := l.GetVersion(&req)
+		l := version.NewGet(r.Context(), svcCtx)
+		resp, err := l.Get(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 		} else {
