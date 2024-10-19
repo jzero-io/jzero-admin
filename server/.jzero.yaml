@@ -15,6 +15,3 @@ gen:
   model-mysql-datasource: true
   model-mysql-datasource-url: "root:123456@tcp(127.0.0.1:33060)/jzero"
   model-mysql-ignore-columns: []
-
-ivm:
-  split-api-types-dir: true
