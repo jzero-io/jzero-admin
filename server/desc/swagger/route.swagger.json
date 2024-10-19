@@ -1,0 +1,100 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "",
+    "version": ""
+  },
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/route/getConstantRoutes": {
+      "get": {
+        "operationId": "GetConstantRoutes",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetConstantRoutesResponse"
+            }
+          }
+        },
+        "tags": [
+          "route"
+        ]
+      }
+    },
+    "/route/getUserRoutes": {
+      "get": {
+        "operationId": "GetUserRoutes",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetUserRoutesResponse"
+            }
+          }
+        },
+        "tags": [
+          "route"
+        ]
+      }
+    },
+    "/route/isRouteExist": {
+      "get": {
+        "operationId": "IsRouteExist",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/IsRouteExistResponse"
+            }
+          }
+        },
+        "tags": [
+          "route"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "GetConstantRoutesRequest": {
+      "type": "object",
+      "title": "GetConstantRoutesRequest"
+    },
+    "GetConstantRoutesResponse": {
+      "type": "object",
+      "title": "GetConstantRoutesResponse"
+    },
+    "GetUserRoutesRequest": {
+      "type": "object",
+      "title": "GetUserRoutesRequest"
+    },
+    "GetUserRoutesResponse": {
+      "type": "object",
+      "title": "GetUserRoutesResponse"
+    },
+    "IsRouteExistRequest": {
+      "type": "object",
+      "title": "IsRouteExistRequest"
+    },
+    "IsRouteExistResponse": {
+      "type": "object",
+      "title": "IsRouteExistResponse"
+    }
+  },
+  "securityDefinitions": {
+    "apiKey": {
+      "type": "apiKey",
+      "description": "Enter JWT Bearer token **_only_**",
+      "name": "Authorization",
+      "in": "header"
+    }
+  }
+}

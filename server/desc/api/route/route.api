@@ -1,0 +1,32 @@
+syntax = "v1"
+
+info (
+	go_package: "route"
+)
+
+type GetConstantRoutesRequest {}
+
+type GetConstantRoutesResponse {}
+
+type GetUserRoutesRequest {}
+
+type GetUserRoutesResponse {}
+
+type IsRouteExistRequest {}
+
+type IsRouteExistResponse {}
+
+@server (
+	group: route
+)
+service server {
+	@handler GetConstantRoutes
+	get /route/getConstantRoutes (GetConstantRoutesRequest) returns (GetConstantRoutesResponse)
+
+	@handler GetUserRoutes
+	get /route/getUserRoutes (GetUserRoutesRequest) returns (GetUserRoutesResponse)
+
+	@handler IsRouteExist
+	get /route/isRouteExist (IsRouteExistRequest) returns (IsRouteExistResponse)
+}
+

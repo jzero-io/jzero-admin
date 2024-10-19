@@ -1,0 +1,39 @@
+syntax = "v1"
+
+info (
+	go_package: "auth"
+)
+
+type LoginRequest {}
+
+type LoginResponse {}
+
+type GetUserInfoRequest {}
+
+type GetUserInfoResponse {}
+
+type RefreshTokenRequest {}
+
+type RefreshTokenResponse {}
+
+type ErrorRequest {}
+
+type ErrorResponse {}
+
+@server (
+	group: auth
+)
+service server {
+	@handler Login
+	post /auth/login (LoginRequest) returns (LoginResponse)
+
+	@handler GetUserInfo
+	post /auth/getUserInfo (GetUserInfoRequest) returns (GetUserInfoResponse)
+
+	@handler RefreshToken
+	post /auth/refreshToken (RefreshTokenRequest) returns (RefreshTokenResponse)
+
+	@handler Error
+	post /auth/error (ErrorRequest) returns (ErrorResponse)
+}
+

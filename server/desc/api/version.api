@@ -18,7 +18,7 @@ type GetResponse {
 	group:  version
 )
 service server {
-	@handler GetHandler
-	get /version (GetRequest) returns (GetResponse)
+	@handler Get
+	get /get (GetRequest) returns (GetResponse)
 }
 
