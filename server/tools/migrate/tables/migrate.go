@@ -38,5 +38,12 @@ func NewGormConn() (*gorm.DB, error) {
 
 // Migrate https://gorm.io/docs/models.html
 func Migrate(gormConn *gorm.DB) error {
-	return gormConn.AutoMigrate(&CasbinRule{})
+	return gormConn.AutoMigrate(
+		&CasbinRule{},
+		&SystemUser{},
+		&SystemRole{},
+		&SystemUserRole{},
+		&SystemMenu{},
+		&SystemRoleMenu{},
+	)
 }

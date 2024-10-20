@@ -10,6 +10,7 @@ databaseType: sqlite
 
 sqlite:
     path: data/jzero.db
+
 mysql:
     host: 127.0.0.1
     port: 33060
