@@ -1,0 +1,18 @@
+syntax = "v1"
+
+info (
+	go_package: "system/user"
+)
+
+type ListRequest {}
+
+type ListResponse {}
+
+@server (
+	group: system/user
+)
+service server {
+	@handler List
+	get /systemManage/getUserList (ListRequest) returns (ListResponse)
+}
+

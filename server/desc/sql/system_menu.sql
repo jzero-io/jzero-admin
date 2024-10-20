@@ -1,0 +1,20 @@
+CREATE TABLE `system_menu` (
+    `id` integer AUTO_INCREMENT,
+    `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `create_by` integer DEFAULT NULL,
+    `update_by` integer DEFAULT NULL,
+    `status` varchar(1) NOT NULL,
+    `parent_id` integer NOT NULL,
+    `menu_type` varchar(1) NOT NULL,
+    `name` varchar(50) NOT NULL,
+    `hidden` tinyint(1) NOT NULL,
+    `order` integer NOT NULL,
+    `route_name` varchar(255) NOT NULL,
+    `route_path` varchar(255) NOT NULL,
+    `component` varchar(255) NOT NULL,
+    `icon` varchar(255) NOT NULL,
+    `icon_type` varchar(1) NOT NULL,
+    `i18n_key` varchar(255) NOT NULL,
+    PRIMARY KEY (id)
+)ENGINE = InnoDB COLLATE utf8mb4_general_ci;

@@ -1,0 +1,32 @@
+syntax = "v1"
+
+info (
+	go_package: "system/menu"
+)
+
+type ListRequest {}
+
+type ListResponse {}
+
+type TreeRequest {}
+
+type TreeResponse {}
+
+type GetAllPagesRequest {}
+
+type GetAllPagesResponse {}
+
+@server (
+	group: system/menu
+)
+service server {
+	@handler List
+	get /systemManage/getMenuList/v2 (ListRequest) returns (ListResponse)
+
+	@handler Tree
+	get /systemManage/getMenuTree (TreeRequest) returns (TreeResponse)
+
+	@handler GetAllPages
+	get /systemManage/getAllPages (GetAllPagesRequest) returns (GetAllPagesResponse)
+}
+

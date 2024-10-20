@@ -1,0 +1,25 @@
+syntax = "v1"
+
+info (
+	go_package: "system/role"
+)
+
+type ListRequest {}
+
+type ListResponse {}
+
+type GetAllRequest {}
+
+type GetAllResponse {}
+
+@server (
+	group: system/role
+)
+service server {
+	@handler List
+	get /systemManage/getRoleList (ListRequest) returns (ListResponse)
+
+	@handler GetAll
+	get /systemManage/getAllRoles (GetAllRequest) returns (GetAllResponse)
+}
+
