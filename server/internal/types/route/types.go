@@ -19,10 +19,30 @@ type GetUserRoutesRequest struct {
 }
 
 type GetUserRoutesResponse struct {
+	Routes []Route `json:"routes"`
 }
 
 type IsRouteExistRequest struct {
 }
 
 type IsRouteExistResponse struct {
+}
+
+type Route struct {
+	Name      string    `json:"name"`
+	Path      string    `json:"path"`
+	Meta      RouteMeta `json:"meta"`
+	Component string    `json:"component"`
+	Children  []Route   `json:"children"`
+}
+
+type RouteMeta struct {
+	Title        string `json:"title"`
+	I18nKey      string `json:"i18nKey"`
+	Icon         string `json:"icon"`
+	Order        int    `json:"order"`
+	HiddenInMenu bool   `json:"hiddenInMenu"`
+	ActiveMenu   string `json:"activeMenu"`
+	MutiTab      bool   `json:"mutiTab"`
+	KeepAlive    bool   `json:"keepAlive"`
 }

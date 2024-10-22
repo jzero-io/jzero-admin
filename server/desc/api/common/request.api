@@ -1,0 +1,11 @@
+syntax = "v1"
+
+info (
+	go_package: "common"
+)
+
+type PageRequest {
+	page int `json:"page"`
+	size int `json:"size"`
+}
+

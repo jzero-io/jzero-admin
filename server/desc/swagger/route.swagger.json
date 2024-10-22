@@ -78,7 +78,18 @@
     },
     "GetUserRoutesResponse": {
       "type": "object",
-      "title": "GetUserRoutesResponse"
+      "properties": {
+        "routes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Route"
+          }
+        }
+      },
+      "title": "GetUserRoutesResponse",
+      "required": [
+        "routes"
+      ]
     },
     "IsRouteExistRequest": {
       "type": "object",
@@ -87,6 +98,81 @@
     "IsRouteExistResponse": {
       "type": "object",
       "title": "IsRouteExistResponse"
+    },
+    "Route": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "meta": {
+          "$ref": "#/definitions/RouteMeta"
+        },
+        "component": {
+          "type": "string"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Route"
+          }
+        }
+      },
+      "title": "Route",
+      "required": [
+        "name",
+        "path",
+        "meta",
+        "component",
+        "children"
+      ]
+    },
+    "RouteMeta": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "i18nKey": {
+          "type": "string"
+        },
+        "icon": {
+          "type": "string"
+        },
+        "order": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "hiddenInMenu": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "activeMenu": {
+          "type": "string"
+        },
+        "mutiTab": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "keepAlive": {
+          "type": "boolean",
+          "format": "boolean"
+        }
+      },
+      "title": "RouteMeta",
+      "required": [
+        "title",
+        "i18nKey",
+        "icon",
+        "order",
+        "hiddenInMenu",
+        "activeMenu",
+        "mutiTab",
+        "keepAlive"
+      ]
     }
   },
   "securityDefinitions": {
