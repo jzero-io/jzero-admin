@@ -12,7 +12,12 @@ var (
 type GetConstantRoutesRequest struct {
 }
 
-type GetConstantRoutesResponse struct {
+type GetConstantRoutesResponseItem struct {
+	Name      string    `json:"name"`
+	Path      string    `json:"path"`
+	Component string    `json:"component"`
+	Props     bool      `json:"props"`
+	Meta      RouteMeta `json:"meta"`
 }
 
 type GetUserRoutesRequest struct {
@@ -20,6 +25,7 @@ type GetUserRoutesRequest struct {
 
 type GetUserRoutesResponse struct {
 	Routes []Route `json:"routes"`
+	Home   string  `json:"home"`
 }
 
 type IsRouteExistRequest struct {
@@ -37,12 +43,13 @@ type Route struct {
 }
 
 type RouteMeta struct {
-	Title        string `json:"title"`
-	I18nKey      string `json:"i18nKey"`
-	Icon         string `json:"icon"`
-	Order        int    `json:"order"`
-	HiddenInMenu bool   `json:"hiddenInMenu"`
-	ActiveMenu   string `json:"activeMenu"`
-	MutiTab      bool   `json:"mutiTab"`
-	KeepAlive    bool   `json:"keepAlive"`
+	Title      string `json:"title"`
+	I18nKey    string `json:"i18nKey"`
+	Icon       string `json:"icon"`
+	Order      int    `json:"order"`
+	HideInMenu bool   `json:"hideInMenu"`
+	ActiveMenu string `json:"activeMenu"`
+	MutiTab    bool   `json:"mutiTab"`
+	KeepAlive  bool   `json:"keepAlive"`
+	Constant   bool   `json:"constant"`
 }

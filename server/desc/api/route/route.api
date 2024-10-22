@@ -13,24 +13,32 @@ type Route {
 }
 
 type RouteMeta {
-	title        string `json:"title"`
-	i18nKey      string `json:"i18nKey"`
-	icon         string `json:"icon"`
-	order        int    `json:"order"`
-	hiddenInMenu bool   `json:"hiddenInMenu"`
-	activeMenu   string `json:"activeMenu"`
-	mutiTab      bool   `json:"mutiTab"`
-	keepAlive    bool   `json:"keepAlive"`
+	title      string `json:"title"`
+	i18nKey    string `json:"i18nKey"`
+	icon       string `json:"icon"`
+	order      int    `json:"order"`
+	hideInMenu bool   `json:"hideInMenu"`
+	activeMenu string `json:"activeMenu"`
+	mutiTab    bool   `json:"mutiTab"`
+	keepAlive  bool   `json:"keepAlive"`
+	constant   bool   `json:"constant"`
 }
 
 type GetConstantRoutesRequest {}
 
-type GetConstantRoutesResponse {}
+type GetConstantRoutesResponseItem {
+	name      string    `json:"name"`
+	path      string    `json:"path"`
+	component string    `json:"component"`
+	props     bool      `json:"props"`
+	meta      RouteMeta `json:"meta"`
+}
 
 type GetUserRoutesRequest {}
 
 type GetUserRoutesResponse {
 	routes []Route `json:"routes"`
+	home   string  `json:"home"`
 }
 
 type IsRouteExistRequest {}
@@ -42,7 +50,7 @@ type IsRouteExistResponse {}
 )
 service server {
 	@handler GetConstantRoutes
-	get /route/getConstantRoutes (GetConstantRoutesRequest) returns (GetConstantRoutesResponse)
+	get /route/getConstantRoutes (GetConstantRoutesRequest) returns ([]GetConstantRoutesResponseItem)
 
 	@handler GetUserRoutes
 	get /route/getUserRoutes (GetUserRoutesRequest) returns (GetUserRoutesResponse)

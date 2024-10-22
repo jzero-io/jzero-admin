@@ -21,7 +21,10 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/GetConstantRoutesResponse"
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/GetConstantRoutesResponseItem"
+              }
             }
           }
         },
@@ -68,9 +71,34 @@
       "type": "object",
       "title": "GetConstantRoutesRequest"
     },
-    "GetConstantRoutesResponse": {
+    "GetConstantRoutesResponseItem": {
       "type": "object",
-      "title": "GetConstantRoutesResponse"
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "component": {
+          "type": "string"
+        },
+        "props": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "meta": {
+          "$ref": "#/definitions/RouteMeta"
+        }
+      },
+      "title": "GetConstantRoutesResponseItem",
+      "required": [
+        "name",
+        "path",
+        "component",
+        "props",
+        "meta"
+      ]
     },
     "GetUserRoutesRequest": {
       "type": "object",
@@ -84,11 +112,15 @@
           "items": {
             "$ref": "#/definitions/Route"
           }
+        },
+        "home": {
+          "type": "string"
         }
       },
       "title": "GetUserRoutesResponse",
       "required": [
-        "routes"
+        "routes",
+        "home"
       ]
     },
     "IsRouteExistRequest": {
@@ -146,7 +178,7 @@
           "type": "integer",
           "format": "int32"
         },
-        "hiddenInMenu": {
+        "hideInMenu": {
           "type": "boolean",
           "format": "boolean"
         },
@@ -160,6 +192,10 @@
         "keepAlive": {
           "type": "boolean",
           "format": "boolean"
+        },
+        "constant": {
+          "type": "boolean",
+          "format": "boolean"
         }
       },
       "title": "RouteMeta",
@@ -168,10 +204,11 @@
         "i18nKey",
         "icon",
         "order",
-        "hiddenInMenu",
+        "hideInMenu",
         "activeMenu",
         "mutiTab",
-        "keepAlive"
+        "keepAlive",
+        "constant"
       ]
     }
   },
