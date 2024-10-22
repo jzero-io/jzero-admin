@@ -26,7 +26,7 @@ func NewGetUserInfo(ctx context.Context, svcCtx *svc.ServiceContext) *GetUserInf
 func (l *GetUserInfo) GetUserInfo(req *types.GetUserInfoRequest) (resp *types.GetUserInfoResponse, err error) {
 	return &types.GetUserInfoResponse{
 		UserId:   "1",
-		Username: "jaronnie",
+		Username: "jzero",
 		Roles:    []string{"R_super"},
 		Buttons:  []string{"B_manage"},
 	}, nil

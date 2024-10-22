@@ -20,7 +20,7 @@ interface FormModel {
 }
 
 const model: FormModel = reactive({
-  username: 'Admin',
+  username: 'jzero',
   password: '123456'
 });
 
@@ -58,7 +58,7 @@ const accounts = computed<Account[]>(() => [
   {
     key: 'admin',
     label: $t('page.login.pwdLogin.admin'),
-    username: 'Admin',
+    username: 'jzero',
     password: '123456'
   },
   {
