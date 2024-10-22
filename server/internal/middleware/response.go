@@ -2,19 +2,18 @@ package middleware
 
 import (
 	"context"
-	"net/http"
 )
 
 type Body struct {
-	Data    interface{} `json:"data"`
-	Code    int         `json:"code"`
-	Message string      `json:"message"`
+	Data interface{} `json:"data"`
+	Code string      `json:"code"`
+	Msg  string      `json:"msg"`
 }
 
 func ResponseMiddleware(_ context.Context, data any) any {
 	return Body{
-		Data:    data,
-		Code:    http.StatusOK,
-		Message: "success",
+		Data: data,
+		Code: "0000",
+		Msg:  "success",
 	}
 }

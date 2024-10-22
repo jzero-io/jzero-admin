@@ -31,7 +31,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: auth.Error(serverCtx),
 				},
 				{
-					Method:  http.MethodPost,
+					Method:  http.MethodGet,
 					Path:    "/auth/getUserInfo",
 					Handler: auth.GetUserInfo(serverCtx),
 				},

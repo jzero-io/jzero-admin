@@ -1,0 +1,76 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "",
+    "version": ""
+  },
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/systemManage/getAllRoles": {
+      "get": {
+        "operationId": "GetAll",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetAllResponse"
+            }
+          }
+        },
+        "tags": [
+          "system/role"
+        ]
+      }
+    },
+    "/systemManage/getRoleList": {
+      "get": {
+        "operationId": "List",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ListResponse"
+            }
+          }
+        },
+        "tags": [
+          "system/role"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "GetAllRequest": {
+      "type": "object",
+      "title": "GetAllRequest"
+    },
+    "GetAllResponse": {
+      "type": "object",
+      "title": "GetAllResponse"
+    },
+    "ListRequest": {
+      "type": "object",
+      "title": "ListRequest"
+    },
+    "ListResponse": {
+      "type": "object",
+      "title": "ListResponse"
+    }
+  },
+  "securityDefinitions": {
+    "apiKey": {
+      "type": "apiKey",
+      "description": "Enter JWT Bearer token **_only_**",
+      "name": "Authorization",
+      "in": "header"
+    }
+  }
+}

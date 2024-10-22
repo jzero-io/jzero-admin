@@ -41,7 +41,7 @@
       }
     },
     "/auth/getUserInfo": {
-      "post": {
+      "get": {
         "operationId": "GetUserInfo",
         "responses": {
           "200": {
@@ -51,16 +51,6 @@
             }
           }
         },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/GetUserInfoRequest"
-            }
-          }
-        ],
         "tags": [
           "auth"
         ]
@@ -134,15 +124,65 @@
     },
     "GetUserInfoResponse": {
       "type": "object",
-      "title": "GetUserInfoResponse"
+      "properties": {
+        "userId": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "buttons": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "GetUserInfoResponse",
+      "required": [
+        "userId",
+        "username",
+        "roles",
+        "buttons"
+      ]
     },
     "LoginRequest": {
       "type": "object",
-      "title": "LoginRequest"
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "title": "LoginRequest",
+      "required": [
+        "username",
+        "password"
+      ]
     },
     "LoginResponse": {
       "type": "object",
-      "title": "LoginResponse"
+      "properties": {
+        "token": {
+          "type": "string"
+        },
+        "refreshToken": {
+          "type": "string"
+        }
+      },
+      "title": "LoginResponse",
+      "required": [
+        "token",
+        "refreshToken"
+      ]
     },
     "RefreshTokenRequest": {
       "type": "object",

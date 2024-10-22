@@ -1,6 +1,9 @@
 syntax: v1
 
 gen:
+  hooks:
+    after:
+      - jzero gen swagger
   style: go_zero
   git-change: true
   split-api-types-dir: true
