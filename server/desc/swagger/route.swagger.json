@@ -21,7 +21,10 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/GetConstantRoutesResponse"
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/GetConstantRoutesResponseItem"
+              }
             }
           }
         },
@@ -68,9 +71,34 @@
       "type": "object",
       "title": "GetConstantRoutesRequest"
     },
-    "GetConstantRoutesResponse": {
+    "GetConstantRoutesResponseItem": {
       "type": "object",
-      "title": "GetConstantRoutesResponse"
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "component": {
+          "type": "string"
+        },
+        "props": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "meta": {
+          "$ref": "#/definitions/RouteMeta"
+        }
+      },
+      "title": "GetConstantRoutesResponseItem",
+      "required": [
+        "name",
+        "path",
+        "component",
+        "props",
+        "meta"
+      ]
     },
     "GetUserRoutesRequest": {
       "type": "object",
@@ -78,7 +106,22 @@
     },
     "GetUserRoutesResponse": {
       "type": "object",
-      "title": "GetUserRoutesResponse"
+      "properties": {
+        "routes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Route"
+          }
+        },
+        "home": {
+          "type": "string"
+        }
+      },
+      "title": "GetUserRoutesResponse",
+      "required": [
+        "routes",
+        "home"
+      ]
     },
     "IsRouteExistRequest": {
       "type": "object",
@@ -87,6 +130,86 @@
     "IsRouteExistResponse": {
       "type": "object",
       "title": "IsRouteExistResponse"
+    },
+    "Route": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "meta": {
+          "$ref": "#/definitions/RouteMeta"
+        },
+        "component": {
+          "type": "string"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Route"
+          }
+        }
+      },
+      "title": "Route",
+      "required": [
+        "name",
+        "path",
+        "meta",
+        "component",
+        "children"
+      ]
+    },
+    "RouteMeta": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "i18nKey": {
+          "type": "string"
+        },
+        "icon": {
+          "type": "string"
+        },
+        "order": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "hideInMenu": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "activeMenu": {
+          "type": "string"
+        },
+        "mutiTab": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "keepAlive": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "constant": {
+          "type": "boolean",
+          "format": "boolean"
+        }
+      },
+      "title": "RouteMeta",
+      "required": [
+        "title",
+        "i18nKey",
+        "icon",
+        "order",
+        "hideInMenu",
+        "activeMenu",
+        "mutiTab",
+        "keepAlive",
+        "constant"
+      ]
     }
   },
   "securityDefinitions": {

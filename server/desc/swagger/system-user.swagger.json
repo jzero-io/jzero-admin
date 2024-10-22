@@ -14,51 +14,31 @@
     "application/json"
   ],
   "paths": {
-    "/api/v1/version": {
+    "/systemManage/getUserList": {
       "get": {
-        "operationId": "Get",
+        "operationId": "List",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/GetResponse"
+              "$ref": "#/definitions/ListResponse"
             }
           }
         },
         "tags": [
-          "version"
+          "system/user"
         ]
       }
     }
   },
   "definitions": {
-    "GetRequest": {
+    "ListRequest": {
       "type": "object",
-      "title": "GetRequest"
+      "title": "ListRequest"
     },
-    "GetResponse": {
+    "ListResponse": {
       "type": "object",
-      "properties": {
-        "version": {
-          "type": "string"
-        },
-        "goVersion": {
-          "type": "string"
-        },
-        "commit": {
-          "type": "string"
-        },
-        "date": {
-          "type": "string"
-        }
-      },
-      "title": "GetResponse",
-      "required": [
-        "version",
-        "goVersion",
-        "commit",
-        "date"
-      ]
+      "title": "ListResponse"
     }
   },
   "securityDefinitions": {

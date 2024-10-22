@@ -4,13 +4,24 @@ info (
 	go_package: "auth"
 )
 
-type LoginRequest {}
+type LoginRequest {
+	username string `json:"username"`
+	password string `json:"password"`
+}
 
-type LoginResponse {}
+type LoginResponse {
+	token        string `json:"token"`
+	refreshToken string `json:"refreshToken"`
+}
 
 type GetUserInfoRequest {}
 
-type GetUserInfoResponse {}
+type GetUserInfoResponse {
+	userId   string   `json:"userId"`
+	username string   `json:"username"`
+	roles    []string `json:"roles"`
+	buttons  []string `json:"buttons"`
+}
 
 type RefreshTokenRequest {}
 
@@ -28,7 +39,7 @@ service server {
 	post /auth/login (LoginRequest) returns (LoginResponse)
 
 	@handler GetUserInfo
-	post /auth/getUserInfo (GetUserInfoRequest) returns (GetUserInfoResponse)
+	get /auth/getUserInfo (GetUserInfoRequest) returns (GetUserInfoResponse)
 
 	@handler RefreshToken
 	post /auth/refreshToken (RefreshTokenRequest) returns (RefreshTokenResponse)

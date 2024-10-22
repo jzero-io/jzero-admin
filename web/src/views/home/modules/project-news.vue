@@ -24,7 +24,9 @@ const newses = computed<NewsItem[]>(() => [
 <template>
   <NCard :title="$t('page.home.projectNews.title')" :bordered="false" size="small" segmented class="card-wrapper">
     <template #header-extra>
-      <a class="text-primary" href="https://github.com/jzero-io/jzero" target="_blank">{{ $t('page.home.projectNews.moreNews') }}</a>
+      <a class="text-primary" href="https://github.com/jzero-io/jzero" target="_blank">
+        {{ $t('page.home.projectNews.moreNews') }}
+      </a>
     </template>
     <NList>
       <NListItem v-for="item in newses" :key="item.id">

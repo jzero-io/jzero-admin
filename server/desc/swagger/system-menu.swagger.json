@@ -1,0 +1,100 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "",
+    "version": ""
+  },
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/systemManage/getAllPages": {
+      "get": {
+        "operationId": "GetAllPages",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetAllPagesResponse"
+            }
+          }
+        },
+        "tags": [
+          "system/menu"
+        ]
+      }
+    },
+    "/systemManage/getMenuList/v2": {
+      "get": {
+        "operationId": "List",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ListResponse"
+            }
+          }
+        },
+        "tags": [
+          "system/menu"
+        ]
+      }
+    },
+    "/systemManage/getMenuTree": {
+      "get": {
+        "operationId": "Tree",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/TreeResponse"
+            }
+          }
+        },
+        "tags": [
+          "system/menu"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "GetAllPagesRequest": {
+      "type": "object",
+      "title": "GetAllPagesRequest"
+    },
+    "GetAllPagesResponse": {
+      "type": "object",
+      "title": "GetAllPagesResponse"
+    },
+    "ListRequest": {
+      "type": "object",
+      "title": "ListRequest"
+    },
+    "ListResponse": {
+      "type": "object",
+      "title": "ListResponse"
+    },
+    "TreeRequest": {
+      "type": "object",
+      "title": "TreeRequest"
+    },
+    "TreeResponse": {
+      "type": "object",
+      "title": "TreeResponse"
+    }
+  },
+  "securityDefinitions": {
+    "apiKey": {
+      "type": "apiKey",
+      "description": "Enter JWT Bearer token **_only_**",
+      "name": "Authorization",
+      "in": "header"
+    }
+  }
+}
