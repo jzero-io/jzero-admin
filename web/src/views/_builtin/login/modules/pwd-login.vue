@@ -38,40 +38,6 @@ async function handleSubmit() {
   await validate();
   await authStore.login(model.username, model.password);
 }
-
-type AccountKey = 'super' | 'admin' | 'user';
-
-interface Account {
-  key: AccountKey;
-  label: string;
-  username: string;
-  password: string;
-}
-
-const accounts = computed<Account[]>(() => [
-  {
-    key: 'super',
-    label: $t('page.login.pwdLogin.superAdmin'),
-    username: 'Super',
-    password: '123456'
-  },
-  {
-    key: 'admin',
-    label: $t('page.login.pwdLogin.admin'),
-    username: 'jzero',
-    password: '123456'
-  },
-  {
-    key: 'user',
-    label: $t('page.login.pwdLogin.user'),
-    username: 'User',
-    password: '123456'
-  }
-]);
-
-async function handleAccountLogin(account: Account) {
-  await authStore.login(account.username, account.password);
-}
 </script>
 
 <template>
@@ -103,12 +69,6 @@ async function handleAccountLogin(account: Account) {
         </NButton>
         <NButton class="flex-1" block @click="toggleLoginModule('register')">
           {{ $t(loginModuleRecord.register) }}
-        </NButton>
-      </div>
-      <NDivider class="text-14px text-#666 !m-0">{{ $t('page.login.pwdLogin.otherAccountLogin') }}</NDivider>
-      <div class="flex-center gap-12px">
-        <NButton v-for="item in accounts" :key="item.key" type="primary" @click="handleAccountLogin(item)">
-          {{ item.label }}
         </NButton>
       </div>
     </NSpace>
