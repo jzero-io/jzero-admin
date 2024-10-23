@@ -13,29 +13,29 @@ const authStore = useAuthStore();
 
 const gap = computed(() => (appStore.isMobile ? 0 : 16));
 
-interface StatisticData {
-  id: number;
-  label: string;
-  value: string;
-}
+// interface StatisticData {
+//   id: number;
+//   label: string;
+//   value: string;
+// }
 
-const statisticData = computed<StatisticData[]>(() => [
-  {
-    id: 0,
-    label: $t('page.home.projectCount'),
-    value: '25'
-  },
-  {
-    id: 1,
-    label: $t('page.home.todo'),
-    value: '4/16'
-  },
-  {
-    id: 2,
-    label: $t('page.home.message'),
-    value: '12'
-  }
-]);
+// const statisticData = computed<StatisticData[]>(() => [
+//   {
+//     id: 0,
+//     label: $t('page.home.projectCount'),
+//     value: '25'
+//   },
+//   {
+//     id: 1,
+//     label: $t('page.home.todo'),
+//     value: '4/16'
+//   },
+//   {
+//     id: 2,
+//     label: $t('page.home.message'),
+//     value: '12'
+//   }
+// ]);
 </script>
 
 <template>

@@ -108,6 +108,16 @@ func (l *GetUserRoutes) GetUserRoutes(req *types.GetUserRoutesRequest) (resp *ty
 				},
 			},
 		},
+		{
+			Name: "user-center",
+			Path: "/user-center",
+			Meta: types.RouteMeta{
+				Title:      "user-center",
+				I18nKey:    "route.user-center",
+				HideInMenu: true,
+			},
+			Component: "layout.base$view.user-center",
+		},
 	}
 	resp.Routes = list
 	resp.Home = "home"
