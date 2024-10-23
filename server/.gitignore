@@ -33,3 +33,5 @@ logs
 dist
 
 data
+
+etc/.env.yaml

@@ -13,7 +13,7 @@ type Config struct {
 
 	Banner BannerConf
 
-	DatabaseType string
+	DatabaseType string `json:",default=mysql"`
 	Mysql        MysqlConf
 	Sqlite       SqliteConf
 }

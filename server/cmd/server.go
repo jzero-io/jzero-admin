@@ -23,7 +23,7 @@ var serverCmd = &cobra.Command{
 	Long:  "server server",
 	Run: func(cmd *cobra.Command, args []string) {
 		var c config.Config
-		conf.MustLoad(cfgFile, &c)
+		conf.MustLoad(cfgFile, &c, conf.UseEnv())
 		config.C = c
 
 		// set up logger

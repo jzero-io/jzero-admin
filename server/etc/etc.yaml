@@ -6,14 +6,14 @@ rest:
 log:
     encoding: plain
 
-databaseType: sqlite
+databaseType: "${DATABASE_TYPE}"
 
 sqlite:
-    path: data/jzero.db
+    path: "${SQLITE_PATH}"
 
 mysql:
-    host: 127.0.0.1
-    port: 33060
-    username: root
-    password: "123456"
-    database: jzero
+    host: "${MYSQL_HOST}"
+    port: ${MYSQL_PORT}
+    username: "${MYSQL_USER}"
+    password: "${MYSQL_PASSWORD}"
+    database: "${MYSQL_DATABASE}"

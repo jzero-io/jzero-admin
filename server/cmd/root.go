@@ -1,13 +1,19 @@
 package cmd
 
 import (
+	"log"
 	"os"
 
+	"github.com/a8m/envsubst"
+	"github.com/spf13/cast"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
+	"gopkg.in/yaml.v3"
 )
 
-var cfgFile string
+var (
+	cfgFile    string
+	cfgEnvFile string
+)
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -31,11 +37,8 @@ func Execute() {
 func init() {
 	cobra.OnInitialize(initConfig)
 
-	// Here you will define your flags and configuration settings.
-	// Cobra supports persistent flags, which, if defined here,
-	// will be global for your application.
-
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "etc/etc.yaml", "config file (default is project root dir etc/etc.yaml")
+	rootCmd.PersistentFlags().StringVar(&cfgEnvFile, "env", "etc/.env.yaml", "env file (default is project root dir etc/.env.yaml")
 }
 
 // initConfig reads in config file and ENV variables if set.
@@ -44,13 +47,17 @@ func initConfig() {
 		return
 	}
 
-	viper.SetConfigFile(cfgFile)
-	viper.AutomaticEnv() // read in environment variables that match
+	data, err := envsubst.ReadFile(cfgEnvFile)
+	if err != nil {
+		log.Fatalf("envsubst error: %v", err)
+	}
+	var env map[string]any
+	err = yaml.Unmarshal(data, &env)
+	if err != nil {
+		log.Fatalf("yaml unmarshal error: %v", err)
+	}
 
-	// If a config file is found, read it in.
-	if err := viper.ReadInConfig(); err == nil {
-		cfgFile = viper.ConfigFileUsed()
-	} else {
-		cobra.CheckErr(err)
+	for k, v := range env {
+		_ = os.Setenv(k, cast.ToString(v))
 	}
 }
