@@ -15,7 +15,6 @@ require (
 	github.com/spf13/cobra v1.8.1
 	github.com/spf13/viper v1.18.2
 	github.com/zeromicro/go-zero v1.7.2
-	golang.org/x/sync v0.8.0
 	gorm.io/driver/mysql v1.5.7
 	gorm.io/gorm v1.25.12
 )
