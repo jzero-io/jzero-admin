@@ -17,6 +17,23 @@ export function fetchLogin(username: string, password: string) {
   });
 }
 
+/**
+ * Register
+ *
+ * @param username Usename
+ * @param password Password
+ */
+export function fetchRegister(username: string, password: string) {
+  return request<Api.Auth.RegisterResponse>({
+    url: '/auth/register',
+    method: 'post',
+    data: {
+      username,
+      password
+    }
+  });
+}
+
 /** Get user info */
 export function fetchGetUserInfo() {
   return request<Api.Auth.UserInfo>({ url: '/auth/getUserInfo' });

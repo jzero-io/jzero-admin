@@ -35,6 +35,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Path:    "/auth/refreshToken",
 					Handler: auth.RefreshToken(serverCtx),
 				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/auth/register",
+					Handler: auth.Register(serverCtx),
+				},
 			},
 		)
 

@@ -117,6 +117,32 @@
           "auth"
         ]
       }
+    },
+    "/auth/register": {
+      "post": {
+        "operationId": "Register",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/RegisterResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RegisterRequest"
+            }
+          }
+        ],
+        "tags": [
+          "auth"
+        ]
+      }
     }
   },
   "definitions": {
@@ -201,6 +227,26 @@
     "RefreshTokenResponse": {
       "type": "object",
       "title": "RefreshTokenResponse"
+    },
+    "RegisterRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "title": "RegisterRequest",
+      "required": [
+        "username",
+        "password"
+      ]
+    },
+    "RegisterResponse": {
+      "type": "object",
+      "title": "RegisterResponse"
     }
   },
   "securityDefinitions": {

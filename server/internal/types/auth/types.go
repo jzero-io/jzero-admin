@@ -40,3 +40,11 @@ type RefreshTokenRequest struct {
 
 type RefreshTokenResponse struct {
 }
+
+type RegisterRequest struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
+type RegisterResponse struct {
+}

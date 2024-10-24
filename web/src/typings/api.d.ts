@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-interface */
 /**
  * Namespace Api
  *
@@ -65,6 +66,9 @@ declare namespace Api {
       roles: string[];
       buttons: string[];
     }
+
+    // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+    interface RegisterResponse {}
   }
 
   /**

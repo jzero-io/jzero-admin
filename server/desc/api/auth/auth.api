@@ -14,6 +14,13 @@ type LoginResponse {
 	refreshToken string `json:"refreshToken"`
 }
 
+type RegisterRequest {
+	username string `json:"username"`
+	password string `json:"password"`
+}
+
+type RegisterResponse {}
+
 type GetUserInfoRequest {}
 
 type GetUserInfoResponse {
@@ -37,6 +44,9 @@ type ErrorResponse {}
 service server {
 	@handler Login
 	post /auth/login (LoginRequest) returns (LoginResponse)
+
+	@handler Register
+	post /auth/register (RegisterRequest) returns (RegisterResponse)
 
 	@handler RefreshToken
 	post /auth/refreshToken (RefreshTokenRequest) returns (RefreshTokenResponse)
