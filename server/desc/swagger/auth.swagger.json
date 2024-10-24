@@ -37,6 +37,11 @@
         ],
         "tags": [
           "auth"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -53,6 +58,11 @@
         },
         "tags": [
           "auth"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },

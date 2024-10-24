@@ -27,16 +27,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			[]rest.Route{
 				{
 					Method:  http.MethodPost,
-					Path:    "/auth/error",
-					Handler: auth.Error(serverCtx),
-				},
-				{
-					Method:  http.MethodGet,
-					Path:    "/auth/getUserInfo",
-					Handler: auth.GetUserInfo(serverCtx),
-				},
-				{
-					Method:  http.MethodPost,
 					Path:    "/auth/login",
 					Handler: auth.Login(serverCtx),
 				},
@@ -46,6 +36,22 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: auth.RefreshToken(serverCtx),
 				},
 			},
+		)
+
+		server.AddRoutes(
+			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/auth/error",
+					Handler: auth.Error(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/auth/getUserInfo",
+					Handler: auth.GetUserInfo(serverCtx),
+				},
+			},
+			rest.WithJwt(serverCtx.Config.Jwt.AccessSecret),
 		)
 	}
 	{

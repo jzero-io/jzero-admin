@@ -38,11 +38,17 @@ service server {
 	@handler Login
 	post /auth/login (LoginRequest) returns (LoginResponse)
 
-	@handler GetUserInfo
-	get /auth/getUserInfo (GetUserInfoRequest) returns (GetUserInfoResponse)
-
 	@handler RefreshToken
 	post /auth/refreshToken (RefreshTokenRequest) returns (RefreshTokenResponse)
+}
+
+@server (
+	group: auth
+	jwt:   Jwt
+)
+service server {
+	@handler GetUserInfo
+	get /auth/getUserInfo (GetUserInfoRequest) returns (GetUserInfoResponse)
 
 	@handler Error
 	post /auth/error (ErrorRequest) returns (ErrorResponse)

@@ -3,8 +3,10 @@ package auth
 import (
 	"context"
 
+	"github.com/spf13/cast"
 	"github.com/zeromicro/go-zero/core/logx"
 
+	"server/internal/auth"
 	"server/internal/svc"
 	types "server/internal/types/auth"
 )
@@ -24,9 +26,19 @@ func NewGetUserInfo(ctx context.Context, svcCtx *svc.ServiceContext) *GetUserInf
 }
 
 func (l *GetUserInfo) GetUserInfo(req *types.GetUserInfoRequest) (resp *types.GetUserInfoResponse, err error) {
+	info, err := auth.Info(l.ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	user, err := l.svcCtx.Model.SystemUser.FindOne(l.ctx, uint64(info.Id))
+	if err != nil {
+		return nil, err
+	}
+
 	return &types.GetUserInfoResponse{
-		UserId:   "1",
-		Username: "jzero",
+		UserId:   cast.ToString(user.Id),
+		Username: user.Username,
 		Roles:    []string{"R_super"},
 		Buttons:  []string{"B_manage"},
 	}, nil

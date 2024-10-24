@@ -2,12 +2,16 @@ package auth
 
 import (
 	"context"
+	"encoding/json"
+	"time"
 
 	"github.com/pkg/errors"
 	"github.com/zeromicro/go-zero/core/logx"
 
+	"server/internal/auth"
 	"server/internal/svc"
 	types "server/internal/types/auth"
+	"server/pkg/jwt"
 )
 
 type Login struct {
@@ -33,8 +37,38 @@ func (l *Login) Login(req *types.LoginRequest) (resp *types.LoginResponse, err e
 		return nil, errors.New("用户名或密码错误")
 	}
 
+	j := jwt.NewJwt(l.svcCtx.Config.Jwt.AccessSecret)
+	marshal, err := json.Marshal(auth.Auth{
+		Id:       int(user.Id),
+		Username: user.Username,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	var claims map[string]any
+	err = json.Unmarshal(marshal, &claims)
+	if err != nil {
+		return nil, err
+	}
+
+	// token 过期时间
+	expirationTime := time.Now().Add(time.Duration(l.svcCtx.Config.Jwt.AccessExpire) * time.Second).Unix()
+	claims["exp"] = expirationTime
+
+	token, err := j.CreateToken(claims)
+	if err != nil {
+		return nil, err
+	}
+
+	claims["exp"] = time.Now().Add(time.Duration(l.svcCtx.Config.Jwt.RefreshExpire) * time.Second).Unix()
+	refreshToken, err := j.CreateToken(claims)
+	if err != nil {
+		return nil, err
+	}
+
 	return &types.LoginResponse{
-		Token:        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
-		RefreshToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
+		Token:        token,
+		RefreshToken: refreshToken,
 	}, nil
 }
