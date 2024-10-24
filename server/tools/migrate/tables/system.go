@@ -3,7 +3,7 @@ package tables
 type SystemUser struct {
 	BaseModel
 
-	Username string `gorm:"column:username;type:varchar(30);not null"`
+	Username string `gorm:"column:username;type:varchar(30);unique;not null"`
 	Password string `gorm:"column:password;type:varchar(100);not null"`
 	Nickname string `gorm:"column:nickname;type:varchar(30);not null"`
 	Gender   string `gorm:"column:gender;type:varchar(1);not null"`

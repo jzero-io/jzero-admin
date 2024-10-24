@@ -3,10 +3,10 @@ package route
 import (
 	"context"
 
+	"github.com/zeromicro/go-zero/core/logx"
+
 	"server/internal/svc"
 	types "server/internal/types/route"
-
-	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type GetConstantRoutes struct {

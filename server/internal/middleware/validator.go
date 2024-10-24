@@ -24,9 +24,9 @@ func (v *Validator) Validate(r *http.Request, data any) (err error) {
 	uni := unTrans.New(zh_Hans_CN.New())
 
 	// register validation functions for custom validation
-	//err = validate.RegisterValidation("customValidation", func(fl validator.FieldLevel) bool {
+	// err = validate.RegisterValidation("customValidation", func(fl validator.FieldLevel) bool {
 	//	return false
-	//})
+	// })
 
 	trans, _ := uni.GetTranslator("zh_Hans_CN")
 	err = zhTrans.RegisterDefaultTranslations(validate, trans)
@@ -35,10 +35,10 @@ func (v *Validator) Validate(r *http.Request, data any) (err error) {
 	}
 
 	// register custom validation error message
-	//err = validate.RegisterTranslation("customValidation", trans, registerTranslator("customValidation", "自定义错误消息"), translate)
-	//if err != nil {
+	// err = validate.RegisterTranslation("customValidation", trans, registerTranslator("customValidation", "自定义错误消息"), translate)
+	// if err != nil {
 	//	return err
-	//}
+	// }
 
 	validate.RegisterTagNameFunc(func(field reflect.StructField) string {
 		return getLabelValue(field)

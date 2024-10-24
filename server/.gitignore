@@ -35,3 +35,4 @@ dist
 data
 
 etc/.env.yaml
+.jzero.dev.yaml

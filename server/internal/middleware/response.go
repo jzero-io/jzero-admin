@@ -5,9 +5,9 @@ import (
 )
 
 type Body struct {
-	Data interface{} `json:"data"`
-	Code string      `json:"code"`
-	Msg  string      `json:"msg"`
+	Data any    `json:"data"`
+	Code string `json:"code"`
+	Msg  string `json:"msg"`
 }
 
 func ResponseMiddleware(_ context.Context, data any) any {
