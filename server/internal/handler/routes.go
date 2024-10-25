@@ -40,6 +40,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Path:    "/auth/register",
 					Handler: auth.Register(serverCtx),
 				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/auth/sendVerificationCode",
+					Handler: auth.SendVerificationCode(serverCtx),
+				},
 			},
 		)
 

@@ -130,6 +130,7 @@ func (m *customSystemMenuModel) BulkInsert(ctx context.Context, datas []*SystemM
 	for _, data := range datas {
 		sb.Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Status, data.ParentId, data.MenuType, data.MenuName, data.HideInMenu, data.ActiveMenu, data.Order, data.RouteName, data.RoutePath, data.Component, data.Icon, data.IconType, data.I18nKey)
 	}
+
 	sql, args := sb.Build()
 	_, err := m.conn.ExecCtx(ctx, sql, args...)
 	return err
@@ -138,10 +139,11 @@ func (m *customSystemMenuModel) BulkInsert(ctx context.Context, datas []*SystemM
 func (m *customSystemMenuModel) FindByCondition(ctx context.Context, conds ...condition.Condition) ([]*SystemMenu, error) {
 	sb := sqlbuilder.Select(systemMenuFieldNames...).From(m.table)
 	condition.ApplySelect(sb, conds...)
-	sql, args := sb.Build()
-
 	var resp []*SystemMenu
-	err := m.conn.QueryRowsCtx(ctx, &resp, sql, args...)
+
+	sql, args := sb.Build()
+	err := m.conn.QueryRowCtx(ctx, &resp, sql, args...)
+
 	if err != nil {
 		return nil, err
 	}
@@ -152,10 +154,10 @@ func (m *customSystemMenuModel) FindOneByCondition(ctx context.Context, conds ..
 	sb := sqlbuilder.Select(systemMenuFieldNames...).From(m.table)
 	condition.ApplySelect(sb, conds...)
 	sb.Limit(1)
-	sql, args := sb.Build()
-
 	var resp SystemMenu
+	sql, args := sb.Build()
 	err := m.conn.QueryRowCtx(ctx, &resp, sql, args...)
+
 	if err != nil {
 		return nil, err
 	}

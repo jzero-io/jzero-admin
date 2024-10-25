@@ -23,10 +23,14 @@ func (v *Validator) Validate(r *http.Request, data any) (err error) {
 	validate := validator.New()
 	uni := unTrans.New(zh_Hans_CN.New())
 
+	validate.RegisterTagNameFunc(func(field reflect.StructField) string {
+		return getLabelValue(field)
+	})
+
 	// register validation functions for custom validation
-	// err = validate.RegisterValidation("customValidation", func(fl validator.FieldLevel) bool {
-	//	return false
-	// })
+	err = validate.RegisterValidation("customValidation", func(fl validator.FieldLevel) bool {
+		return false
+	})
 
 	trans, _ := uni.GetTranslator("zh_Hans_CN")
 	err = zhTrans.RegisterDefaultTranslations(validate, trans)
@@ -35,14 +39,10 @@ func (v *Validator) Validate(r *http.Request, data any) (err error) {
 	}
 
 	// register custom validation error message
-	// err = validate.RegisterTranslation("customValidation", trans, registerTranslator("customValidation", "自定义错误消息"), translate)
-	// if err != nil {
-	//	return err
-	// }
-
-	validate.RegisterTagNameFunc(func(field reflect.StructField) string {
-		return getLabelValue(field)
-	})
+	err = validate.RegisterTranslation("customValidation", trans, registerTranslator("customValidation", "自定义错误消息"), translate)
+	if err != nil {
+		return err
+	}
 
 	err = validate.Struct(data)
 	if err != nil {
@@ -63,7 +63,7 @@ func getLabelValue(field reflect.StructField) string {
 	for _, tag := range tags {
 		label = field.Tag.Get(tag)
 		if label != "" {
-			break
+			return label
 		}
 	}
 	return ""

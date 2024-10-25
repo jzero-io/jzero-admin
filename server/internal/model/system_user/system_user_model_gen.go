@@ -145,6 +145,7 @@ func (m *customSystemUserModel) BulkInsert(ctx context.Context, datas []*SystemU
 	for _, data := range datas {
 		sb.Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Username, data.Password, data.Nickname, data.Gender, data.Phone, data.Email, data.Status)
 	}
+
 	sql, args := sb.Build()
 	_, err := m.conn.ExecCtx(ctx, sql, args...)
 	return err
@@ -153,10 +154,11 @@ func (m *customSystemUserModel) BulkInsert(ctx context.Context, datas []*SystemU
 func (m *customSystemUserModel) FindByCondition(ctx context.Context, conds ...condition.Condition) ([]*SystemUser, error) {
 	sb := sqlbuilder.Select(systemUserFieldNames...).From(m.table)
 	condition.ApplySelect(sb, conds...)
-	sql, args := sb.Build()
-
 	var resp []*SystemUser
-	err := m.conn.QueryRowsCtx(ctx, &resp, sql, args...)
+
+	sql, args := sb.Build()
+	err := m.conn.QueryRowCtx(ctx, &resp, sql, args...)
+
 	if err != nil {
 		return nil, err
 	}
@@ -167,10 +169,10 @@ func (m *customSystemUserModel) FindOneByCondition(ctx context.Context, conds ..
 	sb := sqlbuilder.Select(systemUserFieldNames...).From(m.table)
 	condition.ApplySelect(sb, conds...)
 	sb.Limit(1)
-	sql, args := sb.Build()
-
 	var resp SystemUser
+	sql, args := sb.Build()
 	err := m.conn.QueryRowCtx(ctx, &resp, sql, args...)
+
 	if err != nil {
 		return nil, err
 	}

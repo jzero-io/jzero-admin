@@ -63,6 +63,7 @@ func Migrate(gormConn *gorm.DB) error {
 		&SystemUserRole{},
 		&SystemMenu{},
 		&SystemRoleMenu{},
+		&SystemEmail{},
 	)
 }
 

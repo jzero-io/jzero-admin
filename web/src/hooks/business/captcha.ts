@@ -1,11 +1,13 @@
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useCountDown, useLoading } from '@sa/hooks';
 import { $t } from '@/locales';
 import { REG_EMAIL, REG_PHONE } from '@/constants/reg';
+import { SendVerificationCode } from '@/service/api';
 
 export function useCaptcha() {
   const { loading, startLoading, endLoading } = useLoading();
   const { count, start, stop, isCounting } = useCountDown(30);
+  const verificationUuid = ref(''); // 使用 ref 来存储 UUID
 
   const label = computed(() => {
     let text = $t('page.login.codeLogin.getCode');
@@ -69,16 +71,24 @@ export function useCaptcha() {
 
     startLoading();
 
-    // request
-    await new Promise(resolve => {
-      setTimeout(resolve, 500);
-    });
+    try {
+      const params: Api.Auth.SendVerificationCodeRequest = {
+        verificationType: type,
+        email: value
+      };
 
-    window.$message?.success?.($t('page.login.codeLogin.sendCodeSuccess'));
+      // 发送请求
+      const { data, error } = await SendVerificationCode(params);
 
-    start();
+      if (!error) {
+        window.$message?.success?.($t('page.login.codeLogin.sendCodeSuccess'));
+        verificationUuid.value = data?.verificationUuid;
+      }
+    } finally {
+      start();
 
-    endLoading();
+      endLoading();
+    }
   }
 
   return {
@@ -87,6 +97,7 @@ export function useCaptcha() {
     stop,
     isCounting,
     loading,
-    getCaptcha
+    getCaptcha,
+    verificationUuid
   };
 }

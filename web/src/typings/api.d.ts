@@ -69,9 +69,19 @@ declare namespace Api {
 
     interface RegisterRequest {
       email: string;
-      code: string;
+      verificationCode: string;
+      verificationUuid: string;
       username: string;
       password: string;
+    }
+
+    interface SendVerificationCodeRequest {
+      verificationType: string;
+      email: string;
+    }
+
+    interface SendVerificationCodeResponse {
+      verificationUuid: string;
     }
 
     // eslint-disable-next-line @typescript-eslint/no-empty-object-type

@@ -4,6 +4,7 @@ package model
 
 import (
 	"server/internal/model/casbin_rule"
+	"server/internal/model/system_email"
 	"server/internal/model/system_menu"
 	"server/internal/model/system_role"
 	"server/internal/model/system_role_menu"
@@ -15,6 +16,7 @@ import (
 
 type Model struct {
 	CasbinRule     casbin_rule.CasbinRuleModel
+	SystemEmail    system_email.SystemEmailModel
 	SystemMenu     system_menu.SystemMenuModel
 	SystemRole     system_role.SystemRoleModel
 	SystemRoleMenu system_role_menu.SystemRoleMenuModel
@@ -25,6 +27,7 @@ type Model struct {
 func NewModel(conn sqlx.SqlConn) Model {
 	return Model{
 		CasbinRule:     casbin_rule.NewCasbinRuleModel(conn),
+		SystemEmail:    system_email.NewSystemEmailModel(conn),
 		SystemMenu:     system_menu.NewSystemMenuModel(conn),
 		SystemRole:     system_role.NewSystemRoleModel(conn),
 		SystemRoleMenu: system_role_menu.NewSystemRoleMenuModel(conn),

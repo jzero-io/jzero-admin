@@ -72,3 +72,19 @@ type SystemRoleMenu struct {
 func (SystemRoleMenu) TableName() string {
 	return "system_role_menu"
 }
+
+type SystemEmail struct {
+	BaseModel
+
+	From      string `gorm:"column:from;not null"`
+	Host      string `gorm:"column:host;not null"`
+	Port      int    `gorm:"column:port;not null"`
+	Username  string `gorm:"column:username;not null"`
+	Password  string `gorm:"column:password;not null"`
+	EnableSsl bool   `gorm:"column:enable_ssl;type:tinyint(1);not null"`
+	IsVerify  bool   `gorm:"column:is_verify;type:tinyint(1);not null"`
+}
+
+func (SystemEmail) TableName() string {
+	return "system_email"
+}

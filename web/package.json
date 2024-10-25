@@ -6,7 +6,7 @@
   "author": {
     "name": "jaronnie",
     "email": "jaron@jaoronnie.com",
-    "url": "https://github.com/jaronnie"
+    "url": "https://github.com/jzero-io"
   },
   "license": "Apache-2.0",
   "homepage": "https://github.com/jzero-io/jzero-admin",
@@ -126,5 +126,5 @@
   "lint-staged": {
     "*": "eslint --fix"
   },
-  "website": "https://jzero.jaronnie.com"
+  "website": "https://demo.jzero-admin.jaronnie.com"
 }

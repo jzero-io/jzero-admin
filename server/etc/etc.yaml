@@ -17,3 +17,6 @@ mysql:
     username: "${MYSQL_USER}"
     password: "${MYSQL_PASSWORD}"
     database: "${MYSQL_DATABASE}"
+
+cache:
+    type: "${CACHE_TYPE}"

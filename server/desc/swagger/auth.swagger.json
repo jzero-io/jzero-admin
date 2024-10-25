@@ -143,6 +143,39 @@
           "auth"
         ]
       }
+    },
+    "/auth/sendVerificationCode": {
+      "get": {
+        "operationId": "SendVerificationCode",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/SendVerificationCodeResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "verificationType",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "auth"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ]
+      }
     }
   },
   "definitions": {
@@ -200,7 +233,6 @@
       },
       "title": "LoginRequest",
       "required": [
-        "username",
         "password"
       ]
     },
@@ -231,6 +263,15 @@
     "RegisterRequest": {
       "type": "object",
       "properties": {
+        "email": {
+          "type": "string"
+        },
+        "verificationUuid": {
+          "type": "string"
+        },
+        "verificationCode": {
+          "type": "string"
+        },
         "username": {
           "type": "string"
         },
@@ -240,6 +281,9 @@
       },
       "title": "RegisterRequest",
       "required": [
+        "email",
+        "verificationUuid",
+        "verificationCode",
         "username",
         "password"
       ]
@@ -247,6 +291,34 @@
     "RegisterResponse": {
       "type": "object",
       "title": "RegisterResponse"
+    },
+    "SendVerificationCodeRequest": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "verificationType": {
+          "type": "string"
+        }
+      },
+      "title": "SendVerificationCodeRequest",
+      "required": [
+        "email",
+        "verificationType"
+      ]
+    },
+    "SendVerificationCodeResponse": {
+      "type": "object",
+      "properties": {
+        "verificationUuid": {
+          "type": "string"
+        }
+      },
+      "title": "SendVerificationCodeResponse",
+      "required": [
+        "verificationUuid"
+      ]
     }
   },
   "securityDefinitions": {

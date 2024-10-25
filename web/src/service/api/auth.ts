@@ -26,6 +26,15 @@ export function fetchRegister(req: Api.Auth.RegisterRequest) {
   });
 }
 
+/** SendVerificationCode */
+export function SendVerificationCode(params: Api.Auth.SendVerificationCodeRequest) {
+  return request<Api.Auth.SendVerificationCodeResponse>({
+    url: '/auth/sendVerificationCode',
+    method: 'get',
+    params
+  });
+}
+
 /** Get user info */
 export function fetchGetUserInfo() {
   return request<Api.Auth.UserInfo>({ url: '/auth/getUserInfo' });

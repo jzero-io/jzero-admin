@@ -26,8 +26,8 @@ type GetUserInfoResponse struct {
 }
 
 type LoginRequest struct {
-	Username string `json:"username"`
-	Password string `json:"password"`
+	Username string `json:"username,optional"`
+	Password string `json:"password,opitional"`
 }
 
 type LoginResponse struct {
@@ -42,9 +42,21 @@ type RefreshTokenResponse struct {
 }
 
 type RegisterRequest struct {
-	Username string `json:"username"`
-	Password string `json:"password"`
+	Email            string `json:"email"`
+	VerificationUuid string `json:"verificationUuid"`
+	VerificationCode string `json:"verificationCode"`
+	Username         string `json:"username"`
+	Password         string `json:"password"`
 }
 
 type RegisterResponse struct {
+}
+
+type SendVerificationCodeRequest struct {
+	Email            string `form:"email" validate:"email"`
+	VerificationType string `form:"verificationType,option=email|phone"`
+}
+
+type SendVerificationCodeResponse struct {
+	VerificationUuid string `json:"verificationUuid"`
 }

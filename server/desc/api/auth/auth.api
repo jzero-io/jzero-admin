@@ -5,8 +5,8 @@ info (
 )
 
 type LoginRequest {
-	username string `json:"username"`
-	password string `json:"password"`
+	username string `json:"username,optional"`
+	password string `json:"password,opitional"`
 }
 
 type LoginResponse {
@@ -15,8 +15,11 @@ type LoginResponse {
 }
 
 type RegisterRequest {
-	username string `json:"username"`
-	password string `json:"password"`
+	email            string `json:"email"`
+	verificationUuid string `json:"verificationUuid"`
+	verificationCode string `json:"verificationCode"`
+	username         string `json:"username"`
+	password         string `json:"password"`
 }
 
 type RegisterResponse {}
@@ -38,12 +41,24 @@ type ErrorRequest {}
 
 type ErrorResponse {}
 
+type SendVerificationCodeRequest {
+	email            string `form:"email" validate:"email"`
+	verificationType string `form:"verificationType,option=email|phone"`
+}
+
+type SendVerificationCodeResponse {
+	verificationUuid string `json:"verificationUuid"`
+}
+
 @server (
 	group: auth
 )
 service server {
 	@handler Login
 	post /auth/login (LoginRequest) returns (LoginResponse)
+
+	@handler SendVerificationCode
+	get /auth/sendVerificationCode (SendVerificationCodeRequest) returns (SendVerificationCodeResponse)
 
 	@handler Register
 	post /auth/register (RegisterRequest) returns (RegisterResponse)

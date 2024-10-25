@@ -12,10 +12,9 @@ defineOptions({
 
 const { toggleLoginModule } = useRouterPush();
 const { formRef, validate } = useNaiveForm();
-const { label, isCounting, loading, getCaptcha } = useCaptcha();
+const { label, isCounting, loading, getCaptcha, verificationUuid } = useCaptcha();
 
 interface FormModel {
-  // phone: string;
   code: string;
   email: string;
   username: string;
@@ -24,7 +23,6 @@ interface FormModel {
 }
 
 const model: FormModel = reactive({
-  // phone: '',
   email: '',
   code: '',
   username: '',
@@ -36,7 +34,6 @@ const rules = computed<Record<keyof FormModel, App.Global.FormRule[]>>(() => {
   const { formRules, createConfirmPwdRule } = useFormRules();
 
   return {
-    // phone: formRules.phone,
     email: formRules.email,
     code: formRules.code,
     username: formRules.username,
@@ -49,10 +46,11 @@ async function handleSubmit() {
   await validate();
   // request to register
   const registerData: Api.Auth.RegisterRequest = {
-    code: model.code,
+    verificationCode: model.code,
     username: model.username,
     password: model.password,
-    email: model.email
+    email: model.email,
+    verificationUuid: verificationUuid.value
   };
   const { error } = await fetchRegister(registerData);
   if (!error) {
@@ -64,22 +62,6 @@ async function handleSubmit() {
 
 <template>
   <NForm ref="formRef" :model="model" :rules="rules" size="large" :show-label="false" @keyup.enter="handleSubmit">
-    <!--
- <NFormItem path="phone">
-      <NInput v-model:value="model.phone" :placeholder="$t('page.login.common.phonePlaceholder')" />
-    </NFormItem>
--->
-    <!--
- <NFormItem path="code">
-      <div class="w-full flex-y-center gap-16px">
-        <NInput v-model:value="model.code" :placeholder="$t('page.login.common.codePlaceholder')" />
-        <NButton size="large" :disabled="isCounting" :loading="loading" @click="getCaptcha(model.phone)">
-          {{ label }}
-        </NButton>
-      </div>
-    </NFormItem>
--->
-
     <NFormItem path="username">
       <NInput v-model:value="model.username" :placeholder="$t('page.login.common.usernamePlaceholder')" />
     </NFormItem>

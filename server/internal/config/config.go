@@ -17,6 +17,8 @@ type Config struct {
 	Sqlite       SqliteConf
 
 	Jwt Jwt
+
+	CacheType string `json:",default=local"`
 }
 
 type RestConf struct {
