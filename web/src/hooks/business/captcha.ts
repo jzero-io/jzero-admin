@@ -1,11 +1,11 @@
 import { computed } from 'vue';
 import { useCountDown, useLoading } from '@sa/hooks';
 import { $t } from '@/locales';
-import { REG_PHONE } from '@/constants/reg';
+import { REG_EMAIL, REG_PHONE } from '@/constants/reg';
 
 export function useCaptcha() {
   const { loading, startLoading, endLoading } = useLoading();
-  const { count, start, stop, isCounting } = useCountDown(10);
+  const { count, start, stop, isCounting } = useCountDown(30);
 
   const label = computed(() => {
     let text = $t('page.login.codeLogin.getCode');
@@ -23,6 +23,22 @@ export function useCaptcha() {
     return text;
   });
 
+  function isEmailValid(email: string) {
+    if (email.trim() === '') {
+      window.$message?.error?.($t('form.email.required'));
+
+      return false;
+    }
+
+    if (!REG_EMAIL.test(email)) {
+      window.$message?.error?.($t('form.email.invalid'));
+
+      return false;
+    }
+
+    return true;
+  }
+
   function isPhoneValid(phone: string) {
     if (phone.trim() === '') {
       window.$message?.error?.($t('form.phone.required'));
@@ -39,8 +55,13 @@ export function useCaptcha() {
     return true;
   }
 
-  async function getCaptcha(phone: string) {
-    const valid = isPhoneValid(phone);
+  async function getCaptcha(type: string, value: string) {
+    let valid;
+    if (type === 'email') {
+      valid = isEmailValid(value);
+    } else {
+      valid = isPhoneValid(value);
+    }
 
     if (!valid || loading.value) {
       return;

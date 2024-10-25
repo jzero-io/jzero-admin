@@ -182,12 +182,14 @@ const local: App.I18n.Schema = {
         usernamePlaceholder: '请输入用户名',
         phonePlaceholder: '请输入手机号',
         codePlaceholder: '请输入验证码',
+        emailPlaceholder: '请输入邮箱',
         passwordPlaceholder: '请输入密码',
         confirmPasswordPlaceholder: '请再次输入密码',
         codeLogin: '验证码登录',
         confirm: '确定',
         back: '返回',
         validateSuccess: '验证成功',
+        registerSuccess: '注册成功',
         loginSuccess: '登录成功',
         welcomeBack: '欢迎回来，{username} ！'
       },
@@ -203,7 +205,9 @@ const local: App.I18n.Schema = {
         user: '普通用户'
       },
       codeLogin: {
-        title: '验证码登录',
+        emailType: '邮箱',
+        phoneType: '手机号',
+        title: '{type}验证码登录',
         getCode: '获取验证码',
         reGetCode: '{time}秒后重新获取',
         sendCodeSuccess: '验证码发送成功',

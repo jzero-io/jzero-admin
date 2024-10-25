@@ -1,6 +1,6 @@
 const local: App.I18n.Schema = {
   system: {
-    title: 'SoybeanAdmin',
+    title: 'JzeroAdmin',
     updateTitle: 'System Version Update Notification',
     updateContent: 'A new version of the system has been detected. Do you want to refresh the page immediately?',
     updateConfirm: 'Refresh immediately',
@@ -182,11 +182,13 @@ const local: App.I18n.Schema = {
         usernamePlaceholder: 'Please enter user name',
         phonePlaceholder: 'Please enter phone number',
         codePlaceholder: 'Please enter verification code',
+        emailPlaceholder: 'Please enter email',
         passwordPlaceholder: 'Please enter password',
         confirmPasswordPlaceholder: 'Please enter password again',
         codeLogin: 'Verification code login',
         confirm: 'Confirm',
         back: 'Back',
+        registerSuccess: 'Register success',
         validateSuccess: 'Verification passed',
         loginSuccess: 'Login successfully',
         welcomeBack: 'Welcome back, {username} !'
@@ -203,7 +205,9 @@ const local: App.I18n.Schema = {
         user: 'User'
       },
       codeLogin: {
-        title: 'Verification Code Login',
+        title: 'Verification {type} Code Login',
+        emailType: 'Email',
+        phoneType: 'Phone',
         getCode: 'Get verification code',
         reGetCode: 'Reacquire after {time}s',
         sendCodeSuccess: 'Verification code sent successfully',
@@ -224,7 +228,7 @@ const local: App.I18n.Schema = {
     },
     about: {
       title: 'About',
-      introduction: `SoybeanAdmin is an elegant and powerful admin template, based on the latest front-end technology stack, including Vue3, Vite5, TypeScript, Pinia and UnoCSS. It has built-in rich theme configuration and components, strict code specifications, and an automated file routing system. In addition, it also uses the online mock data solution based on ApiFox. SoybeanAdmin provides you with a one-stop admin solution, no additional configuration, and out of the box. It is also a best practice for learning cutting-edge technologies quickly.`,
+      introduction: `JzeroAdmin builds the backend system based on jzero scaffolding and is equipped with code generation, and the front end is built based on soybean-admin.`,
       projectInfo: {
         title: 'Project Info',
         version: 'Version',
@@ -256,11 +260,11 @@ const local: App.I18n.Schema = {
       projectNews: {
         title: 'Project News',
         moreNews: 'More News',
-        desc1: 'Soybean created the open source project soybean-admin on May 28, 2021!',
-        desc2: 'Yanbowe submitted a bug to soybean-admin, the multi-tab bar will not adapt.',
-        desc3: 'Soybean is ready to do sufficient preparation for the release of soybean-admin!',
-        desc4: 'Soybean is busy writing project documentation for soybean-admin!',
-        desc5: 'Soybean just wrote some of the workbench pages casually, and it was enough to see!'
+        desc1: 'jaronnie created the open source project jzero on 04/07/2024!',
+        desc2: 'mintsberry became jzero first contributor on May 8, 2024!',
+        desc3: 'jaronnie created the jzero chat group on May 23, 2024!',
+        desc4: 'jaronnie released the first usable version on 03 June 2024!',
+        desc5: 'jaronnie created the open source project jzero-admin on October 14, 2024!'
       },
       creativity: 'Creativity'
     },

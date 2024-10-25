@@ -402,12 +402,14 @@ declare namespace App {
             loginOrRegister: string;
             usernamePlaceholder: string;
             phonePlaceholder: string;
+            emailPlaceholder: string;
             codePlaceholder: string;
             passwordPlaceholder: string;
             confirmPasswordPlaceholder: string;
             codeLogin: string;
             confirm: string;
             back: string;
+            registerSuccess: string;
             validateSuccess: string;
             loginSuccess: string;
             welcomeBack: string;
@@ -425,6 +427,8 @@ declare namespace App {
           };
           codeLogin: {
             title: string;
+            emailType: string;
+            phoneType: string;
             getCode: string;
             reGetCode: string;
             sendCodeSuccess: string;

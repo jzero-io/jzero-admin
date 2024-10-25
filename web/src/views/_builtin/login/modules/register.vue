@@ -3,7 +3,7 @@ import { computed, reactive } from 'vue';
 import { $t } from '@/locales';
 import { useRouterPush } from '@/hooks/common/router';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
-// import { useCaptcha } from '@/hooks/business/captcha';
+import { useCaptcha } from '@/hooks/business/captcha';
 import { fetchRegister } from '@/service/api';
 
 defineOptions({
@@ -12,11 +12,12 @@ defineOptions({
 
 const { toggleLoginModule } = useRouterPush();
 const { formRef, validate } = useNaiveForm();
-// const { label, isCounting, loading, getCaptcha } = useCaptcha();
+const { label, isCounting, loading, getCaptcha } = useCaptcha();
 
 interface FormModel {
   // phone: string;
-  // code: string;
+  code: string;
+  email: string;
   username: string;
   password: string;
   confirmPassword: string;
@@ -24,7 +25,8 @@ interface FormModel {
 
 const model: FormModel = reactive({
   // phone: '',
-  // code: '',
+  email: '',
+  code: '',
   username: '',
   password: '',
   confirmPassword: ''
@@ -35,7 +37,8 @@ const rules = computed<Record<keyof FormModel, App.Global.FormRule[]>>(() => {
 
   return {
     // phone: formRules.phone,
-    // code: formRules.code,
+    email: formRules.email,
+    code: formRules.code,
     username: formRules.username,
     password: formRules.pwd,
     confirmPassword: createConfirmPwdRule(model.password)
@@ -45,8 +48,17 @@ const rules = computed<Record<keyof FormModel, App.Global.FormRule[]>>(() => {
 async function handleSubmit() {
   await validate();
   // request to register
-  fetchRegister(model.username, model.password);
-  await toggleLoginModule('pwd-login');
+  const registerData: Api.Auth.RegisterRequest = {
+    code: model.code,
+    username: model.username,
+    password: model.password,
+    email: model.email
+  };
+  const { error } = await fetchRegister(registerData);
+  if (!error) {
+    window.$message?.success($t('page.login.common.registerSuccess'));
+    await toggleLoginModule('pwd-login');
+  }
 }
 </script>
 
@@ -88,6 +100,19 @@ async function handleSubmit() {
         :placeholder="$t('page.login.common.confirmPasswordPlaceholder')"
       />
     </NFormItem>
+    <NFormItem path="email">
+      <NInput v-model:value="model.email" :placeholder="$t('page.login.common.emailPlaceholder')" />
+    </NFormItem>
+
+    <NFormItem path="code">
+      <div class="w-full flex-y-center gap-16px">
+        <NInput v-model:value="model.code" :placeholder="$t('page.login.common.codePlaceholder')" />
+        <NButton size="large" :disabled="isCounting" :loading="loading" @click="getCaptcha('email', model.email)">
+          {{ label }}
+        </NButton>
+      </div>
+    </NFormItem>
+
     <NSpace vertical :size="18" class="w-full">
       <NButton type="primary" size="large" round block @click="handleSubmit">
         {{ $t('common.confirm') }}

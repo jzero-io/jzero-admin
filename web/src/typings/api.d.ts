@@ -67,6 +67,13 @@ declare namespace Api {
       buttons: string[];
     }
 
+    interface RegisterRequest {
+      email: string;
+      code: string;
+      username: string;
+      password: string;
+    }
+
     // eslint-disable-next-line @typescript-eslint/no-empty-object-type
     interface RegisterResponse {}
   }
