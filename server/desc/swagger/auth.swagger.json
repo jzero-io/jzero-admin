@@ -14,6 +14,32 @@
     "application/json"
   ],
   "paths": {
+    "/auth/code-login": {
+      "post": {
+        "operationId": "CodeLogin",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/LoginResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CodeLoginRequest"
+            }
+          }
+        ],
+        "tags": [
+          "auth"
+        ]
+      }
+    },
     "/auth/error": {
       "post": {
         "operationId": "Error",
@@ -66,9 +92,9 @@
         ]
       }
     },
-    "/auth/login": {
+    "/auth/pwd-login": {
       "post": {
-        "operationId": "Login",
+        "operationId": "PwdLogin",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -83,7 +109,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/LoginRequest"
+              "$ref": "#/definitions/PwdLoginRequest"
             }
           }
         ],
@@ -144,6 +170,32 @@
         ]
       }
     },
+    "/auth/resetPassword": {
+      "post": {
+        "operationId": "ResetPassword",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ResetPasswordResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ResetPasswordRequest"
+            }
+          }
+        ],
+        "tags": [
+          "auth"
+        ]
+      }
+    },
     "/auth/sendVerificationCode": {
       "get": {
         "operationId": "SendVerificationCode",
@@ -179,6 +231,26 @@
     }
   },
   "definitions": {
+    "CodeLoginRequest": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "verificationUuid": {
+          "type": "string"
+        },
+        "verificationCode": {
+          "type": "string"
+        }
+      },
+      "title": "CodeLoginRequest",
+      "required": [
+        "email",
+        "verificationUuid",
+        "verificationCode"
+      ]
+    },
     "ErrorRequest": {
       "type": "object",
       "title": "ErrorRequest"
@@ -221,21 +293,6 @@
         "buttons"
       ]
     },
-    "LoginRequest": {
-      "type": "object",
-      "properties": {
-        "username": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        }
-      },
-      "title": "LoginRequest",
-      "required": [
-        "password"
-      ]
-    },
     "LoginResponse": {
       "type": "object",
       "properties": {
@@ -250,6 +307,22 @@
       "required": [
         "token",
         "refreshToken"
+      ]
+    },
+    "PwdLoginRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "title": "PwdLoginRequest",
+      "required": [
+        "username",
+        "password"
       ]
     },
     "RefreshTokenRequest": {
@@ -291,6 +364,34 @@
     "RegisterResponse": {
       "type": "object",
       "title": "RegisterResponse"
+    },
+    "ResetPasswordRequest": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "verificationUuid": {
+          "type": "string"
+        },
+        "verificationCode": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "title": "ResetPasswordRequest",
+      "required": [
+        "email",
+        "verificationUuid",
+        "verificationCode",
+        "password"
+      ]
+    },
+    "ResetPasswordResponse": {
+      "type": "object",
+      "title": "ResetPasswordResponse"
     },
     "SendVerificationCodeRequest": {
       "type": "object",

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, reactive } from 'vue';
+import { useLoading } from '@sa/hooks';
 import { $t } from '@/locales';
 import { useRouterPush } from '@/hooks/common/router';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
@@ -13,6 +14,7 @@ defineOptions({
 const { toggleLoginModule } = useRouterPush();
 const { formRef, validate } = useNaiveForm();
 const { label, isCounting, loading, getCaptcha, verificationUuid } = useCaptcha();
+const { loading: confirmLoading, startLoading: confirmStartLoding, endLoading: confirmEndLoading } = useLoading();
 
 interface FormModel {
   code: string;
@@ -52,11 +54,13 @@ async function handleSubmit() {
     email: model.email,
     verificationUuid: verificationUuid.value
   };
+  confirmStartLoding();
   const { error } = await fetchRegister(registerData);
   if (!error) {
     window.$message?.success($t('page.login.common.registerSuccess'));
     await toggleLoginModule('pwd-login');
   }
+  confirmEndLoading();
 }
 </script>
 
@@ -96,7 +100,7 @@ async function handleSubmit() {
     </NFormItem>
 
     <NSpace vertical :size="18" class="w-full">
-      <NButton type="primary" size="large" round block @click="handleSubmit">
+      <NButton type="primary" size="large" round block :loading="confirmLoading" @click="handleSubmit">
         {{ $t('common.confirm') }}
       </NButton>
       <NButton size="large" round block @click="toggleLoginModule('pwd-login')">

@@ -67,6 +67,12 @@ declare namespace Api {
       buttons: string[];
     }
 
+    interface CodeLoginRequest {
+      email: string;
+      verificationCode: string;
+      verificationUuid: string;
+    }
+
     interface RegisterRequest {
       email: string;
       verificationCode: string;
@@ -74,6 +80,9 @@ declare namespace Api {
       username: string;
       password: string;
     }
+
+    // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+    interface RegisterResponse {}
 
     interface SendVerificationCodeRequest {
       verificationType: string;
@@ -84,8 +93,15 @@ declare namespace Api {
       verificationUuid: string;
     }
 
+    interface ResetPasswordRequest {
+      email: string;
+      verificationUuid: string;
+      verificationCode: string;
+      password: string;
+    }
+
     // eslint-disable-next-line @typescript-eslint/no-empty-object-type
-    interface RegisterResponse {}
+    interface ResetPasswordResponse {}
   }
 
   /**

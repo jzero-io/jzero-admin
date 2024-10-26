@@ -119,7 +119,6 @@ func (m *customSystemRoleMenuModel) BulkInsert(ctx context.Context, datas []*Sys
 	for _, data := range datas {
 		sb.Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.RoleId, data.MenuId)
 	}
-
 	sql, args := sb.Build()
 	_, err := m.conn.ExecCtx(ctx, sql, args...)
 	return err
@@ -128,11 +127,10 @@ func (m *customSystemRoleMenuModel) BulkInsert(ctx context.Context, datas []*Sys
 func (m *customSystemRoleMenuModel) FindByCondition(ctx context.Context, conds ...condition.Condition) ([]*SystemRoleMenu, error) {
 	sb := sqlbuilder.Select(systemRoleMenuFieldNames...).From(m.table)
 	condition.ApplySelect(sb, conds...)
-	var resp []*SystemRoleMenu
-
 	sql, args := sb.Build()
-	err := m.conn.QueryRowCtx(ctx, &resp, sql, args...)
 
+	var resp []*SystemRoleMenu
+	err := m.conn.QueryRowsCtx(ctx, &resp, sql, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -143,10 +141,10 @@ func (m *customSystemRoleMenuModel) FindOneByCondition(ctx context.Context, cond
 	sb := sqlbuilder.Select(systemRoleMenuFieldNames...).From(m.table)
 	condition.ApplySelect(sb, conds...)
 	sb.Limit(1)
-	var resp SystemRoleMenu
 	sql, args := sb.Build()
-	err := m.conn.QueryRowCtx(ctx, &resp, sql, args...)
 
+	var resp SystemRoleMenu
+	err := m.conn.QueryRowCtx(ctx, &resp, sql, args...)
 	if err != nil {
 		return nil, err
 	}

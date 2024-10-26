@@ -4,9 +4,15 @@ info (
 	go_package: "auth"
 )
 
-type LoginRequest {
-	username string `json:"username,optional"`
-	password string `json:"password,opitional"`
+type PwdLoginRequest {
+	username string `json:"username"`
+	password string `json:"password"`
+}
+
+type CodeLoginRequest {
+	email            string `json:"email"`
+	verificationUuid string `json:"verificationUuid"`
+	verificationCode string `json:"verificationCode"`
 }
 
 type LoginResponse {
@@ -50,12 +56,24 @@ type SendVerificationCodeResponse {
 	verificationUuid string `json:"verificationUuid"`
 }
 
+type ResetPasswordRequest {
+	email            string `json:"email"`
+	verificationUuid string `json:"verificationUuid"`
+	verificationCode string `json:"verificationCode"`
+	password         string `json:"password"`
+}
+
+type ResetPasswordResponse {}
+
 @server (
 	group: auth
 )
 service server {
-	@handler Login
-	post /auth/login (LoginRequest) returns (LoginResponse)
+	@handler PwdLogin
+	post /auth/pwd-login (PwdLoginRequest) returns (LoginResponse)
+
+	@handler CodeLogin
+	post /auth/code-login (CodeLoginRequest) returns (LoginResponse)
 
 	@handler SendVerificationCode
 	get /auth/sendVerificationCode (SendVerificationCodeRequest) returns (SendVerificationCodeResponse)
@@ -65,6 +83,9 @@ service server {
 
 	@handler RefreshToken
 	post /auth/refreshToken (RefreshTokenRequest) returns (RefreshTokenResponse)
+
+	@handler ResetPassword
+	post /auth/resetPassword (ResetPasswordRequest) returns (ResetPasswordResponse)
 }
 
 @server (

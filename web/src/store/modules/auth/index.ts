@@ -4,7 +4,7 @@ import { defineStore } from 'pinia';
 import { useLoading } from '@sa/hooks';
 import { SetupStoreId } from '@/enum';
 import { useRouterPush } from '@/hooks/common/router';
-import { fetchGetUserInfo, fetchLogin } from '@/service/api';
+import { fetchCodeLogin, fetchGetUserInfo, fetchPwdLogin } from '@/service/api';
 import { localStg } from '@/utils/storage';
 import { $t } from '@/locales';
 import { useRouteStore } from '../route';
@@ -54,16 +54,49 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
   }
 
   /**
-   * Login
+   * LoginByPwd
    *
    * @param username Username
    * @param password Password
    * @param [redirect=true] Whether to redirect after login. Default is `true`
    */
-  async function login(username: string, password: string, redirect = true) {
+  async function loginByPwd(username: string, password: string, redirect = true) {
     startLoading();
 
-    const { data: loginToken, error } = await fetchLogin(username, password);
+    const { data: loginToken, error } = await fetchPwdLogin(username, password);
+
+    if (!error) {
+      const pass = await loginByToken(loginToken);
+
+      if (pass) {
+        await routeStore.initAuthRoute();
+
+        await redirectFromLogin(redirect);
+
+        if (routeStore.isInitAuthRoute) {
+          window.$notification?.success({
+            title: $t('page.login.common.loginSuccess'),
+            content: $t('page.login.common.welcomeBack', { username: userInfo.username }),
+            duration: 4500
+          });
+        }
+      }
+    } else {
+      resetStore();
+    }
+
+    endLoading();
+  }
+
+  /**
+   * LoginByCode
+   *
+   * @param [redirect=true] Whether to redirect after login. Default is `true`
+   */
+  async function loginByCode(req: Api.Auth.CodeLoginRequest, redirect = true) {
+    startLoading();
+
+    const { data: loginToken, error } = await fetchCodeLogin(req);
 
     if (!error) {
       const pass = await loginByToken(loginToken);
@@ -137,7 +170,8 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     isLogin,
     loginLoading,
     resetStore,
-    login,
+    loginByPwd,
+    loginByCode,
     initUserInfo
   };
 });

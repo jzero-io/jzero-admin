@@ -1,14 +1,14 @@
 import { request } from '../request';
 
 /**
- * Login
+ * PwdLogin
  *
  * @param username Username
  * @param password Password
  */
-export function fetchLogin(username: string, password: string) {
+export function fetchPwdLogin(username: string, password: string) {
   return request<Api.Auth.LoginToken>({
-    url: '/auth/login',
+    url: '/auth/pwd-login',
     method: 'post',
     data: {
       username,
@@ -17,10 +17,34 @@ export function fetchLogin(username: string, password: string) {
   });
 }
 
+/**
+ * CodeLogin
+ *
+ * @param email Email
+ * @param verificationUuid
+ * @pparam verificationCode
+ */
+export function fetchCodeLogin(req: Api.Auth.CodeLoginRequest) {
+  return request<Api.Auth.LoginToken>({
+    url: '/auth/code-login',
+    method: 'post',
+    data: req
+  });
+}
+
 /** Register */
 export function fetchRegister(req: Api.Auth.RegisterRequest) {
   return request<Api.Auth.RegisterResponse>({
     url: '/auth/register',
+    method: 'post',
+    data: req
+  });
+}
+
+/** ResetPassword */
+export function resetPassword(req: Api.Auth.ResetPasswordRequest) {
+  return request<Api.Auth.ResetPasswordResponse>({
+    url: '/auth/resetPassword',
     method: 'post',
     data: req
   });

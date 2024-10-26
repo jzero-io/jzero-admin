@@ -7,8 +7,8 @@ type SystemUser struct {
 	Password string `gorm:"column:password;type:varchar(100);not null"`
 	Nickname string `gorm:"column:nickname;type:varchar(30);not null"`
 	Gender   string `gorm:"column:gender;type:varchar(1);not null"`
-	Phone    string `gorm:"column:phone;type:varchar(20);not null"`
-	Email    string `gorm:"column:email;type:varchar(100);not null"`
+	Phone    string `gorm:"column:phone;type:varchar(20)"`
+	Email    string `gorm:"column:email;type:varchar(100)"`
 	Status   string `gorm:"column:status;type:varchar(1);not null"`
 }
 

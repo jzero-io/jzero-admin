@@ -36,7 +36,7 @@ const rules = computed<Record<keyof FormModel, App.Global.FormRule[]>>(() => {
 
 async function handleSubmit() {
   await validate();
-  await authStore.login(model.username, model.password);
+  await authStore.loginByPwd(model.username, model.password);
 }
 </script>
 

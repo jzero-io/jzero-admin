@@ -10,16 +10,16 @@ import (
 	types "server/internal/types/auth"
 )
 
-func Login(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func ResetPassword(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.LoginRequest
+		var req types.ResetPasswordRequest
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return
 		}
 
-		l := auth.NewLogin(r.Context(), svcCtx)
-		resp, err := l.Login(&req)
+		l := auth.NewResetPassword(r.Context(), svcCtx)
+		resp, err := l.ResetPassword(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 		} else {

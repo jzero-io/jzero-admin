@@ -45,18 +45,18 @@ type (
 	}
 
 	SystemUser struct {
-		Id         uint64        `db:"id"`
-		CreateTime time.Time     `db:"create_time"`
-		UpdateTime time.Time     `db:"update_time"`
-		CreateBy   sql.NullInt64 `db:"create_by"`
-		UpdateBy   sql.NullInt64 `db:"update_by"`
-		Username   string        `db:"username"`
-		Password   string        `db:"password"`
-		Nickname   string        `db:"nickname"`
-		Gender     string        `db:"gender"`
-		Phone      string        `db:"phone"`
-		Email      string        `db:"email"`
-		Status     string        `db:"status"`
+		Id         uint64         `db:"id"`
+		CreateTime time.Time      `db:"create_time"`
+		UpdateTime time.Time      `db:"update_time"`
+		CreateBy   sql.NullInt64  `db:"create_by"`
+		UpdateBy   sql.NullInt64  `db:"update_by"`
+		Username   string         `db:"username"`
+		Password   string         `db:"password"`
+		Nickname   string         `db:"nickname"`
+		Gender     string         `db:"gender"`
+		Phone      sql.NullString `db:"phone"`
+		Status     string         `db:"status"`
+		Email      sql.NullString `db:"email"`
 	}
 )
 
@@ -116,7 +116,7 @@ func (m *defaultSystemUserModel) Insert(ctx context.Context, data *SystemUser) (
 	sql, args := sqlbuilder.NewInsertBuilder().
 		InsertInto(m.table).
 		Cols(systemUserRowsExpectAutoSet).
-		Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Username, data.Password, data.Nickname, data.Gender, data.Phone, data.Email, data.Status).Build()
+		Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Username, data.Password, data.Nickname, data.Gender, data.Phone, data.Status, data.Email).Build()
 	ret, err := m.conn.ExecCtx(ctx, sql, args...)
 	return ret, err
 }
@@ -131,7 +131,7 @@ func (m *defaultSystemUserModel) Update(ctx context.Context, newData *SystemUser
 	sb.Set(assigns...)
 	sb.Where(sb.EQ("`id`", nil))
 	sql, _ := sb.Build()
-	_, err := m.conn.ExecCtx(ctx, sql, newData.CreateTime, newData.UpdateTime, newData.CreateBy, newData.UpdateBy, newData.Username, newData.Password, newData.Nickname, newData.Gender, newData.Phone, newData.Email, newData.Status, newData.Id)
+	_, err := m.conn.ExecCtx(ctx, sql, newData.CreateTime, newData.UpdateTime, newData.CreateBy, newData.UpdateBy, newData.Username, newData.Password, newData.Nickname, newData.Gender, newData.Phone, newData.Status, newData.Email, newData.Id)
 	return err
 }
 
@@ -143,9 +143,8 @@ func (m *customSystemUserModel) BulkInsert(ctx context.Context, datas []*SystemU
 	sb := sqlbuilder.InsertInto(m.table)
 	sb.Cols(systemUserRowsExpectAutoSet)
 	for _, data := range datas {
-		sb.Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Username, data.Password, data.Nickname, data.Gender, data.Phone, data.Email, data.Status)
+		sb.Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Username, data.Password, data.Nickname, data.Gender, data.Phone, data.Status, data.Email)
 	}
-
 	sql, args := sb.Build()
 	_, err := m.conn.ExecCtx(ctx, sql, args...)
 	return err
@@ -154,11 +153,10 @@ func (m *customSystemUserModel) BulkInsert(ctx context.Context, datas []*SystemU
 func (m *customSystemUserModel) FindByCondition(ctx context.Context, conds ...condition.Condition) ([]*SystemUser, error) {
 	sb := sqlbuilder.Select(systemUserFieldNames...).From(m.table)
 	condition.ApplySelect(sb, conds...)
-	var resp []*SystemUser
-
 	sql, args := sb.Build()
-	err := m.conn.QueryRowCtx(ctx, &resp, sql, args...)
 
+	var resp []*SystemUser
+	err := m.conn.QueryRowsCtx(ctx, &resp, sql, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -169,10 +167,10 @@ func (m *customSystemUserModel) FindOneByCondition(ctx context.Context, conds ..
 	sb := sqlbuilder.Select(systemUserFieldNames...).From(m.table)
 	condition.ApplySelect(sb, conds...)
 	sb.Limit(1)
-	var resp SystemUser
 	sql, args := sb.Build()
-	err := m.conn.QueryRowCtx(ctx, &resp, sql, args...)
 
+	var resp SystemUser
+	err := m.conn.QueryRowCtx(ctx, &resp, sql, args...)
 	if err != nil {
 		return nil, err
 	}

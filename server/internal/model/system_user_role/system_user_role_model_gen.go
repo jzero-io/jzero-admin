@@ -119,7 +119,6 @@ func (m *customSystemUserRoleModel) BulkInsert(ctx context.Context, datas []*Sys
 	for _, data := range datas {
 		sb.Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.UserId, data.RoleId)
 	}
-
 	sql, args := sb.Build()
 	_, err := m.conn.ExecCtx(ctx, sql, args...)
 	return err
@@ -128,11 +127,10 @@ func (m *customSystemUserRoleModel) BulkInsert(ctx context.Context, datas []*Sys
 func (m *customSystemUserRoleModel) FindByCondition(ctx context.Context, conds ...condition.Condition) ([]*SystemUserRole, error) {
 	sb := sqlbuilder.Select(systemUserRoleFieldNames...).From(m.table)
 	condition.ApplySelect(sb, conds...)
-	var resp []*SystemUserRole
-
 	sql, args := sb.Build()
-	err := m.conn.QueryRowCtx(ctx, &resp, sql, args...)
 
+	var resp []*SystemUserRole
+	err := m.conn.QueryRowsCtx(ctx, &resp, sql, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -143,10 +141,10 @@ func (m *customSystemUserRoleModel) FindOneByCondition(ctx context.Context, cond
 	sb := sqlbuilder.Select(systemUserRoleFieldNames...).From(m.table)
 	condition.ApplySelect(sb, conds...)
 	sb.Limit(1)
-	var resp SystemUserRole
 	sql, args := sb.Build()
-	err := m.conn.QueryRowCtx(ctx, &resp, sql, args...)
 
+	var resp SystemUserRole
+	err := m.conn.QueryRowCtx(ctx, &resp, sql, args...)
 	if err != nil {
 		return nil, err
 	}

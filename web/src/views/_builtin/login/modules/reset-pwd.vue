@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { computed, reactive } from 'vue';
+import { useLoading } from '@sa/hooks';
 import { $t } from '@/locales';
 import { useRouterPush } from '@/hooks/common/router';
 import { useCaptcha } from '@/hooks/business/captcha';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
+import { resetPassword } from '@/service/api';
 
 defineOptions({
   name: 'ResetPwd'
@@ -11,7 +13,8 @@ defineOptions({
 
 const { toggleLoginModule } = useRouterPush();
 const { formRef, validate } = useNaiveForm();
-const { label, isCounting, loading, getCaptcha } = useCaptcha();
+const { label, isCounting, loading, getCaptcha, verificationUuid } = useCaptcha();
+const { loading: confirmLoading, startLoading: confirmStartLoding, endLoading: confirmEndLoading } = useLoading();
 
 interface FormModel {
   email: string;
@@ -41,8 +44,19 @@ const rules = computed<RuleRecord>(() => {
 
 async function handleSubmit() {
   await validate();
-  // request to reset password
-  window.$message?.success($t('page.login.common.validateSuccess'));
+  const resetPasswordData: Api.Auth.ResetPasswordRequest = {
+    verificationCode: model.code,
+    email: model.email,
+    verificationUuid: verificationUuid.value,
+    password: model.password
+  };
+  confirmStartLoding();
+  const { error } = await resetPassword(resetPasswordData);
+  if (!error) {
+    window.$message?.success($t('common.modifySuccess'));
+    await toggleLoginModule('pwd-login');
+  }
+  confirmEndLoading();
 }
 </script>
 
@@ -76,7 +90,7 @@ async function handleSubmit() {
       />
     </NFormItem>
     <NSpace vertical :size="18" class="w-full">
-      <NButton type="primary" size="large" round block @click="handleSubmit">
+      <NButton type="primary" size="large" round block :loading="confirmLoading" @click="handleSubmit">
         {{ $t('common.confirm') }}
       </NButton>
       <NButton size="large" round block @click="toggleLoginModule('pwd-login')">

@@ -9,6 +9,12 @@ var (
 	_ = time.Now()
 )
 
+type CodeLoginRequest struct {
+	Email            string `json:"email"`
+	VerificationUuid string `json:"verificationUuid"`
+	VerificationCode string `json:"verificationCode"`
+}
+
 type ErrorRequest struct {
 }
 
@@ -25,14 +31,14 @@ type GetUserInfoResponse struct {
 	Buttons  []string `json:"buttons"`
 }
 
-type LoginRequest struct {
-	Username string `json:"username,optional"`
-	Password string `json:"password,opitional"`
-}
-
 type LoginResponse struct {
 	Token        string `json:"token"`
 	RefreshToken string `json:"refreshToken"`
+}
+
+type PwdLoginRequest struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
 }
 
 type RefreshTokenRequest struct {
@@ -50,6 +56,16 @@ type RegisterRequest struct {
 }
 
 type RegisterResponse struct {
+}
+
+type ResetPasswordRequest struct {
+	Email            string `json:"email"`
+	VerificationUuid string `json:"verificationUuid"`
+	VerificationCode string `json:"verificationCode"`
+	Password         string `json:"password"`
+}
+
+type ResetPasswordResponse struct {
 }
 
 type SendVerificationCodeRequest struct {

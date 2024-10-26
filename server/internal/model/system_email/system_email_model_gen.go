@@ -124,7 +124,6 @@ func (m *customSystemEmailModel) BulkInsert(ctx context.Context, datas []*System
 	for _, data := range datas {
 		sb.Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.From, data.Host, data.Port, data.Username, data.Password, data.EnableSsl, data.IsVerify)
 	}
-
 	sql, args := sb.Build()
 	_, err := m.conn.ExecCtx(ctx, sql, args...)
 	return err
@@ -133,11 +132,10 @@ func (m *customSystemEmailModel) BulkInsert(ctx context.Context, datas []*System
 func (m *customSystemEmailModel) FindByCondition(ctx context.Context, conds ...condition.Condition) ([]*SystemEmail, error) {
 	sb := sqlbuilder.Select(systemEmailFieldNames...).From(m.table)
 	condition.ApplySelect(sb, conds...)
-	var resp []*SystemEmail
-
 	sql, args := sb.Build()
-	err := m.conn.QueryRowCtx(ctx, &resp, sql, args...)
 
+	var resp []*SystemEmail
+	err := m.conn.QueryRowsCtx(ctx, &resp, sql, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -148,10 +146,10 @@ func (m *customSystemEmailModel) FindOneByCondition(ctx context.Context, conds .
 	sb := sqlbuilder.Select(systemEmailFieldNames...).From(m.table)
 	condition.ApplySelect(sb, conds...)
 	sb.Limit(1)
-	var resp SystemEmail
 	sql, args := sb.Build()
-	err := m.conn.QueryRowCtx(ctx, &resp, sql, args...)
 
+	var resp SystemEmail
+	err := m.conn.QueryRowCtx(ctx, &resp, sql, args...)
 	if err != nil {
 		return nil, err
 	}
