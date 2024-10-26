@@ -27,6 +27,9 @@ defineProps<Props>();
 const appStore = useAppStore();
 const themeStore = useThemeStore();
 const { isFullscreen, toggle } = useFullscreen();
+const href = (url: string) => {
+  window.open(url, '_blank');
+};
 </script>
 
 <template>
@@ -38,6 +41,14 @@ const { isFullscreen, toggle } = useFullscreen();
       <GlobalBreadcrumb v-if="!appStore.isMobile" class="ml-12px" />
     </div>
     <div class="h-full flex-y-center justify-end">
+      <ButtonIcon
+        v-if="!appStore.isMobile"
+        tooltip-content="Github"
+        class="color-#010409 xl:block sm:hidden dark:color-#e6edf3"
+        icon="simple-icons:github"
+        @click="href('https://github.com/jzero-io/jzero-admin')"
+      />
+
       <GlobalSearch />
       <FullScreen v-if="!appStore.isMobile" :full="isFullscreen" @click="toggle" />
       <LangSwitch :lang="appStore.locale" :lang-options="appStore.localeOptions" @change-lang="appStore.changeLocale" />
