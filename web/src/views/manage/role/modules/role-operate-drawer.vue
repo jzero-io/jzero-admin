@@ -15,7 +15,7 @@ interface Props {
   /** the type of operation */
   operateType: NaiveUI.TableOperateType;
   /** the edit row data */
-  rowData?: Api.SystemManage.Role | null;
+  rowData?: Api.System.Role | null;
 }
 
 const props = defineProps<Props>();
@@ -43,7 +43,7 @@ const title = computed(() => {
   return titles[props.operateType];
 });
 
-type Model = Pick<Api.SystemManage.Role, 'roleName' | 'roleCode' | 'roleDesc' | 'status'>;
+type Model = Pick<Api.System.Role, 'roleName' | 'roleCode' | 'roleDesc' | 'status'>;
 
 const model: Model = reactive(createDefaultModel());
 

@@ -6,7 +6,7 @@ import { $t } from '@/locales';
 import { enableStatusOptions, menuIconTypeOptions, menuTypeOptions } from '@/constants/business';
 import SvgIcon from '@/components/custom/svg-icon.vue';
 import { getLocalIcons } from '@/utils/icon';
-import { fetchGetAllRoles } from '@/service/api';
+import { GetAllRoles } from '@/service/api';
 import {
   getLayoutAndPage,
   getPathParamFromRoutePath,
@@ -25,7 +25,7 @@ interface Props {
   /** the type of operation */
   operateType: OperateType;
   /** the edit menu data or the parent menu data when adding a child menu */
-  rowData?: Api.SystemManage.Menu | null;
+  rowData?: Api.System.Menu | null;
   /** all pages */
   allPages: string[];
 }
@@ -55,7 +55,7 @@ const title = computed(() => {
 });
 
 type Model = Pick<
-  Api.SystemManage.Menu,
+  Api.System.Menu,
   | 'menuType'
   | 'menuName'
   | 'routeName'
@@ -75,8 +75,8 @@ type Model = Pick<
   | 'multiTab'
   | 'fixedIndexInTab'
 > & {
-  query: NonNullable<Api.SystemManage.Menu['query']>;
-  buttons: NonNullable<Api.SystemManage.Menu['buttons']>;
+  query: NonNullable<Api.System.Menu['query']>;
+  buttons: NonNullable<Api.System.Menu['buttons']>;
   layout: string;
   page: string;
   pathParam: string;
@@ -168,7 +168,7 @@ const layoutOptions: CommonType.Option[] = [
 const roleOptions = ref<CommonType.Option<string>[]>([]);
 
 async function getRoleOptions() {
-  const { error, data } = await fetchGetAllRoles();
+  const { error, data } = await GetAllRoles();
 
   if (!error) {
     const options = data.map(item => ({
@@ -229,7 +229,7 @@ function handleUpdateI18nKeyByRouteName() {
 }
 
 function handleCreateButton() {
-  const buttonItem: Api.SystemManage.MenuButton = {
+  const buttonItem: Api.System.MenuButton = {
     code: '',
     desc: ''
   };

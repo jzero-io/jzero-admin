@@ -1,8 +1,8 @@
 import { request } from '../request';
 
 /** get role list */
-export function fetchGetRoleList(params?: Api.SystemManage.RoleSearchParams) {
-  return request<Api.SystemManage.RoleList>({
+export function GetRoleList(params?: Api.System.RoleSearchParams) {
+  return request<Api.System.RoleList>({
     url: '/systemManage/getRoleList',
     method: 'get',
     params
@@ -14,16 +14,16 @@ export function fetchGetRoleList(params?: Api.SystemManage.RoleSearchParams) {
  *
  * these roles are all enabled
  */
-export function fetchGetAllRoles() {
-  return request<Api.SystemManage.AllRole[]>({
+export function GetAllRoles() {
+  return request<Api.System.AllRole[]>({
     url: '/systemManage/getAllRoles',
     method: 'get'
   });
 }
 
 /** get user list */
-export function fetchGetUserList(params?: Api.SystemManage.UserSearchParams) {
-  return request<Api.SystemManage.UserList>({
+export function GetUserList(params?: Api.System.UserSearchParams) {
+  return request<Api.System.UserList>({
     url: '/systemManage/getUserList',
     method: 'get',
     params
@@ -31,15 +31,15 @@ export function fetchGetUserList(params?: Api.SystemManage.UserSearchParams) {
 }
 
 /** get menu list */
-export function fetchGetMenuList() {
-  return request<Api.SystemManage.MenuList>({
+export function GetMenuList() {
+  return request<Api.System.MenuList>({
     url: '/systemManage/getMenuList/v2',
     method: 'get'
   });
 }
 
 /** get all pages */
-export function fetchGetAllPages() {
+export function GetAllPages() {
   return request<string[]>({
     url: '/systemManage/getAllPages',
     method: 'get'
@@ -47,8 +47,8 @@ export function fetchGetAllPages() {
 }
 
 /** get menu tree */
-export function fetchGetMenuTree() {
-  return request<Api.SystemManage.MenuTree[]>({
+export function GetMenuTree() {
+  return request<Api.System.MenuTree[]>({
     url: '/systemManage/getMenuTree',
     method: 'get'
   });

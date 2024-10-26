@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import type { Ref } from 'vue';
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { useBoolean } from '@sa/hooks';
-import { fetchGetAllPages, fetchGetMenuList } from '@/service/api';
+import { GetAllPages, GetMenuList } from '@/service/api';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { $t } from '@/locales';
@@ -19,7 +19,7 @@ const { bool: visible, setTrue: openModal } = useBoolean();
 const wrapperRef = ref<HTMLElement | null>(null);
 
 const { columns, columnChecks, data, loading, pagination, getData, getDataByPage } = useTable({
-  apiFn: fetchGetMenuList,
+  apiFn: GetMenuList,
   columns: () => [
     {
       type: 'selection',
@@ -37,7 +37,7 @@ const { columns, columnChecks, data, loading, pagination, getData, getDataByPage
       align: 'center',
       width: 80,
       render: row => {
-        const tagMap: Record<Api.SystemManage.MenuType, NaiveUI.ThemeColor> = {
+        const tagMap: Record<Api.System.MenuType, NaiveUI.ThemeColor> = {
           1: 'default',
           2: 'primary'
         };
@@ -194,16 +194,16 @@ function handleDelete(id: number) {
 }
 
 /** the edit menu data or the parent menu data when adding a child menu */
-const editingData: Ref<Api.SystemManage.Menu | null> = ref(null);
+const editingData: Ref<Api.System.Menu | null> = ref(null);
 
-function handleEdit(item: Api.SystemManage.Menu) {
+function handleEdit(item: Api.System.Menu) {
   operateType.value = 'edit';
   editingData.value = { ...item };
 
   openModal();
 }
 
-function handleAddChildMenu(item: Api.SystemManage.Menu) {
+function handleAddChildMenu(item: Api.System.Menu) {
   operateType.value = 'addChild';
 
   editingData.value = { ...item };
@@ -214,7 +214,7 @@ function handleAddChildMenu(item: Api.SystemManage.Menu) {
 const allPages = ref<string[]>([]);
 
 async function getAllPages() {
-  const { data: pages } = await fetchGetAllPages();
+  const { data: pages } = await GetAllPages();
   allPages.value = pages || [];
 }
 

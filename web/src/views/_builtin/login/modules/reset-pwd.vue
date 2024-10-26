@@ -5,7 +5,7 @@ import { $t } from '@/locales';
 import { useRouterPush } from '@/hooks/common/router';
 import { useCaptcha } from '@/hooks/business/captcha';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
-import { resetPassword } from '@/service/api';
+import { ResetPassword } from '@/service/api';
 
 defineOptions({
   name: 'ResetPwd'
@@ -51,7 +51,7 @@ async function handleSubmit() {
     password: model.password
   };
   confirmStartLoding();
-  const { error } = await resetPassword(resetPasswordData);
+  const { error } = await ResetPassword(resetPasswordData);
   if (!error) {
     window.$message?.success($t('common.modifySuccess'));
     await toggleLoginModule('pwd-login');

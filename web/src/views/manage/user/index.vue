@@ -1,6 +1,6 @@
 <script setup lang="tsx">
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
-import { fetchGetUserList } from '@/service/api';
+import { GetUserList } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { enableStatusRecord, userGenderRecord } from '@/constants/business';
@@ -21,7 +21,7 @@ const {
   searchParams,
   resetSearchParams
 } = useTable({
-  apiFn: fetchGetUserList,
+  apiFn: GetUserList,
   showTotal: true,
   apiParams: {
     current: 1,
@@ -63,7 +63,7 @@ const {
           return null;
         }
 
-        const tagMap: Record<Api.SystemManage.UserGender, NaiveUI.ThemeColor> = {
+        const tagMap: Record<Api.System.UserGender, NaiveUI.ThemeColor> = {
           1: 'primary',
           2: 'error'
         };

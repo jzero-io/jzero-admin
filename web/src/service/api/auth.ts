@@ -1,13 +1,13 @@
 import { request } from '../request';
 
 /**
- * PwdLogin
+ * LoginByPwd
  *
  * @param username Username
  * @param password Password
  */
-export function fetchPwdLogin(username: string, password: string) {
-  return request<Api.Auth.LoginToken>({
+export function LoginByPwd(username: string, password: string) {
+  return request<Api.Auth.LoginResponse>({
     url: '/auth/pwd-login',
     method: 'post',
     data: {
@@ -18,14 +18,14 @@ export function fetchPwdLogin(username: string, password: string) {
 }
 
 /**
- * CodeLogin
+ * LoginByCode
  *
  * @param email Email
  * @param verificationUuid
  * @pparam verificationCode
  */
-export function fetchCodeLogin(req: Api.Auth.CodeLoginRequest) {
-  return request<Api.Auth.LoginToken>({
+export function LoginByCode(req: Api.Auth.CodeLoginRequest) {
+  return request<Api.Auth.LoginResponse>({
     url: '/auth/code-login',
     method: 'post',
     data: req
@@ -33,7 +33,7 @@ export function fetchCodeLogin(req: Api.Auth.CodeLoginRequest) {
 }
 
 /** Register */
-export function fetchRegister(req: Api.Auth.RegisterRequest) {
+export function Register(req: Api.Auth.RegisterRequest) {
   return request<Api.Auth.RegisterResponse>({
     url: '/auth/register',
     method: 'post',
@@ -42,7 +42,7 @@ export function fetchRegister(req: Api.Auth.RegisterRequest) {
 }
 
 /** ResetPassword */
-export function resetPassword(req: Api.Auth.ResetPasswordRequest) {
+export function ResetPassword(req: Api.Auth.ResetPasswordRequest) {
   return request<Api.Auth.ResetPasswordResponse>({
     url: '/auth/resetPassword',
     method: 'post',
@@ -60,8 +60,8 @@ export function SendVerificationCode(params: Api.Auth.SendVerificationCodeReques
 }
 
 /** Get user info */
-export function fetchGetUserInfo() {
-  return request<Api.Auth.UserInfo>({ url: '/auth/getUserInfo' });
+export function GetUserInfo() {
+  return request<Api.Auth.GetUserInfoResponse>({ url: '/auth/getUserInfo' });
 }
 
 /**
@@ -69,8 +69,8 @@ export function fetchGetUserInfo() {
  *
  * @param refreshToken Refresh token
  */
-export function fetchRefreshToken(refreshToken: string) {
-  return request<Api.Auth.LoginToken>({
+export function RefreshToken(refreshToken: string) {
+  return request<Api.Auth.LoginResponse>({
     url: '/auth/refreshToken',
     method: 'post',
     data: {
@@ -85,6 +85,6 @@ export function fetchRefreshToken(refreshToken: string) {
  * @param code error code
  * @param msg error message
  */
-export function fetchCustomBackendError(code: string, msg: string) {
+export function GetCustomBackendError(code: string, msg: string) {
   return request({ url: '/auth/error', params: { code, msg } });
 }

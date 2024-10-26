@@ -4,7 +4,7 @@ import { defineStore } from 'pinia';
 import { useLoading } from '@sa/hooks';
 import { SetupStoreId } from '@/enum';
 import { useRouterPush } from '@/hooks/common/router';
-import { fetchCodeLogin, fetchGetUserInfo, fetchPwdLogin } from '@/service/api';
+import { GetUserInfo, LoginByCode, LoginByPwd } from '@/service/api';
 import { localStg } from '@/utils/storage';
 import { $t } from '@/locales';
 import { useRouteStore } from '../route';
@@ -20,7 +20,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
 
   const token = ref(getToken());
 
-  const userInfo: Api.Auth.UserInfo = reactive({
+  const userInfo: Api.Auth.GetUserInfoResponse = reactive({
     userId: '',
     username: '',
     roles: [],
@@ -63,7 +63,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
   async function loginByPwd(username: string, password: string, redirect = true) {
     startLoading();
 
-    const { data: loginToken, error } = await fetchPwdLogin(username, password);
+    const { data: loginToken, error } = await LoginByPwd(username, password);
 
     if (!error) {
       const pass = await loginByToken(loginToken);
@@ -96,7 +96,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
   async function loginByCode(req: Api.Auth.CodeLoginRequest, redirect = true) {
     startLoading();
 
-    const { data: loginToken, error } = await fetchCodeLogin(req);
+    const { data: loginToken, error } = await LoginByCode(req);
 
     if (!error) {
       const pass = await loginByToken(loginToken);
@@ -121,7 +121,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     endLoading();
   }
 
-  async function loginByToken(loginToken: Api.Auth.LoginToken) {
+  async function loginByToken(loginToken: Api.Auth.LoginResponse) {
     // 1. stored in the localStorage, the later requests need it in headers
     localStg.set('token', loginToken.token);
     localStg.set('refreshToken', loginToken.refreshToken);
@@ -139,7 +139,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
   }
 
   async function getUserInfo() {
-    const { data: info, error } = await fetchGetUserInfo();
+    const { data: info, error } = await GetUserInfo();
 
     if (!error) {
       // update store

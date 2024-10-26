@@ -5,7 +5,7 @@ import { $t } from '@/locales';
 import { useRouterPush } from '@/hooks/common/router';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import { useCaptcha } from '@/hooks/business/captcha';
-import { fetchRegister } from '@/service/api';
+import { Register } from '@/service/api';
 
 defineOptions({
   name: 'Register'
@@ -55,7 +55,7 @@ async function handleSubmit() {
     verificationUuid: verificationUuid.value
   };
   confirmStartLoding();
-  const { error } = await fetchRegister(registerData);
+  const { error } = await Register(registerData);
   if (!error) {
     window.$message?.success($t('page.login.common.registerSuccess'));
     await toggleLoginModule('pwd-login');

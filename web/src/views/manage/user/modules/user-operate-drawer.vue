@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, reactive, ref, watch } from 'vue';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
-import { fetchGetAllRoles } from '@/service/api';
+import { GetAllRoles } from '@/service/api';
 import { $t } from '@/locales';
 import { enableStatusOptions, userGenderOptions } from '@/constants/business';
 
@@ -13,7 +13,7 @@ interface Props {
   /** the type of operation */
   operateType: NaiveUI.TableOperateType;
   /** the edit row data */
-  rowData?: Api.SystemManage.User | null;
+  rowData?: Api.System.User | null;
 }
 
 const props = defineProps<Props>();
@@ -40,7 +40,7 @@ const title = computed(() => {
 });
 
 type Model = Pick<
-  Api.SystemManage.User,
+  Api.System.User,
   'username' | 'userGender' | 'nickName' | 'userPhone' | 'userEmail' | 'userRoles' | 'status'
 >;
 
@@ -69,7 +69,7 @@ const rules: Record<RuleKey, App.Global.FormRule> = {
 const roleOptions = ref<CommonType.Option<string>[]>([]);
 
 async function getRoleOptions() {
-  const { error, data } = await fetchGetAllRoles();
+  const { error, data } = await GetAllRoles();
 
   if (!error) {
     const options = data.map(item => ({

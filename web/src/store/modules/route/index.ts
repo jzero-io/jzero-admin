@@ -8,7 +8,7 @@ import { router } from '@/router';
 import { createStaticRoutes, getAuthVueRoutes } from '@/router/routes';
 import { ROOT_ROUTE } from '@/router/routes/builtin';
 import { getRouteName, getRoutePath } from '@/router/elegant/transform';
-import { fetchGetConstantRoutes, fetchGetUserRoutes, fetchIsRouteExist } from '@/service/api';
+import { GetConstantRoutes, GetUserRoutes, IsRouteExist } from '@/service/api';
 import { useAppStore } from '../app';
 import { useAuthStore } from '../auth';
 import { useTabStore } from '../tab';
@@ -201,7 +201,7 @@ export const useRouteStore = defineStore(SetupStoreId.Route, () => {
     if (authRouteMode.value === 'static') {
       addConstantRoutes(staticRoute.constantRoutes);
     } else {
-      const { data, error } = await fetchGetConstantRoutes();
+      const { data, error } = await GetConstantRoutes();
 
       if (!error) {
         addConstantRoutes(data);
@@ -246,7 +246,7 @@ export const useRouteStore = defineStore(SetupStoreId.Route, () => {
 
   /** Init dynamic auth route */
   async function initDynamicAuthRoute() {
-    const { data, error } = await fetchGetUserRoutes();
+    const { data, error } = await GetUserRoutes();
 
     if (!error) {
       const { routes, home } = data;
@@ -340,7 +340,7 @@ export const useRouteStore = defineStore(SetupStoreId.Route, () => {
       return isRouteExistByRouteName(routeName, staticAuthRoutes);
     }
 
-    const { data } = await fetchIsRouteExist(routeName);
+    const { data } = await IsRouteExist(routeName);
 
     return data;
   }
