@@ -1,11 +1,11 @@
 <script setup lang="tsx">
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
-import { GetUserList } from '@/service/api';
+import { DeleteUser, GetUserList } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { enableStatusRecord, userGenderRecord } from '@/constants/business';
 import { useTable, useTableOperate } from '@/hooks/common/table';
-import UserOperateDrawer from './modules/user-operate-drawer.vue';
+import UserOperateDrawer from './modules/user-operate-modal.vue';
 import UserSearch from './modules/user-search.vue';
 
 const appStore = useAppStore();
@@ -151,14 +151,19 @@ const {
 
 async function handleBatchDelete() {
   // request
-  console.log(checkedRowKeys.value);
+
+  const ids: number[] = checkedRowKeys.value.map(idStr => Number.parseInt(idStr, 10));
+
+  await DeleteUser(ids);
 
   onBatchDeleted();
 }
 
-function handleDelete(id: number) {
+async function handleDelete(id: number) {
   // request
-  console.log(id);
+  const ids: number[] = [id];
+
+  await DeleteUser(ids);
 
   onDeleted();
 }

@@ -21,10 +21,38 @@ export function GetAllRoles() {
   });
 }
 
+/** add user */
+export function AddUser(req: Api.System.AddUserRequest) {
+  return request<Api.System.AddUserRequest>({
+    url: '/system/addUser',
+    method: 'post',
+    data: req
+  });
+}
+
+/** edit user */
+export function EditUser(req: Api.System.EditUserRequest) {
+  return request<Api.System.EditUserResponse>({
+    url: '/system/editUser',
+    method: 'post',
+    data: req
+  });
+}
+
+export function DeleteUser(req: number[]) {
+  return request<Api.Common.Empty>({
+    url: '/system/deleteUser',
+    method: 'post',
+    data: {
+      ids: req
+    }
+  });
+}
+
 /** get user list */
 export function GetUserList(params?: Api.System.UserSearchParams) {
   return request<Api.System.UserList>({
-    url: '/systemManage/getUserList',
+    url: '/system/getUserList',
     method: 'get',
     params
   });

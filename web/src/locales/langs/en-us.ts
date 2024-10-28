@@ -340,6 +340,7 @@ const local: App.I18n.Schema = {
         userEmail: 'Email',
         userStatus: 'User Status',
         userRole: 'User Role',
+        password: 'Password',
         form: {
           username: 'Please enter user name',
           userGender: 'Please select gender',
@@ -347,7 +348,8 @@ const local: App.I18n.Schema = {
           userPhone: 'Please enter phone number',
           userEmail: 'Please enter email',
           userStatus: 'Please select user status',
-          userRole: 'Please select user role'
+          userRole: 'Please select user role',
+          password: 'Please enter password'
         },
         addUser: 'Add User',
         editUser: 'Edit User',

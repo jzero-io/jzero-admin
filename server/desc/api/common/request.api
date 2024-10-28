@@ -5,7 +5,7 @@ info (
 )
 
 type PageRequest {
-	page int `json:"page"`
-	size int `json:"size"`
+	current int `form:"current"`
+	size    int `form:"size"`
 }
 

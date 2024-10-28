@@ -1,0 +1,35 @@
+{
+  "folders": [
+    {
+      "path": "server",
+      "name": "server"
+    },
+    {
+      "path": "web",
+      "name": "web"
+    },
+    {
+      "path": ".",
+      "name": "root"
+    }
+  ],
+  "settings": {
+    "go.toolsEnvVars": {
+      "GOPROXY": "https://goproxy.cn,direct",
+      "GONOPROXY": "none;"
+    }
+  },
+  "launch": {
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "type": "go",
+        "request": "launch",
+        "name": "Backend",
+        "cwd": "${workspaceFolder:backend}",
+        "program": "${workspaceFolder:backend}/"
+      },
+      
+    ],
+  }
+}

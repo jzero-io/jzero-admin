@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed, reactive, ref, watch } from 'vue';
+import { useLoading } from '@sa/hooks';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
-import { GetAllRoles } from '@/service/api';
+import { AddUser, EditUser, GetAllRoles } from '@/service/api';
 import { $t } from '@/locales';
 import { enableStatusOptions, userGenderOptions } from '@/constants/business';
 
@@ -30,6 +31,7 @@ const visible = defineModel<boolean>('visible', {
 
 const { formRef, validate, restoreValidation } = useNaiveForm();
 const { defaultRequiredRule } = useFormRules();
+const { loading: confirmLoading, startLoading: confirmStartLoding, endLoading: confirmEndLoading } = useLoading();
 
 const title = computed(() => {
   const titles: Record<NaiveUI.TableOperateType, string> = {
@@ -40,8 +42,8 @@ const title = computed(() => {
 });
 
 type Model = Pick<
-  Api.System.User,
-  'username' | 'userGender' | 'nickName' | 'userPhone' | 'userEmail' | 'userRoles' | 'status'
+  Api.System.AddUserRequest,
+  'username' | 'userGender' | 'nickName' | 'userPhone' | 'userEmail' | 'userRoles' | 'status' | 'password'
 >;
 
 const model: Model = reactive(createDefaultModel());
@@ -49,6 +51,7 @@ const model: Model = reactive(createDefaultModel());
 function createDefaultModel(): Model {
   return {
     username: '',
+    password: '',
     userGender: null,
     nickName: '',
     userPhone: '',
@@ -58,11 +61,12 @@ function createDefaultModel(): Model {
   };
 }
 
-type RuleKey = Extract<keyof Model, 'username' | 'status'>;
+type RuleKey = Extract<keyof Model, 'username' | 'status' | 'password'>;
 
 const rules: Record<RuleKey, App.Global.FormRule> = {
   username: defaultRequiredRule,
-  status: defaultRequiredRule
+  status: defaultRequiredRule,
+  password: defaultRequiredRule
 };
 
 /** the enabled role options */
@@ -97,16 +101,54 @@ function handleInitModel() {
   }
 }
 
-function closeDrawer() {
+function closeModel() {
   visible.value = false;
 }
 
 async function handleSubmit() {
-  await validate();
-  // request
-  window.$message?.success($t('common.updateSuccess'));
-  closeDrawer();
-  emit('submitted');
+  if (props.operateType === 'add') {
+    await validate();
+    // request
+    const addUserData: Api.System.AddUserRequest = {
+      username: model.username,
+      userGender: model.userGender,
+      nickName: model.nickName,
+      userPhone: model.userPhone,
+      userEmail: model.userEmail,
+      userRoles: model.userRoles,
+      password: model.password,
+      status: model.status
+    };
+    confirmStartLoding();
+    const { error } = await AddUser(addUserData);
+    if (!error) {
+      window.$message?.success($t('common.addSuccess'));
+      closeModel();
+      emit('submitted');
+    }
+    confirmEndLoading();
+  } else if (props.operateType === 'edit') {
+    await validate();
+    // request
+    const editUserData: Api.System.EditUserRequest = {
+      id: props.rowData?.id,
+      username: model.username,
+      userGender: model.userGender,
+      nickName: model.nickName,
+      userPhone: model.userPhone,
+      userEmail: model.userEmail,
+      userRoles: model.userRoles,
+      status: model.status
+    };
+    confirmStartLoding();
+    const { error } = await EditUser(editUserData);
+    if (!error) {
+      window.$message?.success($t('common.updateSuccess'));
+      closeModel();
+      emit('submitted');
+    }
+    confirmEndLoading();
+  }
 }
 
 watch(visible, () => {
@@ -119,11 +161,15 @@ watch(visible, () => {
 </script>
 
 <template>
-  <NDrawer v-model:show="visible" display-directive="show" :width="360">
-    <NDrawerContent :title="title" :native-scrollbar="false" closable>
-      <NForm ref="formRef" :model="model" :rules="rules">
+  <NModal v-model:show="visible" :title="title" preset="card" class="w-800px">
+    <NScrollbar class="h-408px pr-20px">
+      <NForm ref="formRef" :model="model" :rules="rules" label-placement="left" :label-width="100">
         <NFormItem :label="$t('page.manage.user.username')" path="username">
-          <NInput v-model:value="model.username" :placeholder="$t('page.manage.user.form.username')" />
+          <NInput
+            v-model:value="model.username"
+            :placeholder="$t('page.manage.user.form.username')"
+            :disabled="props.operateType === 'edit'"
+          />
         </NFormItem>
         <NFormItem :label="$t('page.manage.user.userGender')" path="userGender">
           <NRadioGroup v-model:value="model.userGender">
@@ -152,15 +198,18 @@ watch(visible, () => {
             :placeholder="$t('page.manage.user.form.userRole')"
           />
         </NFormItem>
+        <NFormItem v-if="props.operateType === 'add'" :label="$t('page.manage.user.password')" path="password">
+          <NInput v-model:value="model.password" :placeholder="$t('page.manage.user.form.password')" />
+        </NFormItem>
       </NForm>
-      <template #footer>
-        <NSpace :size="16">
-          <NButton @click="closeDrawer">{{ $t('common.cancel') }}</NButton>
-          <NButton type="primary" @click="handleSubmit">{{ $t('common.confirm') }}</NButton>
-        </NSpace>
-      </template>
-    </NDrawerContent>
-  </NDrawer>
+    </NScrollbar>
+    <template #footer>
+      <NSpace :size="16" justify="end">
+        <NButton @click="closeModel">{{ $t('common.cancel') }}</NButton>
+        <NButton type="primary" :loding="confirmLoading" @click="handleSubmit">{{ $t('common.confirm') }}</NButton>
+      </NSpace>
+    </template>
+  </NModal>
 </template>
 
 <style scoped></style>

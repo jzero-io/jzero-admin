@@ -4,15 +4,83 @@ info (
 	go_package: "system/user"
 )
 
-type ListRequest {}
+import (
+	"../common/request.api"
+	"../common/response.api"
+)
 
-type ListResponse {}
+type SystemUser {
+	id         uint64   `json:"id"`
+	username   string   `json:"username"`
+	userGender string   `json:"userGender"`
+	nickName   string   `json:"nickName"`
+	userPhone  string   `json:"userPhone"`
+	userEmail  string   `json:"userEmail"`
+	userRoles  []string `json:"userRoles"`
+	status     string   `json:"status"`
+	createTime string   `json:"createTime"`
+	updateTime string   `json:"updateTime"`
+}
+
+type ListRequest {
+	PageRequest
+	username   string `form:"username,optional"`
+	userGender string `form:"userGender,optional"`
+	nickName   string `form:"nickName,optional"`
+	userPhone  string `form:"userPhone,optional"`
+	userEmail  string `form:"userEmail,optional"`
+	status     string `form:"status,optional"`
+}
+
+type ListResponse {
+	PageResponse
+	records []SystemUser `json:"records"`
+}
+
+type AddRequest {
+	username   string `json:"username"`
+	userGender string `json:"userGender,default=1"`
+	nickName   string `json:"nickName"`
+	userPhone  string `json:"userPhone"`
+	userEmail  string `json:"userEmail"`
+	status     string `json:"status,default=1"`
+	password   string `json:"password"`
+}
+
+type AddResponse {}
+
+type EditRequest {
+	id         uint64 `json:"id"`
+	username   string `json:"username"`
+	userGender string `json:"userGender"`
+	nickName   string `json:"nickName"`
+	userPhone  string `json:"userPhone"`
+	userEmail  string `json:"userEmail"`
+	status     string `json:"status"`
+}
+
+type EditResponse {}
+
+type DeleteRequest {
+	ids []uint64 `json:"ids"`
+}
+
+type DeleteResponse {}
 
 @server (
 	group: system/user
 )
 service server {
 	@handler List
-	get /systemManage/getUserList (ListRequest) returns (ListResponse)
+	get /system/getUserList (ListRequest) returns (ListResponse)
+
+	@handler Add
+	post /system/addUser (AddRequest) returns (AddResponse)
+
+	@handler Edit
+	post /system/editUser (EditRequest) returns (EditResponse)
+
+	@handler Delete
+	post /system/deleteUser (DeleteRequest) returns (DeleteResponse)
 }
 

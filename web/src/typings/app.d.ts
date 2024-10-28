@@ -560,6 +560,7 @@ declare namespace App {
             userEmail: string;
             userStatus: string;
             userRole: string;
+            password: string;
             form: {
               username: string;
               userGender: string;
@@ -568,6 +569,7 @@ declare namespace App {
               userEmail: string;
               userStatus: string;
               userRole: string;
+              password: string;
             };
             addUser: string;
             editUser: string;

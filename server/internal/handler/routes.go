@@ -136,8 +136,23 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		server.AddRoutes(
 			[]rest.Route{
 				{
+					Method:  http.MethodPost,
+					Path:    "/system/addUser",
+					Handler: systemuser.Add(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/system/deleteUser",
+					Handler: systemuser.Delete(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/system/editUser",
+					Handler: systemuser.Edit(serverCtx),
+				},
+				{
 					Method:  http.MethodGet,
-					Path:    "/systemManage/getUserList",
+					Path:    "/system/getUserList",
 					Handler: systemuser.List(serverCtx),
 				},
 			},

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-interface */
 declare namespace Api {
   namespace Common {
     /** common params of paginating */
@@ -41,5 +42,8 @@ declare namespace Api {
       /** record status */
       status: EnableStatus | null;
     } & T;
+
+    // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+    interface Empty {}
   }
 }

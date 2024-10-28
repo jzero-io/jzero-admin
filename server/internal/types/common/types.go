@@ -9,7 +9,8 @@ var (
 	_ = time.Now()
 )
 
-type PageRequest struct {
-	Page int `json:"page"`
-	Size int `json:"size"`
+type PageResponse struct {
+	Current int   `json:"current"`
+	Size    int   `json:"size"`
+	Total   int64 `json:"total"`
 }

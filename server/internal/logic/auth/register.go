@@ -52,6 +52,8 @@ func (l *Register) Register(req *types.RegisterRequest) (resp *types.RegisterRes
 		CreateTime: time.Now(),
 		UpdateTime: time.Now(),
 		Email:      null.StringFrom(req.Email).NullString,
+		Gender:     "1",
+		Status:     "1",
 	})
 
 	return

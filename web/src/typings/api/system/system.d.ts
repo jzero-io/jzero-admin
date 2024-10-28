@@ -36,6 +36,14 @@ declare namespace Api {
      */
     type UserGender = '1' | '2';
 
+    /**
+     * user status
+     *
+     * - "1": "Enable"
+     * - "2": "Disable"
+     */
+    type EnableStatus = '0' | '1';
+
     /** user */
     type User = Common.CommonRecord<{
       /** username */
@@ -51,6 +59,49 @@ declare namespace Api {
       /** user role code collection */
       userRoles: string[];
     }>;
+
+    /** add user request */
+    type AddUserRequest = {
+      /** username */
+      username: string;
+      /** user gender */
+      userGender: UserGender | null;
+      /** user nick name */
+      nickName: string;
+      /** user phone */
+      userPhone: string;
+      /** user email */
+      userEmail: string;
+      /** user role code collection */
+      userRoles: string[];
+      /** password */
+      password: string;
+      status: EnableStatus | null;
+    };
+
+    // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+    type AddUserResponse = {};
+
+    /** edit user request */
+    type EditUserRequest = {
+      id: number | undefined;
+      /** username */
+      username: string;
+      /** user gender */
+      userGender: UserGender | null;
+      /** user nick name */
+      nickName: string;
+      /** user phone */
+      userPhone: string;
+      /** user email */
+      userEmail: string;
+      /** user role code collection */
+      userRoles: string[];
+      status: EnableStatus | null;
+    };
+
+    // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+    type EditUserResponse = {};
 
     /** user search params */
     type UserSearchParams = CommonType.RecordNullable<

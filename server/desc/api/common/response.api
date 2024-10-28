@@ -1,0 +1,12 @@
+syntax = "v1"
+
+info (
+	go_package: "common"
+)
+
+type PageResponse {
+	current int   `json:"current"`
+	size    int   `json:"size"`
+	total   int64 `json:"total"`
+}
+
