@@ -206,7 +206,7 @@ watch(visible, () => {
     <template #footer>
       <NSpace :size="16" justify="end">
         <NButton @click="closeModel">{{ $t('common.cancel') }}</NButton>
-        <NButton type="primary" :loding="confirmLoading" @click="handleSubmit">{{ $t('common.confirm') }}</NButton>
+        <NButton type="primary" :loading="confirmLoading" @click="handleSubmit">{{ $t('common.confirm') }}</NButton>
       </NSpace>
     </template>
   </NModal>

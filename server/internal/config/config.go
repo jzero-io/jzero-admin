@@ -19,6 +19,9 @@ type Config struct {
 	Jwt Jwt
 
 	CacheType string `json:",default=local"`
+
+	// mock 公网环境
+	DelaySecond int `json:",default=0,env=DELAY_SECOND"`
 }
 
 type RestConf struct {

@@ -1,4 +1,5 @@
 <script setup lang="tsx">
+import { reactive } from 'vue';
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { DeleteUser, GetUserList } from '@/service/api';
 import { $t } from '@/locales';
@@ -9,6 +10,9 @@ import UserOperateDrawer from './modules/user-operate-modal.vue';
 import UserSearch from './modules/user-search.vue';
 
 const appStore = useAppStore();
+
+type LoadingStatus = Record<number, boolean>;
+const deleteLoadingStatus = reactive<LoadingStatus>({});
 
 const {
   columns,
@@ -125,7 +129,7 @@ const {
             {{
               default: () => $t('common.confirmDelete'),
               trigger: () => (
-                <NButton type="error" ghost size="small">
+                <NButton loading={deleteLoadingStatus[row.id]} type="error" ghost size="small">
                   {$t('common.delete')}
                 </NButton>
               )
@@ -154,7 +158,15 @@ async function handleBatchDelete() {
 
   const ids: number[] = checkedRowKeys.value.map(idStr => Number.parseInt(idStr, 10));
 
-  await DeleteUser(ids);
+  ids.forEach(id => {
+    deleteLoadingStatus[id] = true;
+  });
+  const { error } = await DeleteUser(ids);
+  if (error) return;
+
+  ids.forEach(id => {
+    deleteLoadingStatus[id] = false;
+  });
 
   onBatchDeleted();
 }
@@ -162,9 +174,10 @@ async function handleBatchDelete() {
 async function handleDelete(id: number) {
   // request
   const ids: number[] = [id];
-
-  await DeleteUser(ids);
-
+  deleteLoadingStatus[id] = true;
+  const { error } = await DeleteUser(ids);
+  if (error) return;
+  deleteLoadingStatus[id] = false;
   onDeleted();
 }
 
