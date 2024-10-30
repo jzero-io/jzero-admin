@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { computed, reactive, watch } from 'vue';
-import { useBoolean } from '@sa/hooks';
+import { useBoolean, useLoading } from '@sa/hooks';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import { $t } from '@/locales';
 import { enableStatusOptions } from '@/constants/business';
+import { AddRole } from '@/service/api';
 import MenuAuthModal from './menu-auth-modal.vue';
 import ButtonAuthModal from './button-auth-modal.vue';
 
@@ -34,6 +35,7 @@ const { formRef, validate, restoreValidation } = useNaiveForm();
 const { defaultRequiredRule } = useFormRules();
 const { bool: menuAuthVisible, setTrue: openMenuAuthModal } = useBoolean();
 const { bool: buttonAuthVisible, setTrue: openButtonAuthModal } = useBoolean();
+const { loading: confirmLoading, startLoading: confirmStartLoding, endLoading: confirmEndLoading } = useLoading();
 
 const title = computed(() => {
   const titles: Record<NaiveUI.TableOperateType, string> = {
@@ -81,11 +83,28 @@ function closeDrawer() {
 }
 
 async function handleSubmit() {
-  await validate();
-  // request
-  window.$message?.success($t('common.updateSuccess'));
-  closeDrawer();
-  emit('submitted');
+  if (props.operateType === 'add') {
+    await validate();
+    // request
+    const addRoleData: Api.System.AddRoleRequest = {
+      roleName: model.roleName,
+      roleCode: model.roleCode,
+      roleDesc: model.roleDesc,
+      status: model.status
+    };
+    confirmStartLoding();
+    const { error } = await AddRole(addRoleData);
+    if (!error) {
+      window.$message?.success($t('common.addSuccess'));
+      emit('submitted');
+      closeDrawer();
+    }
+    confirmEndLoading();
+  } else if (props.operateType === 'edit') {
+    window.$message?.success($t('common.updateSuccess'));
+    emit('submitted');
+    closeDrawer();
+  }
 }
 
 watch(visible, () => {
@@ -124,7 +143,7 @@ watch(visible, () => {
       <template #footer>
         <NSpace :size="16">
           <NButton @click="closeDrawer">{{ $t('common.cancel') }}</NButton>
-          <NButton type="primary" @click="handleSubmit">{{ $t('common.confirm') }}</NButton>
+          <NButton type="primary" :loading="confirmLoading" @click="handleSubmit">{{ $t('common.confirm') }}</NButton>
         </NSpace>
       </template>
     </NDrawerContent>

@@ -38,25 +38,27 @@ type ListResponse {
 }
 
 type AddRequest {
-	username   string `json:"username"`
-	userGender string `json:"userGender,default=1"`
-	nickName   string `json:"nickName"`
-	userPhone  string `json:"userPhone"`
-	userEmail  string `json:"userEmail"`
-	status     string `json:"status,default=1"`
-	password   string `json:"password"`
+	username   string   `json:"username"`
+	userGender string   `json:"userGender,default=1"`
+	nickName   string   `json:"nickName"`
+	userPhone  string   `json:"userPhone"`
+	userEmail  string   `json:"userEmail"`
+	status     string   `json:"status,default=1"`
+	password   string   `json:"password"`
+	userRoles  []string `json:"userRoles"`
 }
 
 type AddResponse {}
 
 type EditRequest {
-	id         uint64 `json:"id"`
-	username   string `json:"username"`
-	userGender string `json:"userGender"`
-	nickName   string `json:"nickName"`
-	userPhone  string `json:"userPhone"`
-	userEmail  string `json:"userEmail"`
-	status     string `json:"status"`
+	id         uint64   `json:"id"`
+	username   string   `json:"username"`
+	userGender string   `json:"userGender"`
+	nickName   string   `json:"nickName"`
+	userPhone  string   `json:"userPhone"`
+	userEmail  string   `json:"userEmail"`
+	status     string   `json:"status"`
+	userRoles  []string `json:"userRoles"`
 }
 
 type EditResponse {}
@@ -69,6 +71,7 @@ type DeleteResponse {}
 
 @server (
 	group: system/user
+	jwt:   Jwt
 )
 service server {
 	@handler List

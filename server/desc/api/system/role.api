@@ -4,22 +4,62 @@ info (
 	go_package: "system/role"
 )
 
-type ListRequest {}
+import (
+	"../common/request.api"
+	"../common/response.api"
+)
 
-type ListResponse {}
+type SystemRole {
+	id         uint64 `json:"id"`
+	roleName   string `json:"roleName"`
+	roleCode   string `json:"roleCode"`
+	roleDesc   string `json:"roleDesc"`
+	status     string `json:"status"`
+	createTime string `json:"createTime"`
+	updateTime string `json:"updateTime"`
+}
+
+type ListRequest {
+	PageRequest
+	roleName string `form:"roleName,optional"`
+	roleCode string `form:"roleCode,optional"`
+	status   string `form:"status,optional"`
+}
+
+type ListResponse {
+	PageResponse
+	records []SystemRole `json:"records"`
+}
 
 type GetAllRequest {}
 
-type GetAllResponse {}
+type GetAllResponse {
+	id       uint64 `json:"id"`
+	roleName string `json:"roleName"`
+	roleCode string `json:"roleCode"`
+}
+
+type AddRequest {
+	roleName string `json:"roleName"`
+	roleCode string `json:"roleCode"`
+	roleDesc string `json:"roleDesc"`
+	status   string `json:"status"`
+}
+
+type AddResponse {}
 
 @server (
 	group: system/role
+	jwt:   Jwt
 )
 service server {
 	@handler List
-	get /systemManage/getRoleList (ListRequest) returns (ListResponse)
+	get /system/getRoleList (ListRequest) returns (ListResponse)
 
 	@handler GetAll
-	get /systemManage/getAllRoles (GetAllRequest) returns (GetAllResponse)
+	get /system/getAllRoles (GetAllRequest) returns ([]GetAllResponse)
+
+	@handler Add
+	post /system/addRole (AddRequest) returns (AddResponse)
 }
 

@@ -9,14 +9,54 @@ var (
 	_ = time.Now()
 )
 
+type AddRequest struct {
+	RoleName string `json:"roleName"`
+	RoleCode string `json:"roleCode"`
+	RoleDesc string `json:"roleDesc"`
+	Status   string `json:"status"`
+}
+
+type AddResponse struct {
+}
+
 type GetAllRequest struct {
 }
 
 type GetAllResponse struct {
+	Id       uint64 `json:"id"`
+	RoleName string `json:"roleName"`
+	RoleCode string `json:"roleCode"`
 }
 
 type ListRequest struct {
+	PageRequest
+	RoleName string `form:"roleName,optional"`
+	RoleCode string `form:"roleCode,optional"`
+	Status   string `form:"status,optional"`
 }
 
 type ListResponse struct {
+	PageResponse
+	Records []SystemRole `json:"records"`
+}
+
+type PageRequest struct {
+	Current int `form:"current"`
+	Size    int `form:"size"`
+}
+
+type PageResponse struct {
+	Current int   `json:"current"`
+	Size    int   `json:"size"`
+	Total   int64 `json:"total"`
+}
+
+type SystemRole struct {
+	Id         uint64 `json:"id"`
+	RoleName   string `json:"roleName"`
+	RoleCode   string `json:"roleCode"`
+	RoleDesc   string `json:"roleDesc"`
+	Status     string `json:"status"`
+	CreateTime string `json:"createTime"`
+	UpdateTime string `json:"updateTime"`
 }

@@ -17,6 +17,19 @@ declare namespace Api {
       roleDesc: string;
     }>;
 
+    type AddRoleRequest = {
+      /** role name */
+      roleName: string;
+      /** role code */
+      roleCode: string;
+      /** role description */
+      roleDesc: string;
+      status: string | null;
+    };
+
+    // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+    type AddRoleResponse = {};
+
     /** role search params */
     type RoleSearchParams = CommonType.RecordNullable<
       Pick<Api.System.Role, 'roleName' | 'roleCode' | 'status'> & CommonSearchParams

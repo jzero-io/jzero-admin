@@ -47,6 +47,7 @@ type IsRouteExistResponse {}
 
 @server (
 	group: route
+	jwt:   Jwt
 )
 service server {
 	@handler GetConstantRoutes

@@ -37,6 +37,11 @@
         ],
         "tags": [
           "system/user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -63,6 +68,11 @@
         ],
         "tags": [
           "system/user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -89,6 +99,11 @@
         ],
         "tags": [
           "system/user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -160,6 +175,11 @@
         ],
         "consumes": [
           "multipart/form-data"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     }
@@ -190,6 +210,12 @@
         },
         "password": {
           "type": "string"
+        },
+        "userRoles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       },
       "title": "AddRequest",
@@ -200,7 +226,8 @@
         "userPhone",
         "userEmail",
         "status",
-        "password"
+        "password",
+        "userRoles"
       ]
     },
     "AddResponse": {
@@ -251,6 +278,12 @@
         },
         "status": {
           "type": "string"
+        },
+        "userRoles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       },
       "title": "EditRequest",
@@ -261,7 +294,8 @@
         "nickName",
         "userPhone",
         "userEmail",
-        "status"
+        "status",
+        "userRoles"
       ]
     },
     "EditResponse": {

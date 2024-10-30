@@ -7,6 +7,7 @@ import (
 	"github.com/jzero-io/jzero-contrib/condition"
 	"github.com/jzero-io/jzero-contrib/nullx"
 	"github.com/zeromicro/go-zero/core/logx"
+	"github.com/zeromicro/go-zero/core/mr"
 
 	"server/internal/svc"
 	types "server/internal/types/system/user"
@@ -74,12 +75,49 @@ func (l *List) List(req *types.ListRequest) (resp *types.ListResponse, err error
 			NickName:   user.Nickname,
 			UserPhone:  nullx.NewString(user.Phone).ValueOrZero(),
 			UserEmail:  nullx.NewString(user.Email).ValueOrZero(),
-			UserRoles:  []string{"R_super"},
 			Status:     user.Status,
 			CreateTime: user.CreateTime.Format(time.DateTime),
 			UpdateTime: user.UpdateTime.Format(time.DateTime),
 		})
 	}
+
+	err = mr.MapReduceVoid(func(source chan<- int) {
+		for index := range records {
+			source <- index
+		}
+	}, func(item int, writer mr.Writer[types.SystemUser], cancel func(error)) {
+		userRoles, err := l.svcCtx.Model.SystemUserRole.FindByCondition(l.ctx, condition.Condition{
+			Field:    "user_id",
+			Operator: condition.Equal,
+			Value:    records[item].Id,
+		})
+		if err != nil {
+			cancel(err)
+			return
+		}
+		var roleIds []int
+		for _, userRole := range userRoles {
+			roleIds = append(roleIds, int(userRole.RoleId))
+		}
+		if len(roleIds) == 0 {
+			return
+		}
+
+		roles, err := l.svcCtx.Model.SystemRole.FindByCondition(l.ctx, condition.Condition{
+			Field:    "id",
+			Operator: condition.In,
+			Value:    roleIds,
+		})
+		if err != nil {
+			cancel(err)
+			return
+		}
+		var roleCodes []string
+		for _, role := range roles {
+			roleCodes = append(roleCodes, role.Code)
+		}
+		records[item].UserRoles = roleCodes
+	}, func(pipe <-chan types.SystemUser, cancel func(error)) {})
 
 	resp = &types.ListResponse{
 		Records: records,

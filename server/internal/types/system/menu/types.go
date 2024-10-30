@@ -12,9 +12,6 @@ var (
 type GetAllPagesRequest struct {
 }
 
-type GetAllPagesResponse struct {
-}
-
 type ListRequest struct {
 }
 
@@ -25,4 +22,8 @@ type TreeRequest struct {
 }
 
 type TreeResponse struct {
+	Id       uint64         `json:"id"`
+	Label    string         `json:"label"`
+	PId      uint64         `json:"pId"`
+	Children []TreeResponse `json:"children"`
 }

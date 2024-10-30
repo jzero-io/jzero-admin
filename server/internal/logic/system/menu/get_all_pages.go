@@ -23,8 +23,6 @@ func NewGetAllPages(ctx context.Context, svcCtx *svc.ServiceContext) *GetAllPage
 	}
 }
 
-func (l *GetAllPages) GetAllPages(req *types.GetAllPagesRequest) (resp *types.GetAllPagesResponse, err error) {
-	// todo: add your logic here and delete this line
-
-	return
+func (l *GetAllPages) GetAllPages(req *types.GetAllPagesRequest) (resp []string, err error) {
+	return []string{"home", "403", "404", "405", "manage_user", "manage_role", "manage_menu", "manage_user-detail"}, err
 }

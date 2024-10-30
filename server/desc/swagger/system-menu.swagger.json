@@ -21,12 +21,20 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/GetAllPagesResponse"
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/string"
+              }
             }
           }
         },
         "tags": [
           "system/menu"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -43,6 +51,11 @@
         },
         "tags": [
           "system/menu"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -53,12 +66,20 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/TreeResponse"
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TreeResponse"
+              }
             }
           }
         },
         "tags": [
           "system/menu"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     }
@@ -67,10 +88,6 @@
     "GetAllPagesRequest": {
       "type": "object",
       "title": "GetAllPagesRequest"
-    },
-    "GetAllPagesResponse": {
-      "type": "object",
-      "title": "GetAllPagesResponse"
     },
     "ListRequest": {
       "type": "object",
@@ -86,7 +103,32 @@
     },
     "TreeResponse": {
       "type": "object",
-      "title": "TreeResponse"
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "label": {
+          "type": "string"
+        },
+        "pId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TreeResponse"
+          }
+        }
+      },
+      "title": "TreeResponse",
+      "required": [
+        "id",
+        "label",
+        "pId",
+        "children"
+      ]
     }
   },
   "securityDefinitions": {

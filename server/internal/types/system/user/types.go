@@ -10,13 +10,14 @@ var (
 )
 
 type AddRequest struct {
-	Username   string `json:"username"`
-	UserGender string `json:"userGender,default=1"`
-	NickName   string `json:"nickName"`
-	UserPhone  string `json:"userPhone"`
-	UserEmail  string `json:"userEmail"`
-	Status     string `json:"status,default=1"`
-	Password   string `json:"password"`
+	Username   string   `json:"username"`
+	UserGender string   `json:"userGender,default=1"`
+	NickName   string   `json:"nickName"`
+	UserPhone  string   `json:"userPhone"`
+	UserEmail  string   `json:"userEmail"`
+	Status     string   `json:"status,default=1"`
+	Password   string   `json:"password"`
+	UserRoles  []string `json:"userRoles"`
 }
 
 type AddResponse struct {
@@ -30,13 +31,14 @@ type DeleteResponse struct {
 }
 
 type EditRequest struct {
-	Id         uint64 `json:"id"`
-	Username   string `json:"username"`
-	UserGender string `json:"userGender"`
-	NickName   string `json:"nickName"`
-	UserPhone  string `json:"userPhone"`
-	UserEmail  string `json:"userEmail"`
-	Status     string `json:"status"`
+	Id         uint64   `json:"id"`
+	Username   string   `json:"username"`
+	UserGender string   `json:"userGender"`
+	NickName   string   `json:"nickName"`
+	UserPhone  string   `json:"userPhone"`
+	UserEmail  string   `json:"userEmail"`
+	Status     string   `json:"status"`
+	UserRoles  []string `json:"userRoles"`
 }
 
 type EditResponse struct {

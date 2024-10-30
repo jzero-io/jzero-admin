@@ -30,6 +30,11 @@
         },
         "tags": [
           "route"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -46,6 +51,11 @@
         },
         "tags": [
           "route"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },
@@ -62,6 +72,11 @@
         },
         "tags": [
           "route"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     }

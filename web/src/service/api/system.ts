@@ -3,7 +3,7 @@ import { request } from '../request';
 /** get role list */
 export function GetRoleList(params?: Api.System.RoleSearchParams) {
   return request<Api.System.RoleList>({
-    url: '/systemManage/getRoleList',
+    url: '/system/getRoleList',
     method: 'get',
     params
   });
@@ -16,14 +16,23 @@ export function GetRoleList(params?: Api.System.RoleSearchParams) {
  */
 export function GetAllRoles() {
   return request<Api.System.AllRole[]>({
-    url: '/systemManage/getAllRoles',
+    url: '/system/getAllRoles',
     method: 'get'
+  });
+}
+
+/** add role */
+export function AddRole(req: Api.System.AddRoleRequest) {
+  return request<Api.System.AddRoleResponse>({
+    url: '/system/addRole',
+    method: 'post',
+    data: req
   });
 }
 
 /** add user */
 export function AddUser(req: Api.System.AddUserRequest) {
-  return request<Api.System.AddUserRequest>({
+  return request<Api.System.AddUserResponse>({
     url: '/system/addUser',
     method: 'post',
     data: req

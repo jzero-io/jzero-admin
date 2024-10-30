@@ -18,7 +18,9 @@ func Register(server *rest.Server) {
 	server.Use(func(next http.HandlerFunc) http.HandlerFunc {
 		return func(writer http.ResponseWriter, request *http.Request) {
 			// 是否 mock 公网环境
-			time.Sleep(time.Second * time.Duration(config.C.DelaySecond))
+			if config.C.DelaySecond > 0 {
+				time.Sleep(time.Second * time.Duration(config.C.DelaySecond))
+			}
 			next(writer, request)
 		}
 	})
