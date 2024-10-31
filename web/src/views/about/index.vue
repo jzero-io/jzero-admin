@@ -12,7 +12,6 @@ interface PkgJson {
   name: string;
   version: string;
   dependencies: PkgVersionInfo[];
-  devDependencies: PkgVersionInfo[];
 }
 
 interface PkgVersionInfo {
@@ -20,7 +19,18 @@ interface PkgVersionInfo {
   version: string;
 }
 
-const { name, version, dependencies, devDependencies } = pkg;
+const { name, version, dependencies } = {
+  name: 'jzero-admin',
+  version: 'v0.0.1',
+  dependencies: {
+    jzero: 'v0.26.0',
+    'soybean-admin': 'v1.3.7+fork',
+    'go-zero': 'v1.7.2',
+    goctl: 'v1.7.2',
+    vue: 'v3.5.11',
+    'naive-ui': '2.40.1'
+  }
+};
 
 function transformVersionData(tuple: [string, string]): PkgVersionInfo {
   const [$name, $version] = tuple;
@@ -33,8 +43,7 @@ function transformVersionData(tuple: [string, string]): PkgVersionInfo {
 const pkgJson: PkgJson = {
   name,
   version,
-  dependencies: Object.entries(dependencies).map(item => transformVersionData(item)),
-  devDependencies: Object.entries(devDependencies).map(item => transformVersionData(item))
+  dependencies: Object.entries(dependencies).map(item => transformVersionData(item))
 };
 
 const latestBuildTime = BUILD_TIME;
@@ -68,13 +77,6 @@ const latestBuildTime = BUILD_TIME;
     <NCard :title="$t('page.about.prdDep')" :bordered="false" size="small" segmented class="card-wrapper">
       <NDescriptions label-placement="left" bordered size="small" :column="column">
         <NDescriptionsItem v-for="item in pkgJson.dependencies" :key="item.name" :label="item.name">
-          {{ item.version }}
-        </NDescriptionsItem>
-      </NDescriptions>
-    </NCard>
-    <NCard :title="$t('page.about.devDep')" :bordered="false" size="small" segmented class="card-wrapper">
-      <NDescriptions label-placement="left" bordered size="small" :column="column">
-        <NDescriptionsItem v-for="item in pkgJson.devDependencies" :key="item.name" :label="item.name">
           {{ item.version }}
         </NDescriptionsItem>
       </NDescriptions>
