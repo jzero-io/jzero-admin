@@ -48,6 +48,22 @@ type AddRequest {
 
 type AddResponse {}
 
+type EditRequest {
+	id       uint64 `json:"id"`
+	roleName string `json:"roleName"`
+	roleCode string `json:"roleCode"`
+	roleDesc string `json:"roleDesc"`
+	status   string `json:"status"`
+}
+
+type EditResponse {}
+
+type DeleteRequest {
+	ids []uint64 `json:"ids"`
+}
+
+type DeleteResponse {}
+
 @server (
 	group: system/role
 	jwt:   Jwt
@@ -61,5 +77,11 @@ service server {
 
 	@handler Add
 	post /system/addRole (AddRequest) returns (AddResponse)
+
+	@handler Edit
+	post /system/editRole (EditRequest) returns (EditResponse)
+
+	@handler Delete
+	post /system/deleteRole (DeleteRequest) returns (DeleteResponse)
 }
 

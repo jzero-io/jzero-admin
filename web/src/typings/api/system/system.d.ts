@@ -27,6 +27,20 @@ declare namespace Api {
       status: string | null;
     };
 
+    type EditRoleRequest = {
+      id: number | undefined;
+      /** role name */
+      roleName: string;
+      /** role code */
+      roleCode: string;
+      /** role description */
+      roleDesc: string;
+      status: string | null;
+    };
+
+    // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+    type EditRoleResponse = {};
+
     // eslint-disable-next-line @typescript-eslint/no-empty-object-type
     type AddRoleResponse = {};
 

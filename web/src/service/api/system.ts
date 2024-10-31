@@ -30,6 +30,26 @@ export function AddRole(req: Api.System.AddRoleRequest) {
   });
 }
 
+/** edit role */
+export function EditRole(req: Api.System.EditRoleRequest) {
+  return request<Api.System.EditRoleResponse>({
+    url: '/system/editRole',
+    method: 'post',
+    data: req
+  });
+}
+
+/* delete role */
+export function DeleteRole(req: number[]) {
+  return request<Api.Common.Empty>({
+    url: '/system/deleteRole',
+    method: 'post',
+    data: {
+      ids: req
+    }
+  });
+}
+
 /** add user */
 export function AddUser(req: Api.System.AddUserRequest) {
   return request<Api.System.AddUserResponse>({

@@ -4,7 +4,7 @@ import { useBoolean, useLoading } from '@sa/hooks';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import { $t } from '@/locales';
 import { enableStatusOptions } from '@/constants/business';
-import { AddRole } from '@/service/api';
+import { AddRole, EditRole } from '@/service/api';
 import MenuAuthModal from './menu-auth-modal.vue';
 import ButtonAuthModal from './button-auth-modal.vue';
 
@@ -78,7 +78,7 @@ function handleInitModel() {
   }
 }
 
-function closeDrawer() {
+function closeModal() {
   visible.value = false;
 }
 
@@ -97,13 +97,27 @@ async function handleSubmit() {
     if (!error) {
       window.$message?.success($t('common.addSuccess'));
       emit('submitted');
-      closeDrawer();
+      closeModal();
     }
     confirmEndLoading();
   } else if (props.operateType === 'edit') {
-    window.$message?.success($t('common.updateSuccess'));
-    emit('submitted');
-    closeDrawer();
+    await validate();
+    // request
+    const editRoleData: Api.System.EditRoleRequest = {
+      id: props.rowData?.id,
+      roleName: model.roleName,
+      roleCode: model.roleCode,
+      roleDesc: model.roleDesc,
+      status: model.status
+    };
+    confirmStartLoding();
+    const { error } = await EditRole(editRoleData);
+    if (!error) {
+      window.$message?.success($t('common.updateSuccess'));
+      emit('submitted');
+      closeModal();
+    }
+    confirmEndLoading();
   }
 }
 
@@ -116,8 +130,8 @@ watch(visible, () => {
 </script>
 
 <template>
-  <NDrawer v-model:show="visible" display-directive="show" :width="360">
-    <NDrawerContent :title="title" :native-scrollbar="false" closable>
+  <NModal v-model:show="visible" :title="title" preset="card" class="w-600px">
+    <NScrollbar class="h-328px pr-20px">
       <NForm ref="formRef" :model="model" :rules="rules">
         <NFormItem :label="$t('page.manage.role.roleName')" path="roleName">
           <NInput v-model:value="model.roleName" :placeholder="$t('page.manage.role.form.roleName')" />
@@ -140,14 +154,14 @@ watch(visible, () => {
         <NButton @click="openButtonAuthModal">{{ $t('page.manage.role.buttonAuth') }}</NButton>
         <ButtonAuthModal v-model:visible="buttonAuthVisible" :role-id="roleId" />
       </NSpace>
-      <template #footer>
-        <NSpace :size="16">
-          <NButton @click="closeDrawer">{{ $t('common.cancel') }}</NButton>
-          <NButton type="primary" :loading="confirmLoading" @click="handleSubmit">{{ $t('common.confirm') }}</NButton>
-        </NSpace>
-      </template>
-    </NDrawerContent>
-  </NDrawer>
+    </NScrollbar>
+    <template #footer>
+      <NSpace :size="16" justify="end">
+        <NButton @click="closeModal">{{ $t('common.cancel') }}</NButton>
+        <NButton type="primary" :loading="confirmLoading" @click="handleSubmit">{{ $t('common.confirm') }}</NButton>
+      </NSpace>
+    </template>
+  </NModal>
 </template>
 
 <style scoped></style>

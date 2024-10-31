@@ -19,6 +19,24 @@ type AddRequest struct {
 type AddResponse struct {
 }
 
+type DeleteRequest struct {
+	Ids []uint64 `json:"ids"`
+}
+
+type DeleteResponse struct {
+}
+
+type EditRequest struct {
+	Id       uint64 `json:"id"`
+	RoleName string `json:"roleName"`
+	RoleCode string `json:"roleCode"`
+	RoleDesc string `json:"roleDesc"`
+	Status   string `json:"status"`
+}
+
+type EditResponse struct {
+}
+
 type GetAllRequest struct {
 }
 

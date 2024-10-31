@@ -1,14 +1,18 @@
 <script setup lang="tsx">
+import { reactive } from 'vue';
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
-import { GetRoleList } from '@/service/api';
+import { DeleteRole, GetRoleList } from '@/service/api';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { $t } from '@/locales';
 import { enableStatusRecord } from '@/constants/business';
-import RoleOperateDrawer from './modules/role-operate-drawer.vue';
+import RoleOperateDrawer from './modules/role-operate-modal.vue';
 import RoleSearch from './modules/role-search.vue';
 
 const appStore = useAppStore();
+
+type LoadingStatus = Record<number, boolean>;
+const deleteLoadingStatus = reactive<LoadingStatus>({});
 
 const {
   columns,
@@ -94,7 +98,7 @@ const {
             {{
               default: () => $t('common.confirmDelete'),
               trigger: () => (
-                <NButton type="error" ghost size="small">
+                <NButton loading={deleteLoadingStatus[row.id]} type="error" ghost size="small">
                   {$t('common.delete')}
                 </NButton>
               )
@@ -120,15 +124,29 @@ const {
 
 async function handleBatchDelete() {
   // request
-  console.log(checkedRowKeys.value);
+
+  const ids: number[] = checkedRowKeys.value.map(idStr => Number.parseInt(idStr, 10));
+
+  ids.forEach(id => {
+    deleteLoadingStatus[id] = true;
+  });
+  const { error } = await DeleteRole(ids);
+  if (error) return;
+
+  ids.forEach(id => {
+    deleteLoadingStatus[id] = false;
+  });
 
   onBatchDeleted();
 }
 
-function handleDelete(id: number) {
+async function handleDelete(id: number) {
   // request
-  console.log(id);
-
+  const ids: number[] = [id];
+  deleteLoadingStatus[id] = true;
+  const { error } = await DeleteRole(ids);
+  if (error) return;
+  deleteLoadingStatus[id] = false;
   onDeleted();
 }
 

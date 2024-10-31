@@ -153,7 +153,7 @@ watch(visible, () => {
 </script>
 
 <template>
-  <NModal v-model:show="visible" :title="title" preset="card" class="w-800px">
+  <NModal v-model:show="visible" :title="title" preset="card" class="w-600px">
     <NScrollbar class="h-408px pr-20px">
       <NForm ref="formRef" :model="model" :rules="rules" label-placement="left" :label-width="100">
         <NFormItem :label="$t('page.manage.user.username')" path="username">

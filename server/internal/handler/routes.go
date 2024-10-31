@@ -127,6 +127,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: systemrole.Add(serverCtx),
 				},
 				{
+					Method:  http.MethodPost,
+					Path:    "/system/deleteRole",
+					Handler: systemrole.Delete(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/system/editRole",
+					Handler: systemrole.Edit(serverCtx),
+				},
+				{
 					Method:  http.MethodGet,
 					Path:    "/system/getAllRoles",
 					Handler: systemrole.GetAll(serverCtx),
