@@ -122,16 +122,18 @@
           {
             "name": "current",
             "in": "query",
-            "required": true,
+            "required": false,
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "default": "1"
           },
           {
             "name": "size",
             "in": "query",
-            "required": true,
+            "required": false,
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "default": "10"
           },
           {
             "name": "username",
@@ -307,11 +309,13 @@
       "properties": {
         "current": {
           "type": "integer",
-          "format": "int32"
+          "format": "int32",
+          "default": "1"
         },
         "size": {
           "type": "integer",
-          "format": "int32"
+          "format": "int32",
+          "default": "10"
         },
         "username": {
           "type": "string"
@@ -366,18 +370,16 @@
       "properties": {
         "current": {
           "type": "integer",
-          "format": "int32"
+          "format": "int32",
+          "default": "1"
         },
         "size": {
           "type": "integer",
-          "format": "int32"
+          "format": "int32",
+          "default": "10"
         }
       },
-      "title": "PageRequest",
-      "required": [
-        "current",
-        "size"
-      ]
+      "title": "PageRequest"
     },
     "PageResponse": {
       "type": "object",

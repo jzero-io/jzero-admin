@@ -43,19 +43,26 @@ func (SystemUserRole) TableName() string {
 type SystemMenu struct {
 	BaseModel
 
-	Status     string `gorm:"column:status;type:varchar(1);not null"`
-	ParentId   int    `gorm:"column:parent_id;not null"`
-	MenuType   string `gorm:"column:menu_type;type:varchar(1);not null"`
-	MenuName   string `gorm:"column:menu_name;type:varchar(50);not null"`
-	HideInMenu bool   `gorm:"column:hide_in_menu;type:tinyint(1);not null"`
-	ActiveMenu string `gorm:"column:active_menu;type:varchar(50)"`
-	Order      int    `gorm:"column:order;not null"`
-	RouteName  string `gorm:"column:route_name;type:varchar(255);not null"`
-	RoutePath  string `gorm:"column:route_path;type:varchar(255);not null"`
-	Component  string `gorm:"column:component;type:varchar(255);not null"`
-	Icon       string `gorm:"column:icon;type:varchar(255);not null"`
-	IconType   string `gorm:"column:icon_type;type:varchar(1);not null"`
-	I18nKey    string `gorm:"column:i18n_key;type:varchar(255);not null"`
+	Status          string `gorm:"column:status;type:varchar(1);not null"`
+	ParentId        int    `gorm:"column:parent_id;not null"`
+	MenuType        string `gorm:"column:menu_type;type:varchar(1);not null"`
+	MenuName        string `gorm:"column:menu_name;type:varchar(50);not null"`
+	HideInMenu      bool   `gorm:"column:hide_in_menu;type:tinyint(1);not null"`
+	ActiveMenu      string `gorm:"column:active_menu;type:varchar(50)"`
+	Order           int    `gorm:"column:order;not null"`
+	RouteName       string `gorm:"column:route_name;type:varchar(255);not null"`
+	RoutePath       string `gorm:"column:route_path;type:varchar(255);not null"`
+	Component       string `gorm:"column:component;type:varchar(255);not null"`
+	Icon            string `gorm:"column:icon;type:varchar(255);not null"`
+	IconType        string `gorm:"column:icon_type;type:varchar(1);not null"`
+	I18nKey         string `gorm:"column:i18n_key;type:varchar(255);not null"`
+	KeepAlive       bool   `gorm:"column:keep_alive;not null"`
+	Href            string `gorm:"column:href"`
+	MutiTab         bool   `gorm:"column:multi_tab"`
+	FixedIndexInTab int    `gorm:"column:fixed_index_in_tab;not null"`
+	Query           string `gorm:"column:query"`
+	Buttons         string `gorm:"column:buttons"`
+	Constant        bool   `gorm:"column:constant;not null"`
 }
 
 func (SystemMenu) TableName() string {

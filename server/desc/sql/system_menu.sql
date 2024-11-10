@@ -17,5 +17,12 @@ CREATE TABLE `system_menu` (
   `icon` varchar(255) NOT NULL,
   `icon_type` varchar(1) NOT NULL,
   `i18n_key` varchar(255) NOT NULL,
+  `keep_alive` tinyint(1) NOT NULL,
+  `href` longtext,
+  `multi_tab` tinyint(1) DEFAULT NULL,
+  `fixed_index_in_tab` bigint NOT NULL,
+  `query` longtext,
+  `buttons` longtext,
+  `constant` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci

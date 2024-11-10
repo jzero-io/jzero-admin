@@ -60,8 +60,8 @@ type ListResponse struct {
 }
 
 type PageRequest struct {
-	Current int `form:"current"`
-	Size    int `form:"size"`
+	Current int `form:"current,default=1,optional"`
+	Size    int `form:"size,default=10,optional"`
 }
 
 type PageResponse struct {

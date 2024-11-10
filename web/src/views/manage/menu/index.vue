@@ -1,9 +1,9 @@
 <script setup lang="tsx">
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
 import type { Ref } from 'vue';
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { useBoolean } from '@sa/hooks';
-import { GetAllPages, GetMenuList } from '@/service/api';
+import { DeleteMenu, GetAllPages, GetMenuList } from '@/service/api';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { $t } from '@/locales';
@@ -13,6 +13,9 @@ import SvgIcon from '@/components/custom/svg-icon.vue';
 import MenuOperateModal, { type OperateType } from './modules/menu-operate-modal.vue';
 
 const appStore = useAppStore();
+
+type LoadingStatus = Record<number, boolean>;
+const deleteLoadingStatus = reactive<LoadingStatus>({});
 
 const { bool: visible, setTrue: openModal } = useBoolean();
 
@@ -158,7 +161,7 @@ const { columns, columnChecks, data, loading, pagination, getData, getDataByPage
             {{
               default: () => $t('common.confirmDelete'),
               trigger: () => (
-                <NButton type="error" ghost size="small">
+                <NButton loading={deleteLoadingStatus[row.id]} type="error" ghost size="small">
                   {$t('common.delete')}
                 </NButton>
               )
@@ -186,10 +189,15 @@ async function handleBatchDelete() {
   onBatchDeleted();
 }
 
-function handleDelete(id: number) {
+async function handleDelete(id: number) {
   // request
-  console.log(id);
-
+  const ids: number[] = [id];
+  deleteLoadingStatus[id] = true;
+  const { error } = await DeleteMenu(ids);
+  deleteLoadingStatus[id] = false;
+  if (error) {
+    return;
+  }
   onDeleted();
 }
 

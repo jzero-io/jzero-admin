@@ -100,18 +100,33 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		server.AddRoutes(
 			[]rest.Route{
 				{
+					Method:  http.MethodPost,
+					Path:    "/system/addMenu",
+					Handler: systemmenu.Add(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/system/deleteMenu",
+					Handler: systemmenu.Delete(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/system/editMenu",
+					Handler: systemmenu.Edit(serverCtx),
+				},
+				{
 					Method:  http.MethodGet,
-					Path:    "/systemManage/getAllPages",
+					Path:    "/system/getAllPages",
 					Handler: systemmenu.GetAllPages(serverCtx),
 				},
 				{
 					Method:  http.MethodGet,
-					Path:    "/systemManage/getMenuList/v2",
+					Path:    "/system/getMenuList/v2",
 					Handler: systemmenu.List(serverCtx),
 				},
 				{
 					Method:  http.MethodGet,
-					Path:    "/systemManage/getMenuTree",
+					Path:    "/system/getMenuTree",
 					Handler: systemmenu.Tree(serverCtx),
 				},
 			},

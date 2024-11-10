@@ -87,10 +87,28 @@ export function GetUserList(params?: Api.System.UserSearchParams) {
   });
 }
 
+export function AddMenu(req: Api.System.AddMenuRequest) {
+  return request<Api.Common.Empty>({
+    url: '/system/addMenu',
+    method: 'post',
+    data: req
+  });
+}
+
+export function DeleteMenu(req: number[]) {
+  return request<Api.Common.Empty>({
+    url: '/system/deleteMenu',
+    method: 'post',
+    data: {
+      ids: req
+    }
+  });
+}
+
 /** get menu list */
 export function GetMenuList() {
   return request<Api.System.MenuList>({
-    url: '/systemManage/getMenuList/v2',
+    url: '/system/getMenuList/v2',
     method: 'get'
   });
 }
@@ -98,7 +116,7 @@ export function GetMenuList() {
 /** get all pages */
 export function GetAllPages() {
   return request<string[]>({
-    url: '/systemManage/getAllPages',
+    url: '/system/getAllPages',
     method: 'get'
   });
 }
@@ -106,7 +124,7 @@ export function GetAllPages() {
 /** get menu tree */
 export function GetMenuTree() {
   return request<Api.System.MenuTree[]>({
-    url: '/systemManage/getMenuTree',
+    url: '/system/getMenuTree',
     method: 'get'
   });
 }

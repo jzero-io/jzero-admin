@@ -4,9 +4,71 @@ info (
 	go_package: "system/menu"
 )
 
-type ListRequest {}
+import (
+	"../common/request.api"
+	"../common/response.api"
+)
 
-type ListResponse {}
+type AddRequest {
+	activeMenu      string   `json:"activeMenu,optional"`
+	menuType        string   `json:"menuType"`
+	menuName        string   `json:"menuName"`
+	routeName       string   `json:"routeName"`
+	routePath       string   `json:"routePath"`
+	component       string   `json:"component"`
+	icon            string   `json:"icon"`
+	iconType        string   `json:"iconType"`
+	parentId        uint64   `json:"parentId"`
+	status          string   `json:"status"`
+	keepAlive       bool     `json:"keepAlive"`
+	constant        bool     `json:"constant"`
+	order           uint64   `json:"order"`
+	hideInMenu      bool     `json:"hideInMenu"`
+	href            string   `json:"href,optional"`
+	mutiTab         bool     `json:"mutiTab"`
+	fixedIndexInTab bool     `json:"fixedIndexInTab,optional"`
+	query           []Query  `json:"query"`
+	buttons         []Button `json:"buttons"`
+	i18nKey         string   `json:"i18nKey"`
+}
+
+type AddResponse {}
+
+type Button {
+	code string `json:"code"`
+	desc string `json:"desc"`
+}
+
+type Query {
+	key   string `json:"key"`
+	value string `json:"value"`
+}
+
+type ListRequest {
+	PageRequest
+}
+
+type SystemMenu {
+	id        uint64       `json:"id"`
+	parentId  uint64       `json:"parentId"`
+	menuType  string       `json:"menuType"`
+	menuName  string       `json:"menuName"`
+	routeName string       `json:"routeName"`
+	routePath string       `json:"routePath"`
+	component string       `json:"component"`
+	icon      string       `json:"icon"`
+	iconType  string       `json:"iconType"`
+	buttons   []Button     `json:"buttons"`
+	order     uint64       `json:"order"`
+	i18nKey   string       `json:"i18nKey"`
+	status    string       `json:"status"`
+	children  []SystemMenu `json:"children"`
+}
+
+type ListResponse {
+	PageResponse
+	records []SystemMenu `json:"records"`
+}
 
 type TreeRequest {}
 
@@ -14,10 +76,23 @@ type TreeResponse {
 	id       uint64         `json:"id"`
 	label    string         `json:"label"`
 	pId      uint64         `json:"pId"`
+	order    uint64         `json:"-"`
 	children []TreeResponse `json:"children"`
 }
 
 type GetAllPagesRequest {}
+
+type DeleteRequest {
+	ids []uint64 `json:"ids"`
+}
+
+type DeleteResponse {}
+
+type EditRequest {
+	id uint64 `json:"id"`
+}
+
+type EditResponse {}
 
 @server (
 	group: system/menu
@@ -25,12 +100,21 @@ type GetAllPagesRequest {}
 )
 service server {
 	@handler List
-	get /systemManage/getMenuList/v2 (ListRequest) returns (ListResponse)
+	get /system/getMenuList/v2 (ListRequest) returns (ListResponse)
 
 	@handler Tree
-	get /systemManage/getMenuTree (TreeRequest) returns ([]TreeResponse)
+	get /system/getMenuTree (TreeRequest) returns ([]TreeResponse)
 
 	@handler GetAllPages
-	get /systemManage/getAllPages (GetAllPagesRequest) returns ([]string)
+	get /system/getAllPages (GetAllPagesRequest) returns ([]string)
+
+	@handler Add
+	post /system/addMenu (AddRequest) returns (AddResponse)
+
+	@handler Delete
+	post /system/deleteMenu (DeleteRequest) returns (DeleteResponse)
+
+	@handler Edit
+	post /system/editMenu (EditRequest) returns (EditResponse)
 }
 

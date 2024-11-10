@@ -213,5 +213,28 @@ declare namespace Api {
       pId: number;
       children?: MenuTree[];
     };
+
+    type AddMenuRequest = {
+      menuType: MenuType;
+      menuName: string;
+      routeName: string;
+      routePath: string;
+      component?: string;
+      i18nKey?: App.I18n.I18nKey | null;
+      icon: string;
+      iconType: IconType;
+      parentId: number;
+      status: string | null;
+      keepAlive?: boolean | null;
+      constant?: boolean | null;
+      order?: number | null;
+      href?: string | null;
+      hideInMenu?: boolean | null;
+      activeMenu?: import('@elegant-router/types').RouteKey | null;
+      mutiTab?: boolean | null;
+      fixedIndexInTab?: number | null;
+      query?: { key: string; value: string }[] | null;
+      buttons?: MenuButton[] | null;
+    };
   }
 }
