@@ -95,6 +95,14 @@ export function AddMenu(req: Api.System.AddMenuRequest) {
   });
 }
 
+export function EditMenu(req: Api.System.EditMenuRequest) {
+  return request<Api.Common.Empty>({
+    url: '/system/editMenu',
+    method: 'post',
+    data: req
+  });
+}
+
 export function DeleteMenu(req: number[]) {
   return request<Api.Common.Empty>({
     url: '/system/deleteMenu',

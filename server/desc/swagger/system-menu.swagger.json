@@ -340,11 +340,101 @@
         "id": {
           "type": "integer",
           "format": "int64"
+        },
+        "activeMenu": {
+          "type": "string"
+        },
+        "menuType": {
+          "type": "string"
+        },
+        "menuName": {
+          "type": "string"
+        },
+        "routeName": {
+          "type": "string"
+        },
+        "routePath": {
+          "type": "string"
+        },
+        "component": {
+          "type": "string"
+        },
+        "icon": {
+          "type": "string"
+        },
+        "iconType": {
+          "type": "string"
+        },
+        "parentId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "status": {
+          "type": "string"
+        },
+        "keepAlive": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "constant": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "order": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "hideInMenu": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "href": {
+          "type": "string"
+        },
+        "mutiTab": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "fixedIndexInTab": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "query": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Query"
+          }
+        },
+        "buttons": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Button"
+          }
+        },
+        "i18nKey": {
+          "type": "string"
         }
       },
       "title": "EditRequest",
       "required": [
-        "id"
+        "id",
+        "menuType",
+        "menuName",
+        "routeName",
+        "routePath",
+        "component",
+        "icon",
+        "iconType",
+        "parentId",
+        "status",
+        "keepAlive",
+        "constant",
+        "order",
+        "hideInMenu",
+        "mutiTab",
+        "query",
+        "buttons",
+        "i18nKey"
       ]
     },
     "EditResponse": {

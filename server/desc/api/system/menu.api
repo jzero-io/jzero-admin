@@ -89,7 +89,27 @@ type DeleteRequest {
 type DeleteResponse {}
 
 type EditRequest {
-	id uint64 `json:"id"`
+	id              uint64   `json:"id"`
+	activeMenu      string   `json:"activeMenu,optional"`
+	menuType        string   `json:"menuType"`
+	menuName        string   `json:"menuName"`
+	routeName       string   `json:"routeName"`
+	routePath       string   `json:"routePath"`
+	component       string   `json:"component"`
+	icon            string   `json:"icon"`
+	iconType        string   `json:"iconType"`
+	parentId        uint64   `json:"parentId"`
+	status          string   `json:"status"`
+	keepAlive       bool     `json:"keepAlive"`
+	constant        bool     `json:"constant"`
+	order           uint64   `json:"order"`
+	hideInMenu      bool     `json:"hideInMenu"`
+	href            string   `json:"href,optional"`
+	mutiTab         bool     `json:"mutiTab"`
+	fixedIndexInTab bool     `json:"fixedIndexInTab,optional"`
+	query           []Query  `json:"query"`
+	buttons         []Button `json:"buttons"`
+	i18nKey         string   `json:"i18nKey"`
 }
 
 type EditResponse {}

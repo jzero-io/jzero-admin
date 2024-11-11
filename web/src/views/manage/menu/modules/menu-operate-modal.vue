@@ -3,7 +3,7 @@ import { computed, reactive, ref, watch } from 'vue';
 import type { SelectOption } from 'naive-ui';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import { $t } from '@/locales';
-import { AddMenu, GetAllRoles } from '@/service/api';
+import { AddMenu, EditMenu, GetAllRoles } from '@/service/api';
 import { enableStatusOptions, menuIconTypeOptions, menuTypeOptions } from '@/constants/business';
 import SvgIcon from '@/components/custom/svg-icon.vue';
 import { getLocalIcons } from '@/utils/icon';
@@ -250,38 +250,73 @@ function getSubmitParams() {
 }
 
 async function handleSubmit() {
-  await validate();
+  if (props.operateType === 'add') {
+    await validate();
 
-  const params = getSubmitParams();
-  console.log(params);
+    const params = getSubmitParams();
 
-  const addMenuData: Api.System.AddMenuRequest = {
-    activeMenu: params.activeMenu,
-    menuType: params.menuType,
-    menuName: params.menuName,
-    routeName: params.routeName,
-    routePath: params.routePath,
-    component: params.component,
-    icon: params.icon,
-    iconType: params.iconType,
-    parentId: params.parentId,
-    status: params.status,
-    keepAlive: params.keepAlive,
-    constant: params.constant,
-    order: params.order,
-    hideInMenu: params.hideInMenu,
-    href: params.href,
-    mutiTab: params.multiTab,
-    fixedIndexInTab: params.fixedIndexInTab,
-    query: params.query,
-    buttons: params.buttons,
-    i18nKey: params.i18nKey
-  };
-  const { error } = await AddMenu(addMenuData);
-  if (!error) {
-    window.$message?.success($t('common.addSuccess'));
-    closeDrawer();
-    emit('submitted');
+    const addMenuData: Api.System.AddMenuRequest = {
+      activeMenu: params.activeMenu,
+      menuType: params.menuType,
+      menuName: params.menuName,
+      routeName: params.routeName,
+      routePath: params.routePath,
+      component: params.component,
+      icon: params.icon,
+      iconType: params.iconType,
+      parentId: params.parentId,
+      status: params.status,
+      keepAlive: params.keepAlive,
+      constant: params.constant,
+      order: params.order,
+      hideInMenu: params.hideInMenu,
+      href: params.href,
+      mutiTab: params.multiTab,
+      fixedIndexInTab: params.fixedIndexInTab,
+      query: params.query,
+      buttons: params.buttons,
+      i18nKey: params.i18nKey
+    };
+    const { error } = await AddMenu(addMenuData);
+    if (!error) {
+      window.$message?.success($t('common.addSuccess'));
+      closeDrawer();
+      emit('submitted');
+    }
+  } else if (props.operateType === 'edit') {
+    await validate();
+
+    const params = getSubmitParams();
+
+    const editMenuData: Api.System.EditMenuRequest = {
+      id: props.rowData?.id,
+      activeMenu: params.activeMenu,
+      menuType: params.menuType,
+      menuName: params.menuName,
+      routeName: params.routeName,
+      routePath: params.routePath,
+      component: params.component,
+      icon: params.icon,
+      iconType: params.iconType,
+      parentId: params.parentId,
+      status: params.status,
+      keepAlive: params.keepAlive,
+      constant: params.constant,
+      order: params.order,
+      hideInMenu: params.hideInMenu,
+      href: params.href,
+      mutiTab: params.multiTab,
+      fixedIndexInTab: params.fixedIndexInTab,
+      query: params.query,
+      buttons: params.buttons,
+      i18nKey: params.i18nKey
+    };
+    const { error } = await EditMenu(editMenuData);
+    if (!error) {
+      window.$message?.success($t('common.addSuccess'));
+      closeDrawer();
+      emit('submitted');
+    }
   }
 }
 

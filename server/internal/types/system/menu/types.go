@@ -48,7 +48,27 @@ type DeleteResponse struct {
 }
 
 type EditRequest struct {
-	Id uint64 `json:"id"`
+	Id              uint64   `json:"id"`
+	ActiveMenu      string   `json:"activeMenu,optional"`
+	MenuType        string   `json:"menuType"`
+	MenuName        string   `json:"menuName"`
+	RouteName       string   `json:"routeName"`
+	RoutePath       string   `json:"routePath"`
+	Component       string   `json:"component"`
+	Icon            string   `json:"icon"`
+	IconType        string   `json:"iconType"`
+	ParentId        uint64   `json:"parentId"`
+	Status          string   `json:"status"`
+	KeepAlive       bool     `json:"keepAlive"`
+	Constant        bool     `json:"constant"`
+	Order           uint64   `json:"order"`
+	HideInMenu      bool     `json:"hideInMenu"`
+	Href            string   `json:"href,optional"`
+	MutiTab         bool     `json:"mutiTab"`
+	FixedIndexInTab bool     `json:"fixedIndexInTab,optional"`
+	Query           []Query  `json:"query"`
+	Buttons         []Button `json:"buttons"`
+	I18nKey         string   `json:"i18nKey"`
 }
 
 type EditResponse struct {
