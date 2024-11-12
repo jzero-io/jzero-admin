@@ -161,6 +161,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Path:    "/system/getRoleList",
 					Handler: systemrole.List(serverCtx),
 				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/system/getRoleMenus",
+					Handler: systemrole.GetMenus(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/system/setRoleMenus",
+					Handler: systemrole.SetMenus(serverCtx),
+				},
 			},
 			rest.WithJwt(serverCtx.Config.Jwt.AccessSecret),
 		)

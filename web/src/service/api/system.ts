@@ -32,8 +32,24 @@ export function AddRole(req: Api.System.AddRoleRequest) {
 
 /** edit role */
 export function EditRole(req: Api.System.EditRoleRequest) {
-  return request<Api.System.EditRoleResponse>({
+  return request<Api.Common.Empty>({
     url: '/system/editRole',
+    method: 'post',
+    data: req
+  });
+}
+
+export function GetRoleMenus(params: Api.System.GetRoleMenusRequest) {
+  return request<number[]>({
+    url: '/system/getRoleMenus',
+    method: 'get',
+    params
+  });
+}
+
+export function SetRoleMenus(req: Api.System.SetRoleMenusRequest) {
+  return request<Api.Common.Empty>({
+    url: '/system/setRoleMenus',
     method: 'post',
     data: req
   });

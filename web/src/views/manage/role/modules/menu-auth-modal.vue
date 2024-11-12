@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, shallowRef, watch } from 'vue';
 import { $t } from '@/locales';
-import { GetAllPages, GetMenuTree } from '@/service/api';
+import { GetAllPages, GetMenuTree, GetRoleMenus, SetRoleMenus } from '@/service/api';
 
 defineOptions({
   name: 'MenuAuthModal'
@@ -69,26 +69,35 @@ async function getTree() {
 
 const checks = shallowRef<number[]>([]);
 
-async function getChecks() {
-  console.log(props.roleId);
-  // request
-  checks.value = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21];
+async function getMenus() {
+  const getRoleMenusRequest: Api.System.GetRoleMenusRequest = {
+    roleId: props.roleId
+  };
+  const { error, data } = await GetRoleMenus(getRoleMenusRequest);
+  if (!error) {
+    checks.value = data;
+    getTree();
+  }
 }
 
-function handleSubmit() {
-  console.log(checks.value, props.roleId);
+async function handleSubmit() {
   // request
-
-  window.$message?.success?.($t('common.modifySuccess'));
-
-  closeModal();
+  const setRoleMenusRequest: Api.System.SetRoleMenusRequest = {
+    roleId: props.roleId,
+    menuIds: checks.value
+  };
+  const { error } = await SetRoleMenus(setRoleMenusRequest);
+  if (!error) {
+    window.$message?.success?.($t('common.modifySuccess'));
+    closeModal();
+  }
 }
 
 function init() {
   getHome();
   getPages();
   getTree();
-  getChecks();
+  getMenus();
 }
 
 watch(visible, val => {

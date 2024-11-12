@@ -46,6 +46,14 @@ type GetAllResponse struct {
 	RoleCode string `json:"roleCode"`
 }
 
+type GetMenusRequest struct {
+	RoleId uint64 `form:"roleId"`
+}
+
+type GetMenusResponse struct {
+	MenuIds []uint64 `json:"menuIds"`
+}
+
 type ListRequest struct {
 	PageRequest
 	RoleName string `form:"roleName,optional"`
@@ -67,6 +75,14 @@ type PageResponse struct {
 	Current int   `json:"current"`
 	Size    int   `json:"size"`
 	Total   int64 `json:"total"`
+}
+
+type SetMenusRequest struct {
+	RoleId  uint64   `json:"roleId"`
+	MenuIds []uint64 `json:"menuIds"`
+}
+
+type SetMenusResponse struct {
 }
 
 type SystemRole struct {

@@ -64,6 +64,21 @@ type DeleteRequest {
 
 type DeleteResponse {}
 
+type SetMenusRequest {
+	roleId  uint64   `json:"roleId"`
+	menuIds []uint64 `json:"menuIds"`
+}
+
+type SetMenusResponse {}
+
+type GetMenusRequest {
+	roleId uint64 `form:"roleId"`
+}
+
+type GetMenusResponse {
+	menuIds []uint64 `json:"menuIds"`
+}
+
 @server (
 	group: system/role
 	jwt:   Jwt
@@ -83,5 +98,11 @@ service server {
 
 	@handler Delete
 	post /system/deleteRole (DeleteRequest) returns (DeleteResponse)
+
+	@handler SetMenus
+	post /system/setRoleMenus (SetMenusRequest) returns (SetMenusResponse)
+
+	@handler GetMenus
+	get /system/getRoleMenus (GetMenusRequest) returns ([]uint64)
 }
 

@@ -190,6 +190,73 @@
           }
         ]
       }
+    },
+    "/system/getRoleMenus": {
+      "get": {
+        "operationId": "GetMenus",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/uint64"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "roleId",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "system/role"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/system/setRoleMenus": {
+      "post": {
+        "operationId": "SetMenus",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/SetMenusResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SetMenusRequest"
+            }
+          }
+        ],
+        "tags": [
+          "system/role"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
     }
   },
   "definitions": {
@@ -299,6 +366,35 @@
         "roleCode"
       ]
     },
+    "GetMenusRequest": {
+      "type": "object",
+      "properties": {
+        "roleId": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "GetMenusRequest",
+      "required": [
+        "roleId"
+      ]
+    },
+    "GetMenusResponse": {
+      "type": "object",
+      "properties": {
+        "menuIds": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "title": "GetMenusResponse",
+      "required": [
+        "menuIds"
+      ]
+    },
     "ListRequest": {
       "type": "object",
       "properties": {
@@ -389,6 +485,31 @@
         "size",
         "total"
       ]
+    },
+    "SetMenusRequest": {
+      "type": "object",
+      "properties": {
+        "roleId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "menuIds": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "title": "SetMenusRequest",
+      "required": [
+        "roleId",
+        "menuIds"
+      ]
+    },
+    "SetMenusResponse": {
+      "type": "object",
+      "title": "SetMenusResponse"
     },
     "SystemRole": {
       "type": "object",

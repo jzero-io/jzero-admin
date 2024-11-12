@@ -41,6 +41,15 @@ declare namespace Api {
     // eslint-disable-next-line @typescript-eslint/no-empty-object-type
     type EditRoleResponse = {};
 
+    type SetRoleMenusRequest = {
+      roleId: number;
+      menuIds: number[];
+    };
+
+    type GetRoleMenusRequest = {
+      roleId: number;
+    };
+
     // eslint-disable-next-line @typescript-eslint/no-empty-object-type
     type AddRoleResponse = {};
 
