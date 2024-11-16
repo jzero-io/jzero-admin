@@ -250,7 +250,7 @@ function getSubmitParams() {
 }
 
 async function handleSubmit() {
-  if (props.operateType === 'add') {
+  if (props.operateType === 'add' || props.operateType === 'addChild') {
     await validate();
 
     const params = getSubmitParams();
