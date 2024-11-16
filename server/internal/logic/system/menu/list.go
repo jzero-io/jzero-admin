@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"sort"
 
+	"github.com/spf13/cast"
 	"github.com/zeromicro/go-zero/core/logx"
 
 	"server/internal/model/system_menu"
@@ -62,19 +63,21 @@ func convert(list []*system_menu.SystemMenu) []*types.SystemMenu {
 		var menu types.SystemMenu
 		unmarshal(item.Buttons.String, &menu.Buttons)
 		menu = types.SystemMenu{
-			Id:        item.Id,
-			MenuName:  item.MenuName,
-			MenuType:  item.MenuType,
-			ParentId:  uint64(item.ParentId),
-			RoutePath: item.RoutePath,
-			RouteName: item.RouteName,
-			Icon:      item.Icon,
-			IconType:  item.IconType,
-			Component: item.Component,
-			I18nKey:   item.I18nKey,
-			Order:     uint64(item.Order),
-			Status:    item.Status,
-			Children:  nil,
+			Id:         item.Id,
+			ParentId:   uint64(item.ParentId),
+			MenuType:   item.MenuType,
+			MenuName:   item.MenuName,
+			RouteName:  item.RouteName,
+			RoutePath:  item.RoutePath,
+			Component:  item.Component,
+			Icon:       item.Icon,
+			IconType:   item.IconType,
+			Order:      uint64(item.Order),
+			I18nKey:    item.I18nKey,
+			Status:     item.Status,
+			Constant:   cast.ToBool(item.Constant),
+			HideInMenu: cast.ToBool(item.HideInMenu),
+			Children:   nil,
 		}
 		records = append(records, &menu)
 	}

@@ -103,20 +103,22 @@ type Query struct {
 }
 
 type SystemMenu struct {
-	Id        uint64       `json:"id"`
-	ParentId  uint64       `json:"parentId"`
-	MenuType  string       `json:"menuType"`
-	MenuName  string       `json:"menuName"`
-	RouteName string       `json:"routeName"`
-	RoutePath string       `json:"routePath"`
-	Component string       `json:"component"`
-	Icon      string       `json:"icon"`
-	IconType  string       `json:"iconType"`
-	Buttons   []Button     `json:"buttons"`
-	Order     uint64       `json:"order"`
-	I18nKey   string       `json:"i18nKey"`
-	Status    string       `json:"status"`
-	Children  []SystemMenu `json:"children"`
+	Id         uint64       `json:"id"`
+	ParentId   uint64       `json:"parentId"`
+	MenuType   string       `json:"menuType"`
+	MenuName   string       `json:"menuName"`
+	RouteName  string       `json:"routeName"`
+	RoutePath  string       `json:"routePath"`
+	Component  string       `json:"component"`
+	Icon       string       `json:"icon"`
+	IconType   string       `json:"iconType"`
+	Buttons    []Button     `json:"buttons"`
+	Order      uint64       `json:"order"`
+	I18nKey    string       `json:"i18nKey"`
+	Status     string       `json:"status"`
+	Constant   bool         `json:"constant"`
+	HideInMenu bool         `json:"hideInMenu"`
+	Children   []SystemMenu `json:"children"`
 }
 
 type TreeRequest struct {

@@ -49,20 +49,22 @@ type ListRequest {
 }
 
 type SystemMenu {
-	id        uint64       `json:"id"`
-	parentId  uint64       `json:"parentId"`
-	menuType  string       `json:"menuType"`
-	menuName  string       `json:"menuName"`
-	routeName string       `json:"routeName"`
-	routePath string       `json:"routePath"`
-	component string       `json:"component"`
-	icon      string       `json:"icon"`
-	iconType  string       `json:"iconType"`
-	buttons   []Button     `json:"buttons"`
-	order     uint64       `json:"order"`
-	i18nKey   string       `json:"i18nKey"`
-	status    string       `json:"status"`
-	children  []SystemMenu `json:"children"`
+	id         uint64       `json:"id"`
+	parentId   uint64       `json:"parentId"`
+	menuType   string       `json:"menuType"`
+	menuName   string       `json:"menuName"`
+	routeName  string       `json:"routeName"`
+	routePath  string       `json:"routePath"`
+	component  string       `json:"component"`
+	icon       string       `json:"icon"`
+	iconType   string       `json:"iconType"`
+	buttons    []Button     `json:"buttons"`
+	order      uint64       `json:"order"`
+	i18nKey    string       `json:"i18nKey"`
+	status     string       `json:"status"`
+	constant   bool         `json:"constant"`
+	hideInMenu bool         `json:"hideInMenu"`
+	children   []SystemMenu `json:"children"`
 }
 
 type ListResponse {

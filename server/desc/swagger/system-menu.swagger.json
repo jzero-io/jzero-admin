@@ -591,6 +591,14 @@
         "status": {
           "type": "string"
         },
+        "constant": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "hideInMenu": {
+          "type": "boolean",
+          "format": "boolean"
+        },
         "children": {
           "type": "array",
           "items": {
@@ -613,6 +621,8 @@
         "order",
         "i18nKey",
         "status",
+        "constant",
+        "hideInMenu",
         "children"
       ]
     },
