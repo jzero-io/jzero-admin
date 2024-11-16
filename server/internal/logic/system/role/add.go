@@ -32,7 +32,7 @@ func (l *Add) Add(req *types.AddRequest) (resp *types.AddResponse, err error) {
 	if err != nil {
 		return nil, err
 	}
-	_, err = l.svcCtx.Model.SystemRole.Insert(l.ctx, &system_role.SystemRole{
+	_, err = l.svcCtx.Model.SystemRole.Insert(l.ctx, nil, &system_role.SystemRole{
 		Code:       req.RoleCode,
 		Name:       req.RoleName,
 		Desc:       req.RoleDesc,

@@ -29,7 +29,7 @@ func NewAdd(ctx context.Context, svcCtx *svc.ServiceContext) *Add {
 }
 
 func (l *Add) Add(req *types.AddRequest) (resp *types.AddResponse, err error) {
-	_, err = l.svcCtx.Model.SystemMenu.Insert(l.ctx, &system_menu.SystemMenu{
+	_, err = l.svcCtx.Model.SystemMenu.Insert(l.ctx, nil, &system_menu.SystemMenu{
 		CreateTime:      time.Now(),
 		UpdateTime:      time.Now(),
 		Status:          req.Status,

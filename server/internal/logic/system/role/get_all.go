@@ -24,7 +24,7 @@ func NewGetAll(ctx context.Context, svcCtx *svc.ServiceContext) *GetAll {
 }
 
 func (l *GetAll) GetAll(req *types.GetAllRequest) (resp []types.GetAllResponse, err error) {
-	roles, err := l.svcCtx.Model.SystemRole.FindByCondition(l.ctx)
+	roles, err := l.svcCtx.Model.SystemRole.FindByCondition(l.ctx, nil)
 	if err != nil {
 		return nil, err
 	}

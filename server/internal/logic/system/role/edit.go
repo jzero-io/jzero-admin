@@ -24,7 +24,7 @@ func NewEdit(ctx context.Context, svcCtx *svc.ServiceContext) *Edit {
 }
 
 func (l *Edit) Edit(req *types.EditRequest) (resp *types.EditResponse, err error) {
-	role, err := l.svcCtx.Model.SystemRole.FindOne(l.ctx, req.Id)
+	role, err := l.svcCtx.Model.SystemRole.FindOne(l.ctx, nil, req.Id)
 	if err != nil {
 		return nil, err
 	}
@@ -32,6 +32,6 @@ func (l *Edit) Edit(req *types.EditRequest) (resp *types.EditResponse, err error
 	role.Name = req.RoleName
 	role.Desc = req.RoleDesc
 	role.Status = req.Status
-	err = l.svcCtx.Model.SystemRole.Update(l.ctx, role)
+	err = l.svcCtx.Model.SystemRole.Update(l.ctx, nil, role)
 	return
 }

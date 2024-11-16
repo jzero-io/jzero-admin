@@ -27,7 +27,7 @@ func NewTree(ctx context.Context, svcCtx *svc.ServiceContext) *Tree {
 func (l *Tree) Tree(req *types.TreeRequest) (resp []types.TreeResponse, err error) {
 	resp = []types.TreeResponse{}
 
-	list, err := l.svcCtx.Model.SystemMenu.FindByCondition(l.ctx)
+	list, err := l.svcCtx.Model.SystemMenu.FindByCondition(l.ctx, nil)
 	if err != nil {
 		return nil, err
 	}

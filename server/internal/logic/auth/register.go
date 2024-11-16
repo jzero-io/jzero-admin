@@ -41,12 +41,12 @@ func (l *Register) Register(req *types.RegisterRequest) (resp *types.RegisterRes
 		return nil, errors.New("验证码错误")
 	}
 
-	_, err = l.svcCtx.Model.SystemUser.FindOneByUsername(l.ctx, req.Username)
+	_, err = l.svcCtx.Model.SystemUser.FindOneByUsername(l.ctx, nil, req.Username)
 	if err == nil {
 		return nil, errors.New("用户名已存在")
 	}
 
-	_, err = l.svcCtx.Model.SystemUser.Insert(l.ctx, &system_user.SystemUser{
+	_, err = l.svcCtx.Model.SystemUser.Insert(l.ctx, nil, &system_user.SystemUser{
 		Username:   req.Username,
 		Password:   req.Password,
 		CreateTime: time.Now(),

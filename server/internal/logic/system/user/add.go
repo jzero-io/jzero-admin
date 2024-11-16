@@ -29,7 +29,7 @@ func NewAdd(ctx context.Context, svcCtx *svc.ServiceContext) *Add {
 }
 
 func (l *Add) Add(req *types.AddRequest) (resp *types.AddResponse, err error) {
-	if _, err = l.svcCtx.Model.SystemUser.Insert(l.ctx, &system_user.SystemUser{
+	if _, err = l.svcCtx.Model.SystemUser.Insert(l.ctx, nil, &system_user.SystemUser{
 		CreateTime: time.Now(),
 		UpdateTime: time.Now(),
 		Username:   req.Username,
@@ -42,14 +42,14 @@ func (l *Add) Add(req *types.AddRequest) (resp *types.AddResponse, err error) {
 	}); err != nil {
 		return nil, err
 	}
-	user, err := l.svcCtx.Model.SystemUser.FindOneByUsername(l.ctx, req.Username)
+	user, err := l.svcCtx.Model.SystemUser.FindOneByUsername(l.ctx, nil, req.Username)
 	if err != nil {
 		return nil, err
 	}
 
 	var bulk []*system_user_role.SystemUserRole
 	var roleIds []uint64
-	roles, err := l.svcCtx.Model.SystemRole.FindByCondition(l.ctx, condition.Condition{
+	roles, err := l.svcCtx.Model.SystemRole.FindByCondition(l.ctx, nil, condition.Condition{
 		Field:    "code",
 		Operator: condition.In,
 		Value:    req.UserRoles,
@@ -71,7 +71,7 @@ func (l *Add) Add(req *types.AddRequest) (resp *types.AddResponse, err error) {
 		})
 	}
 
-	err = l.svcCtx.Model.SystemUserRole.BulkInsert(l.ctx, bulk)
+	err = l.svcCtx.Model.SystemUserRole.BulkInsert(l.ctx, nil, bulk)
 
 	return
 }

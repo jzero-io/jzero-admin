@@ -25,7 +25,7 @@ func NewGetMenus(ctx context.Context, svcCtx *svc.ServiceContext) *GetMenus {
 }
 
 func (l *GetMenus) GetMenus(req *types.GetMenusRequest) (resp []uint64, err error) {
-	menus, err := l.svcCtx.Model.SystemRoleMenu.FindByCondition(l.ctx, condition.Condition{
+	menus, err := l.svcCtx.Model.SystemRoleMenu.FindByCondition(l.ctx, nil, condition.Condition{
 		Field:    "role_id",
 		Operator: condition.Equal,
 		Value:    req.RoleId,

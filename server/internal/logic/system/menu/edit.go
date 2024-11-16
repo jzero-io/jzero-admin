@@ -26,7 +26,7 @@ func NewEdit(ctx context.Context, svcCtx *svc.ServiceContext) *Edit {
 }
 
 func (l *Edit) Edit(req *types.EditRequest) (resp *types.EditResponse, err error) {
-	one, err := l.svcCtx.Model.SystemMenu.FindOne(l.ctx, req.Id)
+	one, err := l.svcCtx.Model.SystemMenu.FindOne(l.ctx, nil, req.Id)
 	if err != nil {
 		return nil, err
 	}
@@ -52,6 +52,6 @@ func (l *Edit) Edit(req *types.EditRequest) (resp *types.EditResponse, err error
 	one.Buttons = null.StringFrom(marshal(req.Buttons)).NullString
 	one.Constant = cast.ToInt64(req.Constant)
 
-	err = l.svcCtx.Model.SystemMenu.Update(l.ctx, one)
+	err = l.svcCtx.Model.SystemMenu.Update(l.ctx, nil, one)
 	return
 }

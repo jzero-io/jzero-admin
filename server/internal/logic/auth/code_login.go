@@ -41,7 +41,7 @@ func (l *CodeLogin) CodeLogin(req *types.CodeLoginRequest) (resp *types.LoginRes
 		return nil, errors.New("验证码错误")
 	}
 
-	user, err := l.svcCtx.Model.SystemUser.FindOneByCondition(l.ctx, condition.Condition{
+	user, err := l.svcCtx.Model.SystemUser.FindOneByCondition(l.ctx, nil, condition.Condition{
 		Field:    "email",
 		Operator: condition.Equal,
 		Value:    req.Email,

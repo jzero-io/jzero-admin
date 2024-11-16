@@ -28,7 +28,7 @@ func NewList(ctx context.Context, svcCtx *svc.ServiceContext) *List {
 }
 
 func (l *List) List(req *types.ListRequest) (resp *types.ListResponse, err error) {
-	users, total, err := l.svcCtx.Model.SystemUser.PageByCondition(l.ctx, condition.Condition{
+	users, total, err := l.svcCtx.Model.SystemUser.PageByCondition(l.ctx, nil, condition.Condition{
 		Operator: condition.Limit,
 		Value:    req.Size,
 	}, condition.Condition{
@@ -86,7 +86,7 @@ func (l *List) List(req *types.ListRequest) (resp *types.ListResponse, err error
 			source <- index
 		}
 	}, func(item int, writer mr.Writer[types.SystemUser], cancel func(error)) {
-		userRoles, err := l.svcCtx.Model.SystemUserRole.FindByCondition(l.ctx, condition.Condition{
+		userRoles, err := l.svcCtx.Model.SystemUserRole.FindByCondition(l.ctx, nil, condition.Condition{
 			Field:    "user_id",
 			Operator: condition.Equal,
 			Value:    records[item].Id,
@@ -103,7 +103,7 @@ func (l *List) List(req *types.ListRequest) (resp *types.ListResponse, err error
 			return
 		}
 
-		roles, err := l.svcCtx.Model.SystemRole.FindByCondition(l.ctx, condition.Condition{
+		roles, err := l.svcCtx.Model.SystemRole.FindByCondition(l.ctx, nil, condition.Condition{
 			Field:    "id",
 			Operator: condition.In,
 			Value:    roleIds,

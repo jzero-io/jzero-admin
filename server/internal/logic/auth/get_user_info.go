@@ -31,7 +31,7 @@ func (l *GetUserInfo) GetUserInfo(req *types.GetUserInfoRequest) (resp *types.Ge
 		return nil, err
 	}
 
-	user, err := l.svcCtx.Model.SystemUser.FindOne(l.ctx, uint64(info.Id))
+	user, err := l.svcCtx.Model.SystemUser.FindOne(l.ctx, nil, uint64(info.Id))
 	if err != nil {
 		return nil, err
 	}

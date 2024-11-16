@@ -26,7 +26,7 @@ func NewList(ctx context.Context, svcCtx *svc.ServiceContext) *List {
 }
 
 func (l *List) List(req *types.ListRequest) (resp *types.ListResponse, err error) {
-	roles, total, err := l.svcCtx.Model.SystemRole.PageByCondition(l.ctx, condition.Condition{
+	roles, total, err := l.svcCtx.Model.SystemRole.PageByCondition(l.ctx, nil, condition.Condition{
 		Operator: condition.Limit,
 		Value:    req.Size,
 	}, condition.Condition{

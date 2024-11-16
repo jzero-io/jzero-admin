@@ -29,7 +29,7 @@ func NewList(ctx context.Context, svcCtx *svc.ServiceContext) *List {
 func (l *List) List(req *types.ListRequest) (resp *types.ListResponse, err error) {
 	resp = &types.ListResponse{}
 
-	list, err := l.svcCtx.Model.SystemMenu.FindByCondition(l.ctx)
+	list, err := l.svcCtx.Model.SystemMenu.FindByCondition(l.ctx, nil)
 	if err != nil {
 		return nil, err
 	}

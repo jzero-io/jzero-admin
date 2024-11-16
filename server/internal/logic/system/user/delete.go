@@ -29,7 +29,7 @@ func (l *Delete) Delete(req *types.DeleteRequest) (resp *types.DeleteResponse, e
 		return nil, nil
 	}
 
-	err = l.svcCtx.Model.SystemUser.DeleteByCondition(l.ctx, condition.Condition{
+	err = l.svcCtx.Model.SystemUser.DeleteByCondition(l.ctx, nil, condition.Condition{
 		Field:    "id",
 		Operator: condition.In,
 		Value:    req.Ids,

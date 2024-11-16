@@ -41,7 +41,7 @@ func (l *SetMenus) SetMenus(req *types.SetMenusRequest) (resp *types.SetMenusRes
 		return
 	}
 
-	if err = l.svcCtx.Model.SystemRoleMenu.DeleteByCondition(l.ctx, condition.Condition{
+	if err = l.svcCtx.Model.SystemRoleMenu.DeleteByCondition(l.ctx, nil, condition.Condition{
 		Field:    "role_id",
 		Operator: condition.Equal,
 		Value:    req.RoleId,
@@ -49,6 +49,6 @@ func (l *SetMenus) SetMenus(req *types.SetMenusRequest) (resp *types.SetMenusRes
 		return
 	}
 
-	err = l.svcCtx.Model.SystemRoleMenu.BulkInsert(l.ctx, datas)
+	err = l.svcCtx.Model.SystemRoleMenu.BulkInsert(l.ctx, nil, datas)
 	return
 }

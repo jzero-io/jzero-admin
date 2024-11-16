@@ -28,7 +28,7 @@ func (l *Delete) Delete(req *types.DeleteRequest) (resp *types.DeleteResponse, e
 	if len(req.Ids) == 0 {
 		return nil, nil
 	}
-	err = l.svcCtx.Model.SystemMenu.DeleteByCondition(l.ctx, condition.Condition{
+	err = l.svcCtx.Model.SystemMenu.DeleteByCondition(l.ctx, nil, condition.Condition{
 		Field:    "id",
 		Operator: condition.In,
 		Value:    req.Ids,

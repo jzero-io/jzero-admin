@@ -30,7 +30,7 @@ func (l *Delete) Delete(req *types.DeleteRequest) (resp *types.DeleteResponse, e
 		return nil, nil
 	}
 
-	userRoles, err := l.svcCtx.Model.SystemUserRole.FindByCondition(l.ctx, condition.Condition{
+	userRoles, err := l.svcCtx.Model.SystemUserRole.FindByCondition(l.ctx, nil, condition.Condition{
 		Field:    "role_id",
 		Operator: condition.In,
 		Value:    req.Ids,
@@ -42,7 +42,7 @@ func (l *Delete) Delete(req *types.DeleteRequest) (resp *types.DeleteResponse, e
 		return nil, errors.New("角色被绑定, 请解除绑定后再进行删除")
 	}
 
-	err = l.svcCtx.Model.SystemRole.DeleteByCondition(l.ctx, condition.Condition{
+	err = l.svcCtx.Model.SystemRole.DeleteByCondition(l.ctx, nil, condition.Condition{
 		Field:    "id",
 		Operator: condition.In,
 		Value:    req.Ids,

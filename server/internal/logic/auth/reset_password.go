@@ -37,7 +37,7 @@ func (l *ResetPassword) ResetPassword(req *types.ResetPasswordRequest) (resp *ty
 		return nil, errors.New("验证码错误")
 	}
 
-	user, err := l.svcCtx.Model.SystemUser.FindOneByCondition(l.ctx, condition.Condition{
+	user, err := l.svcCtx.Model.SystemUser.FindOneByCondition(l.ctx, nil, condition.Condition{
 		Field:    "email",
 		Operator: condition.Equal,
 		Value:    req.Email,
@@ -47,7 +47,7 @@ func (l *ResetPassword) ResetPassword(req *types.ResetPasswordRequest) (resp *ty
 	}
 
 	user.Password = req.Password
-	err = l.svcCtx.Model.SystemUser.Update(l.ctx, user)
+	err = l.svcCtx.Model.SystemUser.Update(l.ctx, nil, user)
 
 	return
 }

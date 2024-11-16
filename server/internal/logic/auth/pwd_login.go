@@ -29,7 +29,7 @@ func NewPwdLogin(ctx context.Context, svcCtx *svc.ServiceContext) *PwdLogin {
 }
 
 func (l *PwdLogin) PwdLogin(req *types.PwdLoginRequest) (resp *types.LoginResponse, err error) {
-	user, err := l.svcCtx.Model.SystemUser.FindOneByUsername(l.ctx, req.Username)
+	user, err := l.svcCtx.Model.SystemUser.FindOneByUsername(l.ctx, nil, req.Username)
 	if err != nil {
 		return nil, errors.New("用户名或密码错误")
 	}
