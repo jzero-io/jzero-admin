@@ -11,6 +11,8 @@ import (
 	"server/internal/model/system_user"
 	"server/internal/model/system_user_role"
 
+	"github.com/eddieowens/opts"
+	"github.com/jzero-io/jzero-contrib/modelx"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )
 
@@ -24,14 +26,14 @@ type Model struct {
 	SystemUserRole system_user_role.SystemUserRoleModel
 }
 
-func NewModel(conn sqlx.SqlConn) Model {
+func NewModel(conn sqlx.SqlConn, op ...opts.Opt[modelx.ModelOpts]) Model {
 	return Model{
-		CasbinRule:     casbin_rule.NewCasbinRuleModel(conn),
-		SystemEmail:    system_email.NewSystemEmailModel(conn),
-		SystemMenu:     system_menu.NewSystemMenuModel(conn),
-		SystemRole:     system_role.NewSystemRoleModel(conn),
-		SystemRoleMenu: system_role_menu.NewSystemRoleMenuModel(conn),
-		SystemUser:     system_user.NewSystemUserModel(conn),
-		SystemUserRole: system_user_role.NewSystemUserRoleModel(conn),
+		CasbinRule:     casbin_rule.NewCasbinRuleModel(conn, op...),
+		SystemEmail:    system_email.NewSystemEmailModel(conn, op...),
+		SystemMenu:     system_menu.NewSystemMenuModel(conn, op...),
+		SystemRole:     system_role.NewSystemRoleModel(conn, op...),
+		SystemRoleMenu: system_role_menu.NewSystemRoleMenuModel(conn, op...),
+		SystemUser:     system_user.NewSystemUserModel(conn, op...),
+		SystemUserRole: system_user_role.NewSystemUserRoleModel(conn, op...),
 	}
 }

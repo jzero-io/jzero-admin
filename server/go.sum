@@ -35,6 +35,8 @@ github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f h1:lO4WD4F/r
 github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f/go.mod h1:cuUVRXasLTGF7a8hSLbxyZXjz+1KgoB3wDUb6vlszIc=
 github.com/dustin/go-humanize v1.0.1 h1:GzkhY7T5VNhEkwH0PVJgjz+fX1rhBrR7pRT3mDkpeCY=
 github.com/dustin/go-humanize v1.0.1/go.mod h1:Mu1zIs6XwVuF/gI1OepvI0qD18qycQx+mFykh5fBlto=
+github.com/eddieowens/opts v0.1.0 h1:h/4KUhh/XD3W+KmnF2o6w3nVj4zV8i0FA9w6aoRjB6s=
+github.com/eddieowens/opts v0.1.0/go.mod h1:sG2QH2EbNTFM0EOY/a7kPjBp8aX9urm1wUb6kp0Mfrc=
 github.com/fatih/color v1.17.0 h1:GlRw1BRJxkpqUCBKzKOw098ed57fEsKeNjpTe3cSjK4=
 github.com/fatih/color v1.17.0/go.mod h1:YZ7TlrGPkiz6ku9fK3TLD/pl3CpsiFyu8N92HLgmosI=
 github.com/frankban/quicktest v1.14.6 h1:7Xjx+VpznH+oBnejlPUj8oUpdxnVs4f8XU8WnHkI4W8=
@@ -91,8 +93,8 @@ github.com/jinzhu/inflection v1.0.0 h1:K317FqzuhWc8YvSVlFMCCUb36O/S9MCKRDI7QkRKD
 github.com/jinzhu/inflection v1.0.0/go.mod h1:h+uFLlag+Qp1Va5pdKtLDYj+kHp5pxUVkryuEj+Srlc=
 github.com/jinzhu/now v1.1.5 h1:/o9tlHleP7gOFmsnYNz3RGnqzefHA47wQpKrrdTIwXQ=
 github.com/jinzhu/now v1.1.5/go.mod h1:d3SSVoowX0Lcu0IBviAWJpolVfI5UJVZZ7cO71lE/z8=
-github.com/jzero-io/jzero-contrib v0.7.2-0.20241028033226-0a9eddf0db47 h1:mGMvVYDfr/rg22szr77T/1cGkKhB2m7BlvqDloN2Yjk=
-github.com/jzero-io/jzero-contrib v0.7.2-0.20241028033226-0a9eddf0db47/go.mod h1:azXcQHpB41TEX6CuDEF/epbcY5VqUulSjpcvwusKr2U=
+github.com/jzero-io/jzero-contrib v0.9.1-0.20241118011810-903adeba588e h1:kNoJ6L/rA/w3/4gb2/SQwnf3ycEkC0jdIFUbcHDbv9c=
+github.com/jzero-io/jzero-contrib v0.9.1-0.20241118011810-903adeba588e/go.mod h1:yRSM1PfjafyGimCklIhokB9dC5bX0UMbddv4cqoFSUM=
 github.com/klauspost/compress v1.17.9 h1:6KIumPrER1LHsvBVuDa0r5xaG0Es51mhhB9BQB2qeMA=
 github.com/klauspost/compress v1.17.9/go.mod h1:Di0epgTjJY877eYKx5yC51cX2A2Vl2ibi7bDH9ttBbw=
 github.com/kr/pretty v0.3.1 h1:flRD4NNwYAUpkphVc1HcthR4KEIFJ65n8Mw5qdRn3LE=

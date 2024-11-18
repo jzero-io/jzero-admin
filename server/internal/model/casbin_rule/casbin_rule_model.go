@@ -1,6 +1,8 @@
 package casbin_rule
 
 import (
+	"github.com/eddieowens/opts"
+	"github.com/jzero-io/jzero-contrib/modelx"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )
 
@@ -11,7 +13,6 @@ type (
 	// and implement the added methods in customCasbinRuleModel.
 	CasbinRuleModel interface {
 		casbinRuleModel
-		WithSession(session sqlx.Session) CasbinRuleModel
 	}
 
 	customCasbinRuleModel struct {
@@ -20,12 +21,8 @@ type (
 )
 
 // NewCasbinRuleModel returns a model for the database table.
-func NewCasbinRuleModel(conn sqlx.SqlConn) CasbinRuleModel {
+func NewCasbinRuleModel(conn sqlx.SqlConn, op ...opts.Opt[modelx.ModelOpts]) CasbinRuleModel {
 	return &customCasbinRuleModel{
-		defaultCasbinRuleModel: newCasbinRuleModel(conn),
+		defaultCasbinRuleModel: newCasbinRuleModel(conn, op...),
 	}
-}
-
-func (m *customCasbinRuleModel) WithSession(session sqlx.Session) CasbinRuleModel {
-	return NewCasbinRuleModel(sqlx.NewSqlConnFromSession(session))
 }

@@ -1,6 +1,8 @@
 package config
 
 import (
+	"time"
+
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/rest"
 )
@@ -16,9 +18,10 @@ type Config struct {
 	Mysql        MysqlConf
 	Sqlite       SqliteConf
 
-	Jwt Jwt
-
 	CacheType string `json:",default=local"`
+	Redis     RedisConf
+
+	Jwt Jwt
 
 	// mock 公网环境
 	DelaySecond int `json:",default=0,env=DELAY_SECOND"`
@@ -48,6 +51,17 @@ type MysqlConf struct {
 	Port     int    `json:",default=3306"`
 	Username string `json:",default=root"`
 	Password string `json:",default=123456"`
+}
+
+type RedisConf struct {
+	Host     string `json:",env=NTLS_REDIS_HOST"`
+	Type     string `json:",default=node,options=node|cluster"`
+	Pass     string `json:",optional,env=NTLS_REDIS_PASS"`
+	Tls      bool   `json:",optional"`
+	NonBlock bool   `json:",default=true"`
+
+	// PingTimeout is the timeout for ping redis.
+	PingTimeout time.Duration `json:",default=1s"`
 }
 
 type Jwt struct {

@@ -19,5 +19,9 @@ mysql:
     password: "${MYSQL_PASSWORD}"
     database: "${MYSQL_DATABASE}"
 
+redis:
+    host: "localhost:6379"
+    type: "node"
+
 cache:
     type: "${CACHE_TYPE}"

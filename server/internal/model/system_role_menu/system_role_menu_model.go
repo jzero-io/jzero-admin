@@ -1,6 +1,8 @@
 package system_role_menu
 
 import (
+	"github.com/eddieowens/opts"
+	"github.com/jzero-io/jzero-contrib/modelx"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )
 
@@ -11,7 +13,6 @@ type (
 	// and implement the added methods in customSystemRoleMenuModel.
 	SystemRoleMenuModel interface {
 		systemRoleMenuModel
-		WithSession(session sqlx.Session) SystemRoleMenuModel
 	}
 
 	customSystemRoleMenuModel struct {
@@ -20,12 +21,8 @@ type (
 )
 
 // NewSystemRoleMenuModel returns a model for the database table.
-func NewSystemRoleMenuModel(conn sqlx.SqlConn) SystemRoleMenuModel {
+func NewSystemRoleMenuModel(conn sqlx.SqlConn, op ...opts.Opt[modelx.ModelOpts]) SystemRoleMenuModel {
 	return &customSystemRoleMenuModel{
-		defaultSystemRoleMenuModel: newSystemRoleMenuModel(conn),
+		defaultSystemRoleMenuModel: newSystemRoleMenuModel(conn, op...),
 	}
-}
-
-func (m *customSystemRoleMenuModel) WithSession(session sqlx.Session) SystemRoleMenuModel {
-	return NewSystemRoleMenuModel(sqlx.NewSqlConnFromSession(session))
 }

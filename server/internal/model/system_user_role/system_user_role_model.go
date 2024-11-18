@@ -1,6 +1,8 @@
 package system_user_role
 
 import (
+	"github.com/eddieowens/opts"
+	"github.com/jzero-io/jzero-contrib/modelx"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )
 
@@ -11,7 +13,6 @@ type (
 	// and implement the added methods in customSystemUserRoleModel.
 	SystemUserRoleModel interface {
 		systemUserRoleModel
-		WithSession(session sqlx.Session) SystemUserRoleModel
 	}
 
 	customSystemUserRoleModel struct {
@@ -20,12 +21,8 @@ type (
 )
 
 // NewSystemUserRoleModel returns a model for the database table.
-func NewSystemUserRoleModel(conn sqlx.SqlConn) SystemUserRoleModel {
+func NewSystemUserRoleModel(conn sqlx.SqlConn, op ...opts.Opt[modelx.ModelOpts]) SystemUserRoleModel {
 	return &customSystemUserRoleModel{
-		defaultSystemUserRoleModel: newSystemUserRoleModel(conn),
+		defaultSystemUserRoleModel: newSystemUserRoleModel(conn, op...),
 	}
-}
-
-func (m *customSystemUserRoleModel) WithSession(session sqlx.Session) SystemUserRoleModel {
-	return NewSystemUserRoleModel(sqlx.NewSqlConnFromSession(session))
 }

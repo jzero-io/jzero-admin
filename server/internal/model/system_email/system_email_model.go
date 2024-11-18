@@ -1,6 +1,8 @@
 package system_email
 
 import (
+	"github.com/eddieowens/opts"
+	"github.com/jzero-io/jzero-contrib/modelx"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )
 
@@ -11,7 +13,6 @@ type (
 	// and implement the added methods in customSystemEmailModel.
 	SystemEmailModel interface {
 		systemEmailModel
-		WithSession(session sqlx.Session) SystemEmailModel
 	}
 
 	customSystemEmailModel struct {
@@ -20,12 +21,8 @@ type (
 )
 
 // NewSystemEmailModel returns a model for the database table.
-func NewSystemEmailModel(conn sqlx.SqlConn) SystemEmailModel {
+func NewSystemEmailModel(conn sqlx.SqlConn, op ...opts.Opt[modelx.ModelOpts]) SystemEmailModel {
 	return &customSystemEmailModel{
-		defaultSystemEmailModel: newSystemEmailModel(conn),
+		defaultSystemEmailModel: newSystemEmailModel(conn, op...),
 	}
-}
-
-func (m *customSystemEmailModel) WithSession(session sqlx.Session) SystemEmailModel {
-	return NewSystemEmailModel(sqlx.NewSqlConnFromSession(session))
 }

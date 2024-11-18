@@ -1,6 +1,8 @@
 package system_menu
 
 import (
+	"github.com/eddieowens/opts"
+	"github.com/jzero-io/jzero-contrib/modelx"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )
 
@@ -11,7 +13,6 @@ type (
 	// and implement the added methods in customSystemMenuModel.
 	SystemMenuModel interface {
 		systemMenuModel
-		WithSession(session sqlx.Session) SystemMenuModel
 	}
 
 	customSystemMenuModel struct {
@@ -20,12 +21,8 @@ type (
 )
 
 // NewSystemMenuModel returns a model for the database table.
-func NewSystemMenuModel(conn sqlx.SqlConn) SystemMenuModel {
+func NewSystemMenuModel(conn sqlx.SqlConn, op ...opts.Opt[modelx.ModelOpts]) SystemMenuModel {
 	return &customSystemMenuModel{
-		defaultSystemMenuModel: newSystemMenuModel(conn),
+		defaultSystemMenuModel: newSystemMenuModel(conn, op...),
 	}
-}
-
-func (m *customSystemMenuModel) WithSession(session sqlx.Session) SystemMenuModel {
-	return NewSystemMenuModel(sqlx.NewSqlConnFromSession(session))
 }
