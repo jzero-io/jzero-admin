@@ -18,8 +18,8 @@ type Config struct {
 	Mysql        MysqlConf
 	Sqlite       SqliteConf
 
-	CacheType string `json:",default=local"`
-	Redis     RedisConf
+	CacheType string    `json:",default=local"`
+	Redis     RedisConf `json:",optional"`
 
 	Jwt Jwt
 
