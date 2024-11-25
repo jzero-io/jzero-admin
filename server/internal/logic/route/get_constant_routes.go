@@ -2,7 +2,10 @@ package route
 
 import (
 	"context"
+	"strings"
 
+	"github.com/jzero-io/jzero-contrib/condition"
+	"github.com/spf13/cast"
 	"github.com/zeromicro/go-zero/core/logx"
 
 	"server/internal/svc"
@@ -24,52 +27,26 @@ func NewGetConstantRoutes(ctx context.Context, svcCtx *svc.ServiceContext) *GetC
 }
 
 func (l *GetConstantRoutes) GetConstantRoutes(req *types.GetConstantRoutesRequest) (resp []types.GetConstantRoutesResponseItem, err error) {
-	resp = []types.GetConstantRoutesResponseItem{
-		{
-			Name:      "login",
-			Path:      "/login/:module(pwd-login|code-login|register|reset-pwd|bind-wechat)?",
-			Component: "layout.blank$view.login",
-			Props:     true,
+	menus, err := l.svcCtx.Model.SystemMenu.FindByCondition(l.ctx, nil, condition.NewChain().
+		Equal("constant", true).
+		Build()...)
+	if err != nil {
+		return
+	}
+	resp = make([]types.GetConstantRoutesResponseItem, 0)
+	for _, v := range menus {
+		resp = append(resp, types.GetConstantRoutesResponseItem{
+			Name:      v.RouteName,
+			Path:      v.RoutePath,
+			Component: v.Component,
+			Props:     strings.Contains(v.RoutePath, ":"),
 			Meta: types.RouteMeta{
-				Title:      "login",
-				I18nKey:    "route.login",
-				HideInMenu: true,
-				Constant:   true,
+				Title:      v.MenuName,
+				I18nKey:    v.I18nKey,
+				HideInMenu: cast.ToBool(v.HideInMenu),
+				Constant:   cast.ToBool(v.Constant),
 			},
-		},
-		{
-			Name:      "403",
-			Path:      "/403",
-			Component: "layout.blank$view.403",
-			Meta: types.RouteMeta{
-				Title:      "403",
-				I18nKey:    "route.403",
-				HideInMenu: true,
-				Constant:   true,
-			},
-		},
-		{
-			Name:      "404",
-			Path:      "/404",
-			Component: "layout.blank$view.404",
-			Meta: types.RouteMeta{
-				Title:      "404",
-				I18nKey:    "route.404",
-				HideInMenu: true,
-				Constant:   true,
-			},
-		},
-		{
-			Name:      "500",
-			Path:      "/500",
-			Component: "layout.blank$view.500",
-			Meta: types.RouteMeta{
-				Title:      "500",
-				I18nKey:    "route.500",
-				HideInMenu: true,
-				Constant:   true,
-			},
-		},
+		})
 	}
 	return
 }

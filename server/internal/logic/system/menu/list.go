@@ -77,6 +77,9 @@ func convert(list []*system_menu.SystemMenu) []*types.SystemMenu {
 			Status:     item.Status,
 			Constant:   cast.ToBool(item.Constant),
 			HideInMenu: cast.ToBool(item.HideInMenu),
+			MultiTab:   cast.ToBool(item.MultiTab),
+			KeepAlive:  cast.ToBool(item.KeepAlive),
+			ActiveMenu: item.ActiveMenu.String,
 			Children:   nil,
 		}
 		records = append(records, &menu)

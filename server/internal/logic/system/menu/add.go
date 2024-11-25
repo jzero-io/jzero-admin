@@ -47,7 +47,7 @@ func (l *Add) Add(req *types.AddRequest) (resp *types.AddResponse, err error) {
 		I18nKey:         req.I18nKey,
 		KeepAlive:       cast.ToInt64(req.KeepAlive),
 		Href:            null.StringFrom(req.Href).NullString,
-		MultiTab:        null.IntFrom(cast.ToInt64(req.MutiTab)).NullInt64,
+		MultiTab:        null.IntFrom(cast.ToInt64(req.MultiTab)).NullInt64,
 		FixedIndexInTab: cast.ToInt64(req.FixedIndexInTab),
 		Query:           null.StringFrom(marshal(req.Query)).NullString,
 		Buttons:         null.StringFrom(marshal(req.Buttons)).NullString,

@@ -25,7 +25,7 @@ type AddRequest struct {
 	Order           uint64   `json:"order"`
 	HideInMenu      bool     `json:"hideInMenu"`
 	Href            string   `json:"href,optional"`
-	MutiTab         bool     `json:"mutiTab"`
+	MultiTab        bool     `json:"multiTab"`
 	FixedIndexInTab bool     `json:"fixedIndexInTab,optional"`
 	Query           []Query  `json:"query"`
 	Buttons         []Button `json:"buttons"`
@@ -116,8 +116,11 @@ type SystemMenu struct {
 	Order      uint64       `json:"order"`
 	I18nKey    string       `json:"i18nKey"`
 	Status     string       `json:"status"`
+	KeepAlive  bool         `json:"keepAlive"`
 	Constant   bool         `json:"constant"`
 	HideInMenu bool         `json:"hideInMenu"`
+	MultiTab   bool         `json:"mutiTab"`
+	ActiveMenu string       `json:"activeMenu"`
 	Children   []SystemMenu `json:"children"`
 }
 

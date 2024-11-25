@@ -25,7 +25,7 @@ type AddRequest {
 	order           uint64   `json:"order"`
 	hideInMenu      bool     `json:"hideInMenu"`
 	href            string   `json:"href,optional"`
-	mutiTab         bool     `json:"mutiTab"`
+	multiTab        bool     `json:"multiTab"`
 	fixedIndexInTab bool     `json:"fixedIndexInTab,optional"`
 	query           []Query  `json:"query"`
 	buttons         []Button `json:"buttons"`
@@ -62,8 +62,11 @@ type SystemMenu {
 	order      uint64       `json:"order"`
 	i18nKey    string       `json:"i18nKey"`
 	status     string       `json:"status"`
+	keepAlive  bool         `json:"keepAlive"`
 	constant   bool         `json:"constant"`
 	hideInMenu bool         `json:"hideInMenu"`
+	multiTab   bool         `json:"mutiTab"`
+	activeMenu string       `json:"activeMenu"`
 	children   []SystemMenu `json:"children"`
 }
 

@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"time"
 
+	"github.com/jzero-io/jzero-contrib/condition"
 	"github.com/pkg/errors"
 	"github.com/zeromicro/go-zero/core/logx"
 
@@ -36,11 +37,22 @@ func (l *PwdLogin) PwdLogin(req *types.PwdLoginRequest) (resp *types.LoginRespon
 	if req.Password != user.Password {
 		return nil, errors.New("用户名或密码错误")
 	}
+	userRoles, err := l.svcCtx.Model.SystemUserRole.FindByCondition(l.ctx, nil, condition.NewChain().
+		Equal("user_id", user.Id).
+		Build()...)
+	if err != nil {
+		return nil, err
+	}
+	var roleIds []int64
+	for _, userRole := range userRoles {
+		roleIds = append(roleIds, userRole.RoleId)
+	}
 
 	j := jwt.NewJwt(l.svcCtx.Config.Jwt.AccessSecret)
 	marshal, err := json.Marshal(auth.Auth{
 		Id:       int(user.Id),
 		Username: user.Username,
+		RoleIds:  roleIds,
 	})
 	if err != nil {
 		return nil, err

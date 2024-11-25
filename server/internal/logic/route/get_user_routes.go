@@ -2,9 +2,15 @@ package route
 
 import (
 	"context"
+	"strings"
 
+	"github.com/jzero-io/jzero-contrib/condition"
+	"github.com/samber/lo"
+	"github.com/spf13/cast"
 	"github.com/zeromicro/go-zero/core/logx"
 
+	"server/internal/auth"
+	"server/internal/model/system_menu"
 	"server/internal/svc"
 	types "server/internal/types/route"
 )
@@ -24,102 +30,85 @@ func NewGetUserRoutes(ctx context.Context, svcCtx *svc.ServiceContext) *GetUserR
 }
 
 func (l *GetUserRoutes) GetUserRoutes(req *types.GetUserRoutesRequest) (resp *types.GetUserRoutesResponse, err error) {
-	resp = &types.GetUserRoutesResponse{}
-
-	list := []types.Route{
-		{
-			Name:      "home",
-			Path:      "/home",
-			Component: "layout.base$view.home",
-			Meta: types.RouteMeta{
-				Title:   "home",
-				I18nKey: "route.home",
-				Icon:    "mdi:monitor-dashboard",
-				Order:   1,
-			},
-		},
-		{
-			Name:      "about",
-			Path:      "/about",
-			Component: "layout.base$view.about",
-			Meta: types.RouteMeta{
-				Title:   "about",
-				I18nKey: "route.about",
-				Icon:    "fluent:book-information-24-regular",
-				Order:   10,
-			},
-		},
-		{
-			Name:      "manage",
-			Path:      "/manage",
-			Component: "layout.base",
-			Meta: types.RouteMeta{
-				I18nKey: "route.manage",
-				Icon:    "carbon:cloud-service-management",
-				Order:   9,
-				Title:   "manage",
-			},
-			Children: []types.Route{
-				{
-					Name:      "manage_menu",
-					Path:      "/manage/menu",
-					Component: "view.manage_menu",
-					Meta: types.RouteMeta{
-						I18nKey:   "route.manage_menu",
-						Icon:      "material-symbols:route",
-						Order:     3,
-						KeepAlive: true,
-						Title:     "manage_menu",
-					},
-				},
-				{
-					Name:      "manage_user",
-					Path:      "/manage/user",
-					Component: "view.manage_user",
-					Meta: types.RouteMeta{
-						I18nKey: "route.manage_user",
-						Icon:    "ic:round-manage-accounts",
-						Order:   1,
-						Title:   "manage_user",
-					},
-				},
-				{
-					Name:      "manage_user-detail",
-					Path:      "/manage/user-detail/:id",
-					Component: "view.manage_user-detail",
-					Meta: types.RouteMeta{
-						I18nKey:    "route.manage_user-detail",
-						Icon:       "ic:round-manage-accounts",
-						Title:      "manage_user-detail",
-						HideInMenu: true,
-						ActiveMenu: "manage_user",
-					},
-				},
-				{
-					Path:      "/manage/role",
-					Component: "view.manage_role",
-					Name:      "manage_role",
-					Meta: types.RouteMeta{
-						I18nKey: "route.manage_role",
-						Icon:    "carbon:user-role",
-						Order:   2,
-						Title:   "manage_role",
-					},
-				},
-			},
-		},
-		{
-			Name: "user-center",
-			Path: "/user-center",
-			Meta: types.RouteMeta{
-				Title:      "user-center",
-				I18nKey:    "route.user-center",
-				HideInMenu: true,
-			},
-			Component: "layout.base$view.user-center",
-		},
+	resp = &types.GetUserRoutesResponse{
+		Routes: []types.Route{},
 	}
+	info, err := auth.Info(l.ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	if info.RoleIds == nil {
+		return resp, nil
+	}
+
+	roleMenus, err := l.svcCtx.Model.SystemRoleMenu.FindByCondition(l.ctx, nil, condition.NewChain().
+		In("role_id", info.RoleIds).
+		Build()...)
+	if err != nil {
+		return nil, err
+	}
+
+	var menuIds []uint64
+	for _, roleMenu := range roleMenus {
+		menuIds = append(menuIds, uint64(roleMenu.MenuId))
+	}
+	uniqMenuIds := lo.Uniq(menuIds)
+
+	if len(uniqMenuIds) == 0 {
+		return resp, nil
+	}
+
+	menus, err := l.svcCtx.Model.SystemMenu.FindByCondition(l.ctx, nil, condition.NewChain().
+		In("id", uniqMenuIds).
+		Build()...)
+	if err != nil {
+		return nil, err
+	}
+	list := buildRouteTree(convert(menus), 0)
+
 	resp.Routes = list
 	resp.Home = "home"
 	return
+}
+
+func convert(list []*system_menu.SystemMenu) []*types.Route {
+	var records []*types.Route
+	for _, item := range list {
+		var route types.Route
+		route = types.Route{
+			Id:       int64(item.Id),
+			ParentId: item.ParentId,
+			Name:     item.RouteName,
+			Path:     item.RoutePath,
+			Meta: types.RouteMeta{
+				Title:      item.RouteName,
+				I18nKey:    item.I18nKey,
+				Icon:       item.Icon,
+				Order:      int(item.Order),
+				HideInMenu: cast.ToBool(item.HideInMenu),
+				ActiveMenu: item.ActiveMenu.String,
+				MultiTab:   cast.ToBool(item.MultiTab),
+				KeepAlive:  cast.ToBool(item.KeepAlive),
+				Constant:   cast.ToBool(item.Constant),
+			},
+			Component: item.Component,
+			Props:     strings.Contains(item.RoutePath, ":"),
+			Redirect:  "",
+		}
+		records = append(records, &route)
+	}
+	return records
+}
+
+func buildRouteTree(routes []*types.Route, parentId int64) []types.Route {
+	var result []types.Route
+	for _, route := range routes {
+		if route.ParentId == parentId {
+			subRoute := *route
+			subRoute.Children = buildRouteTree(routes, route.Id)
+			result = append(result, subRoute)
+		}
+	}
+	return result
 }

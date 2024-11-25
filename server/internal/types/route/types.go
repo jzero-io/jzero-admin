@@ -31,14 +31,15 @@ type GetUserRoutesResponse struct {
 type IsRouteExistRequest struct {
 }
 
-type IsRouteExistResponse struct {
-}
-
 type Route struct {
+	Id        int64     `json:"-"`
+	ParentId  int64     `json:"-"`
 	Name      string    `json:"name"`
 	Path      string    `json:"path"`
 	Meta      RouteMeta `json:"meta"`
 	Component string    `json:"component"`
+	Props     bool      `json:"props"`
+	Redirect  string    `json:"redirect"`
 	Children  []Route   `json:"children"`
 }
 
@@ -49,7 +50,7 @@ type RouteMeta struct {
 	Order      int    `json:"order"`
 	HideInMenu bool   `json:"hideInMenu"`
 	ActiveMenu string `json:"activeMenu"`
-	MutiTab    bool   `json:"mutiTab"`
+	MultiTab   bool   `json:"multiTab"`
 	KeepAlive  bool   `json:"keepAlive"`
 	Constant   bool   `json:"constant"`
 }

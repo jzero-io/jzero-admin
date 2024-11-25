@@ -81,9 +81,6 @@ service server {
 	@handler Register
 	post /auth/register (RegisterRequest) returns (RegisterResponse)
 
-	@handler RefreshToken
-	post /auth/refreshToken (RefreshTokenRequest) returns (RefreshTokenResponse)
-
 	@handler ResetPassword
 	post /auth/resetPassword (ResetPasswordRequest) returns (ResetPasswordResponse)
 }
@@ -95,6 +92,9 @@ service server {
 service server {
 	@handler GetUserInfo
 	get /auth/getUserInfo (GetUserInfoRequest) returns (GetUserInfoResponse)
+
+	@handler RefreshToken
+	post /auth/refreshToken (RefreshTokenRequest) returns (RefreshTokenResponse)
 
 	@handler Error
 	post /auth/error (ErrorRequest) returns (ErrorResponse)

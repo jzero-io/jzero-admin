@@ -249,7 +249,7 @@
         "href": {
           "type": "string"
         },
-        "mutiTab": {
+        "multiTab": {
           "type": "boolean",
           "format": "boolean"
         },
@@ -288,7 +288,7 @@
         "constant",
         "order",
         "hideInMenu",
-        "mutiTab",
+        "multiTab",
         "query",
         "buttons",
         "i18nKey"
@@ -591,6 +591,10 @@
         "status": {
           "type": "string"
         },
+        "keepAlive": {
+          "type": "boolean",
+          "format": "boolean"
+        },
         "constant": {
           "type": "boolean",
           "format": "boolean"
@@ -598,6 +602,13 @@
         "hideInMenu": {
           "type": "boolean",
           "format": "boolean"
+        },
+        "mutiTab": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "activeMenu": {
+          "type": "string"
         },
         "children": {
           "type": "array",
@@ -621,8 +632,11 @@
         "order",
         "i18nKey",
         "status",
+        "keepAlive",
         "constant",
         "hideInMenu",
+        "mutiTab",
+        "activeMenu",
         "children"
       ]
     },

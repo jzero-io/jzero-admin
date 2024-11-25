@@ -23,8 +23,6 @@ func NewIsRouteExist(ctx context.Context, svcCtx *svc.ServiceContext) *IsRouteEx
 	}
 }
 
-func (l *IsRouteExist) IsRouteExist(req *types.IsRouteExistRequest) (resp *types.IsRouteExistResponse, err error) {
-	// todo: add your logic here and delete this line
-
-	return
+func (l *IsRouteExist) IsRouteExist(req *types.IsRouteExistRequest) (resp bool, err error) {
+	return true, nil
 }

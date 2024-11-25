@@ -141,6 +141,11 @@
         ],
         "tags": [
           "auth"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     },

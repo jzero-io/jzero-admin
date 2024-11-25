@@ -5,10 +5,14 @@ info (
 )
 
 type Route {
+	id        int64     `json:"-"`
+	parentId  int64     `json:"-"`
 	name      string    `json:"name"`
 	path      string    `json:"path"`
 	meta      RouteMeta `json:"meta"`
 	component string    `json:"component"`
+	props     bool      `json:"props"`
+	redirect  string    `json:"redirect"`
 	children  []Route   `json:"children"`
 }
 
@@ -19,7 +23,7 @@ type RouteMeta {
 	order      int    `json:"order"`
 	hideInMenu bool   `json:"hideInMenu"`
 	activeMenu string `json:"activeMenu"`
-	mutiTab    bool   `json:"mutiTab"`
+	multiTab   bool   `json:"multiTab"`
 	keepAlive  bool   `json:"keepAlive"`
 	constant   bool   `json:"constant"`
 }
@@ -43,8 +47,6 @@ type GetUserRoutesResponse {
 
 type IsRouteExistRequest {}
 
-type IsRouteExistResponse {}
-
 @server (
 	group: route
 	jwt:   Jwt
@@ -57,6 +59,6 @@ service server {
 	get /route/getUserRoutes (GetUserRoutesRequest) returns (GetUserRoutesResponse)
 
 	@handler IsRouteExist
-	get /route/isRouteExist (IsRouteExistRequest) returns (IsRouteExistResponse)
+	get /route/isRouteExist (IsRouteExistRequest) returns (bool)
 }
 
