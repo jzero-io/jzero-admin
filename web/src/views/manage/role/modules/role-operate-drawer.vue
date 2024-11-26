@@ -16,7 +16,7 @@ interface Props {
   /** the type of operation */
   operateType: NaiveUI.TableOperateType;
   /** the edit row data */
-  rowData?: Api.System.Role | null;
+  rowData?: Api.Manage.Role | null;
 }
 
 const props = defineProps<Props>();
@@ -45,7 +45,7 @@ const title = computed(() => {
   return titles[props.operateType];
 });
 
-type Model = Pick<Api.System.Role, 'roleName' | 'roleCode' | 'roleDesc' | 'status'>;
+type Model = Pick<Api.Manage.Role, 'roleName' | 'roleCode' | 'roleDesc' | 'status'>;
 
 const model: Model = reactive(createDefaultModel());
 
@@ -78,7 +78,7 @@ function handleInitModel() {
   }
 }
 
-function closeModal() {
+function closeDrawer() {
   visible.value = false;
 }
 
@@ -86,7 +86,7 @@ async function handleSubmit() {
   if (props.operateType === 'add') {
     await validate();
     // request
-    const addRoleData: Api.System.AddRoleRequest = {
+    const addRoleData: Api.Manage.AddRoleRequest = {
       roleName: model.roleName,
       roleCode: model.roleCode,
       roleDesc: model.roleDesc,
@@ -97,13 +97,13 @@ async function handleSubmit() {
     if (!error) {
       window.$message?.success($t('common.addSuccess'));
       emit('submitted');
-      closeModal();
+      closeDrawer();
     }
     confirmEndLoading();
   } else if (props.operateType === 'edit') {
     await validate();
     // request
-    const editRoleData: Api.System.EditRoleRequest = {
+    const editRoleData: Api.Manage.EditRoleRequest = {
       id: props.rowData?.id,
       roleName: model.roleName,
       roleCode: model.roleCode,
@@ -115,7 +115,7 @@ async function handleSubmit() {
     if (!error) {
       window.$message?.success($t('common.updateSuccess'));
       emit('submitted');
-      closeModal();
+      closeDrawer();
     }
     confirmEndLoading();
   }
@@ -130,8 +130,8 @@ watch(visible, () => {
 </script>
 
 <template>
-  <NModal v-model:show="visible" :title="title" preset="card" class="w-600px">
-    <NScrollbar class="h-328px pr-20px">
+  <NDrawer v-model:show="visible" display-directive="show" :width="360">
+    <NDrawerContent :title="title" :native-scrollbar="false" closable>
       <NForm ref="formRef" :model="model" :rules="rules">
         <NFormItem :label="$t('page.manage.role.roleName')" path="roleName">
           <NInput v-model:value="model.roleName" :placeholder="$t('page.manage.role.form.roleName')" />
@@ -154,14 +154,14 @@ watch(visible, () => {
         <NButton @click="openButtonAuthModal">{{ $t('page.manage.role.buttonAuth') }}</NButton>
         <ButtonAuthModal v-model:visible="buttonAuthVisible" :role-id="roleId" />
       </NSpace>
-    </NScrollbar>
-    <template #footer>
-      <NSpace :size="16" justify="end">
-        <NButton @click="closeModal">{{ $t('common.cancel') }}</NButton>
-        <NButton type="primary" :loading="confirmLoading" @click="handleSubmit">{{ $t('common.confirm') }}</NButton>
-      </NSpace>
-    </template>
-  </NModal>
+      <template #footer>
+        <NSpace :size="16">
+          <NButton @click="closeDrawer">{{ $t('common.cancel') }}</NButton>
+          <NButton :loading="confirmLoading" type="primary" @click="handleSubmit">{{ $t('common.confirm') }}</NButton>
+        </NSpace>
+      </template>
+    </NDrawerContent>
+  </NDrawer>
 </template>
 
 <style scoped></style>

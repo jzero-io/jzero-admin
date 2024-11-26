@@ -57,7 +57,7 @@ const pageSelectOptions = computed(() => {
   return opts;
 });
 
-const tree = shallowRef<Api.System.MenuTree[]>([]);
+const tree = shallowRef<Api.Manage.MenuTree[]>([]);
 
 async function getTree() {
   const { error, data } = await GetMenuTree();
@@ -70,7 +70,7 @@ async function getTree() {
 const checks = shallowRef<number[]>([]);
 
 async function getMenus() {
-  const getRoleMenusRequest: Api.System.GetRoleMenusRequest = {
+  const getRoleMenusRequest: Api.Manage.GetRoleMenusRequest = {
     roleId: props.roleId
   };
   const { error, data } = await GetRoleMenus(getRoleMenusRequest);
@@ -82,7 +82,7 @@ async function getMenus() {
 
 async function handleSubmit() {
   // request
-  const setRoleMenusRequest: Api.System.SetRoleMenusRequest = {
+  const setRoleMenusRequest: Api.Manage.SetRoleMenusRequest = {
     roleId: props.roleId,
     menuIds: checks.value
   };

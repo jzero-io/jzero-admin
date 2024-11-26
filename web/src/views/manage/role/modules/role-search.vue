@@ -14,7 +14,7 @@ interface Emits {
 
 const emit = defineEmits<Emits>();
 
-const model = defineModel<Api.System.RoleSearchParams>('model', { required: true });
+const model = defineModel<Api.Manage.RoleSearchParams>('model', { required: true });
 
 function reset() {
   emit('reset');

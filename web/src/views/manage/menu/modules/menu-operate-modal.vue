@@ -25,7 +25,7 @@ interface Props {
   /** the type of operation */
   operateType: OperateType;
   /** the edit menu data or the parent menu data when adding a child menu */
-  rowData?: Api.System.Menu | null;
+  rowData?: Api.Manage.Menu | null;
   /** all pages */
   allPages: string[];
 }
@@ -55,7 +55,7 @@ const title = computed(() => {
 });
 
 type Model = Pick<
-  Api.System.Menu,
+  Api.Manage.Menu,
   | 'menuType'
   | 'menuName'
   | 'routeName'
@@ -75,8 +75,8 @@ type Model = Pick<
   | 'multiTab'
   | 'fixedIndexInTab'
 > & {
-  query: NonNullable<Api.System.Menu['query']>;
-  buttons: NonNullable<Api.System.Menu['buttons']>;
+  query: NonNullable<Api.Manage.Menu['query']>;
+  buttons: NonNullable<Api.Manage.Menu['buttons']>;
   layout: string;
   page: string;
   pathParam: string;
@@ -229,7 +229,7 @@ function handleUpdateI18nKeyByRouteName() {
 }
 
 function handleCreateButton() {
-  const buttonItem: Api.System.MenuButton = {
+  const buttonItem: Api.Manage.MenuButton = {
     code: '',
     desc: ''
   };
@@ -255,7 +255,7 @@ async function handleSubmit() {
 
     const params = getSubmitParams();
 
-    const addMenuData: Api.System.AddMenuRequest = {
+    const addMenuData: Api.Manage.AddMenuRequest = {
       activeMenu: params.activeMenu,
       menuType: params.menuType,
       menuName: params.menuName,
@@ -288,7 +288,7 @@ async function handleSubmit() {
 
     const params = getSubmitParams();
 
-    const editMenuData: Api.System.EditMenuRequest = {
+    const editMenuData: Api.Manage.EditMenuRequest = {
       id: props.rowData?.id,
       activeMenu: params.activeMenu,
       menuType: params.menuType,

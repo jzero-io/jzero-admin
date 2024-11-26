@@ -40,7 +40,7 @@ const { columns, columnChecks, data, loading, pagination, getData, getDataByPage
       align: 'center',
       width: 80,
       render: row => {
-        const tagMap: Record<Api.System.MenuType, NaiveUI.ThemeColor> = {
+        const tagMap: Record<Api.Manage.MenuType, NaiveUI.ThemeColor> = {
           1: 'default',
           2: 'primary'
         };
@@ -202,16 +202,16 @@ async function handleDelete(id: number) {
 }
 
 /** the edit menu data or the parent menu data when adding a child menu */
-const editingData: Ref<Api.System.Menu | null> = ref(null);
+const editingData: Ref<Api.Manage.Menu | null> = ref(null);
 
-function handleEdit(item: Api.System.Menu) {
+function handleEdit(item: Api.Manage.Menu) {
   operateType.value = 'edit';
   editingData.value = { ...item };
 
   openModal();
 }
 
-function handleAddChildMenu(item: Api.System.Menu) {
+function handleAddChildMenu(item: Api.Manage.Menu) {
   operateType.value = 'addChild';
 
   editingData.value = { ...item };

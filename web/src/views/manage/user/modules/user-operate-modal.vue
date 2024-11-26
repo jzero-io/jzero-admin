@@ -14,7 +14,7 @@ interface Props {
   /** the type of operation */
   operateType: NaiveUI.TableOperateType;
   /** the edit row data */
-  rowData?: Api.System.User | null;
+  rowData?: Api.Manage.User | null;
 }
 
 const props = defineProps<Props>();
@@ -42,7 +42,7 @@ const title = computed(() => {
 });
 
 type Model = Pick<
-  Api.System.AddUserRequest,
+  Api.Manage.AddUserRequest,
   'username' | 'userGender' | 'nickName' | 'userPhone' | 'userEmail' | 'userRoles' | 'status' | 'password'
 >;
 
@@ -101,7 +101,7 @@ async function handleSubmit() {
   if (props.operateType === 'add') {
     await validate();
     // request
-    const addUserData: Api.System.AddUserRequest = {
+    const addUserData: Api.Manage.AddUserRequest = {
       username: model.username,
       userGender: model.userGender,
       nickName: model.nickName,
@@ -122,7 +122,7 @@ async function handleSubmit() {
   } else if (props.operateType === 'edit') {
     await validate();
     // request
-    const editUserData: Api.System.EditUserRequest = {
+    const editUserData: Api.Manage.EditUserRequest = {
       id: props.rowData?.id,
       username: model.username,
       userGender: model.userGender,

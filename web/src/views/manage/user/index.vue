@@ -67,7 +67,7 @@ const {
           return null;
         }
 
-        const tagMap: Record<Api.System.UserGender, NaiveUI.ThemeColor> = {
+        const tagMap: Record<Api.Manage.UserGender, NaiveUI.ThemeColor> = {
           1: 'primary',
           2: 'error'
         };

@@ -1,9 +1,9 @@
 import { request } from '../request';
 
 /** get role list */
-export function GetRoleList(params?: Api.System.RoleSearchParams) {
-  return request<Api.System.RoleList>({
-    url: '/system/getRoleList',
+export function GetRoleList(params?: Api.Manage.RoleSearchParams) {
+  return request<Api.Manage.RoleList>({
+    url: '/manage/getRoleList',
     method: 'get',
     params
   });
@@ -15,41 +15,41 @@ export function GetRoleList(params?: Api.System.RoleSearchParams) {
  * these roles are all enabled
  */
 export function GetAllRoles() {
-  return request<Api.System.AllRole[]>({
-    url: '/system/getAllRoles',
+  return request<Api.Manage.AllRole[]>({
+    url: '/manage/getAllRoles',
     method: 'get'
   });
 }
 
 /** add role */
-export function AddRole(req: Api.System.AddRoleRequest) {
-  return request<Api.System.AddRoleResponse>({
-    url: '/system/addRole',
+export function AddRole(req: Api.Manage.AddRoleRequest) {
+  return request<Api.Manage.AddRoleResponse>({
+    url: '/manage/addRole',
     method: 'post',
     data: req
   });
 }
 
 /** edit role */
-export function EditRole(req: Api.System.EditRoleRequest) {
+export function EditRole(req: Api.Manage.EditRoleRequest) {
   return request<Api.Common.Empty>({
-    url: '/system/editRole',
+    url: '/manage/editRole',
     method: 'post',
     data: req
   });
 }
 
-export function GetRoleMenus(params: Api.System.GetRoleMenusRequest) {
+export function GetRoleMenus(params: Api.Manage.GetRoleMenusRequest) {
   return request<number[]>({
-    url: '/system/getRoleMenus',
+    url: '/manage/getRoleMenus',
     method: 'get',
     params
   });
 }
 
-export function SetRoleMenus(req: Api.System.SetRoleMenusRequest) {
+export function SetRoleMenus(req: Api.Manage.SetRoleMenusRequest) {
   return request<Api.Common.Empty>({
-    url: '/system/setRoleMenus',
+    url: '/manage/setRoleMenus',
     method: 'post',
     data: req
   });
@@ -58,7 +58,7 @@ export function SetRoleMenus(req: Api.System.SetRoleMenusRequest) {
 /* delete role */
 export function DeleteRole(req: number[]) {
   return request<Api.Common.Empty>({
-    url: '/system/deleteRole',
+    url: '/manage/deleteRole',
     method: 'post',
     data: {
       ids: req
@@ -67,18 +67,18 @@ export function DeleteRole(req: number[]) {
 }
 
 /** add user */
-export function AddUser(req: Api.System.AddUserRequest) {
-  return request<Api.System.AddUserResponse>({
-    url: '/system/addUser',
+export function AddUser(req: Api.Manage.AddUserRequest) {
+  return request<Api.Manage.AddUserResponse>({
+    url: '/manage/addUser',
     method: 'post',
     data: req
   });
 }
 
 /** edit user */
-export function EditUser(req: Api.System.EditUserRequest) {
-  return request<Api.System.EditUserResponse>({
-    url: '/system/editUser',
+export function EditUser(req: Api.Manage.EditUserRequest) {
+  return request<Api.Manage.EditUserResponse>({
+    url: '/manage/editUser',
     method: 'post',
     data: req
   });
@@ -86,7 +86,7 @@ export function EditUser(req: Api.System.EditUserRequest) {
 
 export function DeleteUser(req: number[]) {
   return request<Api.Common.Empty>({
-    url: '/system/deleteUser',
+    url: '/manage/deleteUser',
     method: 'post',
     data: {
       ids: req
@@ -95,25 +95,25 @@ export function DeleteUser(req: number[]) {
 }
 
 /** get user list */
-export function GetUserList(params?: Api.System.UserSearchParams) {
-  return request<Api.System.UserList>({
-    url: '/system/getUserList',
+export function GetUserList(params?: Api.Manage.UserSearchParams) {
+  return request<Api.Manage.UserList>({
+    url: '/manage/getUserList',
     method: 'get',
     params
   });
 }
 
-export function AddMenu(req: Api.System.AddMenuRequest) {
+export function AddMenu(req: Api.Manage.AddMenuRequest) {
   return request<Api.Common.Empty>({
-    url: '/system/addMenu',
+    url: '/manage/addMenu',
     method: 'post',
     data: req
   });
 }
 
-export function EditMenu(req: Api.System.EditMenuRequest) {
+export function EditMenu(req: Api.Manage.EditMenuRequest) {
   return request<Api.Common.Empty>({
-    url: '/system/editMenu',
+    url: '/manage/editMenu',
     method: 'post',
     data: req
   });
@@ -121,7 +121,7 @@ export function EditMenu(req: Api.System.EditMenuRequest) {
 
 export function DeleteMenu(req: number[]) {
   return request<Api.Common.Empty>({
-    url: '/system/deleteMenu',
+    url: '/manage/deleteMenu',
     method: 'post',
     data: {
       ids: req
@@ -131,8 +131,8 @@ export function DeleteMenu(req: number[]) {
 
 /** get menu list */
 export function GetMenuList() {
-  return request<Api.System.MenuList>({
-    url: '/system/getMenuList/v2',
+  return request<Api.Manage.MenuList>({
+    url: '/manage/getMenuList/v2',
     method: 'get'
   });
 }
@@ -140,15 +140,17 @@ export function GetMenuList() {
 /** get all pages */
 export function GetAllPages() {
   return request<string[]>({
-    url: '/system/getAllPages',
+    url: '/manage/getAllPages',
     method: 'get'
   });
 }
 
 /** get menu tree */
 export function GetMenuTree() {
-  return request<Api.System.MenuTree[]>({
-    url: '/system/getMenuTree',
+  return request<Api.Manage.MenuTree[]>({
+    url: '/manage/getMenuTree',
     method: 'get'
   });
 }
+
+export function GetAllButtons() {}
