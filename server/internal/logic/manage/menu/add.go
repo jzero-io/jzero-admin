@@ -57,9 +57,6 @@ func (l *Add) Add(req *types.AddRequest) (resp *types.AddResponse, err error) {
 		}); err != nil {
 			return err
 		}
-
-		var buttons []types.Button
-
 		return nil
 	})
 	return
