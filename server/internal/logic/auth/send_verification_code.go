@@ -37,7 +37,7 @@ func NewSendVerificationCode(ctx context.Context, svcCtx *svc.ServiceContext) *S
 
 func (l *SendVerificationCode) SendVerificationCode(req *types.SendVerificationCodeRequest) (resp *types.SendVerificationCodeResponse, err error) {
 	if req.VerificationType == "email" {
-		email, err := l.svcCtx.Model.SystemEmail.FindOneByCondition(l.ctx, nil)
+		email, err := l.svcCtx.Model.ManageEmail.FindOneByCondition(l.ctx, nil)
 		if err != nil {
 			return nil, SendVerificationError
 		}

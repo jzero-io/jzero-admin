@@ -10,7 +10,7 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 
 	"server/internal/auth"
-	"server/internal/model/system_menu"
+	"server/internal/model/manage_menu"
 	"server/internal/svc"
 	types "server/internal/types/route"
 )
@@ -42,7 +42,7 @@ func (l *GetUserRoutes) GetUserRoutes(req *types.GetUserRoutesRequest) (resp *ty
 		return resp, nil
 	}
 
-	roleMenus, err := l.svcCtx.Model.SystemRoleMenu.FindByCondition(l.ctx, nil, condition.NewChain().
+	roleMenus, err := l.svcCtx.Model.ManageRoleMenu.FindByCondition(l.ctx, nil, condition.NewChain().
 		In("role_id", info.RoleIds).
 		Build()...)
 	if err != nil {
@@ -59,7 +59,7 @@ func (l *GetUserRoutes) GetUserRoutes(req *types.GetUserRoutesRequest) (resp *ty
 		return resp, nil
 	}
 
-	menus, err := l.svcCtx.Model.SystemMenu.FindByCondition(l.ctx, nil, condition.NewChain().
+	menus, err := l.svcCtx.Model.ManageMenu.FindByCondition(l.ctx, nil, condition.NewChain().
 		In("id", uniqMenuIds).
 		Build()...)
 	if err != nil {
@@ -72,7 +72,7 @@ func (l *GetUserRoutes) GetUserRoutes(req *types.GetUserRoutesRequest) (resp *ty
 	return
 }
 
-func convert(list []*system_menu.SystemMenu) []*types.Route {
+func convert(list []*manage_menu.ManageMenu) []*types.Route {
 	var records []*types.Route
 	for _, item := range list {
 		var route types.Route

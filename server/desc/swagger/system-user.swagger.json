@@ -14,7 +14,7 @@
     "application/json"
   ],
   "paths": {
-    "/system/addUser": {
+    "/manage/addUser": {
       "post": {
         "operationId": "Add",
         "responses": {
@@ -45,7 +45,7 @@
         ]
       }
     },
-    "/system/deleteUser": {
+    "/manage/deleteUser": {
       "post": {
         "operationId": "Delete",
         "responses": {
@@ -76,7 +76,7 @@
         ]
       }
     },
-    "/system/editUser": {
+    "/manage/editUser": {
       "post": {
         "operationId": "Edit",
         "responses": {
@@ -107,7 +107,7 @@
         ]
       }
     },
-    "/system/getUserList": {
+    "/manage/getUserList": {
       "get": {
         "operationId": "List",
         "responses": {
@@ -356,13 +356,65 @@
         "records": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/SystemUser"
+            "$ref": "#/definitions/ManageUser"
           }
         }
       },
       "title": "ListResponse",
       "required": [
         "records"
+      ]
+    },
+    "ManageUser": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "username": {
+          "type": "string"
+        },
+        "userGender": {
+          "type": "string"
+        },
+        "nickName": {
+          "type": "string"
+        },
+        "userPhone": {
+          "type": "string"
+        },
+        "userEmail": {
+          "type": "string"
+        },
+        "userRoles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "status": {
+          "type": "string"
+        },
+        "createTime": {
+          "type": "string"
+        },
+        "updateTime": {
+          "type": "string"
+        }
+      },
+      "title": "ManageUser",
+      "required": [
+        "id",
+        "username",
+        "userGender",
+        "nickName",
+        "userPhone",
+        "userEmail",
+        "userRoles",
+        "status",
+        "createTime",
+        "updateTime"
       ]
     },
     "PageRequest": {
@@ -402,58 +454,6 @@
         "current",
         "size",
         "total"
-      ]
-    },
-    "SystemUser": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "username": {
-          "type": "string"
-        },
-        "userGender": {
-          "type": "string"
-        },
-        "nickName": {
-          "type": "string"
-        },
-        "userPhone": {
-          "type": "string"
-        },
-        "userEmail": {
-          "type": "string"
-        },
-        "userRoles": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "status": {
-          "type": "string"
-        },
-        "createTime": {
-          "type": "string"
-        },
-        "updateTime": {
-          "type": "string"
-        }
-      },
-      "title": "SystemUser",
-      "required": [
-        "id",
-        "username",
-        "userGender",
-        "nickName",
-        "userPhone",
-        "userEmail",
-        "userRoles",
-        "status",
-        "createTime",
-        "updateTime"
       ]
     }
   },

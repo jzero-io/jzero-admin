@@ -4,12 +4,12 @@ package model
 
 import (
 	"server/internal/model/casbin_rule"
-	"server/internal/model/system_email"
-	"server/internal/model/system_menu"
-	"server/internal/model/system_role"
-	"server/internal/model/system_role_menu"
-	"server/internal/model/system_user"
-	"server/internal/model/system_user_role"
+	"server/internal/model/manage_email"
+	"server/internal/model/manage_menu"
+	"server/internal/model/manage_role"
+	"server/internal/model/manage_role_menu"
+	"server/internal/model/manage_user"
+	"server/internal/model/manage_user_role"
 
 	"github.com/eddieowens/opts"
 	"github.com/jzero-io/jzero-contrib/modelx"
@@ -18,22 +18,22 @@ import (
 
 type Model struct {
 	CasbinRule     casbin_rule.CasbinRuleModel
-	SystemEmail    system_email.SystemEmailModel
-	SystemMenu     system_menu.SystemMenuModel
-	SystemRole     system_role.SystemRoleModel
-	SystemRoleMenu system_role_menu.SystemRoleMenuModel
-	SystemUser     system_user.SystemUserModel
-	SystemUserRole system_user_role.SystemUserRoleModel
+	ManageEmail    manage_email.ManageEmailModel
+	ManageMenu     manage_menu.ManageMenuModel
+	ManageRole     manage_role.ManageRoleModel
+	ManageRoleMenu manage_role_menu.ManageRoleMenuModel
+	ManageUser     manage_user.ManageUserModel
+	ManageUserRole manage_user_role.ManageUserRoleModel
 }
 
 func NewModel(conn sqlx.SqlConn, op ...opts.Opt[modelx.ModelOpts]) Model {
 	return Model{
 		CasbinRule:     casbin_rule.NewCasbinRuleModel(conn, op...),
-		SystemEmail:    system_email.NewSystemEmailModel(conn, op...),
-		SystemMenu:     system_menu.NewSystemMenuModel(conn, op...),
-		SystemRole:     system_role.NewSystemRoleModel(conn, op...),
-		SystemRoleMenu: system_role_menu.NewSystemRoleMenuModel(conn, op...),
-		SystemUser:     system_user.NewSystemUserModel(conn, op...),
-		SystemUserRole: system_user_role.NewSystemUserRoleModel(conn, op...),
+		ManageEmail:    manage_email.NewManageEmailModel(conn, op...),
+		ManageMenu:     manage_menu.NewManageMenuModel(conn, op...),
+		ManageRole:     manage_role.NewManageRoleModel(conn, op...),
+		ManageRoleMenu: manage_role_menu.NewManageRoleMenuModel(conn, op...),
+		ManageUser:     manage_user.NewManageUserModel(conn, op...),
+		ManageUserRole: manage_user_role.NewManageUserRoleModel(conn, op...),
 	}
 }

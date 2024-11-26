@@ -1,7 +1,7 @@
 syntax = "v1"
 
 info (
-	go_package: "system/user"
+	go_package: "manage/user"
 )
 
 import (
@@ -9,7 +9,7 @@ import (
 	"../common/response.api"
 )
 
-type SystemUser {
+type ManageUser {
 	id         uint64   `json:"id"`
 	username   string   `json:"username"`
 	userGender string   `json:"userGender"`
@@ -34,7 +34,7 @@ type ListRequest {
 
 type ListResponse {
 	PageResponse
-	records []SystemUser `json:"records"`
+	records []ManageUser `json:"records"`
 }
 
 type AddRequest {
@@ -70,20 +70,20 @@ type DeleteRequest {
 type DeleteResponse {}
 
 @server (
-	group: system/user
+	group: manage/user
 	jwt:   Jwt
 )
 service server {
 	@handler List
-	get /system/getUserList (ListRequest) returns (ListResponse)
+	get /manage/getUserList (ListRequest) returns (ListResponse)
 
 	@handler Add
-	post /system/addUser (AddRequest) returns (AddResponse)
+	post /manage/addUser (AddRequest) returns (AddResponse)
 
 	@handler Edit
-	post /system/editUser (EditRequest) returns (EditResponse)
+	post /manage/editUser (EditRequest) returns (EditResponse)
 
 	@handler Delete
-	post /system/deleteUser (DeleteRequest) returns (DeleteResponse)
+	post /manage/deleteUser (DeleteRequest) returns (DeleteResponse)
 }
 

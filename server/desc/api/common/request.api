@@ -4,6 +4,8 @@ info (
 	go_package: "common"
 )
 
+type Empty {}
+
 type PageRequest {
 	current int `form:"current,default=1,optional"`
 	size    int `form:"size,default=10,optional"`

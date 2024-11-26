@@ -27,7 +27,7 @@ func NewGetConstantRoutes(ctx context.Context, svcCtx *svc.ServiceContext) *GetC
 }
 
 func (l *GetConstantRoutes) GetConstantRoutes(req *types.GetConstantRoutesRequest) (resp []types.GetConstantRoutesResponseItem, err error) {
-	menus, err := l.svcCtx.Model.SystemMenu.FindByCondition(l.ctx, nil, condition.NewChain().
+	menus, err := l.svcCtx.Model.ManageMenu.FindByCondition(l.ctx, nil, condition.NewChain().
 		Equal("constant", true).
 		Build()...)
 	if err != nil {

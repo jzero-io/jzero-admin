@@ -58,12 +58,12 @@ func NewGormConn() (*gorm.DB, error) {
 func Migrate(gormConn *gorm.DB) error {
 	return gormConn.AutoMigrate(
 		&CasbinRule{},
-		&SystemUser{},
-		&SystemRole{},
-		&SystemUserRole{},
-		&SystemMenu{},
-		&SystemRoleMenu{},
-		&SystemEmail{},
+		&ManageUser{},
+		&ManageRole{},
+		&ManageUserRole{},
+		&ManageMenu{},
+		&ManageRoleMenu{},
+		&ManageEmail{},
 	)
 }
 

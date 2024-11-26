@@ -14,7 +14,7 @@
     "application/json"
   ],
   "paths": {
-    "/system/addMenu": {
+    "/manage/addMenu": {
       "post": {
         "operationId": "Add",
         "responses": {
@@ -45,7 +45,7 @@
         ]
       }
     },
-    "/system/deleteMenu": {
+    "/manage/deleteMenu": {
       "post": {
         "operationId": "Delete",
         "responses": {
@@ -76,7 +76,7 @@
         ]
       }
     },
-    "/system/editMenu": {
+    "/manage/editMenu": {
       "post": {
         "operationId": "Edit",
         "responses": {
@@ -107,7 +107,7 @@
         ]
       }
     },
-    "/system/getAllPages": {
+    "/manage/getAllPages": {
       "get": {
         "operationId": "GetAllPages",
         "responses": {
@@ -131,7 +131,7 @@
         ]
       }
     },
-    "/system/getMenuList/v2": {
+    "/manage/getMenuList/v2": {
       "get": {
         "operationId": "List",
         "responses": {
@@ -170,7 +170,7 @@
         ]
       }
     },
-    "/system/getMenuTree": {
+    "/manage/getMenuTree": {
       "get": {
         "operationId": "Tree",
         "responses": {

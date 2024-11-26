@@ -1,7 +1,7 @@
 syntax = "v1"
 
 info (
-	go_package: "system/role"
+	go_package: "manage/role"
 )
 
 import (
@@ -9,7 +9,7 @@ import (
 	"../common/response.api"
 )
 
-type SystemRole {
+type ManageRole {
 	id         uint64 `json:"id"`
 	roleName   string `json:"roleName"`
 	roleCode   string `json:"roleCode"`
@@ -28,7 +28,7 @@ type ListRequest {
 
 type ListResponse {
 	PageResponse
-	records []SystemRole `json:"records"`
+	records []ManageRole `json:"records"`
 }
 
 type GetAllRequest {}
@@ -80,29 +80,29 @@ type GetMenusResponse {
 }
 
 @server (
-	group: system/role
+	group: manage/role
 	jwt:   Jwt
 )
 service server {
 	@handler List
-	get /system/getRoleList (ListRequest) returns (ListResponse)
+	get /manage/getRoleList (ListRequest) returns (ListResponse)
 
 	@handler GetAll
-	get /system/getAllRoles (GetAllRequest) returns ([]GetAllResponse)
+	get /manage/getAllRoles (GetAllRequest) returns ([]GetAllResponse)
 
 	@handler Add
-	post /system/addRole (AddRequest) returns (AddResponse)
+	post /manage/addRole (AddRequest) returns (AddResponse)
 
 	@handler Edit
-	post /system/editRole (EditRequest) returns (EditResponse)
+	post /manage/editRole (EditRequest) returns (EditResponse)
 
 	@handler Delete
-	post /system/deleteRole (DeleteRequest) returns (DeleteResponse)
+	post /manage/deleteRole (DeleteRequest) returns (DeleteResponse)
 
 	@handler SetMenus
-	post /system/setRoleMenus (SetMenusRequest) returns (SetMenusResponse)
+	post /manage/setRoleMenus (SetMenusRequest) returns (SetMenusResponse)
 
 	@handler GetMenus
-	get /system/getRoleMenus (GetMenusRequest) returns ([]uint64)
+	get /manage/getRoleMenus (GetMenusRequest) returns ([]uint64)
 }
 

@@ -1,7 +1,7 @@
 syntax = "v1"
 
 info (
-	go_package: "system/menu"
+	go_package: "manage/menu"
 )
 
 import (
@@ -120,26 +120,29 @@ type EditRequest {
 type EditResponse {}
 
 @server (
-	group: system/menu
+	group: manage/menu
 	jwt:   Jwt
 )
 service server {
 	@handler List
-	get /system/getMenuList/v2 (ListRequest) returns (ListResponse)
+	get /manage/getMenuList/v2 (ListRequest) returns (ListResponse)
 
 	@handler Tree
-	get /system/getMenuTree (TreeRequest) returns ([]TreeResponse)
+	get /manage/getMenuTree (TreeRequest) returns ([]TreeResponse)
 
 	@handler GetAllPages
-	get /system/getAllPages (GetAllPagesRequest) returns ([]string)
+	get /manage/getAllPages (GetAllPagesRequest) returns ([]string)
+
+	@handler GetAllButtons
+	get /manage/getAllButtons (Empty) returns ([]Button)
 
 	@handler Add
-	post /system/addMenu (AddRequest) returns (AddResponse)
+	post /manage/addMenu (AddRequest) returns (AddResponse)
 
 	@handler Delete
-	post /system/deleteMenu (DeleteRequest) returns (DeleteResponse)
+	post /manage/deleteMenu (DeleteRequest) returns (DeleteResponse)
 
 	@handler Edit
-	post /system/editMenu (EditRequest) returns (EditResponse)
+	post /manage/editMenu (EditRequest) returns (EditResponse)
 }
 

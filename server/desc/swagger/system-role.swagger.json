@@ -14,7 +14,7 @@
     "application/json"
   ],
   "paths": {
-    "/system/addRole": {
+    "/manage/addRole": {
       "post": {
         "operationId": "Add",
         "responses": {
@@ -45,7 +45,7 @@
         ]
       }
     },
-    "/system/deleteRole": {
+    "/manage/deleteRole": {
       "post": {
         "operationId": "Delete",
         "responses": {
@@ -76,7 +76,7 @@
         ]
       }
     },
-    "/system/editRole": {
+    "/manage/editRole": {
       "post": {
         "operationId": "Edit",
         "responses": {
@@ -107,7 +107,7 @@
         ]
       }
     },
-    "/system/getAllRoles": {
+    "/manage/getAllRoles": {
       "get": {
         "operationId": "GetAll",
         "responses": {
@@ -131,7 +131,7 @@
         ]
       }
     },
-    "/system/getRoleList": {
+    "/manage/getRoleList": {
       "get": {
         "operationId": "List",
         "responses": {
@@ -191,7 +191,7 @@
         ]
       }
     },
-    "/system/getRoleMenus": {
+    "/manage/getRoleMenus": {
       "get": {
         "operationId": "GetMenus",
         "responses": {
@@ -227,7 +227,7 @@
         ]
       }
     },
-    "/system/setRoleMenus": {
+    "/manage/setRoleMenus": {
       "post": {
         "operationId": "SetMenus",
         "responses": {
@@ -438,13 +438,50 @@
         "records": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/SystemRole"
+            "$ref": "#/definitions/ManageRole"
           }
         }
       },
       "title": "ListResponse",
       "required": [
         "records"
+      ]
+    },
+    "ManageRole": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "roleName": {
+          "type": "string"
+        },
+        "roleCode": {
+          "type": "string"
+        },
+        "roleDesc": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "createTime": {
+          "type": "string"
+        },
+        "updateTime": {
+          "type": "string"
+        }
+      },
+      "title": "ManageRole",
+      "required": [
+        "id",
+        "roleName",
+        "roleCode",
+        "roleDesc",
+        "status",
+        "createTime",
+        "updateTime"
       ]
     },
     "PageRequest": {
@@ -510,43 +547,6 @@
     "SetMenusResponse": {
       "type": "object",
       "title": "SetMenusResponse"
-    },
-    "SystemRole": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "roleName": {
-          "type": "string"
-        },
-        "roleCode": {
-          "type": "string"
-        },
-        "roleDesc": {
-          "type": "string"
-        },
-        "status": {
-          "type": "string"
-        },
-        "createTime": {
-          "type": "string"
-        },
-        "updateTime": {
-          "type": "string"
-        }
-      },
-      "title": "SystemRole",
-      "required": [
-        "id",
-        "roleName",
-        "roleCode",
-        "roleDesc",
-        "status",
-        "createTime",
-        "updateTime"
-      ]
     }
   },
   "securityDefinitions": {

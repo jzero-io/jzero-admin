@@ -30,14 +30,14 @@ func NewPwdLogin(ctx context.Context, svcCtx *svc.ServiceContext) *PwdLogin {
 }
 
 func (l *PwdLogin) PwdLogin(req *types.PwdLoginRequest) (resp *types.LoginResponse, err error) {
-	user, err := l.svcCtx.Model.SystemUser.FindOneByUsername(l.ctx, nil, req.Username)
+	user, err := l.svcCtx.Model.ManageUser.FindOneByUsername(l.ctx, nil, req.Username)
 	if err != nil {
 		return nil, errors.New("用户名或密码错误")
 	}
 	if req.Password != user.Password {
 		return nil, errors.New("用户名或密码错误")
 	}
-	userRoles, err := l.svcCtx.Model.SystemUserRole.FindByCondition(l.ctx, nil, condition.NewChain().
+	userRoles, err := l.svcCtx.Model.ManageUserRole.FindByCondition(l.ctx, nil, condition.NewChain().
 		Equal("user_id", user.Id).
 		Build()...)
 	if err != nil {
