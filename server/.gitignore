@@ -37,3 +37,4 @@ data
 etc/.env.yaml
 .jzero.dev.yaml
 /server
+!/server/
