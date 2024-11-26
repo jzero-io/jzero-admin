@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { $t } from '@/locales';
+import { useAuth } from '@/hooks/business/auth';
 
 defineOptions({
   name: 'TableHeaderOperation'
@@ -9,6 +10,8 @@ interface Props {
   itemAlign?: NaiveUI.Align;
   disabledDelete?: boolean;
   loading?: boolean;
+  addAuth?: string;
+  deleteAuth?: string;
 }
 
 defineProps<Props>();
@@ -20,6 +23,8 @@ interface Emits {
 }
 
 const emit = defineEmits<Emits>();
+
+const { hasAuth } = useAuth();
 
 const columns = defineModel<NaiveUI.TableColumnCheck[]>('columns', {
   default: () => []
@@ -42,7 +47,7 @@ function refresh() {
   <NSpace :align="itemAlign" wrap justify="end" class="lt-sm:w-200px">
     <slot name="prefix"></slot>
     <slot name="default">
-      <NButton size="small" ghost type="primary" @click="add">
+      <NButton v-if="addAuth && hasAuth(addAuth)" size="small" ghost type="primary" @click="add">
         <template #icon>
           <icon-ic-round-plus class="text-icon" />
         </template>

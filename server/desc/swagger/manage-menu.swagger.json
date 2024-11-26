@@ -107,30 +107,6 @@
         ]
       }
     },
-    "/manage/getAllButtons": {
-      "get": {
-        "operationId": "GetAllButtons",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Button"
-              }
-            }
-          }
-        },
-        "tags": [
-          "manage/menu"
-        ],
-        "security": [
-          {
-            "apiKey": []
-          }
-        ]
-      }
-    },
     "/manage/getAllPages": {
       "get": {
         "operationId": "GetAllPages",
@@ -287,10 +263,13 @@
             "$ref": "#/definitions/Query"
           }
         },
-        "buttons": {
+        "buttonCode": {
+          "type": "string"
+        },
+        "permissions": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Button"
+            "$ref": "#/definitions/Permission"
           }
         },
         "i18nKey": {
@@ -311,11 +290,7 @@
         "keepAlive",
         "constant",
         "order",
-        "hideInMenu",
-        "multiTab",
-        "query",
-        "buttons",
-        "i18nKey"
+        "hideInMenu"
       ]
     },
     "AddResponse": {
@@ -429,10 +404,13 @@
             "$ref": "#/definitions/Query"
           }
         },
-        "buttons": {
+        "buttonCode": {
+          "type": "string"
+        },
+        "permissions": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Button"
+            "$ref": "#/definitions/Permission"
           }
         },
         "i18nKey": {
@@ -455,9 +433,8 @@
         "constant",
         "order",
         "hideInMenu",
-        "mutiTab",
         "query",
-        "buttons",
+        "permissions",
         "i18nKey"
       ]
     },
@@ -555,6 +532,22 @@
         "total"
       ]
     },
+    "Permission": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "desc": {
+          "type": "string"
+        }
+      },
+      "title": "Permission",
+      "required": [
+        "code",
+        "desc"
+      ]
+    },
     "Query": {
       "type": "object",
       "properties": {
@@ -603,10 +596,13 @@
         "iconType": {
           "type": "string"
         },
-        "buttons": {
+        "buttonCode": {
+          "type": "string"
+        },
+        "permissions": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Button"
+            "$ref": "#/definitions/Permission"
           }
         },
         "order": {
@@ -656,7 +652,8 @@
         "component",
         "icon",
         "iconType",
-        "buttons",
+        "buttonCode",
+        "permissions",
         "order",
         "i18nKey",
         "status",

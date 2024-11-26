@@ -61,7 +61,8 @@ type ManageMenu struct {
 	MutiTab         bool   `gorm:"column:multi_tab"`
 	FixedIndexInTab int    `gorm:"column:fixed_index_in_tab;not null"`
 	Query           string `gorm:"column:query"`
-	Buttons         string `gorm:"column:buttons"`
+	ButtonCode      string `gorm:"column:button_code"`
+	Permissions     string `gorm:"column:permissions"`
 	Constant        bool   `gorm:"column:constant;not null"`
 }
 

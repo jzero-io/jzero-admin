@@ -175,6 +175,14 @@ const local: App.I18n.Schema = {
     exception_404: '404',
     exception_500: '500'
   },
+  button: {
+    manage: {
+      user: {
+        list: '用户列表',
+        add: '新增用户'
+      }
+    }
+  },
   page: {
     login: {
       common: {
@@ -386,6 +394,9 @@ const local: App.I18n.Schema = {
         button: '按钮',
         buttonCode: '按钮编码',
         buttonDesc: '按钮描述',
+        permission: '权限标识',
+        permissionCode: '权限编码',
+        permissionDesc: '权限描述',
         menuStatus: '菜单状态',
         form: {
           home: '请选择首页',
@@ -412,14 +423,18 @@ const local: App.I18n.Schema = {
           button: '请选择是否按钮',
           buttonCode: '请输入按钮编码',
           buttonDesc: '请输入按钮描述',
+          permissionCode: '请输入权限编码',
+          permissionDesc: '请输入权限描述',
           menuStatus: '请选择菜单状态'
         },
         addMenu: '新增菜单',
         editMenu: '编辑菜单',
-        addChildMenu: '新增子菜单',
+        addChildMenu: '添加下一级',
+        addButton: '新增按钮',
         type: {
           directory: '目录',
-          menu: '菜单'
+          menu: '菜单',
+          button: '按钮'
         },
         iconType: {
           iconify: 'iconify图标',

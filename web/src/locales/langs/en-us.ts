@@ -175,6 +175,14 @@ const local: App.I18n.Schema = {
     exception_404: '404',
     exception_500: '500'
   },
+  button: {
+    manage: {
+      user: {
+        list: 'User List',
+        add: 'Add User'
+      }
+    }
+  },
   page: {
     login: {
       common: {
@@ -386,6 +394,9 @@ const local: App.I18n.Schema = {
         button: 'Button',
         buttonCode: 'Button Code',
         buttonDesc: 'Button Desc',
+        permission: 'permission',
+        permissionCode: 'Permission Code',
+        permissionDesc: 'Permission Desc',
         menuStatus: 'Menu Status',
         form: {
           home: 'Please select home',
@@ -412,14 +423,18 @@ const local: App.I18n.Schema = {
           button: 'Please select whether it is a button',
           buttonCode: 'Please enter button code',
           buttonDesc: 'Please enter button description',
+          permissionCode: 'Please enter permission code',
+          permissionDesc: 'Please enter permission description',
           menuStatus: 'Please select menu status'
         },
         addMenu: 'Add Menu',
         editMenu: 'Edit Menu',
         addChildMenu: 'Add Child Menu',
+        addButton: 'Add Button',
         type: {
           directory: 'Directory',
-          menu: 'Menu'
+          menu: 'Menu',
+          button: 'Button'
         },
         iconType: {
           iconify: 'Iconify Icon',

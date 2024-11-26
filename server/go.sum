@@ -93,8 +93,8 @@ github.com/jinzhu/inflection v1.0.0 h1:K317FqzuhWc8YvSVlFMCCUb36O/S9MCKRDI7QkRKD
 github.com/jinzhu/inflection v1.0.0/go.mod h1:h+uFLlag+Qp1Va5pdKtLDYj+kHp5pxUVkryuEj+Srlc=
 github.com/jinzhu/now v1.1.5 h1:/o9tlHleP7gOFmsnYNz3RGnqzefHA47wQpKrrdTIwXQ=
 github.com/jinzhu/now v1.1.5/go.mod h1:d3SSVoowX0Lcu0IBviAWJpolVfI5UJVZZ7cO71lE/z8=
-github.com/jzero-io/jzero-contrib v0.12.0 h1:MfovBbnV+IsfGCiAzhzDd89qgkIba5a3Z6ZK9FcyBZs=
-github.com/jzero-io/jzero-contrib v0.12.0/go.mod h1:kbQxl/VPE1hW2TWxgDNa1OB6mA0SbxdBDyW8rJJ3AJU=
+github.com/jzero-io/jzero-contrib v0.12.2 h1:pjZMtefeIhLLJPqDondDXbQBdkpxJVd4rP+iHD8PSsY=
+github.com/jzero-io/jzero-contrib v0.12.2/go.mod h1:kbQxl/VPE1hW2TWxgDNa1OB6mA0SbxdBDyW8rJJ3AJU=
 github.com/klauspost/compress v1.17.9 h1:6KIumPrER1LHsvBVuDa0r5xaG0Es51mhhB9BQB2qeMA=
 github.com/klauspost/compress v1.17.9/go.mod h1:Di0epgTjJY877eYKx5yC51cX2A2Vl2ibi7bDH9ttBbw=
 github.com/kr/pretty v0.3.1 h1:flRD4NNwYAUpkphVc1HcthR4KEIFJ65n8Mw5qdRn3LE=

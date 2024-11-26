@@ -153,14 +153,15 @@ declare namespace Api {
      *
      * - "1": directory
      * - "2": menu
+     * - "3": button
      */
-    type MenuType = '1' | '2';
+    type MenuType = '1' | '2' | '3';
 
-    type MenuButton = {
+    type MenuPermission = {
       /**
        * button code
        *
-       * it can be used to control the button permission
+       * it can be used to control the menu permission
        */
       code: string;
       /** button description */
@@ -206,8 +207,10 @@ declare namespace Api {
       icon: string;
       /** icon type */
       iconType: IconType;
-      /** buttons */
-      buttons?: MenuButton[] | null;
+      /** button code */
+      buttonCode: string;
+      /** permissions */
+      permissions?: MenuPermission[] | null;
       /** children menu */
       children?: Menu[] | null;
     }> &
@@ -243,7 +246,8 @@ declare namespace Api {
       mutiTab?: boolean | null;
       fixedIndexInTab?: number | null;
       query?: { key: string; value: string }[] | null;
-      buttons?: MenuButton[] | null;
+      buttonCode: string;
+      permissions?: MenuPermission[] | null;
     };
 
     type EditMenuRequest = {
@@ -267,7 +271,8 @@ declare namespace Api {
       mutiTab?: boolean | null;
       fixedIndexInTab?: number | null;
       query?: { key: string; value: string }[] | null;
-      buttons?: MenuButton[] | null;
+      buttonCode: string;
+      permissions?: MenuPermission[] | null;
     };
   }
 }

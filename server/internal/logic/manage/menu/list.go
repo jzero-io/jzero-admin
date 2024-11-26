@@ -61,28 +61,29 @@ func convert(list []*manage_menu.ManageMenu) []*types.SystemMenu {
 	var records []*types.SystemMenu
 	for _, item := range list {
 		var menu types.SystemMenu
-		var buttons []types.Button
-		unmarshal(item.Buttons.String, &buttons)
+		var permissions []types.Permission
+		unmarshal(item.Permissions.String, &permissions)
 		menu = types.SystemMenu{
-			Id:         item.Id,
-			ParentId:   uint64(item.ParentId),
-			MenuType:   item.MenuType,
-			MenuName:   item.MenuName,
-			RouteName:  item.RouteName,
-			RoutePath:  item.RoutePath,
-			Component:  item.Component,
-			Icon:       item.Icon,
-			IconType:   item.IconType,
-			Order:      uint64(item.Order),
-			I18nKey:    item.I18nKey,
-			Status:     item.Status,
-			Constant:   cast.ToBool(item.Constant),
-			HideInMenu: cast.ToBool(item.HideInMenu),
-			MultiTab:   cast.ToBool(item.MultiTab),
-			KeepAlive:  cast.ToBool(item.KeepAlive),
-			ActiveMenu: item.ActiveMenu.String,
-			Buttons:    buttons,
-			Children:   nil,
+			Id:          item.Id,
+			ParentId:    uint64(item.ParentId),
+			MenuType:    item.MenuType,
+			MenuName:    item.MenuName,
+			RouteName:   item.RouteName,
+			RoutePath:   item.RoutePath,
+			Component:   item.Component,
+			Icon:        item.Icon,
+			IconType:    item.IconType,
+			Order:       uint64(item.Order),
+			I18nKey:     item.I18nKey,
+			Status:      item.Status,
+			Constant:    cast.ToBool(item.Constant),
+			HideInMenu:  cast.ToBool(item.HideInMenu),
+			MultiTab:    cast.ToBool(item.MultiTab),
+			KeepAlive:   cast.ToBool(item.KeepAlive),
+			ActiveMenu:  item.ActiveMenu.String,
+			ButtonCode:  item.ButtonCode.String,
+			Permissions: permissions,
+			Children:    nil,
 		}
 		records = append(records, &menu)
 	}

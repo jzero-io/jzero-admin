@@ -3,12 +3,12 @@ package menu
 import (
 	"context"
 	"encoding/json"
-	"github.com/zeromicro/go-zero/core/stores/sqlx"
 	"time"
 
 	"github.com/guregu/null/v5"
 	"github.com/spf13/cast"
 	"github.com/zeromicro/go-zero/core/logx"
+	"github.com/zeromicro/go-zero/core/stores/sqlx"
 
 	"server/internal/model/manage_menu"
 	"server/internal/svc"
@@ -52,7 +52,8 @@ func (l *Add) Add(req *types.AddRequest) (resp *types.AddResponse, err error) {
 			MultiTab:        null.IntFrom(cast.ToInt64(req.MultiTab)).NullInt64,
 			FixedIndexInTab: cast.ToInt64(req.FixedIndexInTab),
 			Query:           null.StringFrom(marshal(req.Query)).NullString,
-			Buttons:         null.StringFrom(marshal(req.Buttons)).NullString,
+			ButtonCode:      null.StringFrom(req.ButtonCode).NullString,
+			Permissions:     null.StringFrom(marshal(req.Permissions)).NullString,
 			Constant:        cast.ToInt64(req.Constant),
 		}); err != nil {
 			return err

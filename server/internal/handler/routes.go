@@ -78,28 +78,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		server.AddRoutes(
 			[]rest.Route{
 				{
-					Method:  http.MethodGet,
-					Path:    "/route/getConstantRoutes",
-					Handler: route.GetConstantRoutes(serverCtx),
-				},
-				{
-					Method:  http.MethodGet,
-					Path:    "/route/getUserRoutes",
-					Handler: route.GetUserRoutes(serverCtx),
-				},
-				{
-					Method:  http.MethodGet,
-					Path:    "/route/isRouteExist",
-					Handler: route.IsRouteExist(serverCtx),
-				},
-			},
-			rest.WithJwt(serverCtx.Config.Jwt.AccessSecret),
-		)
-	}
-	{
-		server.AddRoutes(
-			[]rest.Route{
-				{
 					Method:  http.MethodPost,
 					Path:    "/manage/addMenu",
 					Handler: managemenu.Add(serverCtx),
@@ -113,11 +91,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodPost,
 					Path:    "/manage/editMenu",
 					Handler: managemenu.Edit(serverCtx),
-				},
-				{
-					Method:  http.MethodGet,
-					Path:    "/manage/getAllButtons",
-					Handler: managemenu.GetAllButtons(serverCtx),
 				},
 				{
 					Method:  http.MethodGet,
@@ -202,6 +175,28 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodGet,
 					Path:    "/manage/getUserList",
 					Handler: manageuser.List(serverCtx),
+				},
+			},
+			rest.WithJwt(serverCtx.Config.Jwt.AccessSecret),
+		)
+	}
+	{
+		server.AddRoutes(
+			[]rest.Route{
+				{
+					Method:  http.MethodGet,
+					Path:    "/route/getConstantRoutes",
+					Handler: route.GetConstantRoutes(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/route/getUserRoutes",
+					Handler: route.GetUserRoutes(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/route/isRouteExist",
+					Handler: route.IsRouteExist(serverCtx),
 				},
 			},
 			rest.WithJwt(serverCtx.Config.Jwt.AccessSecret),

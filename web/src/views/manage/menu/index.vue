@@ -42,7 +42,8 @@ const { columns, columnChecks, data, loading, pagination, getData, getDataByPage
       render: row => {
         const tagMap: Record<Api.Manage.MenuType, NaiveUI.ThemeColor> = {
           1: 'default',
-          2: 'primary'
+          2: 'primary',
+          3: 'primary'
         };
 
         const label = $t(menuTypeRecord[row.menuType]);
@@ -150,6 +151,11 @@ const { columns, columnChecks, data, loading, pagination, getData, getDataByPage
       render: row => (
         <div class="flex-center justify-end gap-8px">
           {row.menuType === '1' && (
+            <NButton type="primary" ghost size="small" onClick={() => handleAddChildMenu(row)}>
+              {$t('page.manage.menu.addChildMenu')}
+            </NButton>
+          )}
+          {row.menuType === '2' && (
             <NButton type="primary" ghost size="small" onClick={() => handleAddChildMenu(row)}>
               {$t('page.manage.menu.addChildMenu')}
             </NButton>

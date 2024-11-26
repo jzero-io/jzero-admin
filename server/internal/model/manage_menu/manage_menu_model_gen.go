@@ -75,8 +75,9 @@ type (
 		MultiTab        sql.NullInt64  `db:"multi_tab"`
 		FixedIndexInTab int64          `db:"fixed_index_in_tab"`
 		Query           sql.NullString `db:"query"`
-		Buttons         sql.NullString `db:"buttons"`
+		Permissions     sql.NullString `db:"permissions"`
 		Constant        int64          `db:"constant"`
+		ButtonCode      sql.NullString `db:"button_code"`
 	}
 )
 
@@ -142,7 +143,7 @@ func (m *defaultManageMenuModel) Insert(ctx context.Context, session sqlx.Sessio
 	statement, args := sqlbuilder.NewInsertBuilder().
 		InsertInto(m.table).
 		Cols(manageMenuRowsExpectAutoSet).
-		Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Status, data.ParentId, data.MenuType, data.MenuName, data.HideInMenu, data.ActiveMenu, data.Order, data.RouteName, data.RoutePath, data.Component, data.Icon, data.IconType, data.I18nKey, data.KeepAlive, data.Href, data.MultiTab, data.FixedIndexInTab, data.Query, data.Buttons, data.Constant).Build()
+		Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Status, data.ParentId, data.MenuType, data.MenuName, data.HideInMenu, data.ActiveMenu, data.Order, data.RouteName, data.RoutePath, data.Component, data.Icon, data.IconType, data.I18nKey, data.KeepAlive, data.Href, data.MultiTab, data.FixedIndexInTab, data.Query, data.Permissions, data.Constant, data.ButtonCode).Build()
 	if session != nil {
 		return session.ExecCtx(ctx, statement, args...)
 	}
@@ -165,9 +166,9 @@ func (m *defaultManageMenuModel) Update(ctx context.Context, session sqlx.Sessio
 
 	var err error
 	if session != nil {
-		_, err = session.ExecCtx(ctx, statement, data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Status, data.ParentId, data.MenuType, data.MenuName, data.HideInMenu, data.ActiveMenu, data.Order, data.RouteName, data.RoutePath, data.Component, data.Icon, data.IconType, data.I18nKey, data.KeepAlive, data.Href, data.MultiTab, data.FixedIndexInTab, data.Query, data.Buttons, data.Constant, data.Id)
+		_, err = session.ExecCtx(ctx, statement, data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Status, data.ParentId, data.MenuType, data.MenuName, data.HideInMenu, data.ActiveMenu, data.Order, data.RouteName, data.RoutePath, data.Component, data.Icon, data.IconType, data.I18nKey, data.KeepAlive, data.Href, data.MultiTab, data.FixedIndexInTab, data.Query, data.Permissions, data.Constant, data.ButtonCode, data.Id)
 	} else {
-		_, err = m.conn.ExecCtx(ctx, statement, data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Status, data.ParentId, data.MenuType, data.MenuName, data.HideInMenu, data.ActiveMenu, data.Order, data.RouteName, data.RoutePath, data.Component, data.Icon, data.IconType, data.I18nKey, data.KeepAlive, data.Href, data.MultiTab, data.FixedIndexInTab, data.Query, data.Buttons, data.Constant, data.Id)
+		_, err = m.conn.ExecCtx(ctx, statement, data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Status, data.ParentId, data.MenuType, data.MenuName, data.HideInMenu, data.ActiveMenu, data.Order, data.RouteName, data.RoutePath, data.Component, data.Icon, data.IconType, data.I18nKey, data.KeepAlive, data.Href, data.MultiTab, data.FixedIndexInTab, data.Query, data.Permissions, data.Constant, data.ButtonCode, data.Id)
 	}
 	return err
 }
@@ -184,7 +185,7 @@ func (m *customManageMenuModel) BulkInsert(ctx context.Context, session sqlx.Ses
 	sb := sqlbuilder.InsertInto(m.table)
 	sb.Cols(manageMenuRowsExpectAutoSet)
 	for _, data := range datas {
-		sb.Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Status, data.ParentId, data.MenuType, data.MenuName, data.HideInMenu, data.ActiveMenu, data.Order, data.RouteName, data.RoutePath, data.Component, data.Icon, data.IconType, data.I18nKey, data.KeepAlive, data.Href, data.MultiTab, data.FixedIndexInTab, data.Query, data.Buttons, data.Constant)
+		sb.Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Status, data.ParentId, data.MenuType, data.MenuName, data.HideInMenu, data.ActiveMenu, data.Order, data.RouteName, data.RoutePath, data.Component, data.Icon, data.IconType, data.I18nKey, data.KeepAlive, data.Href, data.MultiTab, data.FixedIndexInTab, data.Query, data.Permissions, data.Constant, data.ButtonCode)
 	}
 	statement, args := sb.Build()
 

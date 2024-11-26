@@ -49,7 +49,8 @@ func (l *Edit) Edit(req *types.EditRequest) (resp *types.EditResponse, err error
 	one.MultiTab = null.IntFrom(cast.ToInt64(req.MutiTab)).NullInt64
 	one.FixedIndexInTab = cast.ToInt64(req.FixedIndexInTab)
 	one.Query = null.StringFrom(marshal(req.Query)).NullString
-	one.Buttons = null.StringFrom(marshal(req.Buttons)).NullString
+	one.ButtonCode = null.StringFrom(req.ButtonCode).NullString
+	one.Permissions = null.StringFrom(marshal(req.Permissions)).NullString
 	one.Constant = cast.ToInt64(req.Constant)
 
 	err = l.svcCtx.Model.ManageMenu.Update(l.ctx, nil, one)

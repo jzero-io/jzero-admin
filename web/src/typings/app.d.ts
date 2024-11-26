@@ -396,6 +396,14 @@ declare namespace App {
         };
       };
       route: Record<I18nRouteKey, string>;
+      button: {
+        manage: {
+          user: {
+            list: string;
+            add: string;
+          };
+        };
+      };
       page: {
         login: {
           common: {
@@ -606,6 +614,9 @@ declare namespace App {
             button: string;
             buttonCode: string;
             buttonDesc: string;
+            permission: string;
+            permissionCode: string;
+            permissionDesc: string;
             menuStatus: string;
             form: {
               home: string;
@@ -632,14 +643,18 @@ declare namespace App {
               button: string;
               buttonCode: string;
               buttonDesc: string;
+              permissionCode: string;
+              permissionDesc: string;
               menuStatus: string;
             };
             addMenu: string;
             editMenu: string;
             addChildMenu: string;
+            addButton: string;
             type: {
               directory: string;
               menu: string;
+              button: string;
             };
             iconType: {
               iconify: string;
