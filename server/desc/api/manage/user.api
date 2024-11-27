@@ -70,8 +70,9 @@ type DeleteRequest {
 type DeleteResponse {}
 
 @server (
-	group: manage/user
-	jwt:   Jwt
+	group:      manage/user
+	jwt:        Jwt
+	middleware: Authx
 )
 service server {
 	@handler List
