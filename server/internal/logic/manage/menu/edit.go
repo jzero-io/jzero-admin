@@ -3,7 +3,9 @@ package menu
 import (
 	"context"
 
-	"github.com/guregu/null/v5"
+	null "github.com/guregu/null/v5"
+	"github.com/jzero-io/jzero-contrib/condition"
+	"github.com/pkg/errors"
 	"github.com/spf13/cast"
 	"github.com/zeromicro/go-zero/core/logx"
 
@@ -30,6 +32,8 @@ func (l *Edit) Edit(req *types.EditRequest) (resp *types.EditResponse, err error
 	if err != nil {
 		return nil, err
 	}
+	var oldPermissions []types.Permission
+	oldPermissionStr := one.Permissions.String
 
 	one.Status = req.Status
 	one.ParentId = int64(req.ParentId)
@@ -54,5 +58,46 @@ func (l *Edit) Edit(req *types.EditRequest) (resp *types.EditResponse, err error
 	one.Constant = cast.ToInt64(req.Constant)
 
 	err = l.svcCtx.Model.ManageMenu.Update(l.ctx, nil, one)
+
+	if req.MenuType == "3" {
+		// 更新了权限标识
+		if marshal(req.Permissions) != one.Permissions.String {
+			roleMenus, err := l.svcCtx.Model.ManageRoleMenu.FindByCondition(l.ctx, nil, condition.NewChain().
+				Equal("menu_id", req.Id).
+				Build()...)
+			if err != nil {
+				return nil, err
+			}
+			for _, rm := range roleMenus {
+				// remove old casbin_rule for menu
+				if len(oldPermissions) > 0 {
+					Unmarshal(oldPermissionStr, &oldPermissions)
+					for _, o := range oldPermissions {
+						_, _ = l.svcCtx.CasbinEnforcer.RemovePolicy(cast.ToString(rm.RoleId), o.Code)
+					}
+				}
+
+				// add casbin_rule
+				var newPolicies [][]string
+				permissions := req.Permissions
+
+				for _, p := range permissions {
+					newPolicies = append(newPolicies, []string{cast.ToString(rm.RoleId), p.Code})
+				}
+
+				if len(newPolicies) > 0 {
+					var b bool
+					b, _ = l.svcCtx.CasbinEnforcer.AddPolicies(newPolicies)
+					if !b {
+						return nil, errors.Wrapf(err, "failed to add policies")
+					}
+					err = l.svcCtx.CasbinEnforcer.LoadPolicy()
+					if err != nil {
+						return nil, err
+					}
+				}
+			}
+		}
+	}
 	return
 }

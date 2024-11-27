@@ -1,6 +1,7 @@
 package custom
 
-type Custom struct{}
+type Custom struct {
+}
 
 func New() *Custom {
 	return &Custom{}

@@ -10,5 +10,6 @@ gen:
   change-logic-types: true
   regen-api-types: true
   regen-api-handler: true
+  route2Code: true
 
   model-mysql-ignore-columns: []

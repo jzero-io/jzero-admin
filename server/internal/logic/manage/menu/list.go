@@ -53,7 +53,7 @@ func (l *List) List(req *types.ListRequest) (resp *types.ListResponse, err error
 	return
 }
 
-func unmarshal(marshalStr string, v any) {
+func Unmarshal(marshalStr string, v any) {
 	_ = json.Unmarshal([]byte(marshalStr), v)
 }
 
@@ -62,7 +62,7 @@ func convert(list []*manage_menu.ManageMenu) []*types.SystemMenu {
 	for _, item := range list {
 		var menu types.SystemMenu
 		var permissions []types.Permission
-		unmarshal(item.Permissions.String, &permissions)
+		Unmarshal(item.Permissions.String, &permissions)
 		menu = types.SystemMenu{
 			Id:          item.Id,
 			ParentId:    uint64(item.ParentId),

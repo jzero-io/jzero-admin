@@ -15,6 +15,8 @@ import (
 )
 
 type Middleware struct {
+	CasbinEnforcer *casbin.Enforcer
+
 	Authx rest.Middleware
 }
 
@@ -41,7 +43,8 @@ func NewMiddleware(cache cache.Cache, sqlxConn sqlx.SqlConn, gormDB *gorm.DB, ro
 	}
 
 	return Middleware{
-		Authx: NewAuthxMiddleware(cache, sqlxConn, casbinEnforcer, route2Code).Handle,
+		CasbinEnforcer: casbinEnforcer,
+		Authx:          NewAuthxMiddleware(cache, sqlxConn, casbinEnforcer, route2Code).Handle,
 	}
 }
 

@@ -5,10 +5,14 @@ import (
 	"time"
 
 	"github.com/jzero-io/jzero-contrib/condition"
+	"github.com/pkg/errors"
+	"github.com/spf13/cast"
 	"github.com/zeromicro/go-zero/core/logx"
 
+	"server/internal/logic/manage/menu"
 	"server/internal/model/manage_role_menu"
 	"server/internal/svc"
+	menu_types "server/internal/types/manage/menu"
 	types "server/internal/types/manage/role"
 )
 
@@ -49,6 +53,35 @@ func (l *SetMenus) SetMenus(req *types.SetMenusRequest) (resp *types.SetMenusRes
 		return
 	}
 
-	err = l.svcCtx.Model.ManageRoleMenu.BulkInsert(l.ctx, nil, datas)
+	if err = l.svcCtx.Model.ManageRoleMenu.BulkInsert(l.ctx, nil, datas); err != nil {
+		return nil, err
+	}
+
+	// add casbin_rule
+	var newPolicies [][]string
+	// get menu perms
+	menus, err := l.svcCtx.Model.ManageMenu.FindByCondition(l.ctx, nil, condition.New(condition.Condition{
+		Field:    "id",
+		Operator: condition.In,
+		Value:    req.MenuIds,
+	})...)
+	if err != nil {
+		return nil, err
+	}
+	for _, v := range menus {
+		var permissions []menu_types.Permission
+		menu.Unmarshal(v.Permissions.String, &permissions)
+		for _, perm := range permissions {
+			newPolicies = append(newPolicies, []string{cast.ToString(req.RoleId), perm.Code})
+		}
+	}
+
+	var b bool
+	if len(newPolicies) > 0 {
+		b, _ = l.svcCtx.CasbinEnforcer.AddPolicies(newPolicies)
+		if !b {
+			return nil, errors.New("fail to add policies")
+		}
+	}
 	return
 }

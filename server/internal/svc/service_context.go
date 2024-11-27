@@ -26,8 +26,7 @@ type ServiceContext struct {
 	GormDB   *gorm.DB // TODO: 去掉 gorm
 	Model    model.Model
 	Cache    cache.Cache
-
-	Custom *custom.Custom
+	Custom   *custom.Custom
 	middleware.Middleware
 }
 
