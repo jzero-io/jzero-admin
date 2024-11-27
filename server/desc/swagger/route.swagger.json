@@ -30,11 +30,6 @@
         },
         "tags": [
           "route"
-        ],
-        "security": [
-          {
-            "apiKey": []
-          }
         ]
       }
     },

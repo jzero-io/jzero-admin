@@ -185,11 +185,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			[]rest.Route{
 				{
 					Method:  http.MethodGet,
-					Path:    "/route/getConstantRoutes",
-					Handler: route.GetConstantRoutes(serverCtx),
-				},
-				{
-					Method:  http.MethodGet,
 					Path:    "/route/getUserRoutes",
 					Handler: route.GetUserRoutes(serverCtx),
 				},
@@ -200,6 +195,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			},
 			rest.WithJwt(serverCtx.Config.Jwt.AccessSecret),
+		)
+
+		server.AddRoutes(
+			[]rest.Route{
+				{
+					Method:  http.MethodGet,
+					Path:    "/route/getConstantRoutes",
+					Handler: route.GetConstantRoutes(serverCtx),
+				},
+			},
 		)
 	}
 	{

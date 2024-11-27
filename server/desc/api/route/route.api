@@ -52,13 +52,18 @@ type IsRouteExistRequest {}
 	jwt:   Jwt
 )
 service server {
-	@handler GetConstantRoutes
-	get /route/getConstantRoutes (GetConstantRoutesRequest) returns ([]GetConstantRoutesResponseItem)
-
 	@handler GetUserRoutes
 	get /route/getUserRoutes (GetUserRoutesRequest) returns (GetUserRoutesResponse)
 
 	@handler IsRouteExist
 	get /route/isRouteExist (IsRouteExistRequest) returns (bool)
+}
+
+@server (
+	group: route
+)
+service server {
+	@handler GetConstantRoutes
+	get /route/getConstantRoutes (GetConstantRoutesRequest) returns ([]GetConstantRoutesResponseItem)
 }
 

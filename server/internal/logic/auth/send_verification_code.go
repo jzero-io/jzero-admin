@@ -12,6 +12,8 @@ import (
 	"github.com/pkg/errors"
 	"github.com/spf13/cast"
 	"github.com/zeromicro/go-zero/core/logx"
+	gomail "gopkg.in/gomail.v2"
+
 	"server/internal/constant"
 	"server/internal/svc"
 	types "server/internal/types/auth"
