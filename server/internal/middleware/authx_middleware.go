@@ -49,11 +49,11 @@ func (m *AuthxMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 
 		rctx := r.Context()
 
-		sub := cast.ToStringSlice(authInfo.RoleIds)
+		subs := cast.ToStringSlice(authInfo.RoleIds)
 		obj := m.Route2CodeFunc(r)
 
 		// verify casbin rule
-		if result := batchCheck(m.CasbinEnforcer, sub, obj); !result {
+		if result := batchCheck(m.CasbinEnforcer, subs, obj); !result {
 			w.WriteHeader(http.StatusForbidden)
 			return
 		}
@@ -62,9 +62,9 @@ func (m *AuthxMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 	}
 }
 
-func batchCheck(cbn *casbin.Enforcer, roleCodes []string, obj string) bool {
+func batchCheck(cbn *casbin.Enforcer, subs []string, obj string) bool {
 	var checkReq [][]any
-	for _, v := range roleCodes {
+	for _, v := range subs {
 		checkReq = append(checkReq, []any{v, obj})
 	}
 
