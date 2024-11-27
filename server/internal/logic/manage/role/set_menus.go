@@ -57,6 +57,12 @@ func (l *SetMenus) SetMenus(req *types.SetMenusRequest) (resp *types.SetMenusRes
 		return nil, err
 	}
 
+	// update casbin_rule
+	_, err = l.svcCtx.CasbinEnforcer.RemoveFilteredPolicy(0, cast.ToString(req.RoleId))
+	if err != nil {
+		return nil, errors.New("fail to remove filtered policy: " + err.Error())
+	}
+
 	// add casbin_rule
 	var newPolicies [][]string
 	// get menu perms
