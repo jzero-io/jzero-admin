@@ -12,8 +12,6 @@ import (
 	"github.com/pkg/errors"
 	"github.com/spf13/cast"
 	"github.com/zeromicro/go-zero/core/logx"
-	"gopkg.in/gomail.v2"
-
 	"server/internal/constant"
 	"server/internal/svc"
 	types "server/internal/types/auth"
@@ -73,7 +71,7 @@ func (l *SendVerificationCode) SendVerificationCode(req *types.SendVerificationC
 		}
 
 		var cacheVal string
-		if err = l.svcCtx.Cache.Get(verificationUuid, &cacheVal); err == nil {
+		if err = l.svcCtx.Cache.Get(fmt.Sprintf("%s:%s", constant.CacheVerificationCodePrefix, verificationUuid), &cacheVal); err == nil {
 			logx.Infof("get cache %s:%s", verificationUuid, cacheVal)
 		}
 		return &types.SendVerificationCodeResponse{
