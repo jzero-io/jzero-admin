@@ -22,9 +22,6 @@ type Config struct {
 	Redis     RedisConf `json:",optional"`
 
 	Jwt Jwt
-
-	// mock 公网环境
-	DelaySecond int `json:",default=0,env=DELAY_SECOND"`
 }
 
 type RestConf struct {

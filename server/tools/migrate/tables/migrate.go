@@ -10,7 +10,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/spf13/cast"
 	"github.com/zeromicro/go-zero/core/conf"
-	"gopkg.in/yaml.v3"
+	yaml "gopkg.in/yaml.v3"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -68,17 +68,19 @@ func Migrate(gormConn *gorm.DB) error {
 }
 
 func init() {
-	data, err := envsubst.ReadFile("etc/.env.yaml")
-	if err != nil {
-		log.Fatalf("envsubst error: %v", err)
-	}
-	var env map[string]any
-	err = yaml.Unmarshal(data, &env)
-	if err != nil {
-		log.Fatalf("yaml unmarshal error: %v", err)
-	}
+	if _, err := os.Stat("etc/.env.yaml"); err == nil {
+		data, err := envsubst.ReadFile("etc/.env.yaml")
+		if err != nil {
+			log.Fatalf("envsubst error: %v", err)
+		}
+		var env map[string]any
+		err = yaml.Unmarshal(data, &env)
+		if err != nil {
+			log.Fatalf("yaml unmarshal error: %v", err)
+		}
 
-	for k, v := range env {
-		_ = os.Setenv(k, cast.ToString(v))
+		for k, v := range env {
+			_ = os.Setenv(k, cast.ToString(v))
+		}
 	}
 }
