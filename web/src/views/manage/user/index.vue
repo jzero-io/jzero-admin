@@ -162,11 +162,12 @@ async function handleBatchDelete() {
     deleteLoadingStatus[id] = true;
   });
   const { error } = await DeleteUser(ids);
-  if (error) return;
 
   ids.forEach(id => {
     deleteLoadingStatus[id] = false;
   });
+
+  if (error) return;
 
   onBatchDeleted();
 }
@@ -176,8 +177,10 @@ async function handleDelete(id: number) {
   const ids: number[] = [id];
   deleteLoadingStatus[id] = true;
   const { error } = await DeleteUser(ids);
-  if (error) return;
   deleteLoadingStatus[id] = false;
+  if (error) {
+    return;
+  }
   onDeleted();
 }
 
@@ -196,6 +199,7 @@ function edit(id: number) {
           :disabled-delete="checkedRowKeys.length === 0"
           :loading="loading"
           add-auth="manage:user:add"
+          delete-auth="manage:user:delete"
           @add="handleAdd"
           @delete="handleBatchDelete"
           @refresh="getData"
