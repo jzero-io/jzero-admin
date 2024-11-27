@@ -50,10 +50,22 @@ func (l *CodeLogin) CodeLogin(req *types.CodeLoginRequest) (resp *types.LoginRes
 		return nil, errors.New("用户名/密码错误")
 	}
 
+	userRoles, err := l.svcCtx.Model.ManageUserRole.FindByCondition(l.ctx, nil, condition.NewChain().
+		Equal("user_id", user.Id).
+		Build()...)
+	if err != nil {
+		return nil, err
+	}
+	var roleIds []int64
+	for _, userRole := range userRoles {
+		roleIds = append(roleIds, userRole.RoleId)
+	}
+
 	j := jwt.NewJwt(l.svcCtx.Config.Jwt.AccessSecret)
 	marshal, err := json.Marshal(auth.Auth{
 		Id:       int(user.Id),
 		Username: user.Username,
+		RoleIds:  roleIds,
 	})
 	if err != nil {
 		return nil, err
