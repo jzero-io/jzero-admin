@@ -490,6 +490,34 @@ watch(
                 </template>
               </NDynamicInput>
             </NFormItemGi>
+            <NFormItemGi span="24" :label="$t('page.manage.menu.permission')">
+              <NDynamicInput v-model:value="model.permissions" :on-create="handleCreatePermission">
+                <template #default="{ value }">
+                  <div class="ml-8px flex-y-center flex-1 gap-12px">
+                    <NInput
+                      v-model:value="value.code"
+                      :placeholder="$t('page.manage.menu.form.permissionCode')"
+                      class="flex-1"
+                    />
+                    <NInput
+                      v-model:value="value.desc"
+                      :placeholder="$t('page.manage.menu.form.permissionDesc')"
+                      class="flex-1"
+                    />
+                  </div>
+                </template>
+                <template #action="{ index, create, remove }">
+                  <NSpace class="ml-12px">
+                    <NButton size="medium" @click="() => create(index)">
+                      <icon-ic:round-plus class="text-icon" />
+                    </NButton>
+                    <NButton size="medium" @click="() => remove(index)">
+                      <icon-ic-round-remove class="text-icon" />
+                    </NButton>
+                  </NSpace>
+                </template>
+              </NDynamicInput>
+            </NFormItemGi>
           </template>
           <template v-else>
             <NFormItemGi span="24 m:12" :label="$t('page.manage.menu.buttonCode')" path="buttonCode">
