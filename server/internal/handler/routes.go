@@ -76,80 +76,86 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	}
 	{
 		server.AddRoutes(
-			[]rest.Route{
-				{
-					Method:  http.MethodPost,
-					Path:    "/manage/addMenu",
-					Handler: managemenu.Add(serverCtx),
-				},
-				{
-					Method:  http.MethodPost,
-					Path:    "/manage/deleteMenu",
-					Handler: managemenu.Delete(serverCtx),
-				},
-				{
-					Method:  http.MethodPost,
-					Path:    "/manage/editMenu",
-					Handler: managemenu.Edit(serverCtx),
-				},
-				{
-					Method:  http.MethodGet,
-					Path:    "/manage/getAllPages",
-					Handler: managemenu.GetAllPages(serverCtx),
-				},
-				{
-					Method:  http.MethodGet,
-					Path:    "/manage/getMenuList/v2",
-					Handler: managemenu.List(serverCtx),
-				},
-				{
-					Method:  http.MethodGet,
-					Path:    "/manage/getMenuTree",
-					Handler: managemenu.Tree(serverCtx),
-				},
-			},
+			rest.WithMiddlewares(
+				[]rest.Middleware{serverCtx.Authx},
+				[]rest.Route{
+					{
+						Method:  http.MethodPost,
+						Path:    "/manage/addMenu",
+						Handler: managemenu.Add(serverCtx),
+					},
+					{
+						Method:  http.MethodPost,
+						Path:    "/manage/deleteMenu",
+						Handler: managemenu.Delete(serverCtx),
+					},
+					{
+						Method:  http.MethodPost,
+						Path:    "/manage/editMenu",
+						Handler: managemenu.Edit(serverCtx),
+					},
+					{
+						Method:  http.MethodGet,
+						Path:    "/manage/getAllPages",
+						Handler: managemenu.GetAllPages(serverCtx),
+					},
+					{
+						Method:  http.MethodGet,
+						Path:    "/manage/getMenuList/v2",
+						Handler: managemenu.List(serverCtx),
+					},
+					{
+						Method:  http.MethodGet,
+						Path:    "/manage/getMenuTree",
+						Handler: managemenu.Tree(serverCtx),
+					},
+				}...,
+			),
 			rest.WithJwt(serverCtx.Config.Jwt.AccessSecret),
 		)
 	}
 	{
 		server.AddRoutes(
-			[]rest.Route{
-				{
-					Method:  http.MethodPost,
-					Path:    "/manage/addRole",
-					Handler: managerole.Add(serverCtx),
-				},
-				{
-					Method:  http.MethodPost,
-					Path:    "/manage/deleteRole",
-					Handler: managerole.Delete(serverCtx),
-				},
-				{
-					Method:  http.MethodPost,
-					Path:    "/manage/editRole",
-					Handler: managerole.Edit(serverCtx),
-				},
-				{
-					Method:  http.MethodGet,
-					Path:    "/manage/getAllRoles",
-					Handler: managerole.GetAll(serverCtx),
-				},
-				{
-					Method:  http.MethodGet,
-					Path:    "/manage/getRoleList",
-					Handler: managerole.List(serverCtx),
-				},
-				{
-					Method:  http.MethodGet,
-					Path:    "/manage/getRoleMenus",
-					Handler: managerole.GetMenus(serverCtx),
-				},
-				{
-					Method:  http.MethodPost,
-					Path:    "/manage/setRoleMenus",
-					Handler: managerole.SetMenus(serverCtx),
-				},
-			},
+			rest.WithMiddlewares(
+				[]rest.Middleware{serverCtx.Authx},
+				[]rest.Route{
+					{
+						Method:  http.MethodPost,
+						Path:    "/manage/addRole",
+						Handler: managerole.Add(serverCtx),
+					},
+					{
+						Method:  http.MethodPost,
+						Path:    "/manage/deleteRole",
+						Handler: managerole.Delete(serverCtx),
+					},
+					{
+						Method:  http.MethodPost,
+						Path:    "/manage/editRole",
+						Handler: managerole.Edit(serverCtx),
+					},
+					{
+						Method:  http.MethodGet,
+						Path:    "/manage/getAllRoles",
+						Handler: managerole.GetAll(serverCtx),
+					},
+					{
+						Method:  http.MethodGet,
+						Path:    "/manage/getRoleList",
+						Handler: managerole.List(serverCtx),
+					},
+					{
+						Method:  http.MethodGet,
+						Path:    "/manage/getRoleMenus",
+						Handler: managerole.GetMenus(serverCtx),
+					},
+					{
+						Method:  http.MethodPost,
+						Path:    "/manage/setRoleMenus",
+						Handler: managerole.SetMenus(serverCtx),
+					},
+				}...,
+			),
 			rest.WithJwt(serverCtx.Config.Jwt.AccessSecret),
 		)
 	}

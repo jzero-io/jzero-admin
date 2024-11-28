@@ -80,8 +80,9 @@ type GetMenusResponse {
 }
 
 @server (
-	group: manage/role
-	jwt:   Jwt
+	group:      manage/role
+	jwt:        Jwt
+	middleware: Authx
 )
 service server {
 	@handler List
