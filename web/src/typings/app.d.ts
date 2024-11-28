@@ -401,9 +401,20 @@ declare namespace App {
           user: {
             list: string;
             add: string;
+            delete: string;
+            edit: string;
           };
           menu: {
+            list: string;
             add: string;
+            delete: string;
+            edit: string;
+          };
+          role: {
+            list: string;
+            add: string;
+            delete: string;
+            edit: string;
           };
         };
       };

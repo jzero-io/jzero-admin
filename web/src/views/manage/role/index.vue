@@ -165,6 +165,7 @@ function edit(id: number) {
           :disabled-delete="checkedRowKeys.length === 0"
           :loading="loading"
           add-auth="manage:role:add"
+          delete-auth="manage:role:delete"
           @add="handleAdd"
           @delete="handleBatchDelete"
           @refresh="getData"

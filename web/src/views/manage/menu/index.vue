@@ -249,6 +249,7 @@ init();
           :disabled-delete="checkedRowKeys.length === 0"
           :loading="loading"
           add-auth="manage:menu:add"
+          delete-auth="manage:menu:delete"
           @add="handleAdd"
           @delete="handleBatchDelete"
           @refresh="getData"
