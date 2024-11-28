@@ -179,10 +179,21 @@ const local: App.I18n.Schema = {
     manage: {
       user: {
         list: '用户列表',
-        add: '新增用户'
+        add: '新增用户',
+        delete: '删除用户',
+        edit: '编辑用户'
       },
       menu: {
-        add: '新增菜单'
+        list: '菜单列表',
+        add: '新增菜单',
+        delete: '删除菜单',
+        edit: '编辑菜单'
+      },
+      role: {
+        list: '角色列表',
+        add: '新增角色',
+        delete: '删除角色',
+        edit: '编辑角色'
       }
     }
   },
