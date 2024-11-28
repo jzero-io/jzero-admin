@@ -55,26 +55,29 @@ type ListRequest {
 }
 
 type SystemMenu {
-	id          uint64       `json:"id"`
-	parentId    uint64       `json:"parentId"`
-	menuType    string       `json:"menuType"`
-	menuName    string       `json:"menuName"`
-	routeName   string       `json:"routeName"`
-	routePath   string       `json:"routePath"`
-	component   string       `json:"component"`
-	icon        string       `json:"icon"`
-	iconType    string       `json:"iconType"`
-	buttonCode  string       `json:"buttonCode"`
-	permissions []Permission `json:"permissions"`
-	order       uint64       `json:"order"`
-	i18nKey     string       `json:"i18nKey"`
-	status      string       `json:"status"`
-	keepAlive   bool         `json:"keepAlive"`
-	constant    bool         `json:"constant"`
-	hideInMenu  bool         `json:"hideInMenu"`
-	multiTab    bool         `json:"mutiTab"`
-	activeMenu  string       `json:"activeMenu"`
-	children    []SystemMenu `json:"children"`
+	id              uint64       `json:"id"`
+	activeMenu      string       `json:"activeMenu,optional"`
+	menuType        string       `json:"menuType"`
+	menuName        string       `json:"menuName"`
+	routeName       string       `json:"routeName"`
+	routePath       string       `json:"routePath"`
+	component       string       `json:"component"`
+	icon            string       `json:"icon"`
+	iconType        string       `json:"iconType"`
+	parentId        uint64       `json:"parentId"`
+	status          string       `json:"status"`
+	keepAlive       bool         `json:"keepAlive"`
+	constant        bool         `json:"constant"`
+	order           uint64       `json:"order"`
+	hideInMenu      bool         `json:"hideInMenu"`
+	href            string       `json:"href,optional"`
+	multiTab        bool         `json:"multiTab,optional"`
+	fixedIndexInTab bool         `json:"fixedIndexInTab,optional"`
+	query           []Query      `json:"query,optional"`
+	buttonCode      string       `json:"buttonCode,optional"`
+	permissions     []Permission `json:"permissions,optional"`
+	i18nKey         string       `json:"i18nKey,optional"`
+	children        []SystemMenu `json:"children"`
 }
 
 type ListResponse {

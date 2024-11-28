@@ -30,7 +30,6 @@ func (l *Tree) Tree(req *types.TreeRequest) (resp []types.TreeResponse, err erro
 
 	list, err := l.svcCtx.Model.ManageMenu.FindByCondition(l.ctx, nil, condition.NewChain().
 		NotEqual("constant", true).
-		NotEqual("hide_in_menu", true).
 		Build()...)
 	if err != nil {
 		return nil, err

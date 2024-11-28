@@ -185,7 +185,6 @@ async function getRoleOptions() {
 }
 
 function handleInitModel() {
-  console.log('operateType', props.operateType);
   Object.assign(model, createDefaultModel());
 
   if (!props.rowData) return;

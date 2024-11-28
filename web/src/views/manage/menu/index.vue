@@ -248,6 +248,7 @@ init();
           v-model:columns="columnChecks"
           :disabled-delete="checkedRowKeys.length === 0"
           :loading="loading"
+          add-auth="manage:menu:add"
           @add="handleAdd"
           @delete="handleBatchDelete"
           @refresh="getData"

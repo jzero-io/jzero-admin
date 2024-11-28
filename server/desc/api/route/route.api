@@ -17,15 +17,23 @@ type Route {
 }
 
 type RouteMeta {
-	title      string `json:"title"`
-	i18nKey    string `json:"i18nKey"`
-	icon       string `json:"icon"`
-	order      int    `json:"order"`
-	hideInMenu bool   `json:"hideInMenu"`
-	activeMenu string `json:"activeMenu"`
-	multiTab   bool   `json:"multiTab"`
-	keepAlive  bool   `json:"keepAlive"`
-	constant   bool   `json:"constant"`
+	title           string  `json:"title"`
+	i18nKey         string  `json:"i18nKey"`
+	icon            string  `json:"icon"`
+	order           int     `json:"order"`
+	hideInMenu      bool    `json:"hideInMenu"`
+	activeMenu      string  `json:"activeMenu"`
+	multiTab        bool    `json:"multiTab"`
+	fixedIndexInTab int     `json:"fixedIndexInTab"`
+	keepAlive       bool    `json:"keepAlive"`
+	constant        bool    `json:"constant"`
+	href            string  `json:"href"`
+	query           []Query `json:"query"`
+}
+
+type Query {
+	key   string `json:"key"`
+	value string `json:"value"`
 }
 
 type GetConstantRoutesRequest {}

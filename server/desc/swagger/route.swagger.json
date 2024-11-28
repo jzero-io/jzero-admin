@@ -137,6 +137,22 @@
       "type": "object",
       "title": "IsRouteExistRequest"
     },
+    "Query": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "title": "Query",
+      "required": [
+        "key",
+        "value"
+      ]
+    },
     "Route": {
       "type": "object",
       "properties": {
@@ -213,6 +229,10 @@
           "type": "boolean",
           "format": "boolean"
         },
+        "fixedIndexInTab": {
+          "type": "integer",
+          "format": "int32"
+        },
         "keepAlive": {
           "type": "boolean",
           "format": "boolean"
@@ -220,6 +240,15 @@
         "constant": {
           "type": "boolean",
           "format": "boolean"
+        },
+        "href": {
+          "type": "string"
+        },
+        "query": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Query"
+          }
         }
       },
       "title": "RouteMeta",
@@ -231,8 +260,11 @@
         "hideInMenu",
         "activeMenu",
         "multiTab",
+        "fixedIndexInTab",
         "keepAlive",
-        "constant"
+        "constant",
+        "href",
+        "query"
       ]
     },
     "boolean": {

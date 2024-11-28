@@ -31,6 +31,11 @@ type GetUserRoutesResponse struct {
 type IsRouteExistRequest struct {
 }
 
+type Query struct {
+	Key   string `json:"key"`
+	Value string `json:"value"`
+}
+
 type Route struct {
 	Id        int64     `json:"-"`
 	ParentId  int64     `json:"-"`
@@ -44,13 +49,16 @@ type Route struct {
 }
 
 type RouteMeta struct {
-	Title      string `json:"title"`
-	I18nKey    string `json:"i18nKey"`
-	Icon       string `json:"icon"`
-	Order      int    `json:"order"`
-	HideInMenu bool   `json:"hideInMenu"`
-	ActiveMenu string `json:"activeMenu"`
-	MultiTab   bool   `json:"multiTab"`
-	KeepAlive  bool   `json:"keepAlive"`
-	Constant   bool   `json:"constant"`
+	Title           string  `json:"title"`
+	I18nKey         string  `json:"i18nKey"`
+	Icon            string  `json:"icon"`
+	Order           int     `json:"order"`
+	HideInMenu      bool    `json:"hideInMenu"`
+	ActiveMenu      string  `json:"activeMenu"`
+	MultiTab        bool    `json:"multiTab"`
+	FixedIndexInTab int     `json:"fixedIndexInTab"`
+	KeepAlive       bool    `json:"keepAlive"`
+	Constant        bool    `json:"constant"`
+	Href            string  `json:"href"`
+	Query           []Query `json:"query"`
 }

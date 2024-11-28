@@ -571,9 +571,8 @@
           "type": "integer",
           "format": "int64"
         },
-        "parentId": {
-          "type": "integer",
-          "format": "int64"
+        "activeMenu": {
+          "type": "string"
         },
         "menuType": {
           "type": "string"
@@ -596,21 +595,9 @@
         "iconType": {
           "type": "string"
         },
-        "buttonCode": {
-          "type": "string"
-        },
-        "permissions": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Permission"
-          }
-        },
-        "order": {
+        "parentId": {
           "type": "integer",
           "format": "int64"
-        },
-        "i18nKey": {
-          "type": "string"
         },
         "status": {
           "type": "string"
@@ -623,15 +610,41 @@
           "type": "boolean",
           "format": "boolean"
         },
+        "order": {
+          "type": "integer",
+          "format": "int64"
+        },
         "hideInMenu": {
           "type": "boolean",
           "format": "boolean"
         },
-        "mutiTab": {
+        "href": {
+          "type": "string"
+        },
+        "multiTab": {
           "type": "boolean",
           "format": "boolean"
         },
-        "activeMenu": {
+        "fixedIndexInTab": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "query": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Query"
+          }
+        },
+        "buttonCode": {
+          "type": "string"
+        },
+        "permissions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Permission"
+          }
+        },
+        "i18nKey": {
           "type": "string"
         },
         "children": {
@@ -644,7 +657,6 @@
       "title": "SystemMenu",
       "required": [
         "id",
-        "parentId",
         "menuType",
         "menuName",
         "routeName",
@@ -652,16 +664,12 @@
         "component",
         "icon",
         "iconType",
-        "buttonCode",
-        "permissions",
-        "order",
-        "i18nKey",
+        "parentId",
         "status",
         "keepAlive",
         "constant",
+        "order",
         "hideInMenu",
-        "mutiTab",
-        "activeMenu",
         "children"
       ]
     },

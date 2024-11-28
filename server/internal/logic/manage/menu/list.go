@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"sort"
 
+	"github.com/jzero-io/jzero-contrib/condition"
 	"github.com/spf13/cast"
 	"github.com/zeromicro/go-zero/core/logx"
 
@@ -30,7 +31,9 @@ func NewList(ctx context.Context, svcCtx *svc.ServiceContext) *List {
 func (l *List) List(req *types.ListRequest) (resp *types.ListResponse, err error) {
 	resp = &types.ListResponse{}
 
-	list, err := l.svcCtx.Model.ManageMenu.FindByCondition(l.ctx, nil)
+	list, err := l.svcCtx.Model.ManageMenu.FindByCondition(l.ctx, nil, condition.NewChain().
+		Equal("constant", false).
+		Build()...)
 	if err != nil {
 		return nil, err
 	}
@@ -62,28 +65,33 @@ func convert(list []*manage_menu.ManageMenu) []*types.SystemMenu {
 	for _, item := range list {
 		var menu types.SystemMenu
 		var permissions []types.Permission
+		var query []types.Query
 		Unmarshal(item.Permissions.String, &permissions)
+		Unmarshal(item.Query.String, &query)
 		menu = types.SystemMenu{
-			Id:          item.Id,
-			ParentId:    uint64(item.ParentId),
-			MenuType:    item.MenuType,
-			MenuName:    item.MenuName,
-			RouteName:   item.RouteName,
-			RoutePath:   item.RoutePath,
-			Component:   item.Component,
-			Icon:        item.Icon,
-			IconType:    item.IconType,
-			Order:       uint64(item.Order),
-			I18nKey:     item.I18nKey,
-			Status:      item.Status,
-			Constant:    cast.ToBool(item.Constant),
-			HideInMenu:  cast.ToBool(item.HideInMenu),
-			MultiTab:    cast.ToBool(item.MultiTab),
-			KeepAlive:   cast.ToBool(item.KeepAlive),
-			ActiveMenu:  item.ActiveMenu.String,
-			ButtonCode:  item.ButtonCode.String,
-			Permissions: permissions,
-			Children:    nil,
+			Id:              item.Id,
+			ActiveMenu:      item.ActiveMenu.String,
+			MenuType:        item.MenuType,
+			MenuName:        item.MenuName,
+			RouteName:       item.RouteName,
+			RoutePath:       item.RoutePath,
+			Component:       item.Component,
+			Icon:            item.Icon,
+			IconType:        item.IconType,
+			ParentId:        uint64(item.ParentId),
+			Status:          item.Status,
+			KeepAlive:       cast.ToBool(item.KeepAlive),
+			Constant:        cast.ToBool(item.Constant),
+			Order:           uint64(item.Order),
+			HideInMenu:      cast.ToBool(item.HideInMenu),
+			Href:            item.Href.String,
+			MultiTab:        cast.ToBool(item.MultiTab),
+			FixedIndexInTab: cast.ToBool(item.FixedIndexInTab),
+			Query:           query,
+			ButtonCode:      item.ButtonCode.String,
+			Permissions:     permissions,
+			I18nKey:         item.I18nKey,
+			Children:        nil,
 		}
 		records = append(records, &menu)
 	}

@@ -10,6 +10,7 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 
 	"server/internal/auth"
+	"server/internal/logic/manage/menu"
 	"server/internal/model/manage_menu"
 	"server/internal/svc"
 	types "server/internal/types/route"
@@ -77,21 +78,28 @@ func convert(list []*manage_menu.ManageMenu) []*types.Route {
 	var records []*types.Route
 	for _, item := range list {
 		var route types.Route
+		var query []types.Query
+
+		menu.Unmarshal(item.Query.String, &query)
+
 		route = types.Route{
 			Id:       int64(item.Id),
 			ParentId: item.ParentId,
 			Name:     item.RouteName,
 			Path:     item.RoutePath,
 			Meta: types.RouteMeta{
-				Title:      item.RouteName,
-				I18nKey:    item.I18nKey,
-				Icon:       item.Icon,
-				Order:      int(item.Order),
-				HideInMenu: cast.ToBool(item.HideInMenu),
-				ActiveMenu: item.ActiveMenu.String,
-				MultiTab:   cast.ToBool(item.MultiTab),
-				KeepAlive:  cast.ToBool(item.KeepAlive),
-				Constant:   cast.ToBool(item.Constant),
+				Title:           item.RouteName,
+				I18nKey:         item.I18nKey,
+				Icon:            item.Icon,
+				Order:           int(item.Order),
+				HideInMenu:      cast.ToBool(item.HideInMenu),
+				ActiveMenu:      item.ActiveMenu.String,
+				MultiTab:        cast.ToBool(item.MultiTab),
+				FixedIndexInTab: int(item.FixedIndexInTab),
+				KeepAlive:       cast.ToBool(item.KeepAlive),
+				Constant:        cast.ToBool(item.Constant),
+				Href:            item.Href.String,
+				Query:           query,
 			},
 			Component: item.Component,
 			Props:     strings.Contains(item.RoutePath, ":"),
