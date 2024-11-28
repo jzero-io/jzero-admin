@@ -26,7 +26,7 @@ type AddRequest struct {
 	HideInMenu      bool         `json:"hideInMenu"`
 	Href            string       `json:"href,optional"`
 	MultiTab        bool         `json:"multiTab,optional"`
-	FixedIndexInTab bool         `json:"fixedIndexInTab,optional"`
+	FixedIndexInTab *int64       `json:"fixedIndexInTab,optional"`
 	Query           []Query      `json:"query,optional"`
 	ButtonCode      string       `json:"buttonCode,optional"`
 	Permissions     []Permission `json:"permissions,optional"`
@@ -66,7 +66,7 @@ type EditRequest struct {
 	HideInMenu      bool         `json:"hideInMenu"`
 	Href            string       `json:"href,optional"`
 	MutiTab         bool         `json:"mutiTab,optional"`
-	FixedIndexInTab bool         `json:"fixedIndexInTab,optional"`
+	FixedIndexInTab *int64       `json:"fixedIndexInTab,optional"`
 	Query           []Query      `json:"query"`
 	ButtonCode      string       `json:"buttonCode,optional"`
 	Permissions     []Permission `json:"permissions"`
@@ -130,7 +130,7 @@ type SystemMenu struct {
 	HideInMenu      bool         `json:"hideInMenu"`
 	Href            string       `json:"href,optional"`
 	MultiTab        bool         `json:"multiTab,optional"`
-	FixedIndexInTab bool         `json:"fixedIndexInTab,optional"`
+	FixedIndexInTab *int64       `json:"fixedIndexInTab,optional"`
 	Query           []Query      `json:"query,optional"`
 	ButtonCode      string       `json:"buttonCode,optional"`
 	Permissions     []Permission `json:"permissions,optional"`

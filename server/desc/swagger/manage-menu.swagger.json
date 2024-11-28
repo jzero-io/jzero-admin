@@ -254,8 +254,8 @@
           "format": "boolean"
         },
         "fixedIndexInTab": {
-          "type": "boolean",
-          "format": "boolean"
+          "type": "integer",
+          "format": "int64"
         },
         "query": {
           "type": "array",
@@ -395,8 +395,8 @@
           "format": "boolean"
         },
         "fixedIndexInTab": {
-          "type": "boolean",
-          "format": "boolean"
+          "type": "integer",
+          "format": "int64"
         },
         "query": {
           "type": "array",
@@ -626,8 +626,8 @@
           "format": "boolean"
         },
         "fixedIndexInTab": {
-          "type": "boolean",
-          "format": "boolean"
+          "type": "integer",
+          "format": "int64"
         },
         "query": {
           "type": "array",

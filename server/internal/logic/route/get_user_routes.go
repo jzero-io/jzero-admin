@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/jzero-io/jzero-contrib/condition"
+	"github.com/jzero-io/jzero-contrib/nullx"
 	"github.com/samber/lo"
 	"github.com/spf13/cast"
 	"github.com/zeromicro/go-zero/core/logx"
@@ -95,7 +96,7 @@ func convert(list []*manage_menu.ManageMenu) []*types.Route {
 				HideInMenu:      cast.ToBool(item.HideInMenu),
 				ActiveMenu:      item.ActiveMenu.String,
 				MultiTab:        cast.ToBool(item.MultiTab),
-				FixedIndexInTab: int(item.FixedIndexInTab),
+				FixedIndexInTab: nullx.NewInt(item.FixedIndexInTab).Ptr(),
 				KeepAlive:       cast.ToBool(item.KeepAlive),
 				Constant:        cast.ToBool(item.Constant),
 				Href:            item.Href.String,

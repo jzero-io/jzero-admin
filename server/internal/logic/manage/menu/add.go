@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/guregu/null/v5"
+	null "github.com/guregu/null/v5"
 	"github.com/spf13/cast"
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
@@ -50,7 +50,7 @@ func (l *Add) Add(req *types.AddRequest) (resp *types.AddResponse, err error) {
 			KeepAlive:       cast.ToInt64(req.KeepAlive),
 			Href:            null.StringFrom(req.Href).NullString,
 			MultiTab:        null.IntFrom(cast.ToInt64(req.MultiTab)).NullInt64,
-			FixedIndexInTab: cast.ToInt64(req.FixedIndexInTab),
+			FixedIndexInTab: null.IntFromPtr(req.FixedIndexInTab).NullInt64,
 			Query:           null.StringFrom(marshal(req.Query)).NullString,
 			ButtonCode:      null.StringFrom(req.ButtonCode).NullString,
 			Permissions:     null.StringFrom(marshal(req.Permissions)).NullString,

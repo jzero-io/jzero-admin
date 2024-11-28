@@ -26,7 +26,7 @@ type AddRequest {
 	hideInMenu      bool         `json:"hideInMenu"`
 	href            string       `json:"href,optional"`
 	multiTab        bool         `json:"multiTab,optional"`
-	fixedIndexInTab bool         `json:"fixedIndexInTab,optional"`
+	fixedIndexInTab *int64       `json:"fixedIndexInTab,optional"`
 	query           []Query      `json:"query,optional"`
 	buttonCode      string       `json:"buttonCode,optional"`
 	permissions     []Permission `json:"permissions,optional"`
@@ -72,7 +72,7 @@ type SystemMenu {
 	hideInMenu      bool         `json:"hideInMenu"`
 	href            string       `json:"href,optional"`
 	multiTab        bool         `json:"multiTab,optional"`
-	fixedIndexInTab bool         `json:"fixedIndexInTab,optional"`
+	fixedIndexInTab *int64       `json:"fixedIndexInTab,optional"`
 	query           []Query      `json:"query,optional"`
 	buttonCode      string       `json:"buttonCode,optional"`
 	permissions     []Permission `json:"permissions,optional"`
@@ -121,7 +121,7 @@ type EditRequest {
 	hideInMenu      bool         `json:"hideInMenu"`
 	href            string       `json:"href,optional"`
 	mutiTab         bool         `json:"mutiTab,optional"`
-	fixedIndexInTab bool         `json:"fixedIndexInTab,optional"`
+	fixedIndexInTab *int64       `json:"fixedIndexInTab,optional"`
 	query           []Query      `json:"query"`
 	buttonCode      string       `json:"buttonCode,optional"`
 	permissions     []Permission `json:"permissions"`

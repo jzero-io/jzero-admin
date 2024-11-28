@@ -59,7 +59,7 @@ type ManageMenu struct {
 	KeepAlive       bool   `gorm:"column:keep_alive;not null"`
 	Href            string `gorm:"column:href"`
 	MutiTab         bool   `gorm:"column:multi_tab"`
-	FixedIndexInTab int    `gorm:"column:fixed_index_in_tab;not null"`
+	FixedIndexInTab int    `gorm:"column:fixed_index_in_tab"`
 	Query           string `gorm:"column:query"`
 	ButtonCode      string `gorm:"column:button_code"`
 	Permissions     string `gorm:"column:permissions"`

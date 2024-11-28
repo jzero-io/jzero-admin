@@ -51,7 +51,7 @@ func (l *Edit) Edit(req *types.EditRequest) (resp *types.EditResponse, err error
 	one.KeepAlive = cast.ToInt64(req.KeepAlive)
 	one.Href = null.StringFrom(req.Href).NullString
 	one.MultiTab = null.IntFrom(cast.ToInt64(req.MutiTab)).NullInt64
-	one.FixedIndexInTab = cast.ToInt64(req.FixedIndexInTab)
+	one.FixedIndexInTab = null.IntFromPtr(req.FixedIndexInTab).NullInt64
 	one.Query = null.StringFrom(marshal(req.Query)).NullString
 	one.ButtonCode = null.StringFrom(req.ButtonCode).NullString
 	one.Permissions = null.StringFrom(marshal(req.Permissions)).NullString

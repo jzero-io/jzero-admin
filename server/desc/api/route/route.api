@@ -24,7 +24,7 @@ type RouteMeta {
 	hideInMenu      bool    `json:"hideInMenu"`
 	activeMenu      string  `json:"activeMenu"`
 	multiTab        bool    `json:"multiTab"`
-	fixedIndexInTab int     `json:"fixedIndexInTab"`
+	fixedIndexInTab *int64  `json:"fixedIndexInTab"`
 	keepAlive       bool    `json:"keepAlive"`
 	constant        bool    `json:"constant"`
 	href            string  `json:"href"`

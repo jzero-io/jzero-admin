@@ -56,7 +56,7 @@ type RouteMeta struct {
 	HideInMenu      bool    `json:"hideInMenu"`
 	ActiveMenu      string  `json:"activeMenu"`
 	MultiTab        bool    `json:"multiTab"`
-	FixedIndexInTab int     `json:"fixedIndexInTab"`
+	FixedIndexInTab *int64  `json:"fixedIndexInTab"`
 	KeepAlive       bool    `json:"keepAlive"`
 	Constant        bool    `json:"constant"`
 	Href            string  `json:"href"`
