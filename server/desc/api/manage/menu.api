@@ -131,8 +131,9 @@ type EditRequest {
 type EditResponse {}
 
 @server (
-	group: manage/menu
-	jwt:   Jwt
+	group:      manage/menu
+	jwt:        Jwt
+	middleware: Authx
 )
 service server {
 	@handler List
