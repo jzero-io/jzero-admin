@@ -3,45 +3,51 @@
 package handler
 
 import (
-	"fmt"
 	"net/http"
 	"strings"
+
+	casbinutil "github.com/casbin/casbin/v2/util"
 )
 
 var routesCodesMap = map[string]string{
-	"GET:/version":                   "version:get",
 	"POST:/auth/code-login":          "auth:codeLogin",
+	"POST:/auth/error":               "auth:error",
+	"GET:/auth/getUserInfo":          "auth:getUserInfo",
 	"POST:/auth/pwd-login":           "auth:pwdLogin",
+	"POST:/auth/refreshToken":        "auth:refreshToken",
 	"POST:/auth/register":            "auth:register",
 	"POST:/auth/resetPassword":       "auth:resetPassword",
 	"GET:/auth/sendVerificationCode": "auth:sendVerificationCode",
-	"POST:/auth/error":               "auth:error",
-	"GET:/auth/getUserInfo":          "auth:getUserInfo",
-	"POST:/auth/refreshToken":        "auth:refreshToken",
 	"POST:/manage/addMenu":           "manage:menu:add",
+	"POST:/manage/addRole":           "manage:role:add",
+	"POST:/manage/addUser":           "manage:user:add",
 	"POST:/manage/deleteMenu":        "manage:menu:delete",
+	"POST:/manage/deleteRole":        "manage:role:delete",
+	"POST:/manage/deleteUser":        "manage:user:delete",
 	"POST:/manage/editMenu":          "manage:menu:edit",
+	"POST:/manage/editRole":          "manage:role:edit",
+	"POST:/manage/editUser":          "manage:user:edit",
 	"GET:/manage/getAllPages":        "manage:menu:getAllPages",
+	"GET:/manage/getAllRoles":        "manage:role:getAll",
 	"GET:/manage/getMenuList/v2":     "manage:menu:list",
 	"GET:/manage/getMenuTree":        "manage:menu:tree",
-	"POST:/manage/addRole":           "manage:role:add",
-	"POST:/manage/deleteRole":        "manage:role:delete",
-	"POST:/manage/editRole":          "manage:role:edit",
-	"GET:/manage/getAllRoles":        "manage:role:getAll",
 	"GET:/manage/getRoleList":        "manage:role:list",
 	"GET:/manage/getRoleMenus":       "manage:role:getMenus",
-	"POST:/manage/setRoleMenus":      "manage:role:setMenus",
-	"POST:/manage/addUser":           "manage:user:add",
-	"POST:/manage/deleteUser":        "manage:user:delete",
-	"POST:/manage/editUser":          "manage:user:edit",
 	"GET:/manage/getUserList":        "manage:user:list",
+	"POST:/manage/setRoleMenus":      "manage:role:setMenus",
 	"GET:/route/getConstantRoutes":   "route:getConstantRoutes",
 	"GET:/route/getUserRoutes":       "route:getUserRoutes",
 	"GET:/route/isRouteExist":        "route:isRouteExist",
+	"GET:/version":                   "version:get",
 }
 
 func Route2Code(r *http.Request) string {
-	path := r.URL.Path
-	method := r.Method
-	return routesCodesMap[fmt.Sprintf("%s:%s", strings.ToUpper(method), path)]
+	for k, v := range routesCodesMap {
+		if splits := strings.Split(k, ":"); len(splits) >= 2 && splits[0] == strings.ToUpper(r.Method) {
+			if casbinutil.KeyMatch2(r.URL.Path, strings.Join(splits[1:], ":")) {
+				return v
+			}
+		}
+	}
+	return "unknown_code"
 }
