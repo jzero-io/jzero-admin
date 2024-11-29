@@ -20,10 +20,10 @@ CREATE TABLE `manage_menu` (
   `keep_alive` tinyint(1) NOT NULL,
   `href` longtext,
   `multi_tab` tinyint(1) DEFAULT NULL,
+  `fixed_index_in_tab` bigint DEFAULT NULL,
   `query` longtext,
   `permissions` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
   `constant` tinyint(1) NOT NULL,
   `button_code` longtext,
-  `fixed_index_in_tab` bigint DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci

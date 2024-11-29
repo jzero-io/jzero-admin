@@ -144,6 +144,8 @@ const showPage = computed(() => model.menuType === '2');
 
 const notAddButtonType = computed(() => model.menuType === '1' || model.menuType === '2');
 
+const showPermission = computed(() => model.menuType === '2' || model.menuType === '3');
+
 const pageOptions = computed(() => {
   const allPages = [...props.allPages];
 
@@ -501,18 +503,19 @@ watch(
             <NFormItemGi span="24 m:12" :label="$t('page.manage.menu.buttonCode')" path="buttonCode">
               <NInput v-model:value="model.buttonCode" :placeholder="$t('page.manage.menu.form.buttonCode')" />
             </NFormItemGi>
-            <NFormItemGi span="24" :label="$t('page.manage.menu.permission')">
+          </template>
+          <NFormItemGi v-if="showPermission" span="24" :label="$t('page.manage.menu.permission')">
               <NDynamicInput v-model:value="model.permissions" :on-create="handleCreatePermission">
                 <template #default="{ value }">
-                  <div class="ml-8px flex-y-center flex-1 gap-12px">
+                  <div class="flex-y-center flex-1 gap-12px">
                     <NInput
                       v-model:value="value.code"
-                      :placeholder="$t('page.manage.menu.form.buttonCode')"
+                      :placeholder="$t('page.manage.menu.form.permissionCode')"
                       class="flex-1"
                     />
                     <NInput
                       v-model:value="value.desc"
-                      :placeholder="$t('page.manage.menu.form.buttonDesc')"
+                      :placeholder="$t('page.manage.menu.form.permissionDesc')"
                       class="flex-1"
                     />
                   </div>
@@ -529,7 +532,6 @@ watch(
                 </template>
               </NDynamicInput>
             </NFormItemGi>
-          </template>
         </NGrid>
       </NForm>
     </NScrollbar>

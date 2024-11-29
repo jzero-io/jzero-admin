@@ -1,5 +1,7 @@
 package custom
 
+import "server/internal/errcodes"
+
 type Custom struct {
 }
 
@@ -8,7 +10,9 @@ func New() *Custom {
 }
 
 // Start Please add custom logic here.
-func (c *Custom) Start() {}
+func (c *Custom) Start() {
+	errcodes.Register()
+}
 
 // Stop Please add shut down logic here.
 func (c *Custom) Stop() {}
