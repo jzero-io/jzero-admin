@@ -1,6 +1,7 @@
 <script setup lang="tsx">
 import { computed, reactive, ref, watch } from 'vue';
 import type { SelectOption } from 'naive-ui';
+import { useLoading } from '@sa/hooks';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import { $t } from '@/locales';
 import { AddMenu, EditMenu, GetAllRoles } from '@/service/api';
@@ -44,6 +45,7 @@ const visible = defineModel<boolean>('visible', {
 
 const { formRef, validate, restoreValidation } = useNaiveForm();
 const { defaultRequiredRule } = useFormRules();
+const { loading: confirmLoading, startLoading: confirmStartLoding, endLoading: confirmEndLoading } = useLoading();
 
 const title = computed(() => {
   const titles: Record<OperateType, string> = {
@@ -284,7 +286,9 @@ async function handleSubmit() {
       permissions: params.permissions,
       i18nKey: params.i18nKey
     };
+    confirmStartLoding();
     const { error } = await AddMenu(addMenuData);
+    confirmEndLoading();
     if (!error) {
       window.$message?.success($t('common.addSuccess'));
       closeDrawer();
@@ -319,9 +323,11 @@ async function handleSubmit() {
       permissions: params.permissions,
       i18nKey: params.i18nKey
     };
+    confirmStartLoding();
     const { error } = await EditMenu(editMenuData);
+    confirmEndLoading();
     if (!error) {
-      window.$message?.success($t('common.addSuccess'));
+      window.$message?.success($t('common.editSuccess'));
       closeDrawer();
       emit('submitted');
     }
@@ -532,7 +538,7 @@ watch(
     <template #footer>
       <NSpace justify="end" :size="16">
         <NButton @click="closeDrawer">{{ $t('common.cancel') }}</NButton>
-        <NButton type="primary" @click="handleSubmit">{{ $t('common.confirm') }}</NButton>
+        <NButton :loading="confirmLoading" type="primary" @click="handleSubmit">{{ $t('common.confirm') }}</NButton>
       </NSpace>
     </template>
   </NModal>
