@@ -9,10 +9,9 @@ import (
 
 func ErrorMiddleware(err error) (int, any) {
 	fromError := status.FromError(err)
-
 	return http.StatusOK, Body{
 		Data: nil,
-		Code: cast.ToString(fromError.Code()),
+		Code: cast.ToString(int(fromError.Code())),
 		Msg:  fromError.Error(),
 	}
 }

@@ -2,9 +2,11 @@ package menu
 
 import (
 	"context"
-
 	"github.com/jzero-io/jzero-contrib/condition"
+	"github.com/jzero-io/jzero-contrib/status"
+	"github.com/spf13/cast"
 	"github.com/zeromicro/go-zero/core/logx"
+	"server/internal/errcodes/manage"
 
 	"server/internal/svc"
 	types "server/internal/types/manage/menu"
@@ -34,11 +36,35 @@ func (l *Delete) Delete(req *types.DeleteRequest) (resp *types.DeleteResponse, e
 		Operator: condition.In,
 		Value:    req.Ids,
 	})
-	if err != nil {
-		return
+	if err == nil && len(subMenus) > 0 {
+		return nil, status.Error(manage.ExistSubMenuCode)
 	}
-	if len(subMenus) > 0 {
-		return nil,
+	// remove permissions
+	menus, err := l.svcCtx.Model.ManageMenu.FindByCondition(l.ctx, nil, condition.Condition{
+		Field:    "id",
+		Operator: condition.In,
+		Value:    req.Ids,
+	})
+	if err == nil {
+		for _, menu := range menus {
+			var permissions []types.Permission
+			Unmarshal(menu.Permissions.String, &permissions)
+			if len(permissions) > 0 {
+				roles, err := l.svcCtx.Model.ManageRoleMenu.FindByCondition(l.ctx, nil, condition.Condition{
+					Field:    "menu_id",
+					Operator: condition.Equal,
+					Value:    menu.Id,
+				})
+				if err != nil {
+					return nil, err
+				}
+				for _, role := range roles {
+					for _, permission := range permissions {
+						_, _ = l.svcCtx.CasbinEnforcer.RemovePolicy(cast.ToString(role.RoleId), permission.Code)
+					}
+				}
+			}
+		}
 	}
 	err = l.svcCtx.Model.ManageMenu.DeleteByCondition(l.ctx, nil, condition.Condition{
 		Field:    "id",
