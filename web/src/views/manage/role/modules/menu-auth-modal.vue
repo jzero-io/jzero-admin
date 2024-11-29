@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, shallowRef, watch } from 'vue';
+import { useLoading } from '@sa/hooks';
 import { $t } from '@/locales';
 import { GetAllPages, GetMenuTree, GetRoleMenus, SetRoleMenus } from '@/service/api';
 
@@ -13,6 +14,7 @@ interface Props {
 }
 
 const props = defineProps<Props>();
+const { loading, startLoading: confirmStartLoding, endLoading: confirmEndLoading } = useLoading();
 
 const visible = defineModel<boolean>('visible', {
   default: false
@@ -27,8 +29,6 @@ const title = computed(() => $t('common.edit') + $t('page.manage.role.menuAuth')
 const home = shallowRef('');
 
 async function getHome() {
-  console.log(props.roleId);
-
   home.value = 'home';
 }
 
@@ -58,25 +58,22 @@ const pageSelectOptions = computed(() => {
 });
 
 const tree = shallowRef<Api.Manage.MenuTree[]>([]);
+const checks = shallowRef<number[]>([]);
 
 async function getTree() {
+  confirmStartLoding();
   const { error, data } = await GetMenuTree();
-
   if (!error) {
     tree.value = data;
   }
-}
 
-const checks = shallowRef<number[]>([]);
-
-async function getMenus() {
   const getRoleMenusRequest: Api.Manage.GetRoleMenusRequest = {
     roleId: props.roleId
   };
-  const { error, data } = await GetRoleMenus(getRoleMenusRequest);
-  if (!error) {
-    checks.value = data;
-    getTree();
+  const { error: roleMenusError, data: roleMenusData } = await GetRoleMenus(getRoleMenusRequest);
+  confirmEndLoading();
+  if (!roleMenusError) {
+    checks.value = roleMenusData;
   }
 }
 
@@ -97,7 +94,6 @@ function init() {
   getHome();
   getPages();
   getTree();
-  getMenus();
 }
 
 watch(visible, val => {
@@ -108,21 +104,28 @@ watch(visible, val => {
 </script>
 
 <template>
-  <NModal v-model:show="visible" :title="title" preset="card" class="w-480px">
+  <NModal v-model:show="visible" :loading="true" :title="title" preset="card" class="w-480px">
     <div class="flex-y-center gap-16px pb-12px">
       <div>{{ $t('page.manage.menu.home') }}</div>
       <NSelect :value="home" :options="pageSelectOptions" size="small" class="w-160px" @update:value="updateHome" />
     </div>
-    <NTree
-      v-model:checked-keys="checks"
-      :data="tree"
-      key-field="id"
-      checkable
-      expand-on-click
-      virtual-scroll
-      block-line
-      class="h-280px"
-    />
+    <template v-if="loading">
+      <NSpace class="h-280px" justify="center">
+        <NSpin size="small" />
+      </NSpace>
+    </template>
+    <template v-else>
+      <NTree
+        v-model:checked-keys="checks"
+        :data="tree"
+        key-field="id"
+        checkable
+        expand-on-click
+        virtual-scroll
+        block-line
+        class="h-280px"
+      />
+    </template>
     <template #footer>
       <NSpace justify="end">
         <NButton size="small" class="mt-16px" @click="closeModal">
