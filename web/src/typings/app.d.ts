@@ -304,6 +304,7 @@ declare namespace App {
         deleteSuccess: string;
         confirmDelete: string;
         edit: string;
+        editSuccess: string;
         warning: string;
         error: string;
         index: string;

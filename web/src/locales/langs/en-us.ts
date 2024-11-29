@@ -23,6 +23,7 @@ const local: App.I18n.Schema = {
     deleteSuccess: 'Delete Success',
     confirmDelete: 'Are you sure you want to delete?',
     edit: 'Edit',
+    editSuccess: 'Edit Success',
     warning: 'Warning',
     error: 'Error',
     index: 'Index',
@@ -181,19 +182,19 @@ const local: App.I18n.Schema = {
         list: 'User List',
         add: 'Add User',
         edit: 'Edit User',
-        delete: 'Delete User',
+        delete: 'Delete User'
       },
       menu: {
         list: 'Menu List',
         add: 'Add Menu',
         edit: 'Edit Menu',
-        delete: 'Delete Menu',
+        delete: 'Delete Menu'
       },
       role: {
         list: 'Role List',
         add: 'Add Role',
         edit: 'Edit Role',
-        delete: 'Delete Role',
+        delete: 'Delete Role'
       }
     }
   },
