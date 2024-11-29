@@ -383,8 +383,6 @@ const local: App.I18n.Schema = {
           queryKey: 'Please enter route parameter Key',
           queryValue: 'Please enter route parameter Value',
           button: 'Please select whether it is a button',
-          buttonCode: 'Please enter button code',
-          buttonDesc: 'Please enter button description',
           permissionCode: 'Please enter permission code',
           permissionDesc: 'Please enter permission description',
           menuStatus: 'Please select menu status'

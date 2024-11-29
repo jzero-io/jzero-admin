@@ -383,8 +383,6 @@ const local: App.I18n.Schema = {
           queryKey: '请输入路由参数Key',
           queryValue: '请输入路由参数Value',
           button: '请选择是否按钮',
-          buttonCode: '请输入按钮编码',
-          buttonDesc: '请输入按钮描述',
           permissionCode: '请输入权限编码',
           permissionDesc: '请输入权限描述',
           menuStatus: '请选择菜单状态'

@@ -59,7 +59,7 @@ func (l *Edit) Edit(req *types.EditRequest) (resp *types.EditResponse, err error
 
 	err = l.svcCtx.Model.ManageMenu.Update(l.ctx, nil, one)
 
-	if req.MenuType == "3" {
+	if req.MenuType == "2" || req.MenuType == "3" {
 		// 更新了权限标识
 		if marshal(req.Permissions) != one.Permissions.String {
 			roleMenus, err := l.svcCtx.Model.ManageRoleMenu.FindByCondition(l.ctx, nil, condition.NewChain().

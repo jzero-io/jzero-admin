@@ -28,6 +28,18 @@ func (l *Delete) Delete(req *types.DeleteRequest) (resp *types.DeleteResponse, e
 	if len(req.Ids) == 0 {
 		return nil, nil
 	}
+	// whether it has submenu
+	subMenus, err := l.svcCtx.Model.ManageMenu.FindByCondition(l.ctx, nil, condition.Condition{
+		Field:    "parent_id",
+		Operator: condition.In,
+		Value:    req.Ids,
+	})
+	if err != nil {
+		return
+	}
+	if len(subMenus) > 0 {
+		return nil,
+	}
 	err = l.svcCtx.Model.ManageMenu.DeleteByCondition(l.ctx, nil, condition.Condition{
 		Field:    "id",
 		Operator: condition.In,
