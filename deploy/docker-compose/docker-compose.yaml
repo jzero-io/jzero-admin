@@ -1,12 +1,15 @@
 services:
   mysql8:
-    image: mysql:8.0.32
+    image: mysql:8.0
     restart: always
     container_name: jzero-admin-mysql8
     environment:
       - TZ=Asia/Shanghai
       - MYSQL_ROOT_PASSWORD=123456
       - MYSQL_ROOT_USER=root
+      - MYSQL_DATABASE=jzeroadmin
+    ports:
+      - "3306:3306"
     volumes:
       - ./mysql8/data:/var/lib/mysql
       - ./mysql8/config:/etc/mysql/conf.d
