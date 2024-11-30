@@ -9,6 +9,10 @@
       "name": "web"
     },
     {
+      "path": "deploy",
+      "name": "deploy"
+    },
+    {
       "path": ".",
       "name": "root"
     }

@@ -34,7 +34,8 @@ dist
 
 data
 
-etc/.env.yaml
+etc/.env.*
+!etc/.env.example.yaml
 .jzero.dev.yaml
 /server
 !/server/
