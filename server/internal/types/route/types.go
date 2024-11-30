@@ -37,20 +37,21 @@ type Query struct {
 }
 
 type Route struct {
-	Id        int64     `json:"-"`
-	ParentId  int64     `json:"-"`
-	Name      string    `json:"name"`
-	Path      string    `json:"path"`
-	Meta      RouteMeta `json:"meta"`
-	Component string    `json:"component"`
-	Props     bool      `json:"props"`
-	Redirect  string    `json:"redirect"`
-	Children  []Route   `json:"children"`
+	Id        int64       `json:"-"`
+	ParentId  int64       `json:"-"`
+	Name      string      `json:"name"`
+	Path      string      `json:"path"`
+	Meta      RouteMeta   `json:"meta"`
+	Component string      `json:"component"`
+	Props     interface{} `json:"props"`
+	Redirect  string      `json:"redirect"`
+	Children  []Route     `json:"children"`
 }
 
 type RouteMeta struct {
 	Title           string  `json:"title"`
 	I18nKey         string  `json:"i18nKey"`
+	LocalIcon       string  `json:"localIcon"`
 	Icon            string  `json:"icon"`
 	Order           int     `json:"order"`
 	HideInMenu      bool    `json:"hideInMenu"`

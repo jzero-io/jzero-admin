@@ -25,5 +25,6 @@ CREATE TABLE `manage_menu` (
   `permissions` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
   `constant` tinyint(1) NOT NULL,
   `button_code` longtext,
+  `iframe_page_url` longtext,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci

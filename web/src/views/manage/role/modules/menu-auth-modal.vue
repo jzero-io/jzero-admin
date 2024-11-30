@@ -14,7 +14,16 @@ interface Props {
 }
 
 const props = defineProps<Props>();
-const { loading, startLoading: confirmStartLoding, endLoading: confirmEndLoading } = useLoading();
+const {
+  loading: getTreeDataLoading,
+  startLoading: getTreeDataStartLoading,
+  endLoading: getTreeDataEndLoading
+} = useLoading();
+const {
+  loading: setMenusConfirmLoding,
+  startLoading: setMenusConfirmStartLoading,
+  endLoading: setMenusConfirmEndLoading
+} = useLoading();
 
 const visible = defineModel<boolean>('visible', {
   default: false
@@ -61,7 +70,7 @@ const tree = shallowRef<Api.Manage.MenuTree[]>([]);
 const checks = shallowRef<number[]>([]);
 
 async function getTree() {
-  confirmStartLoding();
+  getTreeDataStartLoading();
   const { error, data } = await GetMenuTree();
   if (!error) {
     tree.value = data;
@@ -71,7 +80,7 @@ async function getTree() {
     roleId: props.roleId
   };
   const { error: roleMenusError, data: roleMenusData } = await GetRoleMenus(getRoleMenusRequest);
-  confirmEndLoading();
+  getTreeDataEndLoading();
   if (!roleMenusError) {
     checks.value = roleMenusData;
   }
@@ -83,7 +92,9 @@ async function handleSubmit() {
     roleId: props.roleId,
     menuIds: checks.value
   };
+  setMenusConfirmStartLoading();
   const { error } = await SetRoleMenus(setRoleMenusRequest);
+  setMenusConfirmEndLoading();
   if (!error) {
     window.$message?.success?.($t('common.modifySuccess'));
     closeModal();
@@ -109,8 +120,8 @@ watch(visible, val => {
       <div>{{ $t('page.manage.menu.home') }}</div>
       <NSelect :value="home" :options="pageSelectOptions" size="small" class="w-160px" @update:value="updateHome" />
     </div>
-    <template v-if="loading">
-      <NSpace class="h-280px" justify="center">
+    <template v-if="getTreeDataLoading">
+      <NSpace class="h-280px" justify="center" align="center">
         <NSpin size="small" />
       </NSpace>
     </template>
@@ -131,7 +142,7 @@ watch(visible, val => {
         <NButton size="small" class="mt-16px" @click="closeModal">
           {{ $t('common.cancel') }}
         </NButton>
-        <NButton type="primary" size="small" class="mt-16px" @click="handleSubmit">
+        <NButton :loading="setMenusConfirmLoding" type="primary" size="small" class="mt-16px" @click="handleSubmit">
           {{ $t('common.confirm') }}
         </NButton>
       </NSpace>

@@ -5,20 +5,21 @@ info (
 )
 
 type Route {
-	id        int64     `json:"-"`
-	parentId  int64     `json:"-"`
-	name      string    `json:"name"`
-	path      string    `json:"path"`
-	meta      RouteMeta `json:"meta"`
-	component string    `json:"component"`
-	props     bool      `json:"props"`
-	redirect  string    `json:"redirect"`
-	children  []Route   `json:"children"`
+	id        int64       `json:"-"`
+	parentId  int64       `json:"-"`
+	name      string      `json:"name"`
+	path      string      `json:"path"`
+	meta      RouteMeta   `json:"meta"`
+	component string      `json:"component"`
+	props     interface{} `json:"props"`
+	redirect  string      `json:"redirect"`
+	children  []Route     `json:"children"`
 }
 
 type RouteMeta {
 	title           string  `json:"title"`
 	i18nKey         string  `json:"i18nKey"`
+	localIcon       string  `json:"localIcon"`
 	icon            string  `json:"icon"`
 	order           int     `json:"order"`
 	hideInMenu      bool    `json:"hideInMenu"`

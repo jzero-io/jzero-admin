@@ -64,6 +64,7 @@ type ManageMenu struct {
 	ButtonCode      string `gorm:"column:button_code"`
 	Permissions     string `gorm:"column:permissions"`
 	Constant        bool   `gorm:"column:constant;not null"`
+	IframePageUrl   string `gorm:"column:iframe_page_url"`
 }
 
 func (ManageMenu) TableName() string {

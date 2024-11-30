@@ -2,7 +2,6 @@ package route
 
 import (
 	"context"
-	"strings"
 
 	"github.com/jzero-io/jzero-contrib/condition"
 	"github.com/jzero-io/jzero-contrib/nullx"
@@ -103,8 +102,16 @@ func convert(list []*manage_menu.ManageMenu) []*types.Route {
 				Query:           query,
 			},
 			Component: item.Component,
-			Props:     strings.Contains(item.RoutePath, ":"),
 			Redirect:  "",
+		}
+		if item.Component == "view.iframe-page" {
+			route.Props = map[string]any{
+				"url": item.IframePageUrl.String,
+			}
+		}
+		if item.IconType == "2" {
+			route.Meta.LocalIcon = item.Icon
+			route.Meta.Icon = ""
 		}
 		records = append(records, &route)
 	}

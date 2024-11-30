@@ -177,8 +177,7 @@
           "type": "string"
         },
         "props": {
-          "type": "boolean",
-          "format": "boolean"
+          "type": "object"
         },
         "redirect": {
           "type": "string"
@@ -209,6 +208,9 @@
           "type": "string"
         },
         "i18nKey": {
+          "type": "string"
+        },
+        "localIcon": {
           "type": "string"
         },
         "icon": {
@@ -255,6 +257,7 @@
       "required": [
         "title",
         "i18nKey",
+        "localIcon",
         "icon",
         "order",
         "hideInMenu",
