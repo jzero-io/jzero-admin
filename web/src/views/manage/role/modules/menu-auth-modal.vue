@@ -134,6 +134,7 @@ watch(visible, val => {
         expand-on-click
         virtual-scroll
         block-line
+        cascade
         class="h-280px"
       />
     </template>
