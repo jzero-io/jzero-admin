@@ -153,6 +153,11 @@ const pageOptions = computed(() => {
     allPages.unshift(model.routeName);
   }
 
+  // 支持 iframe-page
+  if (!allPages.includes('iframe-page')) {
+    allPages.push('iframe-page');
+  }
+
   const opts: CommonType.Option[] = allPages.map(page => ({
     label: page,
     value: page
@@ -505,33 +510,33 @@ watch(
             </NFormItemGi>
           </template>
           <NFormItemGi v-if="showPermission" span="24" :label="$t('page.manage.menu.permission')">
-              <NDynamicInput v-model:value="model.permissions" :on-create="handleCreatePermission">
-                <template #default="{ value }">
-                  <div class="flex-y-center flex-1 gap-12px">
-                    <NInput
-                      v-model:value="value.code"
-                      :placeholder="$t('page.manage.menu.form.permissionCode')"
-                      class="flex-1"
-                    />
-                    <NInput
-                      v-model:value="value.desc"
-                      :placeholder="$t('page.manage.menu.form.permissionDesc')"
-                      class="flex-1"
-                    />
-                  </div>
-                </template>
-                <template #action="{ index, create, remove }">
-                  <NSpace class="ml-12px">
-                    <NButton size="medium" @click="() => create(index)">
-                      <icon-ic:round-plus class="text-icon" />
-                    </NButton>
-                    <NButton size="medium" @click="() => remove(index)">
-                      <icon-ic-round-remove class="text-icon" />
-                    </NButton>
-                  </NSpace>
-                </template>
-              </NDynamicInput>
-            </NFormItemGi>
+            <NDynamicInput v-model:value="model.permissions" :on-create="handleCreatePermission">
+              <template #default="{ value }">
+                <div class="flex-y-center flex-1 gap-12px">
+                  <NInput
+                    v-model:value="value.code"
+                    :placeholder="$t('page.manage.menu.form.permissionCode')"
+                    class="flex-1"
+                  />
+                  <NInput
+                    v-model:value="value.desc"
+                    :placeholder="$t('page.manage.menu.form.permissionDesc')"
+                    class="flex-1"
+                  />
+                </div>
+              </template>
+              <template #action="{ index, create, remove }">
+                <NSpace class="ml-12px">
+                  <NButton size="medium" @click="() => create(index)">
+                    <icon-ic:round-plus class="text-icon" />
+                  </NButton>
+                  <NButton size="medium" @click="() => remove(index)">
+                    <icon-ic-round-remove class="text-icon" />
+                  </NButton>
+                </NSpace>
+              </template>
+            </NDynamicInput>
+          </NFormItemGi>
         </NGrid>
       </NForm>
     </NScrollbar>

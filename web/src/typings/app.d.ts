@@ -569,6 +569,7 @@ declare namespace App {
             constant: string;
             keepAlive: string;
             href: string;
+            iframePage: string;
             hideInMenu: string;
             activeMenu: string;
             multiTab: string;

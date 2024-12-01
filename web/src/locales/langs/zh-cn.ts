@@ -349,6 +349,7 @@ const local: App.I18n.Schema = {
         constant: '常量路由',
         keepAlive: '缓存路由',
         href: '外链',
+        iframePage: 'iframe page 链接',
         hideInMenu: '隐藏菜单',
         activeMenu: '高亮的菜单',
         multiTab: '支持多页签',

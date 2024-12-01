@@ -106,8 +106,9 @@ func convert(list []*manage_menu.ManageMenu) []*types.Route {
 		}
 		if item.Component == "view.iframe-page" {
 			route.Props = map[string]any{
-				"url": item.IframePageUrl.String,
+				"url": item.Href.String,
 			}
+			route.Meta.Href = ""
 		}
 		if item.IconType == "2" {
 			route.Meta.LocalIcon = item.Icon
