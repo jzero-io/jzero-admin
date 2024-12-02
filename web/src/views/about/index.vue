@@ -21,12 +21,10 @@ interface PkgVersionInfo {
 
 const { name, version, dependencies } = {
   name: 'jzero-admin',
-  version: 'v0.0.1',
+  version: 'v1.0.0-beta',
   dependencies: {
-    jzero: 'v0.26.0',
+    jzero: 'v0.28.0',
     'soybean-admin': 'v1.3.7+fork',
-    'go-zero': 'v1.7.2',
-    goctl: 'v1.7.2',
     vue: 'v3.5.11',
     'naive-ui': '2.40.1'
   }
