@@ -14,7 +14,7 @@
     "application/json"
   ],
   "paths": {
-    "/manage/addMenu": {
+    "/api/manage/addMenu": {
       "post": {
         "operationId": "Add",
         "responses": {
@@ -45,7 +45,7 @@
         ]
       }
     },
-    "/manage/deleteMenu": {
+    "/api/manage/deleteMenu": {
       "post": {
         "operationId": "Delete",
         "responses": {
@@ -76,7 +76,7 @@
         ]
       }
     },
-    "/manage/editMenu": {
+    "/api/manage/editMenu": {
       "post": {
         "operationId": "Edit",
         "responses": {
@@ -107,7 +107,7 @@
         ]
       }
     },
-    "/manage/getAllPages": {
+    "/api/manage/getAllPages": {
       "get": {
         "operationId": "GetAllPages",
         "responses": {
@@ -131,7 +131,7 @@
         ]
       }
     },
-    "/manage/getMenuList/v2": {
+    "/api/manage/getMenuList/v2": {
       "get": {
         "operationId": "List",
         "responses": {
@@ -170,7 +170,7 @@
         ]
       }
     },
-    "/manage/getMenuTree": {
+    "/api/manage/getMenuTree": {
       "get": {
         "operationId": "Tree",
         "responses": {

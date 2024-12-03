@@ -3,6 +3,7 @@ package cmd
 import (
 	"log"
 	"os"
+	"strings"
 
 	"github.com/a8m/envsubst"
 	"github.com/spf13/cast"
@@ -47,17 +48,27 @@ func initConfig() {
 		return
 	}
 
-	data, err := envsubst.ReadFile(cfgEnvFile)
-	if err != nil {
-		log.Fatalf("envsubst error: %v", err)
-	}
-	var env map[string]any
-	err = yaml.Unmarshal(data, &env)
-	if err != nil {
-		log.Fatalf("yaml unmarshal error: %v", err)
+	if _, err := os.Stat(cfgEnvFile); err == nil {
+		data, err := envsubst.ReadFile(cfgEnvFile)
+		if err != nil {
+			log.Fatalf("envsubst error: %v", err)
+		}
+		var env map[string]any
+		err = yaml.Unmarshal(data, &env)
+		if err != nil {
+			log.Fatalf("yaml unmarshal error: %v", err)
+		}
+
+		for k, v := range env {
+			_ = os.Setenv(k, cast.ToString(v))
+		}
 	}
 
-	for k, v := range env {
-		_ = os.Setenv(k, cast.ToString(v))
+	externalEnvs := os.Environ()
+	for _, v := range externalEnvs {
+		splits := strings.Split(v, "=")
+		if len(splits) == 2 {
+			_ = os.Setenv(splits[0], splits[1])
+		}
 	}
 }

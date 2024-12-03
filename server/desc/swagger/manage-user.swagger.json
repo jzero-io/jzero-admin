@@ -14,7 +14,7 @@
     "application/json"
   ],
   "paths": {
-    "/manage/addUser": {
+    "/api/manage/addUser": {
       "post": {
         "operationId": "Add",
         "responses": {
@@ -45,7 +45,7 @@
         ]
       }
     },
-    "/manage/deleteUser": {
+    "/api/manage/deleteUser": {
       "post": {
         "operationId": "Delete",
         "responses": {
@@ -76,7 +76,7 @@
         ]
       }
     },
-    "/manage/editUser": {
+    "/api/manage/editUser": {
       "post": {
         "operationId": "Edit",
         "responses": {
@@ -107,7 +107,7 @@
         ]
       }
     },
-    "/manage/getUserList": {
+    "/api/manage/getUserList": {
       "get": {
         "operationId": "List",
         "responses": {

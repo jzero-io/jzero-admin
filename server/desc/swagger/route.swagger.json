@@ -14,7 +14,7 @@
     "application/json"
   ],
   "paths": {
-    "/route/getConstantRoutes": {
+    "/api/route/getConstantRoutes": {
       "get": {
         "operationId": "GetConstantRoutes",
         "responses": {
@@ -33,7 +33,7 @@
         ]
       }
     },
-    "/route/getUserRoutes": {
+    "/api/route/getUserRoutes": {
       "get": {
         "operationId": "GetUserRoutes",
         "responses": {
@@ -54,7 +54,7 @@
         ]
       }
     },
-    "/route/isRouteExist": {
+    "/api/route/isRouteExist": {
       "get": {
         "operationId": "IsRouteExist",
         "responses": {

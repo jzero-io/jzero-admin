@@ -80,6 +80,7 @@ type GetMenusResponse {
 }
 
 @server (
+	prefix:     /api
 	group:      manage/role
 	jwt:        Jwt
 	middleware: Authx

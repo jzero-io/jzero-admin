@@ -15,7 +15,7 @@ import (
 	"server/internal/config"
 )
 
-func buildDataSource(c config.Config) string {
+func BuildDataSource(c config.Config) string {
 	// set default sqlbuilder flavor and data source
 	switch c.DatabaseType {
 	case "mysql":
@@ -33,7 +33,7 @@ func buildDataSource(c config.Config) string {
 }
 
 func MustSqlConn(c config.Config) sqlx.SqlConn {
-	sqlConn := sqlx.NewSqlConn(c.DatabaseType, buildDataSource(c))
+	sqlConn := sqlx.NewSqlConn(c.DatabaseType, BuildDataSource(c))
 	_, err := sqlConn.Exec("select 1")
 	if err != nil {
 		panic(err)

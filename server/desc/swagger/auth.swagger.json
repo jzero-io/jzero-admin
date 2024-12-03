@@ -14,7 +14,7 @@
     "application/json"
   ],
   "paths": {
-    "/auth/code-login": {
+    "/api/auth/code-login": {
       "post": {
         "operationId": "CodeLogin",
         "responses": {
@@ -40,7 +40,7 @@
         ]
       }
     },
-    "/auth/error": {
+    "/api/auth/error": {
       "post": {
         "operationId": "Error",
         "responses": {
@@ -71,7 +71,7 @@
         ]
       }
     },
-    "/auth/getUserInfo": {
+    "/api/auth/getUserInfo": {
       "get": {
         "operationId": "GetUserInfo",
         "responses": {
@@ -92,7 +92,7 @@
         ]
       }
     },
-    "/auth/pwd-login": {
+    "/api/auth/pwd-login": {
       "post": {
         "operationId": "PwdLogin",
         "responses": {
@@ -118,7 +118,7 @@
         ]
       }
     },
-    "/auth/refreshToken": {
+    "/api/auth/refreshToken": {
       "post": {
         "operationId": "RefreshToken",
         "responses": {
@@ -149,7 +149,7 @@
         ]
       }
     },
-    "/auth/register": {
+    "/api/auth/register": {
       "post": {
         "operationId": "Register",
         "responses": {
@@ -175,7 +175,7 @@
         ]
       }
     },
-    "/auth/resetPassword": {
+    "/api/auth/resetPassword": {
       "post": {
         "operationId": "ResetPassword",
         "responses": {
@@ -201,7 +201,7 @@
         ]
       }
     },
-    "/auth/sendVerificationCode": {
+    "/api/auth/sendVerificationCode": {
       "get": {
         "operationId": "SendVerificationCode",
         "responses": {
