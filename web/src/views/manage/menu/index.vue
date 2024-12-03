@@ -190,8 +190,17 @@ function handleAdd() {
 
 async function handleBatchDelete() {
   // request
-  console.log(checkedRowKeys.value);
 
+  const ids: number[] = checkedRowKeys.value.map(idStr => Number.parseInt(idStr, 10));
+
+  ids.forEach(id => {
+    deleteLoadingStatus[id] = true;
+  });
+  const { error } = await DeleteMenu(ids);
+  ids.forEach(id => {
+    deleteLoadingStatus[id] = false;
+  });
+  if (error) return;
   onBatchDeleted();
 }
 
