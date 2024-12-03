@@ -80,6 +80,7 @@ type Empty struct {
 }
 
 type GetAllPagesRequest struct {
+	RoleId uint64 `form:"roleId,optional"`
 }
 
 type ListRequest struct {

@@ -35,9 +35,10 @@
       {
         "type": "go",
         "request": "launch",
-        "name": "Backend",
-        "cwd": "${workspaceFolder:backend}",
-        "program": "${workspaceFolder:backend}/"
+        "name": "server",
+        "cwd": "${workspaceFolder:server}",
+        "program": "${workspaceFolder:server}/",
+        "args": ["server", "--env", "etc/.env.yaml"]
       },
       
     ],

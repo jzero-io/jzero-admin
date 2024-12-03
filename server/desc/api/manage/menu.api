@@ -95,7 +95,9 @@ type TreeResponse {
 	children []TreeResponse `json:"children"`
 }
 
-type GetAllPagesRequest {}
+type GetAllPagesRequest {
+	roleId uint64 `form:"roleId,optional"`
+}
 
 type DeleteRequest {
 	ids []uint64 `json:"ids"`

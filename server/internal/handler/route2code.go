@@ -35,6 +35,7 @@ var routesCodesMap = map[string]string{
 	"GET:/api/manage/getRoleMenus":       "manage:role:getMenus",
 	"GET:/api/manage/getUserList":        "manage:user:list",
 	"POST:/api/manage/setRoleMenus":      "manage:role:setMenus",
+	"POST:/api/manage/updateRoleHome":    "manage:role:updateHome",
 	"GET:/api/route/getConstantRoutes":   "route:getConstantRoutes",
 	"GET:/api/route/getUserRoutes":       "route:getUserRoutes",
 	"GET:/api/route/isRouteExist":        "route:isRouteExist",

@@ -24,6 +24,7 @@ const local: App.I18n.Schema = {
     confirmDelete: '确认删除吗？',
     edit: '编辑',
     editSuccess: '编辑成功',
+    editHomeSuccess: '编辑角色首页成功',
     warning: '警告',
     error: '错误',
     index: '序号',

@@ -97,3 +97,8 @@ type SetMenusRequest struct {
 
 type SetMenusResponse struct {
 }
+
+type UpdateHomeRequest struct {
+	RoleId uint64 `json:"roleId"`
+	Home   string `json:"home"`
+}

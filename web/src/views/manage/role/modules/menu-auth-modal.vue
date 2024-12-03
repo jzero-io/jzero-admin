@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { computed, shallowRef, watch } from 'vue';
+import { computed, ref, shallowRef, watch } from 'vue';
 import { useLoading } from '@sa/hooks';
 import { $t } from '@/locales';
-import { GetAllPages, GetMenuTree, GetRoleMenus, SetRoleMenus } from '@/service/api';
+import { GetAllPages, GetMenuTree, GetRoleMenus, SetRoleMenus, UpdateRoleHome } from '@/service/api';
+import { useRouteStore } from '@/store/modules/route';
 
 defineOptions({
   name: 'MenuAuthModal'
@@ -14,16 +15,20 @@ interface Props {
 }
 
 const props = defineProps<Props>();
+
 const {
   loading: getTreeDataLoading,
   startLoading: getTreeDataStartLoading,
   endLoading: getTreeDataEndLoading
 } = useLoading();
+
 const {
-  loading: setMenusConfirmLoding,
+  loading: setMenusConfirmLoading,
   startLoading: setMenusConfirmStartLoading,
   endLoading: setMenusConfirmEndLoading
 } = useLoading();
+
+const updateHomeLoadingRef = ref(false);
 
 const visible = defineModel<boolean>('visible', {
   default: false
@@ -38,19 +43,28 @@ const title = computed(() => $t('common.edit') + $t('page.manage.role.menuAuth')
 const home = shallowRef('');
 
 async function getHome() {
-  home.value = 'home';
+  const userRoutes = useRouteStore();
+  home.value = userRoutes.routeHome;
 }
 
 async function updateHome(val: string) {
   // request
-
+  const req: Api.Manage.UpdateRoleHomeRequest = {
+    roleId: props.roleId,
+    home: val
+  };
+  updateHomeLoadingRef.value = true;
+  const { error } = await UpdateRoleHome(req);
+  updateHomeLoadingRef.value = false;
+  if (error) return;
   home.value = val;
+  window.$message?.success($t('common.editHomeSuccess'));
 }
 
 const pages = shallowRef<string[]>([]);
 
 async function getPages() {
-  const { error, data } = await GetAllPages();
+  const { error, data } = await GetAllPages(props.roleId);
 
   if (!error) {
     pages.value = data;
@@ -119,6 +133,9 @@ watch(visible, val => {
     <div class="flex-y-center gap-16px pb-12px">
       <div>{{ $t('page.manage.menu.home') }}</div>
       <NSelect :value="home" :options="pageSelectOptions" size="small" class="w-160px" @update:value="updateHome" />
+      <template v-if="updateHomeLoadingRef.valueOf()">
+        <NSpin size="small" />
+      </template>
     </div>
     <template v-if="getTreeDataLoading">
       <NSpace class="h-280px" justify="center" align="center">
@@ -143,7 +160,7 @@ watch(visible, val => {
         <NButton size="small" class="mt-16px" @click="closeModal">
           {{ $t('common.cancel') }}
         </NButton>
-        <NButton :loading="setMenusConfirmLoding" type="primary" size="small" class="mt-16px" @click="handleSubmit">
+        <NButton :loading="setMenusConfirmLoading" type="primary" size="small" class="mt-16px" @click="handleSubmit">
           {{ $t('common.confirm') }}
         </NButton>
       </NSpace>

@@ -121,8 +121,20 @@
             }
           }
         },
+        "parameters": [
+          {
+            "name": "roleId",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
         "tags": [
           "manage/menu"
+        ],
+        "consumes": [
+          "multipart/form-data"
         ],
         "security": [
           {
@@ -448,6 +460,12 @@
     },
     "GetAllPagesRequest": {
       "type": "object",
+      "properties": {
+        "roleId": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
       "title": "GetAllPagesRequest"
     },
     "ListRequest": {

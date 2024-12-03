@@ -59,6 +59,7 @@ type (
 		UpdateBy   sql.NullInt64 `db:"update_by"`
 		RoleId     int64         `db:"role_id"`
 		MenuId     int64         `db:"menu_id"`
+		IsHome     int64         `db:"is_home"`
 	}
 )
 
@@ -124,7 +125,7 @@ func (m *defaultManageRoleMenuModel) Insert(ctx context.Context, session sqlx.Se
 	statement, args := sqlbuilder.NewInsertBuilder().
 		InsertInto(m.table).
 		Cols(manageRoleMenuRowsExpectAutoSet).
-		Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.RoleId, data.MenuId).Build()
+		Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.RoleId, data.MenuId, data.IsHome).Build()
 	if session != nil {
 		return session.ExecCtx(ctx, statement, args...)
 	}
@@ -147,9 +148,9 @@ func (m *defaultManageRoleMenuModel) Update(ctx context.Context, session sqlx.Se
 
 	var err error
 	if session != nil {
-		_, err = session.ExecCtx(ctx, statement, data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.RoleId, data.MenuId, data.Id)
+		_, err = session.ExecCtx(ctx, statement, data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.RoleId, data.MenuId, data.IsHome, data.Id)
 	} else {
-		_, err = m.conn.ExecCtx(ctx, statement, data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.RoleId, data.MenuId, data.Id)
+		_, err = m.conn.ExecCtx(ctx, statement, data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.RoleId, data.MenuId, data.IsHome, data.Id)
 	}
 	return err
 }
@@ -166,7 +167,7 @@ func (m *customManageRoleMenuModel) BulkInsert(ctx context.Context, session sqlx
 	sb := sqlbuilder.InsertInto(m.table)
 	sb.Cols(manageRoleMenuRowsExpectAutoSet)
 	for _, data := range datas {
-		sb.Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.RoleId, data.MenuId)
+		sb.Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.RoleId, data.MenuId, data.IsHome)
 	}
 	statement, args := sb.Build()
 

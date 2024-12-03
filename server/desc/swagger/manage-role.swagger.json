@@ -257,6 +257,37 @@
           }
         ]
       }
+    },
+    "/api/manage/updateRoleHome": {
+      "post": {
+        "operationId": "UpdateHome",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/Empty"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateHomeRequest"
+            }
+          }
+        ],
+        "tags": [
+          "manage/role"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
     }
   },
   "definitions": {
@@ -551,6 +582,23 @@
     "SetMenusResponse": {
       "type": "object",
       "title": "SetMenusResponse"
+    },
+    "UpdateHomeRequest": {
+      "type": "object",
+      "properties": {
+        "roleId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "home": {
+          "type": "string"
+        }
+      },
+      "title": "UpdateHomeRequest",
+      "required": [
+        "roleId",
+        "home"
+      ]
     }
   },
   "securityDefinitions": {

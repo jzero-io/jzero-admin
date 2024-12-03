@@ -73,8 +73,9 @@ func (ManageMenu) TableName() string {
 type ManageRoleMenu struct {
 	BaseModel
 
-	RoleId int `gorm:"column:role_id;not null"`
-	MenuId int `gorm:"column:menu_id;not null"`
+	RoleId int  `gorm:"column:role_id;not null"`
+	MenuId int  `gorm:"column:menu_id;not null"`
+	IsHome bool `gorm:"column:is_home;not null"`
 }
 
 func (ManageRoleMenu) TableName() string {

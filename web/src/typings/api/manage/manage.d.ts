@@ -50,6 +50,11 @@ declare namespace Api {
       roleId: number;
     };
 
+    type UpdateRoleHomeRequest = {
+      roleId: number;
+      home: string;
+    };
+
     // eslint-disable-next-line @typescript-eslint/no-empty-object-type
     type AddRoleResponse = {};
 

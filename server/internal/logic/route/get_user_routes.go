@@ -70,7 +70,18 @@ func (l *GetUserRoutes) GetUserRoutes(req *types.GetUserRoutesRequest) (resp *ty
 	list := buildRouteTree(convert(menus), 0)
 
 	resp.Routes = list
-	resp.Home = "home"
+
+	// get home
+	for _, rm := range roleMenus {
+		if cast.ToBool(rm.IsHome) {
+			for _, m := range menus {
+				if m.Id == uint64(rm.MenuId) {
+					resp.Home = m.RouteName
+				}
+			}
+		}
+	}
+
 	return
 }
 

@@ -55,6 +55,14 @@ export function SetRoleMenus(req: Api.Manage.SetRoleMenusRequest) {
   });
 }
 
+export function UpdateRoleHome(req: Api.Manage.UpdateRoleHomeRequest) {
+  return request<Api.Common.Empty>({
+    url: '/api/manage/updateRoleHome',
+    method: 'post',
+    data: req
+  });
+}
+
 /* delete role */
 export function DeleteRole(req: number[]) {
   return request<Api.Common.Empty>({
@@ -138,10 +146,13 @@ export function GetMenuList() {
 }
 
 /** get all pages */
-export function GetAllPages() {
+export function GetAllPages(roleId: number) {
   return request<string[]>({
     url: '/api/manage/getAllPages',
-    method: 'get'
+    method: 'get',
+    params: {
+      roleId
+    }
   });
 }
 
