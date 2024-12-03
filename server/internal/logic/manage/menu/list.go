@@ -105,6 +105,9 @@ func buildMenuTree(menus []*types.SystemMenu, parentId uint64) []types.SystemMen
 		if menu.ParentId == parentId {
 			subMenu := *menu
 			subMenu.Children = buildMenuTree(menus, menu.Id)
+			sort.Slice(subMenu.Children, func(i, j int) bool {
+				return subMenu.Children[i].Order < subMenu.Children[j].Order
+			})
 			result = append(result, subMenu)
 		}
 	}

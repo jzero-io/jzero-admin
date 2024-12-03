@@ -26,8 +26,6 @@ func NewTree(ctx context.Context, svcCtx *svc.ServiceContext) *Tree {
 }
 
 func (l *Tree) Tree(req *types.TreeRequest) (resp []types.TreeResponse, err error) {
-	resp = []types.TreeResponse{}
-
 	list, err := l.svcCtx.Model.ManageMenu.FindByCondition(l.ctx, nil, condition.NewChain().
 		NotEqual("constant", true).
 		Build()...)
@@ -58,6 +56,9 @@ func buildSimpleMenuTree(menus []*types.SystemMenu, parentId uint64) []types.Tre
 				Order: menu.Order,
 			}
 			subMenu.Children = buildSimpleMenuTree(menus, menu.Id)
+			sort.Slice(subMenu.Children, func(i, j int) bool {
+				return subMenu.Children[i].Order < subMenu.Children[j].Order
+			})
 			result = append(result, subMenu)
 		}
 	}
