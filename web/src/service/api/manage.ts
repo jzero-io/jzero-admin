@@ -3,7 +3,7 @@ import { request } from '../request';
 /** get role list */
 export function GetRoleList(params?: Api.Manage.RoleSearchParams) {
   return request<Api.Manage.RoleList>({
-    url: '/manage/getRoleList',
+    url: '/api/manage/getRoleList',
     method: 'get',
     params
   });
@@ -16,7 +16,7 @@ export function GetRoleList(params?: Api.Manage.RoleSearchParams) {
  */
 export function GetAllRoles() {
   return request<Api.Manage.AllRole[]>({
-    url: '/manage/getAllRoles',
+    url: '/api/manage/getAllRoles',
     method: 'get'
   });
 }
@@ -24,7 +24,7 @@ export function GetAllRoles() {
 /** add role */
 export function AddRole(req: Api.Manage.AddRoleRequest) {
   return request<Api.Manage.AddRoleResponse>({
-    url: '/manage/addRole',
+    url: '/api/manage/addRole',
     method: 'post',
     data: req
   });
@@ -33,7 +33,7 @@ export function AddRole(req: Api.Manage.AddRoleRequest) {
 /** edit role */
 export function EditRole(req: Api.Manage.EditRoleRequest) {
   return request<Api.Common.Empty>({
-    url: '/manage/editRole',
+    url: '/api/manage/editRole',
     method: 'post',
     data: req
   });
@@ -41,7 +41,7 @@ export function EditRole(req: Api.Manage.EditRoleRequest) {
 
 export function GetRoleMenus(params: Api.Manage.GetRoleMenusRequest) {
   return request<number[]>({
-    url: '/manage/getRoleMenus',
+    url: '/api/manage/getRoleMenus',
     method: 'get',
     params
   });
@@ -49,7 +49,7 @@ export function GetRoleMenus(params: Api.Manage.GetRoleMenusRequest) {
 
 export function SetRoleMenus(req: Api.Manage.SetRoleMenusRequest) {
   return request<Api.Common.Empty>({
-    url: '/manage/setRoleMenus',
+    url: '/api/manage/setRoleMenus',
     method: 'post',
     data: req
   });
@@ -58,7 +58,7 @@ export function SetRoleMenus(req: Api.Manage.SetRoleMenusRequest) {
 /* delete role */
 export function DeleteRole(req: number[]) {
   return request<Api.Common.Empty>({
-    url: '/manage/deleteRole',
+    url: '/api/manage/deleteRole',
     method: 'post',
     data: {
       ids: req
@@ -69,7 +69,7 @@ export function DeleteRole(req: number[]) {
 /** add user */
 export function AddUser(req: Api.Manage.AddUserRequest) {
   return request<Api.Manage.AddUserResponse>({
-    url: '/manage/addUser',
+    url: '/api/manage/addUser',
     method: 'post',
     data: req
   });
@@ -78,7 +78,7 @@ export function AddUser(req: Api.Manage.AddUserRequest) {
 /** edit user */
 export function EditUser(req: Api.Manage.EditUserRequest) {
   return request<Api.Manage.EditUserResponse>({
-    url: '/manage/editUser',
+    url: '/api/manage/editUser',
     method: 'post',
     data: req
   });
@@ -86,7 +86,7 @@ export function EditUser(req: Api.Manage.EditUserRequest) {
 
 export function DeleteUser(req: number[]) {
   return request<Api.Common.Empty>({
-    url: '/manage/deleteUser',
+    url: '/api/manage/deleteUser',
     method: 'post',
     data: {
       ids: req
@@ -97,7 +97,7 @@ export function DeleteUser(req: number[]) {
 /** get user list */
 export function GetUserList(params?: Api.Manage.UserSearchParams) {
   return request<Api.Manage.UserList>({
-    url: '/manage/getUserList',
+    url: '/api/manage/getUserList',
     method: 'get',
     params
   });
@@ -105,7 +105,7 @@ export function GetUserList(params?: Api.Manage.UserSearchParams) {
 
 export function AddMenu(req: Api.Manage.AddMenuRequest) {
   return request<Api.Common.Empty>({
-    url: '/manage/addMenu',
+    url: '/api/manage/addMenu',
     method: 'post',
     data: req
   });
@@ -113,7 +113,7 @@ export function AddMenu(req: Api.Manage.AddMenuRequest) {
 
 export function EditMenu(req: Api.Manage.EditMenuRequest) {
   return request<Api.Common.Empty>({
-    url: '/manage/editMenu',
+    url: '/api/manage/editMenu',
     method: 'post',
     data: req
   });
@@ -121,7 +121,7 @@ export function EditMenu(req: Api.Manage.EditMenuRequest) {
 
 export function DeleteMenu(req: number[]) {
   return request<Api.Common.Empty>({
-    url: '/manage/deleteMenu',
+    url: '/api/manage/deleteMenu',
     method: 'post',
     data: {
       ids: req
@@ -132,7 +132,7 @@ export function DeleteMenu(req: number[]) {
 /** get menu list */
 export function GetMenuList() {
   return request<Api.Manage.MenuList>({
-    url: '/manage/getMenuList/v2',
+    url: '/api/manage/getMenuList/v2',
     method: 'get'
   });
 }
@@ -140,7 +140,7 @@ export function GetMenuList() {
 /** get all pages */
 export function GetAllPages() {
   return request<string[]>({
-    url: '/manage/getAllPages',
+    url: '/api/manage/getAllPages',
     method: 'get'
   });
 }
@@ -148,7 +148,7 @@ export function GetAllPages() {
 /** get menu tree */
 export function GetMenuTree() {
   return request<Api.Manage.MenuTree[]>({
-    url: '/manage/getMenuTree',
+    url: '/api/manage/getMenuTree',
     method: 'get'
   });
 }

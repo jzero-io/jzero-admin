@@ -70,6 +70,7 @@ type DeleteRequest {
 type DeleteResponse {}
 
 @server (
+	prefix:     /api
 	group:      manage/user
 	jwt:        Jwt
 	middleware: Authx

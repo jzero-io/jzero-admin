@@ -131,6 +131,7 @@ type EditRequest {
 type EditResponse {}
 
 @server (
+	prefix:     /api
 	group:      manage/menu
 	jwt:        Jwt
 	middleware: Authx

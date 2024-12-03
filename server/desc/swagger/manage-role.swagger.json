@@ -14,7 +14,7 @@
     "application/json"
   ],
   "paths": {
-    "/manage/addRole": {
+    "/api/manage/addRole": {
       "post": {
         "operationId": "Add",
         "responses": {
@@ -45,7 +45,7 @@
         ]
       }
     },
-    "/manage/deleteRole": {
+    "/api/manage/deleteRole": {
       "post": {
         "operationId": "Delete",
         "responses": {
@@ -76,7 +76,7 @@
         ]
       }
     },
-    "/manage/editRole": {
+    "/api/manage/editRole": {
       "post": {
         "operationId": "Edit",
         "responses": {
@@ -107,7 +107,7 @@
         ]
       }
     },
-    "/manage/getAllRoles": {
+    "/api/manage/getAllRoles": {
       "get": {
         "operationId": "GetAll",
         "responses": {
@@ -131,7 +131,7 @@
         ]
       }
     },
-    "/manage/getRoleList": {
+    "/api/manage/getRoleList": {
       "get": {
         "operationId": "List",
         "responses": {
@@ -191,7 +191,7 @@
         ]
       }
     },
-    "/manage/getRoleMenus": {
+    "/api/manage/getRoleMenus": {
       "get": {
         "operationId": "GetMenus",
         "responses": {
@@ -227,7 +227,7 @@
         ]
       }
     },
-    "/manage/setRoleMenus": {
+    "/api/manage/setRoleMenus": {
       "post": {
         "operationId": "SetMenus",
         "responses": {

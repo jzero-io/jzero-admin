@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM ghcr.io/jzero-io/jzero:latest as builder
+FROM --platform=$BUILDPLATFORM registry.cn-hangzhou.aliyuncs.com/jaronnie/jzero:latest as builder
 
 ARG TARGETARCH
 ARG LDFLAGS
@@ -15,7 +15,7 @@ RUN --mount=type=cache,target=/go/pkg CGO_ENABLED=0 GOOS=linux GOARCH=$TARGETARC
     && mkdir -p /dist/desc && cp -r desc/swagger /dist/desc
 
 
-FROM --platform=$TARGETPLATFORM alpine:latest
+FROM --platform=$TARGETPLATFORM registry.cn-hangzhou.aliyuncs.com/jaronnie/alpine:latest
 
 WORKDIR /dist
 

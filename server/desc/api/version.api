@@ -14,7 +14,7 @@ type GetResponse {
 }
 
 @server (
-	prefix: /api/v1
+	prefix: /api
 	group:  version
 )
 service server {

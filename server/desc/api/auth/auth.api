@@ -66,7 +66,8 @@ type ResetPasswordRequest {
 type ResetPasswordResponse {}
 
 @server (
-	group: auth
+	prefix: /api
+	group:  auth
 )
 service server {
 	@handler PwdLogin
@@ -86,8 +87,9 @@ service server {
 }
 
 @server (
-	group: auth
-	jwt:   Jwt
+	prefix: /api
+	group:  auth
+	jwt:    Jwt
 )
 service server {
 	@handler GetUserInfo

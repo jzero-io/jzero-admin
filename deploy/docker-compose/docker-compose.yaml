@@ -1,4 +1,31 @@
 services:
+  server:
+    build:
+      context: ../../server
+    restart: always
+    environment:
+      - DATABASE_TYPE=mysql
+      - MYSQL_HOST=mysql8
+      - MYSQL_PORT=3306
+      - MYSQL_DATABASE=jzeroadmin
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=123456
+      - CACHE_TYPE=local
+    depends_on:
+      - mysql8
+  web:
+    build:
+      context: ../../web
+    restart: always
+    depends_on:
+      - server
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+    environment:
+      - VITE_SERVICE_BASE_URL=http://127.0.0.1
+    ports:
+      - "80:80"
+
   mysql8:
     image: mysql:8.0
     restart: always
