@@ -20,6 +20,16 @@
 
 [demo 演示地址](https://demo.jzero-admin.jaronnie.com)
 
+## 本地一键部署
+
+```shell
+git clone https://github.com/jzero-io/jzero-admin.git
+cd jzero-admin/deploy/docker-compose
+docker-compose up
+# 修改源码后重新编译
+# docker-compose up --build
+```
+
 ## 感谢
 
 * 使用在线 mysql 实例 [sqlpub](https://sqlpub.com)
