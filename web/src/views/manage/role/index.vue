@@ -131,12 +131,10 @@ async function handleBatchDelete() {
     deleteLoadingStatus[id] = true;
   });
   const { error } = await DeleteRole(ids);
-  if (error) return;
-
   ids.forEach(id => {
     deleteLoadingStatus[id] = false;
   });
-
+  if (error) return;
   onBatchDeleted();
 }
 
@@ -145,8 +143,8 @@ async function handleDelete(id: number) {
   const ids: number[] = [id];
   deleteLoadingStatus[id] = true;
   const { error } = await DeleteRole(ids);
-  if (error) return;
   deleteLoadingStatus[id] = false;
+  if (error) return;
   onDeleted();
 }
 
