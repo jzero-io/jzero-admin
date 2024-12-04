@@ -144,6 +144,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					},
 					{
 						Method:  http.MethodGet,
+						Path:    "/manage/getRoleHome",
+						Handler: managerole.GetHome(serverCtx),
+					},
+					{
+						Method:  http.MethodGet,
 						Path:    "/manage/getRoleList",
 						Handler: managerole.List(serverCtx),
 					},

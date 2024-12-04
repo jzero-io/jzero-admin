@@ -49,6 +49,10 @@ type GetAllResponse struct {
 	RoleCode string `json:"roleCode"`
 }
 
+type GetHomeRequest struct {
+	RoleId uint64 `form:"roleId"`
+}
+
 type GetMenusRequest struct {
 	RoleId uint64 `form:"roleId"`
 }

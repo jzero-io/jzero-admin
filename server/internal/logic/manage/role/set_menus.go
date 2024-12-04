@@ -8,6 +8,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/spf13/cast"
 	"github.com/zeromicro/go-zero/core/logx"
+	"github.com/zeromicro/go-zero/core/stores/sqlx"
 
 	"server/internal/logic/manage/menu"
 	"server/internal/model/manage_role_menu"
@@ -31,29 +32,44 @@ func NewSetMenus(ctx context.Context, svcCtx *svc.ServiceContext) *SetMenus {
 }
 
 func (l *SetMenus) SetMenus(req *types.SetMenusRequest) (resp *types.SetMenusResponse, err error) {
-	var datas []*manage_role_menu.ManageRoleMenu
-	for _, v := range req.MenuIds {
-		datas = append(datas, &manage_role_menu.ManageRoleMenu{
-			RoleId:     int64(req.RoleId),
-			MenuId:     int64(v),
-			CreateTime: time.Now(),
-			UpdateTime: time.Now(),
-		})
-	}
+	if err = l.svcCtx.SqlxConn.TransactCtx(l.ctx, func(ctx context.Context, session sqlx.Session) error {
+		// 找到该角色的首页
+		roleHomeMenu, err := l.svcCtx.Model.ManageRoleMenu.FindOneByCondition(l.ctx, nil, condition.NewChain().
+			Equal("role_id", req.RoleId).
+			Equal("is_home", true).
+			Build()...)
+		if err != nil {
+			return errors.New("该角色无首页路由")
+		}
+		var datas []*manage_role_menu.ManageRoleMenu
 
-	if len(datas) == 0 {
-		return
-	}
+		for _, v := range req.MenuIds {
+			data := &manage_role_menu.ManageRoleMenu{
+				RoleId:     int64(req.RoleId),
+				MenuId:     int64(v),
+				CreateTime: time.Now(),
+				UpdateTime: time.Now(),
+			}
+			if data.MenuId == roleHomeMenu.MenuId {
+				data.IsHome = cast.ToInt64(true)
+			}
+			datas = append(datas, data)
+		}
 
-	if err = l.svcCtx.Model.ManageRoleMenu.DeleteByCondition(l.ctx, nil, condition.Condition{
-		Field:    "role_id",
-		Operator: condition.Equal,
-		Value:    req.RoleId,
+		if err = l.svcCtx.Model.ManageRoleMenu.DeleteByCondition(l.ctx, session, condition.Condition{
+			Field:    "role_id",
+			Operator: condition.Equal,
+			Value:    req.RoleId,
+		}); err != nil {
+			return err
+		}
+		if len(datas) > 0 {
+			if err = l.svcCtx.Model.ManageRoleMenu.BulkInsert(l.ctx, session, datas); err != nil {
+				return err
+			}
+		}
+		return nil
 	}); err != nil {
-		return
-	}
-
-	if err = l.svcCtx.Model.ManageRoleMenu.BulkInsert(l.ctx, nil, datas); err != nil {
 		return nil, err
 	}
 

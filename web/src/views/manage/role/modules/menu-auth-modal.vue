@@ -2,8 +2,7 @@
 import { computed, ref, shallowRef, watch } from 'vue';
 import { useLoading } from '@sa/hooks';
 import { $t } from '@/locales';
-import { GetAllPages, GetMenuTree, GetRoleMenus, SetRoleMenus, UpdateRoleHome } from '@/service/api';
-import { useRouteStore } from '@/store/modules/route';
+import { GetAllPages, GetMenuTree, GetRoleHome, GetRoleMenus, SetRoleMenus, UpdateRoleHome } from '@/service/api';
 
 defineOptions({
   name: 'MenuAuthModal'
@@ -43,8 +42,10 @@ const title = computed(() => $t('common.edit') + $t('page.manage.role.menuAuth')
 const home = shallowRef('');
 
 async function getHome() {
-  const userRoutes = useRouteStore();
-  home.value = userRoutes.routeHome;
+  const { error, data } = await GetRoleHome(props.roleId);
+  if (!error) {
+    home.value = data;
+  }
 }
 
 async function updateHome(val: string) {

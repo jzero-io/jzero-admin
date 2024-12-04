@@ -31,6 +31,7 @@ var routesCodesMap = map[string]string{
 	"GET:/api/manage/getAllRoles":        "manage:role:getAll",
 	"GET:/api/manage/getMenuList/v2":     "manage:menu:list",
 	"GET:/api/manage/getMenuTree":        "manage:menu:tree",
+	"GET:/api/manage/getRoleHome":        "manage:role:getHome",
 	"GET:/api/manage/getRoleList":        "manage:role:list",
 	"GET:/api/manage/getRoleMenus":       "manage:role:getMenus",
 	"GET:/api/manage/getUserList":        "manage:user:list",

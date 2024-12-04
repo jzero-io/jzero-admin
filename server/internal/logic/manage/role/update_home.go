@@ -34,13 +34,13 @@ func (l *UpdateHome) UpdateHome(req *types.UpdateHomeRequest) (resp *types.Empty
 	}
 
 	// 找到旧 home
-	oldRoleMenu, err := l.svcCtx.Model.ManageRoleMenu.FindOneByCondition(l.ctx, nil, condition.NewChain().
+	oldRoleHomeMenu, err := l.svcCtx.Model.ManageRoleMenu.FindOneByCondition(l.ctx, nil, condition.NewChain().
 		Equal("role_id", req.RoleId).
 		Equal("is_home", true).
 		Build()...)
 	if err == nil {
-		oldRoleMenu.IsHome = cast.ToInt64(false)
-		err = l.svcCtx.Model.ManageRoleMenu.Update(l.ctx, nil, oldRoleMenu)
+		oldRoleHomeMenu.IsHome = cast.ToInt64(false)
+		err = l.svcCtx.Model.ManageRoleMenu.Update(l.ctx, nil, oldRoleHomeMenu)
 		if err != nil {
 			return nil, err
 		}

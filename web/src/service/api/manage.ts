@@ -55,6 +55,16 @@ export function SetRoleMenus(req: Api.Manage.SetRoleMenusRequest) {
   });
 }
 
+export function GetRoleHome(roleId: number) {
+  return request<string>({
+    url: '/api/manage/getRoleHome',
+    method: 'get',
+    params: {
+      roleId
+    }
+  });
+}
+
 export function UpdateRoleHome(req: Api.Manage.UpdateRoleHomeRequest) {
   return request<Api.Common.Empty>({
     url: '/api/manage/updateRoleHome',

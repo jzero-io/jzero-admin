@@ -131,6 +131,39 @@
         ]
       }
     },
+    "/api/manage/getRoleHome": {
+      "get": {
+        "operationId": "GetHome",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/string"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "roleId",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "manage/role"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
     "/api/manage/getRoleList": {
       "get": {
         "operationId": "List",
@@ -401,6 +434,19 @@
         "roleCode"
       ]
     },
+    "GetHomeRequest": {
+      "type": "object",
+      "properties": {
+        "roleId": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "GetHomeRequest",
+      "required": [
+        "roleId"
+      ]
+    },
     "GetMenusRequest": {
       "type": "object",
       "properties": {
@@ -599,6 +645,9 @@
         "roleId",
         "home"
       ]
+    },
+    "string": {
+      "type": "string"
     }
   },
   "securityDefinitions": {
