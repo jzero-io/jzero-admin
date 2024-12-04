@@ -22,27 +22,51 @@ LOCK TABLES `casbin_rule` WRITE;
 
 INSERT INTO `casbin_rule` (`id`, `ptype`, `v0`, `v1`, `v2`, `v3`, `v4`, `v5`)
 VALUES
-	(173,'p','1','manage:user:list','','','',''),
-	(174,'p','1','manage:role:list','','','',''),
-	(175,'p','1','manage:menu:list','','','',''),
-	(176,'p','1','manage:user:add','','','',''),
-	(177,'p','1','manage:role:getAll','','','',''),
-	(178,'p','1','manage:user:delete','','','',''),
-	(179,'p','1','manage:user:edit','','','',''),
-	(180,'p','1','manage:role:getAll','','','',''),
-	(181,'p','1','manage:role:add','','','',''),
-	(182,'p','1','manage:role:edit','','','',''),
-	(183,'p','1','manage:role:getMenus','','','',''),
-	(184,'p','1','manage:role:setMenus','','','',''),
-	(185,'p','1','manage:menu:getAllPages','','','',''),
-	(186,'p','1','manage:menu:tree','','','',''),
-	(187,'p','1','manage:role:delete','','','',''),
-	(188,'p','1','manage:menu:add','','','',''),
-	(189,'p','1','manage:menu:edit','','','',''),
-	(190,'p','1','manage:menu:delete','','','','');
+	(311,'p','1','manage:user:list','','','',''),
+	(312,'p','1','manage:role:list','','','',''),
+	(313,'p','1','manage:menu:list','','','',''),
+	(314,'p','1','manage:user:add','','','',''),
+	(315,'p','1','manage:role:getAll','','','',''),
+	(316,'p','1','manage:user:delete','','','',''),
+	(317,'p','1','manage:user:edit','','','',''),
+	(318,'p','1','manage:role:getAll','','','',''),
+	(319,'p','1','manage:role:add','','','',''),
+	(320,'p','1','manage:role:edit','','','',''),
+	(321,'p','1','manage:role:getMenus','','','',''),
+	(322,'p','1','manage:role:setMenus','','','',''),
+	(323,'p','1','manage:menu:getAllPages','','','',''),
+	(324,'p','1','manage:menu:tree','','','',''),
+	(325,'p','1','manage:role:updateHome','','','',''),
+	(326,'p','1','manage:role:delete','','','',''),
+	(327,'p','1','manage:menu:add','','','',''),
+	(328,'p','1','manage:menu:edit','','','',''),
+	(329,'p','1','manage:menu:delete','','','','');
 
 /*!40000 ALTER TABLE `casbin_rule` ENABLE KEYS */;
 UNLOCK TABLES;
+
+
+# 转储表 manage_email
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `manage_email`;
+
+CREATE TABLE `manage_email` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `create_by` bigint DEFAULT NULL,
+  `update_by` bigint DEFAULT NULL,
+  `from` longtext NOT NULL,
+  `host` longtext NOT NULL,
+  `port` bigint NOT NULL,
+  `username` longtext NOT NULL,
+  `password` longtext NOT NULL,
+  `enable_ssl` tinyint(1) NOT NULL,
+  `is_verify` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 
 
 # 转储表 manage_menu
@@ -99,7 +123,7 @@ VALUES
 	(22,'2024-11-28 11:13:13','2024-11-28 11:13:13',NULL,NULL,'1',4,'3','删除用户',0,'',1,'','','','','1','button.manage.user.delete',0,'',0,NULL,'[]','[{\"code\":\"manage:user:delete\",\"desc\":\"删除用户\"}]',0,'manage:user:delete'),
 	(23,'2024-11-28 11:16:09','2024-11-28 11:16:09',NULL,NULL,'1',4,'3','编辑用户',0,'',2,'','','','','1','button.manage.user.edit',0,'',0,NULL,'[]','[{\"code\":\"manage:user:edit\",\"desc\":\"编辑用户\"},{\"code\":\"manage:role:getAll\",\"desc\":\"获取所有角色\"}]',0,'manage:user:edit'),
 	(25,'2024-11-28 11:25:25','2024-11-28 11:25:25',NULL,NULL,'1',7,'3','新增角色',0,'',0,'','','','','1','button.manage.role.add',0,'',0,NULL,'[]','[{\"code\":\"manage:role:add\",\"desc\":\"新增角色\"}]',0,'manage:role:add'),
-	(26,'2024-11-28 11:26:03','2024-11-28 11:26:03',NULL,NULL,'1',7,'3','编辑角色',0,'',1,'','','','','1','button.manage.role.edit',0,'',0,NULL,'[]','[{\"code\":\"manage:role:edit\",\"desc\":\"编辑角色\"},{\"code\":\"manage:role:getMenus\",\"desc\":\"获取菜单权限\"},{\"code\":\"manage:role:setMenus\",\"desc\":\"设置菜单权限\"},{\"code\":\"manage:menu:getAllPages\",\"desc\":\"获取菜单页面\"},{\"code\":\"manage:menu:tree\",\"desc\":\"获取菜单树\"}]',0,'manage:role:edit'),
+	(26,'2024-11-28 11:26:03','2024-11-28 11:26:03',NULL,NULL,'1',7,'3','编辑角色',0,'',1,'','','','','1','button.manage.role.edit',0,'',0,NULL,'[]','[{\"code\":\"manage:role:edit\",\"desc\":\"编辑角色\"},{\"code\":\"manage:role:getMenus\",\"desc\":\"获取菜单权限\"},{\"code\":\"manage:role:setMenus\",\"desc\":\"设置菜单权限\"},{\"code\":\"manage:menu:getAllPages\",\"desc\":\"获取菜单页面\"},{\"code\":\"manage:menu:tree\",\"desc\":\"获取菜单树\"},{\"code\":\"manage:role:updateHome\",\"desc\":\"更新首页\"}]',0,'manage:role:edit'),
 	(27,'2024-11-28 11:27:10','2024-11-28 11:27:10',NULL,NULL,'1',7,'3','删除用户',0,'',2,'','','','','1','button.manage.role.delete',0,'',0,NULL,'[]','[{\"code\":\"manage:role:delete\",\"desc\":\"删除用户\"}]',0,'manage:role:delete'),
 	(29,'2024-11-28 12:22:58','2024-11-28 12:22:58',NULL,NULL,'1',8,'3','添加下一级菜单',0,'',0,'','','','','1','button.manage.menu.add',0,'',0,NULL,'[]','[{\"code\":\"manage:menu:add\",\"desc\":\"添加下一级菜单\"}]',0,'manage:menu:add'),
 	(30,'2024-11-28 12:23:59','2024-11-28 12:23:59',NULL,NULL,'1',8,'3','编辑菜单',0,'',1,'','','','','1','button.manage.menu.edit',0,'',0,NULL,'[]','[{\"code\":\"manage:menu:edit\",\"desc\":\"编辑菜单\"}]',0,'manage:menu:edit'),
@@ -156,46 +180,47 @@ CREATE TABLE `manage_role_menu` (
   `update_by` bigint DEFAULT NULL,
   `role_id` bigint NOT NULL,
   `menu_id` bigint NOT NULL,
+  `is_home` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 LOCK TABLES `manage_role_menu` WRITE;
 /*!40000 ALTER TABLE `manage_role_menu` DISABLE KEYS */;
 
-INSERT INTO `manage_role_menu` (`id`, `create_time`, `update_time`, `create_by`, `update_by`, `role_id`, `menu_id`)
+INSERT INTO `manage_role_menu` (`id`, `create_time`, `update_time`, `create_by`, `update_by`, `role_id`, `menu_id`, `is_home`)
 VALUES
-	(413,'2024-11-30 04:59:59','2024-11-30 04:59:59',NULL,NULL,1,1),
-	(414,'2024-11-30 04:59:59','2024-11-30 04:59:59',NULL,NULL,1,8),
-	(415,'2024-11-30 04:59:59','2024-11-30 04:59:59',NULL,NULL,1,7),
-	(416,'2024-11-30 04:59:59','2024-11-30 04:59:59',NULL,NULL,1,4),
-	(417,'2024-11-30 04:59:59','2024-11-30 04:59:59',NULL,NULL,1,20),
-	(418,'2024-11-30 04:59:59','2024-11-30 04:59:59',NULL,NULL,1,2),
-	(419,'2024-11-30 04:59:59','2024-11-30 04:59:59',NULL,NULL,1,3),
-	(420,'2024-11-30 04:59:59','2024-11-30 04:59:59',NULL,NULL,1,21),
-	(421,'2024-11-30 04:59:59','2024-11-30 04:59:59',NULL,NULL,1,22),
-	(422,'2024-11-30 04:59:59','2024-11-30 04:59:59',NULL,NULL,1,23),
-	(423,'2024-11-30 04:59:59','2024-11-30 04:59:59',NULL,NULL,1,24),
-	(424,'2024-11-30 04:59:59','2024-11-30 04:59:59',NULL,NULL,1,25),
-	(425,'2024-11-30 04:59:59','2024-11-30 04:59:59',NULL,NULL,1,26),
-	(426,'2024-11-30 04:59:59','2024-11-30 04:59:59',NULL,NULL,1,27),
-	(427,'2024-11-30 04:59:59','2024-11-30 04:59:59',NULL,NULL,1,28),
-	(428,'2024-11-30 04:59:59','2024-11-30 04:59:59',NULL,NULL,1,29),
-	(429,'2024-11-30 04:59:59','2024-11-30 04:59:59',NULL,NULL,1,30),
-	(430,'2024-11-30 04:59:59','2024-11-30 04:59:59',NULL,NULL,1,31),
-	(431,'2024-11-30 04:59:59','2024-11-30 04:59:59',NULL,NULL,1,32),
-	(432,'2024-11-30 04:59:59','2024-11-30 04:59:59',NULL,NULL,1,35),
-	(433,'2024-11-30 04:59:59','2024-11-30 04:59:59',NULL,NULL,1,38),
-	(434,'2024-11-30 04:59:59','2024-11-30 04:59:59',NULL,NULL,1,36),
-	(435,'2024-11-30 04:59:59','2024-11-30 04:59:59',NULL,NULL,1,37),
-	(465,'2024-12-01 10:11:26','2024-12-01 10:11:26',NULL,NULL,2,2),
-	(466,'2024-12-01 10:11:26','2024-12-01 10:11:26',NULL,NULL,2,1),
-	(467,'2024-12-01 10:11:26','2024-12-01 10:11:26',NULL,NULL,2,20),
-	(468,'2024-12-01 10:11:26','2024-12-01 10:11:26',NULL,NULL,2,24),
-	(469,'2024-12-01 10:11:26','2024-12-01 10:11:26',NULL,NULL,2,28),
-	(470,'2024-12-01 10:11:26','2024-12-01 10:11:26',NULL,NULL,2,32),
-	(471,'2024-12-01 10:11:26','2024-12-01 10:11:26',NULL,NULL,2,36),
-	(472,'2024-12-01 10:11:26','2024-12-01 10:11:26',NULL,NULL,2,37),
-	(473,'2024-12-01 10:11:26','2024-12-01 10:11:26',NULL,NULL,2,38);
+	(648,'2024-12-04 01:11:04','2024-12-04 01:11:04',NULL,NULL,1,1,0),
+	(649,'2024-12-04 01:11:04','2024-12-04 01:11:04',NULL,NULL,1,8,0),
+	(650,'2024-12-04 01:11:04','2024-12-04 01:11:04',NULL,NULL,1,7,0),
+	(651,'2024-12-04 01:11:04','2024-12-04 01:11:04',NULL,NULL,1,4,0),
+	(652,'2024-12-04 01:11:04','2024-12-04 01:11:04',NULL,NULL,1,20,0),
+	(653,'2024-12-04 01:11:04','2024-12-04 01:11:04',NULL,NULL,1,2,0),
+	(654,'2024-12-04 01:11:04','2024-12-04 01:11:04',NULL,NULL,1,3,0),
+	(655,'2024-12-04 01:11:04','2024-12-04 01:11:04',NULL,NULL,1,21,0),
+	(656,'2024-12-04 01:11:04','2024-12-04 01:11:04',NULL,NULL,1,22,0),
+	(657,'2024-12-04 01:11:04','2024-12-04 01:11:04',NULL,NULL,1,23,0),
+	(658,'2024-12-04 01:11:04','2024-12-04 01:11:04',NULL,NULL,1,24,0),
+	(659,'2024-12-04 01:11:04','2024-12-04 01:11:04',NULL,NULL,1,25,0),
+	(660,'2024-12-04 01:11:04','2024-12-04 01:11:04',NULL,NULL,1,26,0),
+	(661,'2024-12-04 01:11:04','2024-12-04 01:11:04',NULL,NULL,1,27,0),
+	(662,'2024-12-04 01:11:04','2024-12-04 01:11:04',NULL,NULL,1,28,0),
+	(663,'2024-12-04 01:11:04','2024-12-04 01:11:04',NULL,NULL,1,29,0),
+	(664,'2024-12-04 01:11:04','2024-12-04 01:11:04',NULL,NULL,1,30,0),
+	(665,'2024-12-04 01:11:04','2024-12-04 01:11:04',NULL,NULL,1,31,0),
+	(666,'2024-12-04 01:11:04','2024-12-04 01:11:04',NULL,NULL,1,32,0),
+	(667,'2024-12-04 01:11:04','2024-12-04 01:11:04',NULL,NULL,1,35,0),
+	(668,'2024-12-04 01:11:04','2024-12-04 01:11:04',NULL,NULL,1,38,0),
+	(669,'2024-12-04 01:11:04','2024-12-04 01:11:04',NULL,NULL,1,36,0),
+	(670,'2024-12-04 01:11:04','2024-12-04 01:11:04',NULL,NULL,1,37,0),
+	(671,'2024-12-04 01:11:15','2024-12-04 01:11:15',NULL,NULL,2,2,0),
+	(672,'2024-12-04 01:11:15','2024-12-04 01:11:15',NULL,NULL,2,1,0),
+	(673,'2024-12-04 01:11:15','2024-12-04 01:11:15',NULL,NULL,2,20,0),
+	(674,'2024-12-04 01:11:15','2024-12-04 01:11:15',NULL,NULL,2,24,0),
+	(675,'2024-12-04 01:11:15','2024-12-04 01:11:15',NULL,NULL,2,28,0),
+	(676,'2024-12-04 01:11:15','2024-12-04 01:11:15',NULL,NULL,2,32,0),
+	(677,'2024-12-04 01:11:15','2024-12-04 01:11:15',NULL,NULL,2,36,0),
+	(678,'2024-12-04 01:11:15','2024-12-04 01:11:15',NULL,NULL,2,37,0),
+	(679,'2024-12-04 01:11:15','2024-12-04 01:11:15',NULL,NULL,2,38,0);
 
 /*!40000 ALTER TABLE `manage_role_menu` ENABLE KEYS */;
 UNLOCK TABLES;
