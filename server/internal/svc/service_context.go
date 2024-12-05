@@ -3,6 +3,7 @@ package svc
 import (
 	"net/http"
 
+	"github.com/casbin/casbin/v2"
 	"github.com/jzero-io/jzero-contrib/cache"
 	"github.com/jzero-io/jzero-contrib/cache/sync"
 	"github.com/jzero-io/jzero-contrib/modelx"
@@ -12,19 +13,21 @@ import (
 	"github.com/zeromicro/go-zero/core/stores/sqlc"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 	"github.com/zeromicro/go-zero/core/syncx"
+
 	"server/internal/config"
 	"server/internal/custom"
-	"server/internal/middleware"
 	"server/internal/model"
 )
 
 type ServiceContext struct {
-	Config   config.Config
-	SqlxConn sqlx.SqlConn
-	Model    model.Model
-	Cache    cache.Cache
-	Custom   *custom.Custom
-	middleware.Middleware
+	Config         config.Config
+	SqlxConn       sqlx.SqlConn
+	Model          model.Model
+	Cache          cache.Cache
+	CasbinEnforcer *casbin.Enforcer
+	Middleware
+
+	Custom *custom.Custom
 }
 
 func NewServiceContext(c config.Config, route2Code func(r *http.Request) string) *ServiceContext {
@@ -43,9 +46,10 @@ func NewServiceContext(c config.Config, route2Code func(r *http.Request) string)
 			Addr: svcCtx.Config.Redis.Host,
 			Type: svcCtx.Config.Redis.Type,
 			Pass: svcCtx.Config.Redis.Pass,
-		}, singleFlights, stats, errors.New("no cache"))
+		}, singleFlights, stats, errors.New("cache not found"))
 	}
+	svcCtx.CasbinEnforcer = MustCasbinEnforcer(svcCtx)
 	svcCtx.Model = model.NewModel(svcCtx.SqlxConn, modelx.WithCachedConn(sqlc.NewConnWithCache(svcCtx.SqlxConn, svcCtx.Cache)))
-	svcCtx.Middleware = middleware.NewMiddleware(MustCasbinEnforcer(svcCtx), route2Code)
+	svcCtx.Middleware = NewMiddleware(svcCtx, route2Code)
 	return svcCtx
 }

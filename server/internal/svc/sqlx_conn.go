@@ -7,6 +7,7 @@ import (
 	sqlbuilder "github.com/huandu/go-sqlbuilder"
 	"github.com/spf13/cast"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
+
 	"server/internal/config"
 )
 
@@ -29,7 +30,11 @@ func BuildDataSource(c config.Config) string {
 
 func MustSqlConn(c config.Config) sqlx.SqlConn {
 	sqlConn := sqlx.NewSqlConn(c.DatabaseType, BuildDataSource(c))
-	_, err := sqlConn.Exec("select 1")
+	db, err := sqlConn.RawDB()
+	if err != nil {
+		panic(err)
+	}
+	err = db.Ping()
 	if err != nil {
 		panic(err)
 	}
