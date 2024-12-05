@@ -4,36 +4,17 @@ import (
 	"net/http"
 
 	casbin "github.com/casbin/casbin/v2"
-	"github.com/jzero-io/jzero-contrib/cache"
 	"github.com/spf13/cast"
-	"github.com/zeromicro/go-zero/core/stores/sqlx"
-
 	"server/internal/auth"
 )
 
-const CasbinModelConf = `[request_definition]
-r = sub, obj
-
-[policy_definition]
-p = sub, obj
-
-[policy_effect]
-e = some(where (p.eft == allow))
-
-[matchers]
-m = r.sub == p.sub && r.obj == p.obj`
-
 type AuthxMiddleware struct {
-	Cache          cache.Cache
-	SqlxConn       sqlx.SqlConn
 	CasbinEnforcer *casbin.Enforcer
 	Route2CodeFunc func(r *http.Request) string
 }
 
-func NewAuthxMiddleware(cache cache.Cache, sqlxConn sqlx.SqlConn, casbinEnforcer *casbin.Enforcer, route2codeFunc func(r *http.Request) string) *AuthxMiddleware {
+func NewAuthxMiddleware(casbinEnforcer *casbin.Enforcer, route2codeFunc func(r *http.Request) string) *AuthxMiddleware {
 	return &AuthxMiddleware{
-		Cache:          cache,
-		SqlxConn:       sqlxConn,
 		CasbinEnforcer: casbinEnforcer,
 		Route2CodeFunc: route2codeFunc,
 	}

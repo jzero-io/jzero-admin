@@ -20,7 +20,7 @@ CREATE TABLE `casbin_rule` (
 LOCK TABLES `casbin_rule` WRITE;
 /*!40000 ALTER TABLE `casbin_rule` DISABLE KEYS */;
 
-INSERT INTO `casbin_rule` (`id`, `ptype`, `v0`, `v1`, `v2`, `v3`, `v4`, `v5`)
+INSERT INTO `casbin_rule` (`id`, `p_type`, `v0`, `v1`, `v2`, `v3`, `v4`, `v5`)
 VALUES
 	(406,'p','1','manage:user:list','','','',''),
 	(407,'p','1','manage:role:list','','','',''),
