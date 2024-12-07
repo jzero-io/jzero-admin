@@ -5,6 +5,7 @@ package manage_user_role
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	"strings"
 	"time"
 
@@ -23,6 +24,8 @@ var (
 	manageUserRoleRows                = strings.Join(manageUserRoleFieldNames, ",")
 	manageUserRoleRowsExpectAutoSet   = strings.Join(stringx.Remove(manageUserRoleFieldNames, "`id`"), ",")
 	manageUserRoleRowsWithPlaceHolder = strings.Join(stringx.Remove(manageUserRoleFieldNames, "`id`"), "=?,") + "=?"
+
+	cacheJzeroadminManageUserRoleIdPrefix = "cache:jzeroadmin:manageUserRole:id:"
 )
 
 type (
@@ -91,7 +94,17 @@ func (m *defaultManageUserRoleModel) Delete(ctx context.Context, session sqlx.Se
 }
 
 func (m *defaultManageUserRoleModel) DeleteWithCache(ctx context.Context, session sqlx.Session, id uint64) error {
-	return m.Delete(ctx, session, id)
+	jzeroadminManageUserRoleIdKey := fmt.Sprintf("%s%v", cacheJzeroadminManageUserRoleIdPrefix, id)
+	_, err := m.cachedConn.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
+		sb := sqlbuilder.DeleteFrom(m.table)
+		sb.Where(sb.EQ("`id`", id))
+		statement, args := sb.Build()
+		if session != nil {
+			return session.ExecCtx(ctx, statement, args...)
+		}
+		return conn.ExecCtx(ctx, statement, args...)
+	}, jzeroadminManageUserRoleIdKey)
+	return err
 }
 
 func (m *defaultManageUserRoleModel) FindOne(ctx context.Context, session sqlx.Session, id uint64) (*ManageUserRole, error) {
@@ -117,7 +130,25 @@ func (m *defaultManageUserRoleModel) FindOne(ctx context.Context, session sqlx.S
 }
 
 func (m *defaultManageUserRoleModel) FindOneWithCache(ctx context.Context, session sqlx.Session, id uint64) (*ManageUserRole, error) {
-	return m.FindOne(ctx, session, id)
+	jzeroadminManageUserRoleIdKey := fmt.Sprintf("%s%v", cacheJzeroadminManageUserRoleIdPrefix, id)
+	var resp ManageUserRole
+	err := m.cachedConn.QueryRowCtx(ctx, &resp, jzeroadminManageUserRoleIdKey, func(ctx context.Context, conn sqlx.SqlConn, v any) error {
+		sb := sqlbuilder.Select(manageUserRoleRows).From(m.table)
+		sb.Where(sb.EQ("`id`", id))
+		sql, args := sb.Build()
+		if session != nil {
+			return session.QueryRowCtx(ctx, v, sql, args...)
+		}
+		return conn.QueryRowCtx(ctx, v, sql, args...)
+	})
+	switch err {
+	case nil:
+		return &resp, nil
+	case sqlc.ErrNotFound:
+		return nil, ErrNotFound
+	default:
+		return nil, err
+	}
 }
 
 func (m *defaultManageUserRoleModel) Insert(ctx context.Context, session sqlx.Session, data *ManageUserRole) (sql.Result, error) {
@@ -132,7 +163,17 @@ func (m *defaultManageUserRoleModel) Insert(ctx context.Context, session sqlx.Se
 }
 
 func (m *defaultManageUserRoleModel) InsertWithCache(ctx context.Context, session sqlx.Session, data *ManageUserRole) (sql.Result, error) {
-	return m.Insert(ctx, session, data)
+	jzeroadminManageUserRoleIdKey := fmt.Sprintf("%s%v", cacheJzeroadminManageUserRoleIdPrefix, data.Id)
+	statement, args := sqlbuilder.NewInsertBuilder().
+		InsertInto(m.table).
+		Cols(manageUserRoleRowsExpectAutoSet).
+		Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.UserId, data.RoleId).Build()
+	return m.cachedConn.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
+		if session != nil {
+			return session.ExecCtx(ctx, statement, args...)
+		}
+		return conn.ExecCtx(ctx, statement, args...)
+	}, jzeroadminManageUserRoleIdKey)
 }
 func (m *defaultManageUserRoleModel) Update(ctx context.Context, session sqlx.Session, data *ManageUserRole) error {
 	sb := sqlbuilder.Update(m.table)
@@ -155,7 +196,34 @@ func (m *defaultManageUserRoleModel) Update(ctx context.Context, session sqlx.Se
 }
 
 func (m *defaultManageUserRoleModel) UpdateWithCache(ctx context.Context, session sqlx.Session, data *ManageUserRole) error {
-	return m.Update(ctx, session, data)
+	jzeroadminManageUserRoleIdKey := fmt.Sprintf("%s%v", cacheJzeroadminManageUserRoleIdPrefix, data.Id)
+	_, err := m.cachedConn.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
+		sb := sqlbuilder.Update(m.table)
+		split := strings.Split(manageUserRoleRowsExpectAutoSet, ",")
+		var assigns []string
+		for _, s := range split {
+			assigns = append(assigns, sb.Assign(s, nil))
+		}
+		sb.Set(assigns...)
+		sb.Where(sb.EQ("`id`", nil))
+		statement, _ := sb.Build()
+		if session != nil {
+			return session.ExecCtx(ctx, statement, data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.UserId, data.RoleId, data.Id)
+		}
+		return conn.ExecCtx(ctx, statement, data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.UserId, data.RoleId, data.Id)
+	}, jzeroadminManageUserRoleIdKey)
+	return err
+}
+
+func (m *defaultManageUserRoleModel) formatPrimary(primary any) string {
+	return fmt.Sprintf("%s%v", cacheJzeroadminManageUserRoleIdPrefix, primary)
+}
+
+func (m *defaultManageUserRoleModel) queryPrimary(ctx context.Context, conn sqlx.SqlConn, v, primary any) error {
+	sb := sqlbuilder.Select(manageUserRoleRows).From(m.table)
+	sb.Where(sb.EQ("`id`", primary))
+	sql, args := sb.Build()
+	return conn.QueryRowCtx(ctx, v, sql, args...)
 }
 
 func (m *defaultManageUserRoleModel) tableName() string {

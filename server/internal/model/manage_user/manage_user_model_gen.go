@@ -5,6 +5,7 @@ package manage_user
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	"strings"
 	"time"
 
@@ -23,6 +24,9 @@ var (
 	manageUserRows                = strings.Join(manageUserFieldNames, ",")
 	manageUserRowsExpectAutoSet   = strings.Join(stringx.Remove(manageUserFieldNames, "`id`"), ",")
 	manageUserRowsWithPlaceHolder = strings.Join(stringx.Remove(manageUserFieldNames, "`id`"), "=?,") + "=?"
+
+	cacheJzeroadminManageUserIdPrefix       = "cache:jzeroadmin:manageUser:id:"
+	cacheJzeroadminManageUserUsernamePrefix = "cache:jzeroadmin:manageUser:username:"
 )
 
 type (
@@ -98,7 +102,23 @@ func (m *defaultManageUserModel) Delete(ctx context.Context, session sqlx.Sessio
 }
 
 func (m *defaultManageUserModel) DeleteWithCache(ctx context.Context, session sqlx.Session, id uint64) error {
-	return m.Delete(ctx, session, id)
+	data, err := m.FindOne(ctx, session, id)
+	if err != nil {
+		return err
+	}
+
+	jzeroadminManageUserIdKey := fmt.Sprintf("%s%v", cacheJzeroadminManageUserIdPrefix, id)
+	jzeroadminManageUserUsernameKey := fmt.Sprintf("%s%v", cacheJzeroadminManageUserUsernamePrefix, data.Username)
+	_, err = m.cachedConn.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
+		sb := sqlbuilder.DeleteFrom(m.table)
+		sb.Where(sb.EQ("`id`", id))
+		statement, args := sb.Build()
+		if session != nil {
+			return session.ExecCtx(ctx, statement, args...)
+		}
+		return conn.ExecCtx(ctx, statement, args...)
+	}, jzeroadminManageUserIdKey, jzeroadminManageUserUsernameKey)
+	return err
 }
 
 func (m *defaultManageUserModel) FindOne(ctx context.Context, session sqlx.Session, id uint64) (*ManageUser, error) {
@@ -124,7 +144,25 @@ func (m *defaultManageUserModel) FindOne(ctx context.Context, session sqlx.Sessi
 }
 
 func (m *defaultManageUserModel) FindOneWithCache(ctx context.Context, session sqlx.Session, id uint64) (*ManageUser, error) {
-	return m.FindOne(ctx, session, id)
+	jzeroadminManageUserIdKey := fmt.Sprintf("%s%v", cacheJzeroadminManageUserIdPrefix, id)
+	var resp ManageUser
+	err := m.cachedConn.QueryRowCtx(ctx, &resp, jzeroadminManageUserIdKey, func(ctx context.Context, conn sqlx.SqlConn, v any) error {
+		sb := sqlbuilder.Select(manageUserRows).From(m.table)
+		sb.Where(sb.EQ("`id`", id))
+		sql, args := sb.Build()
+		if session != nil {
+			return session.QueryRowCtx(ctx, v, sql, args...)
+		}
+		return conn.QueryRowCtx(ctx, v, sql, args...)
+	})
+	switch err {
+	case nil:
+		return &resp, nil
+	case sqlc.ErrNotFound:
+		return nil, ErrNotFound
+	default:
+		return nil, err
+	}
 }
 
 func (m *defaultManageUserModel) FindOneByUsername(ctx context.Context, session sqlx.Session, username string) (*ManageUser, error) {
@@ -154,7 +192,33 @@ func (m *defaultManageUserModel) FindOneByUsername(ctx context.Context, session 
 }
 
 func (m *defaultManageUserModel) FindOneByUsernameWithCache(ctx context.Context, session sqlx.Session, username string) (*ManageUser, error) {
-	return m.FindOneByUsername(ctx, session, username)
+	jzeroadminManageUserUsernameKey := fmt.Sprintf("%s%v", cacheJzeroadminManageUserUsernamePrefix, username)
+	var resp ManageUser
+	err := m.cachedConn.QueryRowIndexCtx(ctx, &resp, jzeroadminManageUserUsernameKey, m.formatPrimary, func(ctx context.Context, conn sqlx.SqlConn, v any) (i any, e error) {
+		sb := sqlbuilder.Select(manageUserRows).From(m.table)
+		sb.Where(sb.EQ(strings.Split(strings.ReplaceAll("`username` = ?", " ", ""), "=")[0], username))
+		sb.Limit(1)
+		sql, args := sb.Build()
+		var err error
+
+		if session != nil {
+			err = session.QueryRowCtx(ctx, &resp, sql, args...)
+		} else {
+			err = conn.QueryRowCtx(ctx, &resp, sql, args...)
+		}
+		if err != nil {
+			return nil, err
+		}
+		return resp.Id, nil
+	}, m.queryPrimary)
+	switch err {
+	case nil:
+		return &resp, nil
+	case sqlc.ErrNotFound:
+		return nil, ErrNotFound
+	default:
+		return nil, err
+	}
 }
 
 func (m *defaultManageUserModel) Insert(ctx context.Context, session sqlx.Session, data *ManageUser) (sql.Result, error) {
@@ -169,7 +233,18 @@ func (m *defaultManageUserModel) Insert(ctx context.Context, session sqlx.Sessio
 }
 
 func (m *defaultManageUserModel) InsertWithCache(ctx context.Context, session sqlx.Session, data *ManageUser) (sql.Result, error) {
-	return m.Insert(ctx, session, data)
+	jzeroadminManageUserIdKey := fmt.Sprintf("%s%v", cacheJzeroadminManageUserIdPrefix, data.Id)
+	jzeroadminManageUserUsernameKey := fmt.Sprintf("%s%v", cacheJzeroadminManageUserUsernamePrefix, data.Username)
+	statement, args := sqlbuilder.NewInsertBuilder().
+		InsertInto(m.table).
+		Cols(manageUserRowsExpectAutoSet).
+		Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Username, data.Password, data.Nickname, data.Gender, data.Phone, data.Status, data.Email).Build()
+	return m.cachedConn.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
+		if session != nil {
+			return session.ExecCtx(ctx, statement, args...)
+		}
+		return conn.ExecCtx(ctx, statement, args...)
+	}, jzeroadminManageUserIdKey, jzeroadminManageUserUsernameKey)
 }
 func (m *defaultManageUserModel) Update(ctx context.Context, session sqlx.Session, newData *ManageUser) error {
 	sb := sqlbuilder.Update(m.table)
@@ -192,7 +267,39 @@ func (m *defaultManageUserModel) Update(ctx context.Context, session sqlx.Sessio
 }
 
 func (m *defaultManageUserModel) UpdateWithCache(ctx context.Context, session sqlx.Session, newData *ManageUser) error {
-	return m.Update(ctx, session, newData)
+	data, err := m.FindOne(ctx, session, newData.Id)
+	if err != nil {
+		return err
+	}
+	jzeroadminManageUserIdKey := fmt.Sprintf("%s%v", cacheJzeroadminManageUserIdPrefix, data.Id)
+	jzeroadminManageUserUsernameKey := fmt.Sprintf("%s%v", cacheJzeroadminManageUserUsernamePrefix, data.Username)
+	_, err = m.cachedConn.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
+		sb := sqlbuilder.Update(m.table)
+		split := strings.Split(manageUserRowsExpectAutoSet, ",")
+		var assigns []string
+		for _, s := range split {
+			assigns = append(assigns, sb.Assign(s, nil))
+		}
+		sb.Set(assigns...)
+		sb.Where(sb.EQ("`id`", nil))
+		statement, _ := sb.Build()
+		if session != nil {
+			return session.ExecCtx(ctx, statement, newData.CreateTime, newData.UpdateTime, newData.CreateBy, newData.UpdateBy, newData.Username, newData.Password, newData.Nickname, newData.Gender, newData.Phone, newData.Status, newData.Email, newData.Id)
+		}
+		return conn.ExecCtx(ctx, statement, newData.CreateTime, newData.UpdateTime, newData.CreateBy, newData.UpdateBy, newData.Username, newData.Password, newData.Nickname, newData.Gender, newData.Phone, newData.Status, newData.Email, newData.Id)
+	}, jzeroadminManageUserIdKey, jzeroadminManageUserUsernameKey)
+	return err
+}
+
+func (m *defaultManageUserModel) formatPrimary(primary any) string {
+	return fmt.Sprintf("%s%v", cacheJzeroadminManageUserIdPrefix, primary)
+}
+
+func (m *defaultManageUserModel) queryPrimary(ctx context.Context, conn sqlx.SqlConn, v, primary any) error {
+	sb := sqlbuilder.Select(manageUserRows).From(m.table)
+	sb.Where(sb.EQ("`id`", primary))
+	sql, args := sb.Build()
+	return conn.QueryRowCtx(ctx, v, sql, args...)
 }
 
 func (m *defaultManageUserModel) tableName() string {

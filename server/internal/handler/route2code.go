@@ -9,7 +9,7 @@ import (
 	casbinutil "github.com/casbin/casbin/v2/util"
 )
 
-var routesCodesMap = map[string]string{
+var RoutesCodesMap = map[string]string{
 	"POST:/api/auth/code-login":          "auth:codeLogin",
 	"POST:/api/auth/error":               "auth:error",
 	"GET:/api/auth/getUserInfo":          "auth:getUserInfo",
@@ -44,7 +44,7 @@ var routesCodesMap = map[string]string{
 }
 
 func Route2Code(r *http.Request) string {
-	for k, v := range routesCodesMap {
+	for k, v := range RoutesCodesMap {
 		if splits := strings.Split(k, ":"); len(splits) >= 2 && splits[0] == strings.ToUpper(r.Method) {
 			if casbinutil.KeyMatch2(r.URL.Path, strings.Join(splits[1:], ":")) {
 				return v

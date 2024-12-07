@@ -5,6 +5,7 @@ package casbin_rule
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	"strings"
 
 	"github.com/eddieowens/opts"
@@ -22,6 +23,8 @@ var (
 	casbinRuleRows                = strings.Join(casbinRuleFieldNames, ",")
 	casbinRuleRowsExpectAutoSet   = strings.Join(stringx.Remove(casbinRuleFieldNames, "`id`"), ",")
 	casbinRuleRowsWithPlaceHolder = strings.Join(stringx.Remove(casbinRuleFieldNames, "`id`"), "=?,") + "=?"
+
+	cacheJzeroadminCasbinRuleIdPrefix = "cache:jzeroadmin:casbinRule:id:"
 )
 
 type (
@@ -52,7 +55,7 @@ type (
 
 	CasbinRule struct {
 		Id    int64          `db:"id"`
-		Ptype sql.NullString `db:"ptype"`
+		PType sql.NullString `db:"p_type"`
 		V0    sql.NullString `db:"v0"`
 		V1    sql.NullString `db:"v1"`
 		V2    sql.NullString `db:"v2"`
@@ -91,7 +94,17 @@ func (m *defaultCasbinRuleModel) Delete(ctx context.Context, session sqlx.Sessio
 }
 
 func (m *defaultCasbinRuleModel) DeleteWithCache(ctx context.Context, session sqlx.Session, id int64) error {
-	return m.Delete(ctx, session, id)
+	jzeroadminCasbinRuleIdKey := fmt.Sprintf("%s%v", cacheJzeroadminCasbinRuleIdPrefix, id)
+	_, err := m.cachedConn.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
+		sb := sqlbuilder.DeleteFrom(m.table)
+		sb.Where(sb.EQ("`id`", id))
+		statement, args := sb.Build()
+		if session != nil {
+			return session.ExecCtx(ctx, statement, args...)
+		}
+		return conn.ExecCtx(ctx, statement, args...)
+	}, jzeroadminCasbinRuleIdKey)
+	return err
 }
 
 func (m *defaultCasbinRuleModel) FindOne(ctx context.Context, session sqlx.Session, id int64) (*CasbinRule, error) {
@@ -117,14 +130,32 @@ func (m *defaultCasbinRuleModel) FindOne(ctx context.Context, session sqlx.Sessi
 }
 
 func (m *defaultCasbinRuleModel) FindOneWithCache(ctx context.Context, session sqlx.Session, id int64) (*CasbinRule, error) {
-	return m.FindOne(ctx, session, id)
+	jzeroadminCasbinRuleIdKey := fmt.Sprintf("%s%v", cacheJzeroadminCasbinRuleIdPrefix, id)
+	var resp CasbinRule
+	err := m.cachedConn.QueryRowCtx(ctx, &resp, jzeroadminCasbinRuleIdKey, func(ctx context.Context, conn sqlx.SqlConn, v any) error {
+		sb := sqlbuilder.Select(casbinRuleRows).From(m.table)
+		sb.Where(sb.EQ("`id`", id))
+		sql, args := sb.Build()
+		if session != nil {
+			return session.QueryRowCtx(ctx, v, sql, args...)
+		}
+		return conn.QueryRowCtx(ctx, v, sql, args...)
+	})
+	switch err {
+	case nil:
+		return &resp, nil
+	case sqlc.ErrNotFound:
+		return nil, ErrNotFound
+	default:
+		return nil, err
+	}
 }
 
 func (m *defaultCasbinRuleModel) Insert(ctx context.Context, session sqlx.Session, data *CasbinRule) (sql.Result, error) {
 	statement, args := sqlbuilder.NewInsertBuilder().
 		InsertInto(m.table).
 		Cols(casbinRuleRowsExpectAutoSet).
-		Values(data.Ptype, data.V0, data.V1, data.V2, data.V3, data.V4, data.V5).Build()
+		Values(data.PType, data.V0, data.V1, data.V2, data.V3, data.V4, data.V5).Build()
 	if session != nil {
 		return session.ExecCtx(ctx, statement, args...)
 	}
@@ -132,7 +163,17 @@ func (m *defaultCasbinRuleModel) Insert(ctx context.Context, session sqlx.Sessio
 }
 
 func (m *defaultCasbinRuleModel) InsertWithCache(ctx context.Context, session sqlx.Session, data *CasbinRule) (sql.Result, error) {
-	return m.Insert(ctx, session, data)
+	jzeroadminCasbinRuleIdKey := fmt.Sprintf("%s%v", cacheJzeroadminCasbinRuleIdPrefix, data.Id)
+	statement, args := sqlbuilder.NewInsertBuilder().
+		InsertInto(m.table).
+		Cols(casbinRuleRowsExpectAutoSet).
+		Values(data.PType, data.V0, data.V1, data.V2, data.V3, data.V4, data.V5).Build()
+	return m.cachedConn.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
+		if session != nil {
+			return session.ExecCtx(ctx, statement, args...)
+		}
+		return conn.ExecCtx(ctx, statement, args...)
+	}, jzeroadminCasbinRuleIdKey)
 }
 func (m *defaultCasbinRuleModel) Update(ctx context.Context, session sqlx.Session, data *CasbinRule) error {
 	sb := sqlbuilder.Update(m.table)
@@ -147,15 +188,42 @@ func (m *defaultCasbinRuleModel) Update(ctx context.Context, session sqlx.Sessio
 
 	var err error
 	if session != nil {
-		_, err = session.ExecCtx(ctx, statement, data.Ptype, data.V0, data.V1, data.V2, data.V3, data.V4, data.V5, data.Id)
+		_, err = session.ExecCtx(ctx, statement, data.PType, data.V0, data.V1, data.V2, data.V3, data.V4, data.V5, data.Id)
 	} else {
-		_, err = m.conn.ExecCtx(ctx, statement, data.Ptype, data.V0, data.V1, data.V2, data.V3, data.V4, data.V5, data.Id)
+		_, err = m.conn.ExecCtx(ctx, statement, data.PType, data.V0, data.V1, data.V2, data.V3, data.V4, data.V5, data.Id)
 	}
 	return err
 }
 
 func (m *defaultCasbinRuleModel) UpdateWithCache(ctx context.Context, session sqlx.Session, data *CasbinRule) error {
-	return m.Update(ctx, session, data)
+	jzeroadminCasbinRuleIdKey := fmt.Sprintf("%s%v", cacheJzeroadminCasbinRuleIdPrefix, data.Id)
+	_, err := m.cachedConn.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
+		sb := sqlbuilder.Update(m.table)
+		split := strings.Split(casbinRuleRowsExpectAutoSet, ",")
+		var assigns []string
+		for _, s := range split {
+			assigns = append(assigns, sb.Assign(s, nil))
+		}
+		sb.Set(assigns...)
+		sb.Where(sb.EQ("`id`", nil))
+		statement, _ := sb.Build()
+		if session != nil {
+			return session.ExecCtx(ctx, statement, data.PType, data.V0, data.V1, data.V2, data.V3, data.V4, data.V5, data.Id)
+		}
+		return conn.ExecCtx(ctx, statement, data.PType, data.V0, data.V1, data.V2, data.V3, data.V4, data.V5, data.Id)
+	}, jzeroadminCasbinRuleIdKey)
+	return err
+}
+
+func (m *defaultCasbinRuleModel) formatPrimary(primary any) string {
+	return fmt.Sprintf("%s%v", cacheJzeroadminCasbinRuleIdPrefix, primary)
+}
+
+func (m *defaultCasbinRuleModel) queryPrimary(ctx context.Context, conn sqlx.SqlConn, v, primary any) error {
+	sb := sqlbuilder.Select(casbinRuleRows).From(m.table)
+	sb.Where(sb.EQ("`id`", primary))
+	sql, args := sb.Build()
+	return conn.QueryRowCtx(ctx, v, sql, args...)
 }
 
 func (m *defaultCasbinRuleModel) tableName() string {
@@ -166,7 +234,7 @@ func (m *customCasbinRuleModel) BulkInsert(ctx context.Context, session sqlx.Ses
 	sb := sqlbuilder.InsertInto(m.table)
 	sb.Cols(casbinRuleRowsExpectAutoSet)
 	for _, data := range datas {
-		sb.Values(data.Ptype, data.V0, data.V1, data.V2, data.V3, data.V4, data.V5)
+		sb.Values(data.PType, data.V0, data.V1, data.V2, data.V3, data.V4, data.V5)
 	}
 	statement, args := sb.Build()
 

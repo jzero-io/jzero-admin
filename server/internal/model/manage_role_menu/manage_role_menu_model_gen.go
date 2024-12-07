@@ -5,6 +5,7 @@ package manage_role_menu
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	"strings"
 	"time"
 
@@ -23,6 +24,8 @@ var (
 	manageRoleMenuRows                = strings.Join(manageRoleMenuFieldNames, ",")
 	manageRoleMenuRowsExpectAutoSet   = strings.Join(stringx.Remove(manageRoleMenuFieldNames, "`id`"), ",")
 	manageRoleMenuRowsWithPlaceHolder = strings.Join(stringx.Remove(manageRoleMenuFieldNames, "`id`"), "=?,") + "=?"
+
+	cacheJzeroadminManageRoleMenuIdPrefix = "cache:jzeroadmin:manageRoleMenu:id:"
 )
 
 type (
@@ -92,7 +95,17 @@ func (m *defaultManageRoleMenuModel) Delete(ctx context.Context, session sqlx.Se
 }
 
 func (m *defaultManageRoleMenuModel) DeleteWithCache(ctx context.Context, session sqlx.Session, id uint64) error {
-	return m.Delete(ctx, session, id)
+	jzeroadminManageRoleMenuIdKey := fmt.Sprintf("%s%v", cacheJzeroadminManageRoleMenuIdPrefix, id)
+	_, err := m.cachedConn.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
+		sb := sqlbuilder.DeleteFrom(m.table)
+		sb.Where(sb.EQ("`id`", id))
+		statement, args := sb.Build()
+		if session != nil {
+			return session.ExecCtx(ctx, statement, args...)
+		}
+		return conn.ExecCtx(ctx, statement, args...)
+	}, jzeroadminManageRoleMenuIdKey)
+	return err
 }
 
 func (m *defaultManageRoleMenuModel) FindOne(ctx context.Context, session sqlx.Session, id uint64) (*ManageRoleMenu, error) {
@@ -118,7 +131,25 @@ func (m *defaultManageRoleMenuModel) FindOne(ctx context.Context, session sqlx.S
 }
 
 func (m *defaultManageRoleMenuModel) FindOneWithCache(ctx context.Context, session sqlx.Session, id uint64) (*ManageRoleMenu, error) {
-	return m.FindOne(ctx, session, id)
+	jzeroadminManageRoleMenuIdKey := fmt.Sprintf("%s%v", cacheJzeroadminManageRoleMenuIdPrefix, id)
+	var resp ManageRoleMenu
+	err := m.cachedConn.QueryRowCtx(ctx, &resp, jzeroadminManageRoleMenuIdKey, func(ctx context.Context, conn sqlx.SqlConn, v any) error {
+		sb := sqlbuilder.Select(manageRoleMenuRows).From(m.table)
+		sb.Where(sb.EQ("`id`", id))
+		sql, args := sb.Build()
+		if session != nil {
+			return session.QueryRowCtx(ctx, v, sql, args...)
+		}
+		return conn.QueryRowCtx(ctx, v, sql, args...)
+	})
+	switch err {
+	case nil:
+		return &resp, nil
+	case sqlc.ErrNotFound:
+		return nil, ErrNotFound
+	default:
+		return nil, err
+	}
 }
 
 func (m *defaultManageRoleMenuModel) Insert(ctx context.Context, session sqlx.Session, data *ManageRoleMenu) (sql.Result, error) {
@@ -133,7 +164,17 @@ func (m *defaultManageRoleMenuModel) Insert(ctx context.Context, session sqlx.Se
 }
 
 func (m *defaultManageRoleMenuModel) InsertWithCache(ctx context.Context, session sqlx.Session, data *ManageRoleMenu) (sql.Result, error) {
-	return m.Insert(ctx, session, data)
+	jzeroadminManageRoleMenuIdKey := fmt.Sprintf("%s%v", cacheJzeroadminManageRoleMenuIdPrefix, data.Id)
+	statement, args := sqlbuilder.NewInsertBuilder().
+		InsertInto(m.table).
+		Cols(manageRoleMenuRowsExpectAutoSet).
+		Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.RoleId, data.MenuId, data.IsHome).Build()
+	return m.cachedConn.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
+		if session != nil {
+			return session.ExecCtx(ctx, statement, args...)
+		}
+		return conn.ExecCtx(ctx, statement, args...)
+	}, jzeroadminManageRoleMenuIdKey)
 }
 func (m *defaultManageRoleMenuModel) Update(ctx context.Context, session sqlx.Session, data *ManageRoleMenu) error {
 	sb := sqlbuilder.Update(m.table)
@@ -156,7 +197,34 @@ func (m *defaultManageRoleMenuModel) Update(ctx context.Context, session sqlx.Se
 }
 
 func (m *defaultManageRoleMenuModel) UpdateWithCache(ctx context.Context, session sqlx.Session, data *ManageRoleMenu) error {
-	return m.Update(ctx, session, data)
+	jzeroadminManageRoleMenuIdKey := fmt.Sprintf("%s%v", cacheJzeroadminManageRoleMenuIdPrefix, data.Id)
+	_, err := m.cachedConn.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
+		sb := sqlbuilder.Update(m.table)
+		split := strings.Split(manageRoleMenuRowsExpectAutoSet, ",")
+		var assigns []string
+		for _, s := range split {
+			assigns = append(assigns, sb.Assign(s, nil))
+		}
+		sb.Set(assigns...)
+		sb.Where(sb.EQ("`id`", nil))
+		statement, _ := sb.Build()
+		if session != nil {
+			return session.ExecCtx(ctx, statement, data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.RoleId, data.MenuId, data.IsHome, data.Id)
+		}
+		return conn.ExecCtx(ctx, statement, data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.RoleId, data.MenuId, data.IsHome, data.Id)
+	}, jzeroadminManageRoleMenuIdKey)
+	return err
+}
+
+func (m *defaultManageRoleMenuModel) formatPrimary(primary any) string {
+	return fmt.Sprintf("%s%v", cacheJzeroadminManageRoleMenuIdPrefix, primary)
+}
+
+func (m *defaultManageRoleMenuModel) queryPrimary(ctx context.Context, conn sqlx.SqlConn, v, primary any) error {
+	sb := sqlbuilder.Select(manageRoleMenuRows).From(m.table)
+	sb.Where(sb.EQ("`id`", primary))
+	sql, args := sb.Build()
+	return conn.QueryRowCtx(ctx, v, sql, args...)
 }
 
 func (m *defaultManageRoleMenuModel) tableName() string {

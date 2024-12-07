@@ -5,6 +5,7 @@ package manage_email
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	"strings"
 	"time"
 
@@ -23,6 +24,8 @@ var (
 	manageEmailRows                = strings.Join(manageEmailFieldNames, ",")
 	manageEmailRowsExpectAutoSet   = strings.Join(stringx.Remove(manageEmailFieldNames, "`id`"), ",")
 	manageEmailRowsWithPlaceHolder = strings.Join(stringx.Remove(manageEmailFieldNames, "`id`"), "=?,") + "=?"
+
+	cacheJzeroadminManageEmailIdPrefix = "cache:jzeroadmin:manageEmail:id:"
 )
 
 type (
@@ -96,7 +99,17 @@ func (m *defaultManageEmailModel) Delete(ctx context.Context, session sqlx.Sessi
 }
 
 func (m *defaultManageEmailModel) DeleteWithCache(ctx context.Context, session sqlx.Session, id uint64) error {
-	return m.Delete(ctx, session, id)
+	jzeroadminManageEmailIdKey := fmt.Sprintf("%s%v", cacheJzeroadminManageEmailIdPrefix, id)
+	_, err := m.cachedConn.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
+		sb := sqlbuilder.DeleteFrom(m.table)
+		sb.Where(sb.EQ("`id`", id))
+		statement, args := sb.Build()
+		if session != nil {
+			return session.ExecCtx(ctx, statement, args...)
+		}
+		return conn.ExecCtx(ctx, statement, args...)
+	}, jzeroadminManageEmailIdKey)
+	return err
 }
 
 func (m *defaultManageEmailModel) FindOne(ctx context.Context, session sqlx.Session, id uint64) (*ManageEmail, error) {
@@ -122,7 +135,25 @@ func (m *defaultManageEmailModel) FindOne(ctx context.Context, session sqlx.Sess
 }
 
 func (m *defaultManageEmailModel) FindOneWithCache(ctx context.Context, session sqlx.Session, id uint64) (*ManageEmail, error) {
-	return m.FindOne(ctx, session, id)
+	jzeroadminManageEmailIdKey := fmt.Sprintf("%s%v", cacheJzeroadminManageEmailIdPrefix, id)
+	var resp ManageEmail
+	err := m.cachedConn.QueryRowCtx(ctx, &resp, jzeroadminManageEmailIdKey, func(ctx context.Context, conn sqlx.SqlConn, v any) error {
+		sb := sqlbuilder.Select(manageEmailRows).From(m.table)
+		sb.Where(sb.EQ("`id`", id))
+		sql, args := sb.Build()
+		if session != nil {
+			return session.QueryRowCtx(ctx, v, sql, args...)
+		}
+		return conn.QueryRowCtx(ctx, v, sql, args...)
+	})
+	switch err {
+	case nil:
+		return &resp, nil
+	case sqlc.ErrNotFound:
+		return nil, ErrNotFound
+	default:
+		return nil, err
+	}
 }
 
 func (m *defaultManageEmailModel) Insert(ctx context.Context, session sqlx.Session, data *ManageEmail) (sql.Result, error) {
@@ -137,7 +168,17 @@ func (m *defaultManageEmailModel) Insert(ctx context.Context, session sqlx.Sessi
 }
 
 func (m *defaultManageEmailModel) InsertWithCache(ctx context.Context, session sqlx.Session, data *ManageEmail) (sql.Result, error) {
-	return m.Insert(ctx, session, data)
+	jzeroadminManageEmailIdKey := fmt.Sprintf("%s%v", cacheJzeroadminManageEmailIdPrefix, data.Id)
+	statement, args := sqlbuilder.NewInsertBuilder().
+		InsertInto(m.table).
+		Cols(manageEmailRowsExpectAutoSet).
+		Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.From, data.Host, data.Port, data.Username, data.Password, data.EnableSsl, data.IsVerify).Build()
+	return m.cachedConn.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
+		if session != nil {
+			return session.ExecCtx(ctx, statement, args...)
+		}
+		return conn.ExecCtx(ctx, statement, args...)
+	}, jzeroadminManageEmailIdKey)
 }
 func (m *defaultManageEmailModel) Update(ctx context.Context, session sqlx.Session, data *ManageEmail) error {
 	sb := sqlbuilder.Update(m.table)
@@ -160,7 +201,34 @@ func (m *defaultManageEmailModel) Update(ctx context.Context, session sqlx.Sessi
 }
 
 func (m *defaultManageEmailModel) UpdateWithCache(ctx context.Context, session sqlx.Session, data *ManageEmail) error {
-	return m.Update(ctx, session, data)
+	jzeroadminManageEmailIdKey := fmt.Sprintf("%s%v", cacheJzeroadminManageEmailIdPrefix, data.Id)
+	_, err := m.cachedConn.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
+		sb := sqlbuilder.Update(m.table)
+		split := strings.Split(manageEmailRowsExpectAutoSet, ",")
+		var assigns []string
+		for _, s := range split {
+			assigns = append(assigns, sb.Assign(s, nil))
+		}
+		sb.Set(assigns...)
+		sb.Where(sb.EQ("`id`", nil))
+		statement, _ := sb.Build()
+		if session != nil {
+			return session.ExecCtx(ctx, statement, data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.From, data.Host, data.Port, data.Username, data.Password, data.EnableSsl, data.IsVerify, data.Id)
+		}
+		return conn.ExecCtx(ctx, statement, data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.From, data.Host, data.Port, data.Username, data.Password, data.EnableSsl, data.IsVerify, data.Id)
+	}, jzeroadminManageEmailIdKey)
+	return err
+}
+
+func (m *defaultManageEmailModel) formatPrimary(primary any) string {
+	return fmt.Sprintf("%s%v", cacheJzeroadminManageEmailIdPrefix, primary)
+}
+
+func (m *defaultManageEmailModel) queryPrimary(ctx context.Context, conn sqlx.SqlConn, v, primary any) error {
+	sb := sqlbuilder.Select(manageEmailRows).From(m.table)
+	sb.Where(sb.EQ("`id`", primary))
+	sql, args := sb.Build()
+	return conn.QueryRowCtx(ctx, v, sql, args...)
 }
 
 func (m *defaultManageEmailModel) tableName() string {

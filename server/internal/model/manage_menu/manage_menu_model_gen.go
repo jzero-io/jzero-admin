@@ -5,6 +5,7 @@ package manage_menu
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	"strings"
 	"time"
 
@@ -23,6 +24,8 @@ var (
 	manageMenuRows                = strings.Join(manageMenuFieldNames, ",")
 	manageMenuRowsExpectAutoSet   = strings.Join(stringx.Remove(manageMenuFieldNames, "`id`"), ",")
 	manageMenuRowsWithPlaceHolder = strings.Join(stringx.Remove(manageMenuFieldNames, "`id`"), "=?,") + "=?"
+
+	cacheJzeroadminManageMenuIdPrefix = "cache:jzeroadmin:manageMenu:id:"
 )
 
 type (
@@ -110,7 +113,17 @@ func (m *defaultManageMenuModel) Delete(ctx context.Context, session sqlx.Sessio
 }
 
 func (m *defaultManageMenuModel) DeleteWithCache(ctx context.Context, session sqlx.Session, id uint64) error {
-	return m.Delete(ctx, session, id)
+	jzeroadminManageMenuIdKey := fmt.Sprintf("%s%v", cacheJzeroadminManageMenuIdPrefix, id)
+	_, err := m.cachedConn.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
+		sb := sqlbuilder.DeleteFrom(m.table)
+		sb.Where(sb.EQ("`id`", id))
+		statement, args := sb.Build()
+		if session != nil {
+			return session.ExecCtx(ctx, statement, args...)
+		}
+		return conn.ExecCtx(ctx, statement, args...)
+	}, jzeroadminManageMenuIdKey)
+	return err
 }
 
 func (m *defaultManageMenuModel) FindOne(ctx context.Context, session sqlx.Session, id uint64) (*ManageMenu, error) {
@@ -136,7 +149,25 @@ func (m *defaultManageMenuModel) FindOne(ctx context.Context, session sqlx.Sessi
 }
 
 func (m *defaultManageMenuModel) FindOneWithCache(ctx context.Context, session sqlx.Session, id uint64) (*ManageMenu, error) {
-	return m.FindOne(ctx, session, id)
+	jzeroadminManageMenuIdKey := fmt.Sprintf("%s%v", cacheJzeroadminManageMenuIdPrefix, id)
+	var resp ManageMenu
+	err := m.cachedConn.QueryRowCtx(ctx, &resp, jzeroadminManageMenuIdKey, func(ctx context.Context, conn sqlx.SqlConn, v any) error {
+		sb := sqlbuilder.Select(manageMenuRows).From(m.table)
+		sb.Where(sb.EQ("`id`", id))
+		sql, args := sb.Build()
+		if session != nil {
+			return session.QueryRowCtx(ctx, v, sql, args...)
+		}
+		return conn.QueryRowCtx(ctx, v, sql, args...)
+	})
+	switch err {
+	case nil:
+		return &resp, nil
+	case sqlc.ErrNotFound:
+		return nil, ErrNotFound
+	default:
+		return nil, err
+	}
 }
 
 func (m *defaultManageMenuModel) Insert(ctx context.Context, session sqlx.Session, data *ManageMenu) (sql.Result, error) {
@@ -151,7 +182,17 @@ func (m *defaultManageMenuModel) Insert(ctx context.Context, session sqlx.Sessio
 }
 
 func (m *defaultManageMenuModel) InsertWithCache(ctx context.Context, session sqlx.Session, data *ManageMenu) (sql.Result, error) {
-	return m.Insert(ctx, session, data)
+	jzeroadminManageMenuIdKey := fmt.Sprintf("%s%v", cacheJzeroadminManageMenuIdPrefix, data.Id)
+	statement, args := sqlbuilder.NewInsertBuilder().
+		InsertInto(m.table).
+		Cols(manageMenuRowsExpectAutoSet).
+		Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Status, data.ParentId, data.MenuType, data.MenuName, data.HideInMenu, data.ActiveMenu, data.Order, data.RouteName, data.RoutePath, data.Component, data.Icon, data.IconType, data.I18nKey, data.KeepAlive, data.Href, data.MultiTab, data.FixedIndexInTab, data.Query, data.Permissions, data.Constant, data.ButtonCode).Build()
+	return m.cachedConn.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
+		if session != nil {
+			return session.ExecCtx(ctx, statement, args...)
+		}
+		return conn.ExecCtx(ctx, statement, args...)
+	}, jzeroadminManageMenuIdKey)
 }
 func (m *defaultManageMenuModel) Update(ctx context.Context, session sqlx.Session, data *ManageMenu) error {
 	sb := sqlbuilder.Update(m.table)
@@ -174,7 +215,34 @@ func (m *defaultManageMenuModel) Update(ctx context.Context, session sqlx.Sessio
 }
 
 func (m *defaultManageMenuModel) UpdateWithCache(ctx context.Context, session sqlx.Session, data *ManageMenu) error {
-	return m.Update(ctx, session, data)
+	jzeroadminManageMenuIdKey := fmt.Sprintf("%s%v", cacheJzeroadminManageMenuIdPrefix, data.Id)
+	_, err := m.cachedConn.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
+		sb := sqlbuilder.Update(m.table)
+		split := strings.Split(manageMenuRowsExpectAutoSet, ",")
+		var assigns []string
+		for _, s := range split {
+			assigns = append(assigns, sb.Assign(s, nil))
+		}
+		sb.Set(assigns...)
+		sb.Where(sb.EQ("`id`", nil))
+		statement, _ := sb.Build()
+		if session != nil {
+			return session.ExecCtx(ctx, statement, data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Status, data.ParentId, data.MenuType, data.MenuName, data.HideInMenu, data.ActiveMenu, data.Order, data.RouteName, data.RoutePath, data.Component, data.Icon, data.IconType, data.I18nKey, data.KeepAlive, data.Href, data.MultiTab, data.FixedIndexInTab, data.Query, data.Permissions, data.Constant, data.ButtonCode, data.Id)
+		}
+		return conn.ExecCtx(ctx, statement, data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Status, data.ParentId, data.MenuType, data.MenuName, data.HideInMenu, data.ActiveMenu, data.Order, data.RouteName, data.RoutePath, data.Component, data.Icon, data.IconType, data.I18nKey, data.KeepAlive, data.Href, data.MultiTab, data.FixedIndexInTab, data.Query, data.Permissions, data.Constant, data.ButtonCode, data.Id)
+	}, jzeroadminManageMenuIdKey)
+	return err
+}
+
+func (m *defaultManageMenuModel) formatPrimary(primary any) string {
+	return fmt.Sprintf("%s%v", cacheJzeroadminManageMenuIdPrefix, primary)
+}
+
+func (m *defaultManageMenuModel) queryPrimary(ctx context.Context, conn sqlx.SqlConn, v, primary any) error {
+	sb := sqlbuilder.Select(manageMenuRows).From(m.table)
+	sb.Where(sb.EQ("`id`", primary))
+	sql, args := sb.Build()
+	return conn.QueryRowCtx(ctx, v, sql, args...)
 }
 
 func (m *defaultManageMenuModel) tableName() string {
