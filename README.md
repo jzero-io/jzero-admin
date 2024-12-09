@@ -18,7 +18,7 @@
 * [web 服务部署仓库地址](https://github.com/jaronnie/jzero-admin-deploy-web)
 * [server 服务部署仓库地址](https://github.com/jaronnie/jzero-admin-deploy-server)
 
-[demo 演示地址](https://demo.jzero-admin.jaronnie.com)
+[demo 演示地址](https://admin.jzero.io)
 
 ## 本地一键部署
 
