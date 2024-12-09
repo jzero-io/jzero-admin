@@ -7,7 +7,7 @@ DROP TABLE IF EXISTS `casbin_rule`;
 
 CREATE TABLE `casbin_rule` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `ptype` varchar(100) DEFAULT NULL,
+  `p_type` varchar(100) DEFAULT NULL,
   `v0` varchar(100) DEFAULT NULL,
   `v1` varchar(100) DEFAULT NULL,
   `v2` varchar(100) DEFAULT NULL,
