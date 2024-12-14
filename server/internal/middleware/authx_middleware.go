@@ -5,6 +5,7 @@ import (
 
 	casbin "github.com/casbin/casbin/v2"
 	"github.com/spf13/cast"
+
 	"server/internal/auth"
 )
 

@@ -10,6 +10,12 @@ export function getAuthorization() {
   return Authorization;
 }
 
+export function getLanguage() {
+  const language = localStg.get('lang') || 'zh-CN';
+
+  return language;
+}
+
 /** refresh token */
 async function handleRefreshToken() {
   const { resetStore } = useAuthStore();

@@ -1,0 +1,7 @@
+{
+    "manage": {
+        "menu": {
+            "existSubMenu": "存在子菜单, 请先删除子菜单"
+        }
+    }
+}

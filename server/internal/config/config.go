@@ -5,6 +5,8 @@ import (
 
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/rest"
+
+	"server/internal/i18n"
 )
 
 var C Config
@@ -20,6 +22,8 @@ type Config struct {
 
 	CacheType string    `json:",default=local"`
 	Redis     RedisConf `json:",optional"`
+
+	I18n i18n.Conf `json:",optional"`
 
 	Jwt Jwt
 }

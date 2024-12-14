@@ -15,6 +15,7 @@ import (
 
 	"server/internal/config"
 	"server/internal/custom"
+	"server/internal/i18n"
 	"server/internal/model"
 )
 
@@ -24,6 +25,7 @@ type ServiceContext struct {
 	Model          model.Model
 	Cache          cache.Cache
 	CasbinEnforcer *casbin.Enforcer
+	Trans          *i18n.Translator
 	Middleware
 
 	Custom *custom.Custom
@@ -34,6 +36,7 @@ func NewServiceContext(c config.Config, route2Code func(r *http.Request) string)
 		Config:   c,
 		SqlxConn: MustSqlConn(c),
 		Custom:   custom.New(),
+		Trans:    i18n.NewTranslator(c.I18n, i18n.LocaleFS),
 	}
 	if c.CacheType == "local" {
 		svcCtx.Cache = cache.NewSyncMap(errors.New("cache not found"))
