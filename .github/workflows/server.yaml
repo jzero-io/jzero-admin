@@ -40,7 +40,7 @@ jobs:
           cd jzero-admin-deploy-server
           git config user.name "dependabot[bot]"
           git config user.email "49699333+dependabot[bot]@users.noreply.github.com"
-          find . -type f -mindepth 1 ! -path "./api/*" ! -path "./vercel.json" ! -path "./.git/*" -exec rm -rf {} +
+          find . -type f -mindepth 1 ! -path "./api/*" ! -path "./vercel.json" ! -path "./.git/*" ! -path "./s.yaml" -exec rm -rf {} +
           cp -r ../server/. .
           git add .
           git diff-index --quiet HEAD || git commit -m "feat(server): update"

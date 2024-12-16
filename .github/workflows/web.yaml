@@ -39,6 +39,7 @@ jobs:
           cd web
           pnpm i
           VITE_SERVICE_BASE_URL=https://demo.jzero-admin-api.jaronnie.com pnpm build
+          VITE_SERVICE_BASE_URL=http://jzero-admin-server.fcv3.1446568277794229.cn-hangzhou.fc.devsapp.net pnpm build --outDir fc3-dist
           cd ..
 
       - name: Upload to jaronnie/jzero-admin-deploy-web
@@ -48,8 +49,9 @@ jobs:
           cd jzero-admin-deploy-web
           git config user.name "dependabot[bot]"
           git config user.email "49699333+dependabot[bot]@users.noreply.github.com"
-          find . -type f -mindepth 1 ! -path "./vercel.json" ! -path "./.git/*" -exec rm -rf {} +
+          find . -type f -mindepth 1 ! -path "./vercel.json" ! -path "./.git/*" ! -path "./code/nginx.conf" ! -path "./s.yaml" -exec rm -rf {} +
           mv ../web/dist/* ./
+          mv ../web/fc3-dist/* ./code/build
           git add .
           git diff-index --quiet HEAD || git commit -m "feat(web): update"
           git push -f
