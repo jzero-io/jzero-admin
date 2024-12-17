@@ -11,7 +11,9 @@
 
 基于 [jzero](https://github.com/jzero-io/jzero) 脚手架搭建后台服务, 基于 [soybean](https://github.com/soybeanjs/soybean-admin) 搭建前端服务的下一代后台管理系统.
 
-## demo 演示
+## 演示地址
+
+### 部署在 vercel 平台
 
 前后端均部署在 [vercel](https://vercel.com)
 
@@ -19,6 +21,13 @@
 * [server 服务部署仓库地址](https://github.com/jaronnie/jzero-admin-deploy-server)
 
 [demo 演示地址](https://admin.jzero.io)
+
+### 部署在阿里云函数计算
+
+* [web 服务部署仓库地址](https://github.com/jaronnie/jzero-admin-deploy-web)
+* [server 服务部署仓库地址](https://github.com/jaronnie/jzero-admin-deploy-server)
+
+[demo 演示地址](https://jzero-admin.jaronnie.com)
 
 ## 本地一键部署
 
