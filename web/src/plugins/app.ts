@@ -2,12 +2,17 @@ import { h } from 'vue';
 import type { App } from 'vue';
 import { NButton } from 'naive-ui';
 import { $t } from '@/locales';
+import { GetVersion } from '@/service/api';
 
 export function setupAppErrorHandle(app: App) {
   app.config.errorHandler = (err, vm, info) => {
     // eslint-disable-next-line no-console
     console.error(err, vm, info);
   };
+}
+
+export function wakeBackend() {
+  GetVersion();
 }
 
 export function setupAppVersionNotification() {
