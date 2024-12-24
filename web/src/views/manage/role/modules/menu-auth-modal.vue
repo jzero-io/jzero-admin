@@ -84,6 +84,36 @@ const pageSelectOptions = computed(() => {
 const tree = shallowRef<Api.Manage.MenuTree[]>([]);
 const checks = shallowRef<number[]>([]);
 
+function updateChecks() {
+  // 定义递归检查函数
+  function checkParent(node: Api.Manage.MenuTree) {
+    if (node.children && node.children.length > 0) {
+      const hasCheckedChildren = node.children.some(child => checks.value.includes(child.id));
+
+      // 如果有任意子节点被选中，则选中父节点
+      if (hasCheckedChildren && !checks.value.includes(node.id)) {
+        checks.value.push(node.id);
+      }
+      // 如果没有子节点被选中，并且父节点当前被选中，则取消选中父节点
+      else if (!hasCheckedChildren && checks.value.includes(node.id)) {
+        checks.value.splice(checks.value.indexOf(node.id), 1);
+      }
+
+      // 对每个子节点递归调用 checkParent 函数
+      node.children.forEach(child => {
+        if (child.children && child.children.length > 0) {
+          checkParent(child);
+        }
+      });
+    }
+  }
+
+  // 遍历顶层节点并开始检查
+  tree.value.forEach(topLevelNode => {
+    checkParent(topLevelNode);
+  });
+}
+
 async function getTree() {
   getTreeDataStartLoading();
   const { error, data } = await GetMenuTree();
@@ -99,9 +129,34 @@ async function getTree() {
   if (!roleMenusError) {
     checks.value = roleMenusData;
   }
+
+  // 定义递归检查函数
+  function checkParent(node: Api.Manage.MenuTree) {
+    if (node.children && node.children.length > 0) {
+      const allChildrenChecked = node.children.every(child => checks.value.includes(child.id));
+
+      // 如果所有子节点都被选中，则选中父节点（如果还没有选中的话）
+      if (allChildrenChecked && !checks.value.includes(node.id)) {
+        checks.value.push(node.id);
+      }
+      // 如果不是所有子节点都被选中，并且父节点当前被选中，则取消选中父节点
+      else if (!allChildrenChecked && checks.value.includes(node.id)) {
+        checks.value.splice(checks.value.indexOf(node.id), 1);
+      }
+
+      // 对每个子节点递归调用 checkParent 函数
+      node.children.forEach(child => checkParent(child));
+    }
+  }
+
+  // 遍历顶层节点并开始检查
+  tree.value.forEach(topLevelNode => {
+    checkParent(topLevelNode);
+  });
 }
 
 async function handleSubmit() {
+  updateChecks();
   // request
   const setRoleMenusRequest: Api.Manage.SetRoleMenusRequest = {
     roleId: props.roleId,
@@ -134,7 +189,7 @@ watch(visible, val => {
     <div class="flex-y-center gap-16px pb-12px">
       <div>{{ $t('page.manage.menu.home') }}</div>
       <NSelect :value="home" :options="pageSelectOptions" size="small" class="w-160px" @update:value="updateHome" />
-      <template v-if="updateHomeLoadingRef.valueOf()">
+      <template v-if="updateHomeLoadingRef">
         <NSpin size="small" />
       </template>
     </div>
