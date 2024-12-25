@@ -20,8 +20,8 @@ mysql:
     database: "${MYSQL_DATABASE}"
 
 redis:
-    host: "localhost:6379"
-    type: "node"
+    host: "${REDIS_HOST}"
+    type: "${REDIS_TYPE}"
 
 cache:
     type: "${CACHE_TYPE}"

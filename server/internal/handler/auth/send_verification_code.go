@@ -18,7 +18,7 @@ func SendVerificationCode(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := auth.NewSendVerificationCode(r.Context(), svcCtx)
+		l := auth.NewSendVerificationCode(r.Context(), svcCtx, r)
 		resp, err := l.SendVerificationCode(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)

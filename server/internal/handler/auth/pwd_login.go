@@ -18,7 +18,7 @@ func PwdLogin(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := auth.NewPwdLogin(r.Context(), svcCtx)
+		l := auth.NewPwdLogin(r.Context(), svcCtx, r)
 		resp, err := l.PwdLogin(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)

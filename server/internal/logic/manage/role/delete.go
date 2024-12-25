@@ -2,6 +2,7 @@ package role
 
 import (
 	"context"
+	"net/http"
 
 	"github.com/jzero-io/jzero-contrib/condition"
 	"github.com/pkg/errors"
@@ -15,13 +16,14 @@ type Delete struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
+	r      *http.Request
 }
 
-func NewDelete(ctx context.Context, svcCtx *svc.ServiceContext) *Delete {
+func NewDelete(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Request) *Delete {
 	return &Delete{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
-		svcCtx: svcCtx,
+		svcCtx: svcCtx, r: r,
 	}
 }
 

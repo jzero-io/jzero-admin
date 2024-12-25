@@ -18,7 +18,7 @@ func GetUserRoutes(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := route.NewGetUserRoutes(r.Context(), svcCtx)
+		l := route.NewGetUserRoutes(r.Context(), svcCtx, r)
 		resp, err := l.GetUserRoutes(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)

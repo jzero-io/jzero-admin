@@ -18,7 +18,7 @@ func List(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := role.NewList(r.Context(), svcCtx)
+		l := role.NewList(r.Context(), svcCtx, r)
 		resp, err := l.List(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)

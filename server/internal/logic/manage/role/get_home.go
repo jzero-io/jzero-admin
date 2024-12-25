@@ -2,6 +2,7 @@ package role
 
 import (
 	"context"
+	"net/http"
 
 	"github.com/jzero-io/jzero-contrib/condition"
 	"github.com/zeromicro/go-zero/core/logx"
@@ -14,13 +15,14 @@ type GetHome struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
+	r      *http.Request
 }
 
-func NewGetHome(ctx context.Context, svcCtx *svc.ServiceContext) *GetHome {
+func NewGetHome(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Request) *GetHome {
 	return &GetHome{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
-		svcCtx: svcCtx,
+		svcCtx: svcCtx, r: r,
 	}
 }
 

@@ -18,7 +18,7 @@ func CodeLogin(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := auth.NewCodeLogin(r.Context(), svcCtx)
+		l := auth.NewCodeLogin(r.Context(), svcCtx, r)
 		resp, err := l.CodeLogin(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)

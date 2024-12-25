@@ -2,6 +2,7 @@ package route
 
 import (
 	"context"
+	"net/http"
 	"strings"
 
 	"github.com/jzero-io/jzero-contrib/condition"
@@ -16,13 +17,14 @@ type GetConstantRoutes struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
+	r      *http.Request
 }
 
-func NewGetConstantRoutes(ctx context.Context, svcCtx *svc.ServiceContext) *GetConstantRoutes {
+func NewGetConstantRoutes(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Request) *GetConstantRoutes {
 	return &GetConstantRoutes{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
-		svcCtx: svcCtx,
+		svcCtx: svcCtx, r: r,
 	}
 }
 

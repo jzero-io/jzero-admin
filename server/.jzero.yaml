@@ -12,4 +12,5 @@ gen:
   regen-api-handler: true
   route2Code: true
 
+  model-mysql-cache: true
   model-mysql-ignore-columns: []

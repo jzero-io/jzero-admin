@@ -2,6 +2,7 @@ package menu
 
 import (
 	"context"
+	"net/http"
 
 	"github.com/jzero-io/jzero-contrib/condition"
 	"github.com/samber/lo"
@@ -16,13 +17,14 @@ type GetAllPages struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
+	r      *http.Request
 }
 
-func NewGetAllPages(ctx context.Context, svcCtx *svc.ServiceContext) *GetAllPages {
+func NewGetAllPages(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Request) *GetAllPages {
 	return &GetAllPages{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
-		svcCtx: svcCtx,
+		svcCtx: svcCtx, r: r,
 	}
 }
 

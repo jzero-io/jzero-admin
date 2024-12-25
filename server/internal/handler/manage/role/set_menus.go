@@ -18,7 +18,7 @@ func SetMenus(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := role.NewSetMenus(r.Context(), svcCtx)
+		l := role.NewSetMenus(r.Context(), svcCtx, r)
 		resp, err := l.SetMenus(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)

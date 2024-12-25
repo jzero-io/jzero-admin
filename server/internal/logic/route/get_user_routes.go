@@ -2,6 +2,7 @@ package route
 
 import (
 	"context"
+	"net/http"
 
 	"github.com/jzero-io/jzero-contrib/condition"
 	"github.com/jzero-io/jzero-contrib/nullx"
@@ -20,13 +21,14 @@ type GetUserRoutes struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
+	r      *http.Request
 }
 
-func NewGetUserRoutes(ctx context.Context, svcCtx *svc.ServiceContext) *GetUserRoutes {
+func NewGetUserRoutes(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Request) *GetUserRoutes {
 	return &GetUserRoutes{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
-		svcCtx: svcCtx,
+		svcCtx: svcCtx, r: r,
 	}
 }
 

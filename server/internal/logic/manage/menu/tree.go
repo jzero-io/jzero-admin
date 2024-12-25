@@ -2,6 +2,7 @@ package menu
 
 import (
 	"context"
+	"net/http"
 	"sort"
 
 	"github.com/jzero-io/jzero-contrib/condition"
@@ -15,13 +16,14 @@ type Tree struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
+	r      *http.Request
 }
 
-func NewTree(ctx context.Context, svcCtx *svc.ServiceContext) *Tree {
+func NewTree(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Request) *Tree {
 	return &Tree{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
-		svcCtx: svcCtx,
+		svcCtx: svcCtx, r: r,
 	}
 }
 

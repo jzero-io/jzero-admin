@@ -18,7 +18,7 @@ func Tree(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := menu.NewTree(r.Context(), svcCtx)
+		l := menu.NewTree(r.Context(), svcCtx, r)
 		resp, err := l.Tree(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)

@@ -3,6 +3,7 @@ package menu
 import (
 	"context"
 	"encoding/json"
+	"net/http"
 	"sort"
 
 	"github.com/jzero-io/jzero-contrib/condition"
@@ -19,13 +20,14 @@ type List struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
+	r      *http.Request
 }
 
-func NewList(ctx context.Context, svcCtx *svc.ServiceContext) *List {
+func NewList(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Request) *List {
 	return &List{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
-		svcCtx: svcCtx,
+		svcCtx: svcCtx, r: r,
 	}
 }
 

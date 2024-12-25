@@ -6,8 +6,9 @@ import (
 	"os"
 
 	figure "github.com/common-nighthawk/go-figure"
+	"github.com/jzero-io/jzero-contrib/dynamic_conf"
 	"github.com/spf13/cobra"
-	"github.com/zeromicro/go-zero/core/conf"
+	configurator "github.com/zeromicro/go-zero/core/configcenter"
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/service"
 	"github.com/zeromicro/go-zero/rest"
@@ -24,9 +25,13 @@ var serverCmd = &cobra.Command{
 	Short: "server server",
 	Long:  "server server",
 	Run: func(cmd *cobra.Command, args []string) {
-		var c config.Config
-		conf.MustLoad(cfgFile, &c, conf.UseEnv())
-		config.C = c
+		ss, err := dynamic_conf.NewFsNotify(cfgFile, dynamic_conf.WithUseEnv(true))
+		logx.Must(err)
+		cc := configurator.MustNewConfigCenter[config.Config](configurator.Config{
+			Type: "yaml",
+		}, ss)
+		c, err := cc.GetConfig()
+		logx.Must(err)
 
 		// set up logger
 		if err := logx.SetUp(c.Log.LogConf); err != nil {
@@ -36,13 +41,13 @@ var serverCmd = &cobra.Command{
 			logx.AddWriter(logx.NewWriter(os.Stdout))
 		}
 
-		ctx := svc.NewServiceContext(c, handler.Route2Code)
-		run(ctx)
+		ctx := svc.NewServiceContext(c, cc, handler.Route2Code)
+		run(c, ctx)
 	},
 }
 
-func run(svcCtx *svc.ServiceContext) {
-	server := rest.MustNewServer(svcCtx.Config.Rest.RestConf, rest.WithCustomCors(func(header http.Header) {
+func run(c config.Config, svcCtx *svc.ServiceContext) {
+	server := rest.MustNewServer(c.Rest.RestConf, rest.WithCustomCors(func(header http.Header) {
 		header.Set("Access-Control-Allow-Origin", "*")
 		header.Add("Access-Control-Allow-Headers", "X-Request-Id")
 		header.Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, UPDATE")
@@ -59,11 +64,11 @@ func run(svcCtx *svc.ServiceContext) {
 	group.Add(server)
 	group.Add(svcCtx.Custom)
 
-	printBanner(svcCtx.Config)
-	fmt.Printf("\nUsing Database: %s\n", svcCtx.Config.DatabaseType)
-	fmt.Printf("%s conf: %s\n", svcCtx.Config.DatabaseType, svc.BuildDataSource(svcCtx.Config))
-	fmt.Printf("Using Cache: %s\n", svcCtx.Config.CacheType)
-	logx.Infof("Starting rest server at %s:%d...", svcCtx.Config.Rest.Host, svcCtx.Config.Rest.Port)
+	printBanner(c)
+	fmt.Printf("\nUsing Database: %s\n", c.DatabaseType)
+	fmt.Printf("%s conf: %s\n", c.DatabaseType, svc.BuildDataSource(c))
+	fmt.Printf("Using Cache: %s\n", c.CacheType)
+	logx.Infof("Starting rest server at %s:%d...", c.Rest.Host, c.Rest.Port)
 	group.Start()
 }
 

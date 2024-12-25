@@ -3,6 +3,7 @@ package auth
 import (
 	"context"
 	"fmt"
+	"net/http"
 
 	"github.com/jzero-io/jzero-contrib/condition"
 	"github.com/pkg/errors"
@@ -17,13 +18,14 @@ type ResetPassword struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
+	r      *http.Request
 }
 
-func NewResetPassword(ctx context.Context, svcCtx *svc.ServiceContext) *ResetPassword {
+func NewResetPassword(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Request) *ResetPassword {
 	return &ResetPassword{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
-		svcCtx: svcCtx,
+		svcCtx: svcCtx, r: r,
 	}
 }
 

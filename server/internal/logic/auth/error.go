@@ -2,6 +2,7 @@ package auth
 
 import (
 	"context"
+	"net/http"
 
 	"github.com/zeromicro/go-zero/core/logx"
 
@@ -13,13 +14,14 @@ type Error struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
+	r      *http.Request
 }
 
-func NewError(ctx context.Context, svcCtx *svc.ServiceContext) *Error {
+func NewError(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Request) *Error {
 	return &Error{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
-		svcCtx: svcCtx,
+		svcCtx: svcCtx, r: r,
 	}
 }
 

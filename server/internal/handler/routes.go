@@ -72,7 +72,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: auth.RefreshToken(serverCtx),
 				},
 			},
-			rest.WithJwt(serverCtx.Config.Jwt.AccessSecret),
+			rest.WithJwt(serverCtx.MustGetConfig().Jwt.AccessSecret),
 			rest.WithPrefix("/api"),
 		)
 	}
@@ -113,7 +113,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					},
 				}...,
 			),
-			rest.WithJwt(serverCtx.Config.Jwt.AccessSecret),
+			rest.WithJwt(serverCtx.MustGetConfig().Jwt.AccessSecret),
 			rest.WithPrefix("/api"),
 		)
 	}
@@ -169,7 +169,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					},
 				}...,
 			),
-			rest.WithJwt(serverCtx.Config.Jwt.AccessSecret),
+			rest.WithJwt(serverCtx.MustGetConfig().Jwt.AccessSecret),
 			rest.WithPrefix("/api"),
 		)
 	}
@@ -200,7 +200,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					},
 				}...,
 			),
-			rest.WithJwt(serverCtx.Config.Jwt.AccessSecret),
+			rest.WithJwt(serverCtx.MustGetConfig().Jwt.AccessSecret),
 			rest.WithPrefix("/api"),
 		)
 	}
@@ -218,7 +218,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Handler: route.IsRouteExist(serverCtx),
 				},
 			},
-			rest.WithJwt(serverCtx.Config.Jwt.AccessSecret),
+			rest.WithJwt(serverCtx.MustGetConfig().Jwt.AccessSecret),
 			rest.WithPrefix("/api"),
 		)
 

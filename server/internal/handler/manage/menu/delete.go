@@ -18,7 +18,7 @@ func Delete(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := menu.NewDelete(r.Context(), svcCtx)
+		l := menu.NewDelete(r.Context(), svcCtx, r)
 		resp, err := l.Delete(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)

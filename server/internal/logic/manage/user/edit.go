@@ -2,6 +2,7 @@ package user
 
 import (
 	"context"
+	"net/http"
 	"time"
 
 	"github.com/guregu/null/v5"
@@ -17,13 +18,14 @@ type Edit struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
+	r      *http.Request
 }
 
-func NewEdit(ctx context.Context, svcCtx *svc.ServiceContext) *Edit {
+func NewEdit(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Request) *Edit {
 	return &Edit{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
-		svcCtx: svcCtx,
+		svcCtx: svcCtx, r: r,
 	}
 }
 

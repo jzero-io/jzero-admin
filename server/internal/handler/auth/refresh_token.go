@@ -18,7 +18,7 @@ func RefreshToken(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := auth.NewRefreshToken(r.Context(), svcCtx)
+		l := auth.NewRefreshToken(r.Context(), svcCtx, r)
 		resp, err := l.RefreshToken(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
