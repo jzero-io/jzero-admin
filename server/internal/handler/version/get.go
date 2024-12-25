@@ -18,7 +18,7 @@ func Get(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := version.NewGet(r.Context(), svcCtx)
+		l := version.NewGet(r.Context(), svcCtx, r)
 		resp, err := l.Get(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)

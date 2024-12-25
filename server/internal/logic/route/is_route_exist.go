@@ -2,6 +2,7 @@ package route
 
 import (
 	"context"
+	"net/http"
 
 	"github.com/zeromicro/go-zero/core/logx"
 
@@ -13,13 +14,14 @@ type IsRouteExist struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
+	r      *http.Request
 }
 
-func NewIsRouteExist(ctx context.Context, svcCtx *svc.ServiceContext) *IsRouteExist {
+func NewIsRouteExist(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Request) *IsRouteExist {
 	return &IsRouteExist{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
-		svcCtx: svcCtx,
+		svcCtx: svcCtx, r: r,
 	}
 }
 

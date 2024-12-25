@@ -18,7 +18,7 @@ func GetAllPages(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := menu.NewGetAllPages(r.Context(), svcCtx)
+		l := menu.NewGetAllPages(r.Context(), svcCtx, r)
 		resp, err := l.GetAllPages(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)

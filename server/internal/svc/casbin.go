@@ -20,10 +20,13 @@ e = some(where (p.eft == allow))
 m = r.sub == p.sub && r.obj == p.obj`
 
 func MustCasbinEnforcer(svcCtx *ServiceContext) *casbin.Enforcer {
+	config, err := svcCtx.Config.GetConfig()
+	logx.Must(err)
+
 	db, err := svcCtx.SqlxConn.RawDB()
 	logx.Must(err)
 
-	adapter, err := sqladapter.NewAdapter(db, svcCtx.Config.DatabaseType, "casbin_rule")
+	adapter, err := sqladapter.NewAdapter(db, config.DatabaseType, "casbin_rule")
 	logx.Must(err)
 
 	casbinModel, err := casbinmodel.NewModelFromString(CasbinModelConf)

@@ -18,7 +18,7 @@ func GetHome(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := role.NewGetHome(r.Context(), svcCtx)
+		l := role.NewGetHome(r.Context(), svcCtx, r)
 		resp, err := l.GetHome(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)

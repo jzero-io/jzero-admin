@@ -55,9 +55,9 @@ type MysqlConf struct {
 }
 
 type RedisConf struct {
-	Host     string `json:",env=NTLS_REDIS_HOST"`
-	Type     string `json:",default=node,options=node|cluster"`
-	Pass     string `json:",optional,env=NTLS_REDIS_PASS"`
+	Host     string `json:","`
+	Type     string `json:",default=node"`
+	Pass     string `json:",optional,"`
 	Tls      bool   `json:",optional"`
 	NonBlock bool   `json:",default=true"`
 

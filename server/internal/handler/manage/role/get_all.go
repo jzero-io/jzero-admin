@@ -18,7 +18,7 @@ func GetAll(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := role.NewGetAll(r.Context(), svcCtx)
+		l := role.NewGetAll(r.Context(), svcCtx, r)
 		resp, err := l.GetAll(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)

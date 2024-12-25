@@ -18,7 +18,7 @@ func Register(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := auth.NewRegister(r.Context(), svcCtx)
+		l := auth.NewRegister(r.Context(), svcCtx, r)
 		resp, err := l.Register(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)

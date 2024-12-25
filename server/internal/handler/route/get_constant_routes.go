@@ -18,7 +18,7 @@ func GetConstantRoutes(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := route.NewGetConstantRoutes(r.Context(), svcCtx)
+		l := route.NewGetConstantRoutes(r.Context(), svcCtx, r)
 		resp, err := l.GetConstantRoutes(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)

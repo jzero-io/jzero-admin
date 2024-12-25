@@ -5,6 +5,7 @@ import (
 	"crypto/tls"
 	"fmt"
 	"math/rand"
+	"net/http"
 	"strings"
 	"time"
 
@@ -25,13 +26,14 @@ type SendVerificationCode struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
+	r      *http.Request
 }
 
-func NewSendVerificationCode(ctx context.Context, svcCtx *svc.ServiceContext) *SendVerificationCode {
+func NewSendVerificationCode(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Request) *SendVerificationCode {
 	return &SendVerificationCode{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
-		svcCtx: svcCtx,
+		svcCtx: svcCtx, r: r,
 	}
 }
 

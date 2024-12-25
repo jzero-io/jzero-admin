@@ -18,7 +18,7 @@ func GetUserInfo(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := auth.NewGetUserInfo(r.Context(), svcCtx)
+		l := auth.NewGetUserInfo(r.Context(), svcCtx, r)
 		resp, err := l.GetUserInfo(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)

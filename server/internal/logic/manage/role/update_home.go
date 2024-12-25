@@ -2,6 +2,7 @@ package role
 
 import (
 	"context"
+	"net/http"
 
 	"github.com/jzero-io/jzero-contrib/condition"
 	"github.com/spf13/cast"
@@ -15,13 +16,14 @@ type UpdateHome struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
+	r      *http.Request
 }
 
-func NewUpdateHome(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateHome {
+func NewUpdateHome(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Request) *UpdateHome {
 	return &UpdateHome{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
-		svcCtx: svcCtx,
+		svcCtx: svcCtx, r: r,
 	}
 }
 

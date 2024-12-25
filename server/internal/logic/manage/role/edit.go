@@ -2,6 +2,7 @@ package role
 
 import (
 	"context"
+	"net/http"
 
 	"github.com/zeromicro/go-zero/core/logx"
 
@@ -13,13 +14,14 @@ type Edit struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
+	r      *http.Request
 }
 
-func NewEdit(ctx context.Context, svcCtx *svc.ServiceContext) *Edit {
+func NewEdit(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Request) *Edit {
 	return &Edit{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
-		svcCtx: svcCtx,
+		svcCtx: svcCtx, r: r,
 	}
 }
 

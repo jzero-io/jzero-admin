@@ -18,7 +18,7 @@ func Error(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := auth.NewError(r.Context(), svcCtx)
+		l := auth.NewError(r.Context(), svcCtx, r)
 		resp, err := l.Error(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)

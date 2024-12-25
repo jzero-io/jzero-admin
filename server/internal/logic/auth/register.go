@@ -3,6 +3,7 @@ package auth
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"time"
 
 	"github.com/guregu/null/v5"
@@ -21,13 +22,14 @@ type Register struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
+	r      *http.Request
 }
 
-func NewRegister(ctx context.Context, svcCtx *svc.ServiceContext) *Register {
+func NewRegister(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Request) *Register {
 	return &Register{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
-		svcCtx: svcCtx,
+		svcCtx: svcCtx, r: r,
 	}
 }
 

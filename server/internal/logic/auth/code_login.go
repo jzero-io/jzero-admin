@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/http"
 	"time"
 
 	"github.com/jzero-io/jzero-contrib/condition"
@@ -21,17 +22,23 @@ type CodeLogin struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
+	r      *http.Request
 }
 
-func NewCodeLogin(ctx context.Context, svcCtx *svc.ServiceContext) *CodeLogin {
+func NewCodeLogin(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Request) *CodeLogin {
 	return &CodeLogin{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
-		svcCtx: svcCtx,
+		svcCtx: svcCtx, r: r,
 	}
 }
 
 func (l *CodeLogin) CodeLogin(req *types.CodeLoginRequest) (resp *types.LoginResponse, err error) {
+	config, err := l.svcCtx.Config.GetConfig()
+	if err != nil {
+		return nil, err
+	}
+
 	// check verificationUuid
 	var verificationUuidVal string
 	if err = l.svcCtx.Cache.Get(fmt.Sprintf("%s:%s", constant.CacheVerificationCodePrefix, req.VerificationUuid), &verificationUuidVal); err != nil {
@@ -61,7 +68,7 @@ func (l *CodeLogin) CodeLogin(req *types.CodeLoginRequest) (resp *types.LoginRes
 		roleIds = append(roleIds, userRole.RoleId)
 	}
 
-	j := jwt.NewJwt(l.svcCtx.Config.Jwt.AccessSecret)
+	j := jwt.NewJwt(config.Jwt.AccessSecret)
 	marshal, err := json.Marshal(auth.Auth{
 		Id:       int(user.Id),
 		Username: user.Username,
@@ -78,7 +85,7 @@ func (l *CodeLogin) CodeLogin(req *types.CodeLoginRequest) (resp *types.LoginRes
 	}
 
 	// token 过期时间
-	expirationTime := time.Now().Add(time.Duration(l.svcCtx.Config.Jwt.AccessExpire) * time.Second).Unix()
+	expirationTime := time.Now().Add(time.Duration(config.Jwt.AccessExpire) * time.Second).Unix()
 	claims["exp"] = expirationTime
 
 	token, err := j.CreateToken(claims)
@@ -86,7 +93,7 @@ func (l *CodeLogin) CodeLogin(req *types.CodeLoginRequest) (resp *types.LoginRes
 		return nil, err
 	}
 
-	claims["exp"] = time.Now().Add(time.Duration(l.svcCtx.Config.Jwt.RefreshExpire) * time.Second).Unix()
+	claims["exp"] = time.Now().Add(time.Duration(config.Jwt.RefreshExpire) * time.Second).Unix()
 	refreshToken, err := j.CreateToken(claims)
 	if err != nil {
 		return nil, err

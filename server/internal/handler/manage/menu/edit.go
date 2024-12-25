@@ -18,7 +18,7 @@ func Edit(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := menu.NewEdit(r.Context(), svcCtx)
+		l := menu.NewEdit(r.Context(), svcCtx, r)
 		resp, err := l.Edit(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)

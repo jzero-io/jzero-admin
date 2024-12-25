@@ -18,7 +18,7 @@ func UpdateHome(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := role.NewUpdateHome(r.Context(), svcCtx)
+		l := role.NewUpdateHome(r.Context(), svcCtx, r)
 		resp, err := l.UpdateHome(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)

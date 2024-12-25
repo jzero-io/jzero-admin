@@ -3,6 +3,7 @@ package menu
 import (
 	"context"
 	"encoding/json"
+	"net/http"
 	"time"
 
 	null "github.com/guregu/null/v5"
@@ -19,13 +20,14 @@ type Add struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
+	r      *http.Request
 }
 
-func NewAdd(ctx context.Context, svcCtx *svc.ServiceContext) *Add {
+func NewAdd(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Request) *Add {
 	return &Add{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
-		svcCtx: svcCtx,
+		svcCtx: svcCtx, r: r,
 	}
 }
 

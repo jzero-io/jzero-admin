@@ -18,7 +18,7 @@ func IsRouteExist(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := route.NewIsRouteExist(r.Context(), svcCtx)
+		l := route.NewIsRouteExist(r.Context(), svcCtx, r)
 		resp, err := l.IsRouteExist(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)

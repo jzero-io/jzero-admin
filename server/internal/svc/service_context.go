@@ -8,6 +8,7 @@ import (
 	"github.com/jzero-io/jzero-contrib/cache"
 	"github.com/jzero-io/jzero-contrib/modelx"
 	"github.com/pkg/errors"
+	configurator "github.com/zeromicro/go-zero/core/configcenter"
 	zerocache "github.com/zeromicro/go-zero/core/stores/cache"
 	"github.com/zeromicro/go-zero/core/stores/redis"
 	"github.com/zeromicro/go-zero/core/stores/sqlc"
@@ -20,7 +21,7 @@ import (
 )
 
 type ServiceContext struct {
-	Config         config.Config
+	Config         configurator.Configurator[config.Config]
 	SqlxConn       sqlx.SqlConn
 	Model          model.Model
 	Cache          cache.Cache
@@ -31,9 +32,9 @@ type ServiceContext struct {
 	Custom *custom.Custom
 }
 
-func NewServiceContext(c config.Config, route2Code func(r *http.Request) string) *ServiceContext {
+func NewServiceContext(c config.Config, cc configurator.Configurator[config.Config], route2Code func(r *http.Request) string) *ServiceContext {
 	svcCtx := &ServiceContext{
-		Config:   c,
+		Config:   cc,
 		SqlxConn: MustSqlConn(c),
 		Custom:   custom.New(),
 		Trans:    i18n.NewTranslator(c.I18n, i18n.LocaleFS),
@@ -42,7 +43,7 @@ func NewServiceContext(c config.Config, route2Code func(r *http.Request) string)
 		svcCtx.Cache = cache.NewSyncMap(errors.New("cache not found"))
 	} else {
 		// redis cache
-		rds := redis.MustNewRedis(redis.RedisConf(svcCtx.Config.Redis))
+		rds := redis.MustNewRedis(redis.RedisConf(c.Redis))
 		svcCtx.Cache = cache.NewRedisNode(rds, errors.New("cache not found"), zerocache.WithExpiry(time.Duration(5)*time.Second))
 	}
 

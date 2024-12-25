@@ -18,7 +18,7 @@ func ResetPassword(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := auth.NewResetPassword(r.Context(), svcCtx)
+		l := auth.NewResetPassword(r.Context(), svcCtx, r)
 		resp, err := l.ResetPassword(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)

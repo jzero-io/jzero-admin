@@ -2,6 +2,7 @@ package role
 
 import (
 	"context"
+	"net/http"
 	"time"
 
 	"github.com/jzero-io/jzero-contrib/condition"
@@ -21,13 +22,14 @@ type SetMenus struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
+	r      *http.Request
 }
 
-func NewSetMenus(ctx context.Context, svcCtx *svc.ServiceContext) *SetMenus {
+func NewSetMenus(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Request) *SetMenus {
 	return &SetMenus{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
-		svcCtx: svcCtx,
+		svcCtx: svcCtx, r: r,
 	}
 }
 
