@@ -37,6 +37,7 @@ func NewServiceContext(cc configurator.Configurator[config.Config], route2Code f
 		Config: cc,
 		Custom: custom.New(),
 	}
+	svcCtx.SetConfigListener()
 	svcCtx.SqlxConn = MustSqlConn(svcCtx.MustGetConfig())
 	if svcCtx.MustGetConfig().CacheType == "local" {
 		svcCtx.Cache = cache.NewSyncMap(errors.New("cache not found"))
