@@ -32,18 +32,17 @@ type ServiceContext struct {
 	Custom *custom.Custom
 }
 
-func NewServiceContext(c config.Config, cc configurator.Configurator[config.Config], route2Code func(r *http.Request) string) *ServiceContext {
+func NewServiceContext(cc configurator.Configurator[config.Config], route2Code func(r *http.Request) string) *ServiceContext {
 	svcCtx := &ServiceContext{
-		Config:   cc,
-		SqlxConn: MustSqlConn(c),
-		Custom:   custom.New(),
-		Trans:    i18n.NewTranslator(c.I18n, i18n.LocaleFS),
+		Config: cc,
+		Custom: custom.New(),
 	}
-	if c.CacheType == "local" {
+	svcCtx.SqlxConn = MustSqlConn(svcCtx.MustGetConfig())
+	if svcCtx.MustGetConfig().CacheType == "local" {
 		svcCtx.Cache = cache.NewSyncMap(errors.New("cache not found"))
 	} else {
 		// redis cache
-		rds := redis.MustNewRedis(redis.RedisConf(c.Redis))
+		rds := redis.MustNewRedis(redis.RedisConf(svcCtx.MustGetConfig().Redis))
 		svcCtx.Cache = cache.NewRedisNode(rds, errors.New("cache not found"), zerocache.WithExpiry(time.Duration(5)*time.Second))
 	}
 

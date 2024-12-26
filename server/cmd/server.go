@@ -41,13 +41,15 @@ var serverCmd = &cobra.Command{
 			logx.AddWriter(logx.NewWriter(os.Stdout))
 		}
 
-		ctx := svc.NewServiceContext(c, cc, handler.Route2Code)
-		run(c, ctx)
+		svcCtx := svc.NewServiceContext(cc, handler.Route2Code)
+		run(svcCtx)
 	},
 }
 
-func run(c config.Config, svcCtx *svc.ServiceContext) {
-	server := rest.MustNewServer(c.Rest.RestConf, rest.WithCustomCors(func(header http.Header) {
+func run(svcCtx *svc.ServiceContext) {
+	c := svcCtx.MustGetConfig()
+
+	server := rest.MustNewServer(svcCtx.MustGetConfig().Rest.RestConf, rest.WithCustomCors(func(header http.Header) {
 		header.Set("Access-Control-Allow-Origin", "*")
 		header.Add("Access-Control-Allow-Headers", "X-Request-Id")
 		header.Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, UPDATE")
