@@ -12,5 +12,10 @@ gen:
   regen-api-handler: true
   route2Code: true
 
+  model-git-change-path: tools/migrate/tables
+  model-mysql-datasource: true
+  model-mysql-datasource-url: "root:123456@tcp(localhost:3306)/jzeroadmin"
   model-mysql-cache: true
   model-mysql-ignore-columns: []
+  gen-mysql-create-table-ddl: true
+  model-mysql-ddl-database: jzeroadmin
