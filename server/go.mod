@@ -1,6 +1,6 @@
 module github.com/jzero-io/jzero-admin/server
 
-go 1.22.3
+go 1.23.4
 
 require (
 	github.com/Blank-Xu/sql-adapter v1.1.1
@@ -11,12 +11,13 @@ require (
 	github.com/glebarez/sqlite v1.11.0
 	github.com/go-playground/locales v0.14.1
 	github.com/go-playground/universal-translator v0.18.1
-	github.com/go-playground/validator/v10 v10.22.1
+	github.com/go-playground/validator/v10 v10.23.0
 	github.com/golang-jwt/jwt/v4 v4.5.1
 	github.com/google/uuid v1.6.0
 	github.com/guregu/null/v5 v5.0.0
 	github.com/huandu/go-sqlbuilder v1.28.0
-	github.com/jzero-io/jzero-contrib v0.18.1
+	github.com/jzero-io/jzero-admin-plugins/hello v0.0.0-20241230101851-46b94d1fec86
+	github.com/jzero-io/jzero-contrib v0.18.3
 	github.com/nicksnyder/go-i18n/v2 v2.4.1
 	github.com/pkg/errors v0.9.1
 	github.com/samber/lo v1.47.0

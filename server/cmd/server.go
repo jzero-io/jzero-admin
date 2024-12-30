@@ -17,6 +17,7 @@ import (
 	"github.com/jzero-io/jzero-admin/server/internal/handler"
 	"github.com/jzero-io/jzero-admin/server/internal/middleware"
 	"github.com/jzero-io/jzero-admin/server/internal/svc"
+	"github.com/jzero-io/jzero-admin/server/plugins"
 )
 
 // serverCmd represents the server command
@@ -61,6 +62,8 @@ func run(svcCtx *svc.ServiceContext) {
 
 	// server add custom routes
 	svcCtx.Custom.AddRoutes(server)
+
+	plugins.LoadPlugins(server, svcCtx)
 
 	group := service.NewServiceGroup()
 	group.Add(server)
