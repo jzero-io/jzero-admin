@@ -33,7 +33,7 @@ jobs:
         run: |          
           cd server
           rm -rf .git
-          gorename server/internal server/server
+          gorename github.com/jzero-io/jzero-admin/server/internal github.com/jzero-io/jzero-admin/server/server
           cd ..
           
           GITHUB_TOKEN=${{ secrets.ACCESS_TOKEN }} grum clone https://github.com/jaronnie/jzero-admin-deploy-server
