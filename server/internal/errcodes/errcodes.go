@@ -1,6 +1,6 @@
 package errcodes
 
-import "server/internal/errcodes/manage"
+import "github.com/jzero-io/jzero-admin/server/internal/errcodes/manage"
 
 func Register() {
 	manage.RegisterManage()

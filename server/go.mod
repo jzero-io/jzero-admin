@@ -1,4 +1,4 @@
-module server
+module github.com/jzero-io/jzero-admin/server
 
 go 1.22.3
 

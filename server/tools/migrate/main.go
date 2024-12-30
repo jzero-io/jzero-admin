@@ -1,7 +1,7 @@
 package main
 
 import (
-	"server/tools/migrate/tables"
+	"github.com/jzero-io/jzero-admin/server/tools/migrate/tables"
 )
 
 func main() {

@@ -9,9 +9,9 @@ import (
 	"github.com/spf13/cast"
 	"github.com/zeromicro/go-zero/core/logx"
 
-	"server/internal/errcodes/manage"
-	"server/internal/svc"
-	types "server/internal/types/manage/menu"
+	"github.com/jzero-io/jzero-admin/server/internal/errcodes/manage"
+	"github.com/jzero-io/jzero-admin/server/internal/svc"
+	types "github.com/jzero-io/jzero-admin/server/internal/types/manage/menu"
 )
 
 type Delete struct {

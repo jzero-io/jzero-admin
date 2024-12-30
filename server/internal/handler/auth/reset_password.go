@@ -5,9 +5,9 @@ import (
 
 	"github.com/zeromicro/go-zero/rest/httpx"
 
-	"server/internal/logic/auth"
-	"server/internal/svc"
-	types "server/internal/types/auth"
+	"github.com/jzero-io/jzero-admin/server/internal/logic/auth"
+	"github.com/jzero-io/jzero-admin/server/internal/svc"
+	types "github.com/jzero-io/jzero-admin/server/internal/types/auth"
 )
 
 func ResetPassword(svcCtx *svc.ServiceContext) http.HandlerFunc {

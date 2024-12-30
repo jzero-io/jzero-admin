@@ -8,9 +8,9 @@ import (
 	"github.com/spf13/cast"
 	"github.com/zeromicro/go-zero/core/logx"
 
-	"server/internal/auth"
-	"server/internal/svc"
-	types "server/internal/types/auth"
+	"github.com/jzero-io/jzero-admin/server/internal/auth"
+	"github.com/jzero-io/jzero-admin/server/internal/svc"
+	types "github.com/jzero-io/jzero-admin/server/internal/types/auth"
 )
 
 type GetUserInfo struct {

@@ -10,10 +10,10 @@ import (
 	"github.com/pkg/errors"
 	"github.com/zeromicro/go-zero/core/logx"
 
-	"server/internal/constant"
-	"server/internal/model/manage_user"
-	"server/internal/svc"
-	types "server/internal/types/auth"
+	"github.com/jzero-io/jzero-admin/server/internal/constant"
+	"github.com/jzero-io/jzero-admin/server/internal/model/manage_user"
+	"github.com/jzero-io/jzero-admin/server/internal/svc"
+	types "github.com/jzero-io/jzero-admin/server/internal/types/auth"
 )
 
 var RegisterError = errors.New("注册失败")

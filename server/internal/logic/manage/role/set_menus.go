@@ -11,11 +11,11 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 
-	"server/internal/logic/manage/menu"
-	"server/internal/model/manage_role_menu"
-	"server/internal/svc"
-	menu_types "server/internal/types/manage/menu"
-	types "server/internal/types/manage/role"
+	"github.com/jzero-io/jzero-admin/server/internal/logic/manage/menu"
+	"github.com/jzero-io/jzero-admin/server/internal/model/manage_role_menu"
+	"github.com/jzero-io/jzero-admin/server/internal/svc"
+	menu_types "github.com/jzero-io/jzero-admin/server/internal/types/manage/menu"
+	types "github.com/jzero-io/jzero-admin/server/internal/types/manage/role"
 )
 
 type SetMenus struct {

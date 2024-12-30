@@ -1,6 +1,6 @@
 package custom
 
-import "server/internal/errcodes"
+import "github.com/jzero-io/jzero-admin/server/internal/errcodes"
 
 type Custom struct {
 }

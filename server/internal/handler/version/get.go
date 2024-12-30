@@ -5,9 +5,9 @@ import (
 
 	"github.com/zeromicro/go-zero/rest/httpx"
 
-	"server/internal/logic/version"
-	"server/internal/svc"
-	types "server/internal/types/version"
+	"github.com/jzero-io/jzero-admin/server/internal/logic/version"
+	"github.com/jzero-io/jzero-admin/server/internal/svc"
+	types "github.com/jzero-io/jzero-admin/server/internal/types/version"
 )
 
 func Get(svcCtx *svc.ServiceContext) http.HandlerFunc {

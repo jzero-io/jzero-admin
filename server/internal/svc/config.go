@@ -3,7 +3,7 @@ package svc
 import (
 	"github.com/zeromicro/go-zero/core/logx"
 
-	"server/internal/config"
+	"github.com/jzero-io/jzero-admin/server/internal/config"
 )
 
 func (sc *ServiceContext) GetConfig() (config.Config, error) {

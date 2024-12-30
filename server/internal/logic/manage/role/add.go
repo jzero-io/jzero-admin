@@ -8,10 +8,10 @@ import (
 	"github.com/guregu/null/v5"
 	"github.com/zeromicro/go-zero/core/logx"
 
-	"server/internal/auth"
-	"server/internal/model/manage_role"
-	"server/internal/svc"
-	types "server/internal/types/manage/role"
+	"github.com/jzero-io/jzero-admin/server/internal/auth"
+	"github.com/jzero-io/jzero-admin/server/internal/model/manage_role"
+	"github.com/jzero-io/jzero-admin/server/internal/svc"
+	types "github.com/jzero-io/jzero-admin/server/internal/types/manage/role"
 )
 
 type Add struct {

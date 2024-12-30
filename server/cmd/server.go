@@ -13,10 +13,10 @@ import (
 	"github.com/zeromicro/go-zero/core/service"
 	"github.com/zeromicro/go-zero/rest"
 
-	"server/internal/config"
-	"server/internal/handler"
-	"server/internal/middleware"
-	"server/internal/svc"
+	"github.com/jzero-io/jzero-admin/server/internal/config"
+	"github.com/jzero-io/jzero-admin/server/internal/handler"
+	"github.com/jzero-io/jzero-admin/server/internal/middleware"
+	"github.com/jzero-io/jzero-admin/server/internal/svc"
 )
 
 // serverCmd represents the server command

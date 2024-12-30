@@ -10,10 +10,10 @@ import (
 	"github.com/pkg/errors"
 	"github.com/zeromicro/go-zero/core/logx"
 
-	"server/internal/auth"
-	"server/internal/svc"
-	types "server/internal/types/auth"
-	"server/pkg/jwt"
+	"github.com/jzero-io/jzero-admin/server/internal/auth"
+	"github.com/jzero-io/jzero-admin/server/internal/svc"
+	types "github.com/jzero-io/jzero-admin/server/internal/types/auth"
+	"github.com/jzero-io/jzero-admin/server/pkg/jwt"
 )
 
 type PwdLogin struct {

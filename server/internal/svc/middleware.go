@@ -5,7 +5,7 @@ import (
 
 	"github.com/zeromicro/go-zero/rest"
 
-	"server/internal/middleware"
+	"github.com/jzero-io/jzero-admin/server/internal/middleware"
 )
 
 type Middleware struct {

@@ -9,7 +9,7 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 
-	"server/internal/config"
+	"github.com/jzero-io/jzero-admin/server/internal/config"
 )
 
 func BuildDataSource(c config.Config) string {

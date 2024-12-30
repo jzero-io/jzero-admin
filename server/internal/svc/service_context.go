@@ -14,10 +14,10 @@ import (
 	"github.com/zeromicro/go-zero/core/stores/sqlc"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 
-	"server/internal/config"
-	"server/internal/custom"
-	"server/internal/i18n"
-	"server/internal/model"
+	"github.com/jzero-io/jzero-admin/server/internal/config"
+	"github.com/jzero-io/jzero-admin/server/internal/custom"
+	"github.com/jzero-io/jzero-admin/server/internal/i18n"
+	"github.com/jzero-io/jzero-admin/server/internal/model"
 )
 
 type ServiceContext struct {

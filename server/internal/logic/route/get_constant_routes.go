@@ -9,8 +9,8 @@ import (
 	"github.com/spf13/cast"
 	"github.com/zeromicro/go-zero/core/logx"
 
-	"server/internal/svc"
-	types "server/internal/types/route"
+	"github.com/jzero-io/jzero-admin/server/internal/svc"
+	types "github.com/jzero-io/jzero-admin/server/internal/types/route"
 )
 
 type GetConstantRoutes struct {

@@ -3,13 +3,13 @@
 package model
 
 import (
-	"server/internal/model/casbin_rule"
-	"server/internal/model/manage_email"
-	"server/internal/model/manage_menu"
-	"server/internal/model/manage_role"
-	"server/internal/model/manage_role_menu"
-	"server/internal/model/manage_user"
-	"server/internal/model/manage_user_role"
+	"github.com/jzero-io/jzero-admin/server/internal/model/casbin_rule"
+	"github.com/jzero-io/jzero-admin/server/internal/model/manage_email"
+	"github.com/jzero-io/jzero-admin/server/internal/model/manage_menu"
+	"github.com/jzero-io/jzero-admin/server/internal/model/manage_role"
+	"github.com/jzero-io/jzero-admin/server/internal/model/manage_role_menu"
+	"github.com/jzero-io/jzero-admin/server/internal/model/manage_user"
+	"github.com/jzero-io/jzero-admin/server/internal/model/manage_user_role"
 
 	"github.com/eddieowens/opts"
 	"github.com/jzero-io/jzero-contrib/modelx"

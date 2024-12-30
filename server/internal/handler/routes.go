@@ -6,14 +6,14 @@ import (
 	"time"
 
 	"github.com/zeromicro/go-zero/rest"
-	"server/internal/svc"
+	"github.com/jzero-io/jzero-admin/server/internal/svc"
 
-	auth "server/internal/handler/auth"
-	managemenu "server/internal/handler/manage/menu"
-	managerole "server/internal/handler/manage/role"
-	manageuser "server/internal/handler/manage/user"
-	route "server/internal/handler/route"
-	version "server/internal/handler/version"
+	auth "github.com/jzero-io/jzero-admin/server/internal/handler/auth"
+	managemenu "github.com/jzero-io/jzero-admin/server/internal/handler/manage/menu"
+	managerole "github.com/jzero-io/jzero-admin/server/internal/handler/manage/role"
+	manageuser "github.com/jzero-io/jzero-admin/server/internal/handler/manage/user"
+	route "github.com/jzero-io/jzero-admin/server/internal/handler/route"
+	version "github.com/jzero-io/jzero-admin/server/internal/handler/version"
 )
 
 var (
