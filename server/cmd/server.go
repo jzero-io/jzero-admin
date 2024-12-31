@@ -63,7 +63,7 @@ func run(svcCtx *svc.ServiceContext) {
 	// server add custom routes
 	svcCtx.Custom.AddRoutes(server)
 
-	plugins.LoadPlugins(server, svcCtx)
+	plugins.LoadPlugins(server, *svcCtx)
 
 	group := service.NewServiceGroup()
 	group.Add(server)

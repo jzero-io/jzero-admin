@@ -3,12 +3,14 @@ package plugins
 
 import (
 	hello "github.com/jzero-io/jzero-admin-plugins/hello/serverless"
-
 	"github.com/jzero-io/jzero-admin/server/internal/svc"
+
 	"github.com/zeromicro/go-zero/rest"
 )
 
-func LoadPlugins(server *rest.Server, svcCtx *svc.ServiceContext) {
+type CoreSvcCtx = svc.ServiceContext
+
+func LoadPlugins(server *rest.Server, svcCtx CoreSvcCtx) {
 
 	{
 		serverless := hello.New(svcCtx)
