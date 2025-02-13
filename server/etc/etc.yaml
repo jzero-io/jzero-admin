@@ -21,7 +21,7 @@ mysql:
 
 redis:
     host: "${REDIS_HOST}"
-    type: "${REDIS_TYPE}"
+    type: "${REDIS_TYPE:-node}"
 
 cache:
     type: "${CACHE_TYPE}"
