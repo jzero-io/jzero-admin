@@ -1,9 +1,8 @@
 package config
 
 import (
-	"time"
-
 	"github.com/zeromicro/go-zero/core/logx"
+	"github.com/zeromicro/go-zero/core/stores/redis"
 	"github.com/zeromicro/go-zero/rest"
 
 	"github.com/jzero-io/jzero-admin/server/internal/i18n"
@@ -20,8 +19,8 @@ type Config struct {
 	Mysql        MysqlConf
 	Sqlite       SqliteConf
 
-	CacheType string    `json:",default=local"`
-	Redis     RedisConf `json:",optional"`
+	CacheType string          `json:",default=local"`
+	Redis     redis.RedisConf `json:",optional"`
 
 	I18n i18n.Conf `json:",optional"`
 
@@ -52,17 +51,6 @@ type MysqlConf struct {
 	Port     int    `json:",default=3306"`
 	Username string `json:",default=root"`
 	Password string `json:",default=123456"`
-}
-
-type RedisConf struct {
-	Host     string `json:","`
-	Type     string `json:",default=node"`
-	Pass     string `json:",optional,"`
-	Tls      bool   `json:",optional"`
-	NonBlock bool   `json:",default=true"`
-
-	// PingTimeout is the timeout for ping redis.
-	PingTimeout time.Duration `json:",default=1s"`
 }
 
 type Jwt struct {

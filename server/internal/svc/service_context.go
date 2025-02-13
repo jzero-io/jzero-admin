@@ -43,7 +43,7 @@ func NewServiceContext(cc configurator.Configurator[config.Config], route2Code f
 		svcCtx.Cache = cache.NewSyncMap(errors.New("cache not found"))
 	} else {
 		// redis cache
-		rds := redis.MustNewRedis(redis.RedisConf(svcCtx.MustGetConfig().Redis))
+		rds := redis.MustNewRedis(svcCtx.MustGetConfig().Redis)
 		svcCtx.Cache = cache.NewRedisNode(rds, errors.New("cache not found"), zerocache.WithExpiry(time.Duration(5)*time.Second))
 	}
 
