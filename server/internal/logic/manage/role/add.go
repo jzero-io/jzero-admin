@@ -6,10 +6,15 @@ import (
 	"time"
 
 	"github.com/guregu/null/v5"
+	"github.com/jzero-io/jzero-contrib/condition"
+	"github.com/pkg/errors"
+	"github.com/spf13/cast"
 	"github.com/zeromicro/go-zero/core/logx"
+	"github.com/zeromicro/go-zero/core/stores/sqlx"
 
 	"github.com/jzero-io/jzero-admin/server/internal/auth"
 	"github.com/jzero-io/jzero-admin/server/internal/model/manage_role"
+	"github.com/jzero-io/jzero-admin/server/internal/model/manage_role_menu"
 	"github.com/jzero-io/jzero-admin/server/internal/svc"
 	types "github.com/jzero-io/jzero-admin/server/internal/types/manage/role"
 )
@@ -34,14 +39,53 @@ func (l *Add) Add(req *types.AddRequest) (resp *types.AddResponse, err error) {
 	if err != nil {
 		return nil, err
 	}
-	_, err = l.svcCtx.Model.ManageRole.Insert(l.ctx, nil, &manage_role.ManageRole{
-		Code:       req.RoleCode,
-		Name:       req.RoleName,
-		Desc:       req.RoleDesc,
-		CreateTime: time.Now(),
-		UpdateTime: time.Now(),
-		CreateBy:   null.IntFrom(int64(authInfo.Id)).NullInt64,
-		Status:     req.Status,
+
+	// role code 唯一
+	if _, err := l.svcCtx.Model.ManageRole.FindOneByCondition(l.ctx, nil, condition.NewChain().Equal("code", req.RoleCode).Build()...); err == nil {
+		return nil, errors.New("角色编码已存在")
+	}
+
+	// find home menu
+	var homeMenuId uint64
+	if home, err := l.svcCtx.Model.ManageMenu.FindOneByCondition(l.ctx, nil, condition.NewChain().Equal("route_path", "/home").Build()...); err != nil {
+		return nil, err
+	} else {
+		homeMenuId = home.Id
+	}
+
+	err = l.svcCtx.SqlxConn.TransactCtx(l.ctx, func(ctx context.Context, session sqlx.Session) error {
+		if _, err = l.svcCtx.Model.ManageRole.Insert(l.ctx, session, &manage_role.ManageRole{
+			Code:       req.RoleCode,
+			Name:       req.RoleName,
+			Desc:       req.RoleDesc,
+			CreateTime: time.Now(),
+			UpdateTime: time.Now(),
+			CreateBy:   null.IntFrom(int64(authInfo.Id)).NullInt64,
+			Status:     req.Status,
+		}); err != nil {
+			return err
+		}
+
+		// get role id
+		role, err := l.svcCtx.Model.ManageRole.FindOneByCondition(l.ctx, session, condition.NewChain().Equal("code", req.RoleCode).Build()...)
+		if err != nil {
+			return err
+		}
+
+		// 添加首页路由
+		if _, err = l.svcCtx.Model.ManageRoleMenu.Insert(l.ctx, session, &manage_role_menu.ManageRoleMenu{
+			CreateTime: time.Now(),
+			UpdateTime: time.Now(),
+			CreateBy:   null.IntFrom(int64(authInfo.Id)).NullInt64,
+			RoleId:     int64(role.Id),
+			MenuId:     int64(homeMenuId),
+			IsHome:     cast.ToInt64(true),
+		}); err != nil {
+			return err
+		}
+
+		return nil
 	})
+
 	return
 }

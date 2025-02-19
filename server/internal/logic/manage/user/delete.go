@@ -6,6 +6,7 @@ import (
 
 	"github.com/jzero-io/jzero-contrib/condition"
 	"github.com/zeromicro/go-zero/core/logx"
+	"github.com/zeromicro/go-zero/core/stores/sqlx"
 
 	"github.com/jzero-io/jzero-admin/server/internal/svc"
 	types "github.com/jzero-io/jzero-admin/server/internal/types/manage/user"
@@ -31,10 +32,19 @@ func (l *Delete) Delete(req *types.DeleteRequest) (resp *types.DeleteResponse, e
 		return nil, nil
 	}
 
-	err = l.svcCtx.Model.ManageUser.DeleteByCondition(l.ctx, nil, condition.Condition{
-		Field:    "id",
-		Operator: condition.In,
-		Value:    req.Ids,
+	err = l.svcCtx.SqlxConn.TransactCtx(l.ctx, func(ctx context.Context, session sqlx.Session) error {
+		if err = l.svcCtx.Model.ManageUser.DeleteByCondition(l.ctx, session, condition.Condition{
+			Field:    "id",
+			Operator: condition.In,
+			Value:    req.Ids,
+		}); err != nil {
+			return err
+		}
+		if err = l.svcCtx.Model.ManageUserRole.DeleteByCondition(l.ctx, session, condition.NewChain().In("user_id", req.Ids).Build()...); err != nil {
+			return err
+		}
+		return nil
 	})
+
 	return
 }
