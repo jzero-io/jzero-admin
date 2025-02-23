@@ -17,6 +17,8 @@ RUN --mount=type=cache,target=/go/pkg CGO_ENABLED=0 GOOS=linux GOARCH=$TARGETARC
 
 FROM --platform=$TARGETPLATFORM registry.cn-hangzhou.aliyuncs.com/jaronnie/alpine:latest
 
+RUN apk add --no-cache tzdata
+
 WORKDIR /dist
 
 COPY --from=builder /dist .

@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/zeromicro/go-zero/rest"
 	"github.com/jzero-io/jzero-admin/server/internal/svc"
+	"github.com/zeromicro/go-zero/rest"
 
 	auth "github.com/jzero-io/jzero-admin/server/internal/handler/auth"
 	managemenu "github.com/jzero-io/jzero-admin/server/internal/handler/manage/menu"
@@ -34,6 +34,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodPost,
 					Path:    "/auth/pwd-login",
 					Handler: auth.PwdLogin(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/auth/refreshToken",
+					Handler: auth.RefreshToken(serverCtx),
 				},
 				{
 					Method:  http.MethodPost,
@@ -65,11 +70,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodGet,
 					Path:    "/auth/getUserInfo",
 					Handler: auth.GetUserInfo(serverCtx),
-				},
-				{
-					Method:  http.MethodPost,
-					Path:    "/auth/refreshToken",
-					Handler: auth.RefreshToken(serverCtx),
 				},
 			},
 			rest.WithJwt(serverCtx.MustGetConfig().Jwt.AccessSecret),

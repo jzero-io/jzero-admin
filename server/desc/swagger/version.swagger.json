@@ -16,6 +16,7 @@
   "paths": {
     "/api/version": {
       "get": {
+        "description": "接口权限编码:version:get",
         "operationId": "Get",
         "responses": {
           "200": {

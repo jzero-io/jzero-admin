@@ -16,6 +16,7 @@
   "paths": {
     "/api/manage/addRole": {
       "post": {
+        "description": "接口权限编码:manage:role:add",
         "operationId": "Add",
         "responses": {
           "200": {
@@ -47,6 +48,7 @@
     },
     "/api/manage/deleteRole": {
       "post": {
+        "description": "接口权限编码:manage:role:delete",
         "operationId": "Delete",
         "responses": {
           "200": {
@@ -78,6 +80,7 @@
     },
     "/api/manage/editRole": {
       "post": {
+        "description": "接口权限编码:manage:role:edit",
         "operationId": "Edit",
         "responses": {
           "200": {
@@ -109,6 +112,7 @@
     },
     "/api/manage/getAllRoles": {
       "get": {
+        "description": "接口权限编码:manage:role:getAll",
         "operationId": "GetAll",
         "responses": {
           "200": {
@@ -133,6 +137,7 @@
     },
     "/api/manage/getRoleHome": {
       "get": {
+        "description": "接口权限编码:manage:role:getHome",
         "operationId": "GetHome",
         "responses": {
           "200": {
@@ -166,6 +171,7 @@
     },
     "/api/manage/getRoleList": {
       "get": {
+        "description": "接口权限编码:manage:role:list",
         "operationId": "List",
         "responses": {
           "200": {
@@ -226,6 +232,7 @@
     },
     "/api/manage/getRoleMenus": {
       "get": {
+        "description": "接口权限编码:manage:role:getMenus",
         "operationId": "GetMenus",
         "responses": {
           "200": {
@@ -262,6 +269,7 @@
     },
     "/api/manage/setRoleMenus": {
       "post": {
+        "description": "接口权限编码:manage:role:setMenus",
         "operationId": "SetMenus",
         "responses": {
           "200": {
@@ -293,6 +301,7 @@
     },
     "/api/manage/updateRoleHome": {
       "post": {
+        "description": "接口权限编码:manage:role:updateHome",
         "operationId": "UpdateHome",
         "responses": {
           "200": {

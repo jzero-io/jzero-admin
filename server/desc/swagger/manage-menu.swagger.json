@@ -16,6 +16,7 @@
   "paths": {
     "/api/manage/addMenu": {
       "post": {
+        "description": "接口权限编码:manage:menu:add",
         "operationId": "Add",
         "responses": {
           "200": {
@@ -47,6 +48,7 @@
     },
     "/api/manage/deleteMenu": {
       "post": {
+        "description": "接口权限编码:manage:menu:delete",
         "operationId": "Delete",
         "responses": {
           "200": {
@@ -78,6 +80,7 @@
     },
     "/api/manage/editMenu": {
       "post": {
+        "description": "接口权限编码:manage:menu:edit",
         "operationId": "Edit",
         "responses": {
           "200": {
@@ -109,6 +112,7 @@
     },
     "/api/manage/getAllPages": {
       "get": {
+        "description": "接口权限编码:manage:menu:getAllPages",
         "operationId": "GetAllPages",
         "responses": {
           "200": {
@@ -145,6 +149,7 @@
     },
     "/api/manage/getMenuList/v2": {
       "get": {
+        "description": "接口权限编码:manage:menu:list",
         "operationId": "List",
         "responses": {
           "200": {
@@ -184,6 +189,7 @@
     },
     "/api/manage/getMenuTree": {
       "get": {
+        "description": "接口权限编码:manage:menu:tree",
         "operationId": "Tree",
         "responses": {
           "200": {

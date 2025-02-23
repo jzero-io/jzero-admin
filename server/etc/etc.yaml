@@ -6,6 +6,8 @@ rest:
 
 log:
     encoding: plain
+    level: debug
+    mode: file
 
 databaseType: "${DATABASE_TYPE}"
 

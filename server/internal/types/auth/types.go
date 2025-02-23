@@ -42,9 +42,12 @@ type PwdLoginRequest struct {
 }
 
 type RefreshTokenRequest struct {
+	RefreshToken string `json:"refreshToken"`
 }
 
 type RefreshTokenResponse struct {
+	Token        string `json:"token"`
+	RefreshToken string `json:"refreshToken"`
 }
 
 type RegisterRequest struct {

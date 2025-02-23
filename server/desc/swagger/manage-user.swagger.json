@@ -16,6 +16,7 @@
   "paths": {
     "/api/manage/addUser": {
       "post": {
+        "description": "接口权限编码:manage:user:add",
         "operationId": "Add",
         "responses": {
           "200": {
@@ -47,6 +48,7 @@
     },
     "/api/manage/deleteUser": {
       "post": {
+        "description": "接口权限编码:manage:user:delete",
         "operationId": "Delete",
         "responses": {
           "200": {
@@ -78,6 +80,7 @@
     },
     "/api/manage/editUser": {
       "post": {
+        "description": "接口权限编码:manage:user:edit",
         "operationId": "Edit",
         "responses": {
           "200": {
@@ -109,6 +112,7 @@
     },
     "/api/manage/getUserList": {
       "get": {
+        "description": "接口权限编码:manage:user:list",
         "operationId": "List",
         "responses": {
           "200": {

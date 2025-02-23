@@ -4,6 +4,7 @@ services:
       context: ../../server
     restart: always
     environment:
+      - TZ=Asia/Shanghai
       - DATABASE_TYPE=mysql
       - MYSQL_HOST=mysql8
       - MYSQL_PORT=3306
@@ -22,6 +23,7 @@ services:
     volumes:
       - ./nginx:/etc/nginx/conf.d
     environment:
+      - TZ=Asia/Shanghai
       - VITE_SERVICE_BASE_URL=http://127.0.0.1
     ports:
       - "80:80"

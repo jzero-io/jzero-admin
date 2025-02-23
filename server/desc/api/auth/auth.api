@@ -39,9 +39,14 @@ type GetUserInfoResponse {
 	buttons  []string `json:"buttons"`
 }
 
-type RefreshTokenRequest {}
+type RefreshTokenRequest {
+	refreshToken string `json:"refreshToken"`
+}
 
-type RefreshTokenResponse {}
+type RefreshTokenResponse {
+	token        string `json:"token"`
+	refreshToken string `json:"refreshToken"`
+}
 
 type ErrorRequest {}
 
@@ -84,6 +89,9 @@ service server {
 
 	@handler ResetPassword
 	post /auth/resetPassword (ResetPasswordRequest) returns (ResetPasswordResponse)
+
+	@handler RefreshToken
+	post /auth/refreshToken (RefreshTokenRequest) returns (RefreshTokenResponse)
 }
 
 @server (
@@ -94,9 +102,6 @@ service server {
 service server {
 	@handler GetUserInfo
 	get /auth/getUserInfo (GetUserInfoRequest) returns (GetUserInfoResponse)
-
-	@handler RefreshToken
-	post /auth/refreshToken (RefreshTokenRequest) returns (RefreshTokenResponse)
 
 	@handler Error
 	post /auth/error (ErrorRequest) returns (ErrorResponse)

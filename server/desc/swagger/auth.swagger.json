@@ -16,6 +16,7 @@
   "paths": {
     "/api/auth/code-login": {
       "post": {
+        "description": "接口权限编码:auth:codeLogin",
         "operationId": "CodeLogin",
         "responses": {
           "200": {
@@ -42,6 +43,7 @@
     },
     "/api/auth/error": {
       "post": {
+        "description": "接口权限编码:auth:error",
         "operationId": "Error",
         "responses": {
           "200": {
@@ -73,6 +75,7 @@
     },
     "/api/auth/getUserInfo": {
       "get": {
+        "description": "接口权限编码:auth:getUserInfo",
         "operationId": "GetUserInfo",
         "responses": {
           "200": {
@@ -94,6 +97,7 @@
     },
     "/api/auth/pwd-login": {
       "post": {
+        "description": "接口权限编码:auth:pwdLogin",
         "operationId": "PwdLogin",
         "responses": {
           "200": {
@@ -120,6 +124,7 @@
     },
     "/api/auth/refreshToken": {
       "post": {
+        "description": "接口权限编码:auth:refreshToken",
         "operationId": "RefreshToken",
         "responses": {
           "200": {
@@ -141,16 +146,12 @@
         ],
         "tags": [
           "auth"
-        ],
-        "security": [
-          {
-            "apiKey": []
-          }
         ]
       }
     },
     "/api/auth/register": {
       "post": {
+        "description": "接口权限编码:auth:register",
         "operationId": "Register",
         "responses": {
           "200": {
@@ -177,6 +178,7 @@
     },
     "/api/auth/resetPassword": {
       "post": {
+        "description": "接口权限编码:auth:resetPassword",
         "operationId": "ResetPassword",
         "responses": {
           "200": {
@@ -203,6 +205,7 @@
     },
     "/api/auth/sendVerificationCode": {
       "get": {
+        "description": "接口权限编码:auth:sendVerificationCode",
         "operationId": "SendVerificationCode",
         "responses": {
           "200": {
@@ -332,11 +335,31 @@
     },
     "RefreshTokenRequest": {
       "type": "object",
-      "title": "RefreshTokenRequest"
+      "properties": {
+        "refreshToken": {
+          "type": "string"
+        }
+      },
+      "title": "RefreshTokenRequest",
+      "required": [
+        "refreshToken"
+      ]
     },
     "RefreshTokenResponse": {
       "type": "object",
-      "title": "RefreshTokenResponse"
+      "properties": {
+        "token": {
+          "type": "string"
+        },
+        "refreshToken": {
+          "type": "string"
+        }
+      },
+      "title": "RefreshTokenResponse",
+      "required": [
+        "token",
+        "refreshToken"
+      ]
     },
     "RegisterRequest": {
       "type": "object",

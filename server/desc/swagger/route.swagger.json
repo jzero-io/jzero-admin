@@ -16,6 +16,7 @@
   "paths": {
     "/api/route/getConstantRoutes": {
       "get": {
+        "description": "接口权限编码:route:getConstantRoutes",
         "operationId": "GetConstantRoutes",
         "responses": {
           "200": {
@@ -35,6 +36,7 @@
     },
     "/api/route/getUserRoutes": {
       "get": {
+        "description": "接口权限编码:route:getUserRoutes",
         "operationId": "GetUserRoutes",
         "responses": {
           "200": {
@@ -56,6 +58,7 @@
     },
     "/api/route/isRouteExist": {
       "get": {
+        "description": "接口权限编码:route:isRouteExist",
         "operationId": "IsRouteExist",
         "responses": {
           "200": {

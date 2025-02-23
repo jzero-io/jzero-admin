@@ -12,7 +12,7 @@ gen:
   regen-api-handler: true
   route2Code: true
 
-  model-mysql-datasource: true
+  model-mysql-datasource: false
   model-mysql-datasource-url: "root:123456@tcp(localhost:3306)/jzeroadmin"
   model-mysql-cache: true
   model-mysql-ignore-columns: []

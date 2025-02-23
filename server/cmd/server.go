@@ -12,6 +12,7 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/service"
 	"github.com/zeromicro/go-zero/rest"
+	"github.com/zeromicro/go-zero/rest/httpx"
 
 	"github.com/jzero-io/jzero-admin/server/internal/config"
 	"github.com/jzero-io/jzero-admin/server/internal/handler"
@@ -54,7 +55,9 @@ var serverCmd = &cobra.Command{
 }
 
 func run(svcCtx *svc.ServiceContext) {
-	server := rest.MustNewServer(svcCtx.MustGetConfig().Rest.RestConf, rest.WithCustomCors(func(header http.Header) {
+	server := rest.MustNewServer(svcCtx.MustGetConfig().Rest.RestConf, rest.WithUnauthorizedCallback(func(w http.ResponseWriter, r *http.Request, err error) {
+		httpx.ErrorCtx(r.Context(), w, err)
+	}), rest.WithCustomCors(func(header http.Header) {
 		header.Set("Access-Control-Allow-Origin", "*")
 		header.Add("Access-Control-Allow-Headers", "X-Request-Id")
 		header.Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, UPDATE")
