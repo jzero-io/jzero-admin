@@ -13,19 +13,14 @@
 
 ## 演示地址
 
-### 部署在 vercel 平台
-
-前后端均部署在 [vercel](https://vercel.com)
-
 * [web 服务部署仓库地址](https://github.com/jaronnie/jzero-admin-deploy-web)
 * [server 服务部署仓库地址](https://github.com/jaronnie/jzero-admin-deploy-server)
+
+### 部署在 [vercel](https://vercel.com) 平台
 
 [demo 演示地址](https://admin.jzero.io)
 
 ### 部署在阿里云函数计算
-
-* [web 服务部署仓库地址](https://github.com/jaronnie/jzero-admin-deploy-web)
-* [server 服务部署仓库地址](https://github.com/jaronnie/jzero-admin-deploy-server)
 
 [demo 演示地址](https://jzero-admin.jaronnie.com)
 
