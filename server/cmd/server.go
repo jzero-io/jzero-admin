@@ -42,14 +42,18 @@ var serverCmd = &cobra.Command{
 			logx.AddWriter(logx.NewWriter(os.Stdout))
 		}
 
+		printBanner(c)
+		fmt.Printf("\nUsing Database: %s\n", c.DatabaseType)
+		fmt.Printf("%s conf: %s\n", c.DatabaseType, svc.BuildDataSource(c))
+		fmt.Printf("Using Cache: %s\n", c.CacheType)
+		logx.Infof("Starting rest server at %s:%d...", c.Rest.Host, c.Rest.Port)
+
 		svcCtx := svc.NewServiceContext(cc, handler.Route2Code)
 		run(svcCtx)
 	},
 }
 
 func run(svcCtx *svc.ServiceContext) {
-	c := svcCtx.MustGetConfig()
-
 	server := rest.MustNewServer(svcCtx.MustGetConfig().Rest.RestConf, rest.WithCustomCors(func(header http.Header) {
 		header.Set("Access-Control-Allow-Origin", "*")
 		header.Add("Access-Control-Allow-Headers", "X-Request-Id")
@@ -68,12 +72,6 @@ func run(svcCtx *svc.ServiceContext) {
 	group := service.NewServiceGroup()
 	group.Add(server)
 	group.Add(svcCtx.Custom)
-
-	printBanner(c)
-	fmt.Printf("\nUsing Database: %s\n", c.DatabaseType)
-	fmt.Printf("%s conf: %s\n", c.DatabaseType, svc.BuildDataSource(c))
-	fmt.Printf("Using Cache: %s\n", c.CacheType)
-	logx.Infof("Starting rest server at %s:%d...", c.Rest.Host, c.Rest.Port)
 	group.Start()
 }
 

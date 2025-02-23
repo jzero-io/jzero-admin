@@ -8,8 +8,6 @@ import (
 	"github.com/jzero-io/jzero-admin/server/internal/i18n"
 )
 
-var C Config
-
 type Config struct {
 	Rest   RestConf
 	Log    LogConf

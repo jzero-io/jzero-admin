@@ -5,7 +5,7 @@ go 1.23.4
 require (
 	github.com/Blank-Xu/sql-adapter v1.1.1
 	github.com/a8m/envsubst v1.4.2
-	github.com/casbin/casbin/v2 v2.101.0
+	github.com/casbin/casbin/v2 v2.103.0
 	github.com/common-nighthawk/go-figure v0.0.0-20210622060536-734e95fb86be
 	github.com/eddieowens/opts v0.1.0
 	github.com/glebarez/sqlite v1.11.0
@@ -17,7 +17,7 @@ require (
 	github.com/guregu/null/v5 v5.0.0
 	github.com/huandu/go-sqlbuilder v1.28.0
 	github.com/jzero-io/jzero-admin-plugins/hello v0.0.0-20241230101851-46b94d1fec86
-	github.com/jzero-io/jzero-contrib v0.18.3
+	github.com/jzero-io/jzero-contrib v0.19.4
 	github.com/nicksnyder/go-i18n/v2 v2.4.1
 	github.com/pkg/errors v0.9.1
 	github.com/samber/lo v1.47.0
@@ -37,7 +37,7 @@ require (
 	github.com/Masterminds/sprig/v3 v3.2.3 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/bmatcuk/doublestar/v4 v4.7.1 // indirect
-	github.com/casbin/govaluate v1.2.0 // indirect
+	github.com/casbin/govaluate v1.3.0 // indirect
 	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/coreos/go-semver v0.3.1 // indirect
