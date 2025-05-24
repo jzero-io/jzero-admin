@@ -35,6 +35,8 @@ VALUES
     (430,'p','1','manage:role:updateHome','','','',''),
     (431,'p','1','manage:role:getHome','','','','');
 
+SELECT setval('casbin_rule_id_seq', COALESCE((SELECT MAX(id)+1 FROM casbin_rule), 1));
+
 DROP TABLE IF EXISTS manage_email;
 
 CREATE TABLE manage_email (
@@ -111,6 +113,8 @@ VALUES
     (37,'2024-11-30 03:10:37','2024-11-30 03:10:37',NULL,NULL,'1',36,'2','项目文档',0,'',0,'document_project','/document/project','view.iframe-page','logo','2','route.document_project',0,'https://jzero.jaronnie.com',0,NULL,'[]','[]',0,''),
     (38,'2024-11-30 03:20:13','2024-11-30 03:20:13',NULL,NULL,'1',3,'2','用户详情',1,'',0,'manage_user-detail','/manage/user-detail/:id','view.manage_user-detail','','1','route.manage_user-detail',0,'',0,NULL,'[]','[]',0,'');
 
+SELECT setval('manage_menu_id_seq', COALESCE((SELECT MAX(id)+1 FROM manage_menu), 1));
+
 DROP TABLE IF EXISTS manage_role;
 
 CREATE TABLE manage_role (
@@ -130,6 +134,8 @@ INSERT INTO manage_role (id, create_time, update_time, create_by, update_by, nam
 VALUES
     (1,'2024-10-29 22:23:50','2024-10-29 22:23:50',1,NULL,'超级管理员','1','R_SUPER','超级管理员'),
     (2,'2024-11-28 12:46:13','2024-11-28 12:46:13',1,NULL,'测试用户','1','R_TEST','测试用户');
+
+SELECT setval('manage_role_id_seq', COALESCE((SELECT MAX(id)+1 FROM manage_role), 1));
 
 DROP TABLE IF EXISTS manage_role_menu;
 
@@ -180,6 +186,8 @@ VALUES
     (811,'2024-12-04 01:49:15','2024-12-04 01:49:15',NULL,NULL,2,37,0),
     (812,'2024-12-04 01:49:15','2024-12-04 01:49:15',NULL,NULL,2,38,0);
 
+SELECT setval('manage_role_menu_id_seq', COALESCE((SELECT MAX(id)+1 FROM manage_role_menu), 1));
+
 DROP TABLE IF EXISTS manage_user;
 
 CREATE TABLE manage_user (
@@ -203,17 +211,19 @@ VALUES
     (1,'2024-10-24 09:45:00','2024-10-31 09:40:13',NULL,NULL,'jzero','123456','jzero','1','','1','jaron@jaronnie.com'),
     (3,'2024-11-28 12:50:29','2024-11-28 12:50:29',NULL,NULL,'test','123456','测试用户','1','1234567890','1','test@qq.com');
 
+SELECT setval('manage_user_id_seq', COALESCE((SELECT MAX(id)+1 FROM manage_user), 1));
+
 DROP TABLE IF EXISTS manage_user_role;
 
 CREATE TABLE manage_user_role (
-                                    id serial NOT NULL,
-                                    create_time timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                                    update_time timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                                    create_by bigint DEFAULT NULL,
-                                    update_by bigint DEFAULT NULL,
-                                    user_id bigint NOT NULL,
-                                    role_id bigint NOT NULL,
-                                    PRIMARY KEY (id)
+    id serial NOT NULL,
+    create_time timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    update_time timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    create_by bigint DEFAULT NULL,
+    update_by bigint DEFAULT NULL,
+    user_id bigint NOT NULL,
+    role_id bigint NOT NULL,
+    PRIMARY KEY (id)
 );
 
 
@@ -222,3 +232,5 @@ VALUES
     (1,'2024-10-31 09:40:13','2024-10-31 09:40:13',NULL,NULL,1,1),
     (4,'2024-11-28 12:49:54','2024-11-28 12:49:54',NULL,NULL,2,2),
     (5,'2024-11-28 12:50:29','2024-11-28 12:50:29',NULL,NULL,3,2);
+
+SELECT setval('manage_user_role_id_seq', COALESCE((SELECT MAX(id)+1 FROM manage_user_role), 1));

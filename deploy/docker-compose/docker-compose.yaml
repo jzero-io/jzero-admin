@@ -37,6 +37,7 @@ services:
       POSTGRES_USER: root
       POSTGRES_DB: jzeroadmin
     volumes:
+      - ./postgres/sql:/docker-entrypoint-initdb.d
       - ./postgres/data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
@@ -53,3 +54,5 @@ services:
       - ./mysql8/data:/var/lib/mysql
       - ./mysql8/config:/etc/mysql/conf.d
       - ./mysql8/sql:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"
