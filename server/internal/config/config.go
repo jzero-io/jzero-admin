@@ -14,6 +14,7 @@ type Config struct {
 	Banner BannerConf
 
 	DatabaseType string `json:",default=mysql"`
+	Postgres     PostgresConf
 	Mysql        MysqlConf
 	Sqlite       SqliteConf
 
@@ -44,9 +45,17 @@ type SqliteConf struct {
 }
 
 type MysqlConf struct {
-	Database string `json:",default=jzero"`
+	Database string `json:",default=jzeroadmin"`
 	Host     string `json:",default=127.0.0.1"`
 	Port     int    `json:",default=3306"`
+	Username string `json:",default=root"`
+	Password string `json:",default=123456"`
+}
+
+type PostgresConf struct {
+	Database string `json:",default=jzeroadmin"`
+	Host     string `json:",default=127.0.0.1"`
+	Port     int    `json:",default=5432"`
 	Username string `json:",default=root"`
 	Password string `json:",default=123456"`
 }

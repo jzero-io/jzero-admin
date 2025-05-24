@@ -30,7 +30,7 @@ func NewGetConstantRoutes(ctx context.Context, svcCtx *svc.ServiceContext, r *ht
 
 func (l *GetConstantRoutes) GetConstantRoutes(req *types.GetConstantRoutesRequest) (resp []types.GetConstantRoutesResponseItem, err error) {
 	menus, err := l.svcCtx.Model.ManageMenu.FindByCondition(l.ctx, nil, condition.NewChain().
-		Equal("constant", true).
+		Equal("constant", cast.ToInt(true)).
 		Build()...)
 	if err != nil {
 		return

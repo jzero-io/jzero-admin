@@ -1,3 +1,6 @@
+banner:
+    text: jzero-admin
+
 rest:
     name: server-api
     host: 0.0.0.0
@@ -16,10 +19,17 @@ sqlite:
 
 mysql:
     host: "${MYSQL_HOST}"
-    port: ${MYSQL_PORT}
+    port: ${MYSQL_PORT:-3306}
     username: "${MYSQL_USER}"
     password: "${MYSQL_PASSWORD}"
     database: "${MYSQL_DATABASE}"
+
+postgres:
+    host: "${POSTGRES_HOST}"
+    port: ${POSTGRES_PORT:-5432}
+    username: "${POSTGRES_USER}"
+    password: "${POSTGRES_PASSWORD}"
+    database: "${POSTGRES_DATABASE}"
 
 redis:
     host: "${REDIS_HOST}"

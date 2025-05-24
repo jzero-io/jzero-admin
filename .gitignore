@@ -1,2 +1,4 @@
 .idea
 deploy/docker-compose/mysql8/data
+deploy/docker-compose/postgres/data
+server/desc/swagger

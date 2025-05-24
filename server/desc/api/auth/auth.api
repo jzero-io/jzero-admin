@@ -5,27 +5,27 @@ info (
 )
 
 type PwdLoginRequest {
-	username string `json:"username"`
-	password string `json:"password"`
+	Username string `json:"username"`
+	Password string `json:"password"`
 }
 
 type CodeLoginRequest {
-	email            string `json:"email"`
-	verificationUuid string `json:"verificationUuid"`
-	verificationCode string `json:"verificationCode"`
+	Email            string `json:"email"`
+	VerificationUuid string `json:"verificationUuid"`
+	VerificationCode string `json:"verificationCode"`
 }
 
 type LoginResponse {
-	token        string `json:"token"`
-	refreshToken string `json:"refreshToken"`
+	Token        string `json:"token"`
+	RefreshToken string `json:"refreshToken"`
 }
 
 type RegisterRequest {
-	email            string `json:"email"`
-	verificationUuid string `json:"verificationUuid"`
-	verificationCode string `json:"verificationCode"`
-	username         string `json:"username"`
-	password         string `json:"password"`
+	Email            string `json:"email"`
+	VerificationUuid string `json:"verificationUuid"`
+	VerificationCode string `json:"verificationCode"`
+	Username         string `json:"username"`
+	Password         string `json:"password"`
 }
 
 type RegisterResponse {}
@@ -33,19 +33,19 @@ type RegisterResponse {}
 type GetUserInfoRequest {}
 
 type GetUserInfoResponse {
-	userId   string   `json:"userId"`
-	username string   `json:"username"`
-	roles    []string `json:"roles"`
-	buttons  []string `json:"buttons"`
+	UserId   string   `json:"userId"`
+	Username string   `json:"username"`
+	Roles    []string `json:"roles"`
+	Buttons  []string `json:"buttons"`
 }
 
 type RefreshTokenRequest {
-	refreshToken string `json:"refreshToken"`
+	RefreshToken string `json:"refreshToken"`
 }
 
 type RefreshTokenResponse {
-	token        string `json:"token"`
-	refreshToken string `json:"refreshToken"`
+	Token        string `json:"token"`
+	RefreshToken string `json:"refreshToken"`
 }
 
 type ErrorRequest {}
@@ -53,19 +53,19 @@ type ErrorRequest {}
 type ErrorResponse {}
 
 type SendVerificationCodeRequest {
-	email            string `form:"email" validate:"email"`
-	verificationType string `form:"verificationType,option=email|phone"`
+	Email            string `form:"email" validate:"email"`
+	VerificationType string `form:"verificationType,option=email|phone"`
 }
 
 type SendVerificationCodeResponse {
-	verificationUuid string `json:"verificationUuid"`
+	VerificationUuid string `json:"verificationUuid"`
 }
 
 type ResetPasswordRequest {
-	email            string `json:"email"`
-	verificationUuid string `json:"verificationUuid"`
-	verificationCode string `json:"verificationCode"`
-	password         string `json:"password"`
+	Email            string `json:"email"`
+	VerificationUuid string `json:"verificationUuid"`
+	VerificationCode string `json:"verificationCode"`
+	Password         string `json:"password"`
 }
 
 type ResetPasswordResponse {}
