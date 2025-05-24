@@ -13,20 +13,23 @@ import (
 	"github.com/huandu/go-sqlbuilder"
 	"github.com/jzero-io/jzero-contrib/condition"
 	"github.com/jzero-io/jzero-contrib/modelx"
-	"github.com/zeromicro/go-zero/core/stores/builder"
 	"github.com/zeromicro/go-zero/core/stores/sqlc"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
-	"github.com/zeromicro/go-zero/core/stringx"
 )
 
 var (
-	manageRoleFieldNames          = builder.RawFieldNames(&ManageRole{})
-	manageRoleRows                = strings.Join(manageRoleFieldNames, ",")
-	manageRoleRowsExpectAutoSet   = strings.Join(stringx.Remove(manageRoleFieldNames, "`id`"), ",")
-	manageRoleRowsWithPlaceHolder = strings.Join(stringx.Remove(manageRoleFieldNames, "`id`"), "=?,") + "=?"
+	manageRoleFieldNames        []string
+	manageRoleRows              string
+	manageRoleRowsExpectAutoSet string
 
 	cacheJzeroadminManageRoleIdPrefix = "cache:jzeroadmin:manageRole:id:"
 )
+
+func initVars() {
+	manageRoleFieldNames = condition.RawFieldNames(&ManageRole{})
+	manageRoleRows = strings.Join(manageRoleFieldNames, ",")
+	manageRoleRowsExpectAutoSet = strings.Join(condition.RemoveIgnoreColumns(manageRoleFieldNames, "`id`"), ",")
+}
 
 type (
 	manageRoleModel interface {
@@ -76,15 +79,18 @@ func newManageRoleModel(conn sqlx.SqlConn, op ...opts.Opt[modelx.ModelOpts]) *de
 	if o.CachedConn != nil {
 		cachedConn = *o.CachedConn
 	}
+
+	initVars()
+
 	return &defaultManageRoleModel{
 		cachedConn: cachedConn,
 		conn:       conn,
-		table:      "`manage_role`",
+		table:      condition.Table("`manage_role`"),
 	}
 }
 func (m *defaultManageRoleModel) Delete(ctx context.Context, session sqlx.Session, id uint64) error {
 	sb := sqlbuilder.DeleteFrom(m.table)
-	sb.Where(sb.EQ("`id`", id))
+	sb.Where(sb.EQ(condition.Field("`id`"), id))
 	statement, args := sb.Build()
 	var err error
 	if session != nil {
@@ -99,7 +105,7 @@ func (m *defaultManageRoleModel) DeleteWithCache(ctx context.Context, session sq
 	jzeroadminManageRoleIdKey := fmt.Sprintf("%s%v", cacheJzeroadminManageRoleIdPrefix, id)
 	_, err := m.cachedConn.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
 		sb := sqlbuilder.DeleteFrom(m.table)
-		sb.Where(sb.EQ("`id`", id))
+		sb.Where(sb.EQ(condition.Field("`id`"), id))
 		statement, args := sb.Build()
 		if session != nil {
 			return session.ExecCtx(ctx, statement, args...)
@@ -111,7 +117,7 @@ func (m *defaultManageRoleModel) DeleteWithCache(ctx context.Context, session sq
 
 func (m *defaultManageRoleModel) FindOne(ctx context.Context, session sqlx.Session, id uint64) (*ManageRole, error) {
 	sb := sqlbuilder.Select(manageRoleRows).From(m.table)
-	sb.Where(sb.EQ("`id`", id))
+	sb.Where(sb.EQ(condition.Field("`id`"), id))
 	sb.Limit(1)
 	sql, args := sb.Build()
 	var resp ManageRole
@@ -136,7 +142,7 @@ func (m *defaultManageRoleModel) FindOneWithCache(ctx context.Context, session s
 	var resp ManageRole
 	err := m.cachedConn.QueryRowCtx(ctx, &resp, jzeroadminManageRoleIdKey, func(ctx context.Context, conn sqlx.SqlConn, v any) error {
 		sb := sqlbuilder.Select(manageRoleRows).From(m.table)
-		sb.Where(sb.EQ("`id`", id))
+		sb.Where(sb.EQ(condition.Field("`id`"), id))
 		sql, args := sb.Build()
 		if session != nil {
 			return session.QueryRowCtx(ctx, v, sql, args...)
@@ -185,7 +191,7 @@ func (m *defaultManageRoleModel) Update(ctx context.Context, session sqlx.Sessio
 		assigns = append(assigns, sb.Assign(s, nil))
 	}
 	sb.Set(assigns...)
-	sb.Where(sb.EQ("`id`", nil))
+	sb.Where(sb.EQ(condition.Field("`id`"), nil))
 	statement, _ := sb.Build()
 
 	var err error
@@ -207,7 +213,7 @@ func (m *defaultManageRoleModel) UpdateWithCache(ctx context.Context, session sq
 			assigns = append(assigns, sb.Assign(s, nil))
 		}
 		sb.Set(assigns...)
-		sb.Where(sb.EQ("`id`", nil))
+		sb.Where(sb.EQ(condition.Field("`id`"), nil))
 		statement, _ := sb.Build()
 		if session != nil {
 			return session.ExecCtx(ctx, statement, data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Name, data.Status, data.Code, data.Desc, data.Id)
@@ -223,7 +229,7 @@ func (m *defaultManageRoleModel) formatPrimary(primary any) string {
 
 func (m *defaultManageRoleModel) queryPrimary(ctx context.Context, conn sqlx.SqlConn, v, primary any) error {
 	sb := sqlbuilder.Select(manageRoleRows).From(m.table)
-	sb.Where(sb.EQ("`id`", primary))
+	sb.Where(sb.EQ(condition.Field("`id`"), primary))
 	sql, args := sb.Build()
 	return conn.QueryRowCtx(ctx, v, sql, args...)
 }

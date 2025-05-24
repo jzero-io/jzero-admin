@@ -10,61 +10,61 @@ import (
 )
 
 type ManageUser {
-	id         uint64   `json:"id"`
-	username   string   `json:"username"`
-	userGender string   `json:"userGender"`
-	nickName   string   `json:"nickName"`
-	userPhone  string   `json:"userPhone"`
-	userEmail  string   `json:"userEmail"`
-	userRoles  []string `json:"userRoles"`
-	status     string   `json:"status"`
-	createTime string   `json:"createTime"`
-	updateTime string   `json:"updateTime"`
+	Id         uint64   `json:"id"`
+	Username   string   `json:"username"`
+	UserGender string   `json:"userGender"`
+	NickName   string   `json:"nickName"`
+	UserPhone  string   `json:"userPhone"`
+	UserEmail  string   `json:"userEmail"`
+	UserRoles  []string `json:"userRoles"`
+	Status     string   `json:"status"`
+	CreateTime string   `json:"createTime"`
+	UpdateTime string   `json:"updateTime"`
 }
 
 type ListRequest {
 	PageRequest
-	username   string `form:"username,optional"`
-	userGender string `form:"userGender,optional"`
-	nickName   string `form:"nickName,optional"`
-	userPhone  string `form:"userPhone,optional"`
-	userEmail  string `form:"userEmail,optional"`
-	status     string `form:"status,optional"`
+	Username   string `form:"username,optional"`
+	UserGender string `form:"userGender,optional"`
+	NickName   string `form:"nickName,optional"`
+	UserPhone  string `form:"userPhone,optional"`
+	UserEmail  string `form:"userEmail,optional"`
+	Status     string `form:"status,optional"`
 }
 
 type ListResponse {
 	PageResponse
-	records []ManageUser `json:"records"`
+	Records []ManageUser `json:"records"`
 }
 
 type AddRequest {
-	username   string   `json:"username"`
-	userGender string   `json:"userGender,default=1"`
-	nickName   string   `json:"nickName"`
-	userPhone  string   `json:"userPhone"`
-	userEmail  string   `json:"userEmail"`
-	status     string   `json:"status,default=1"`
-	password   string   `json:"password"`
-	userRoles  []string `json:"userRoles"`
+	Username   string   `json:"username"`
+	UserGender string   `json:"userGender,default=1"`
+	NickName   string   `json:"nickName"`
+	UserPhone  string   `json:"userPhone"`
+	UserEmail  string   `json:"userEmail"`
+	Status     string   `json:"status,default=1"`
+	Password   string   `json:"password"`
+	UserRoles  []string `json:"userRoles"`
 }
 
 type AddResponse {}
 
 type EditRequest {
-	id         uint64   `json:"id"`
-	username   string   `json:"username"`
-	userGender string   `json:"userGender"`
-	nickName   string   `json:"nickName"`
-	userPhone  string   `json:"userPhone"`
-	userEmail  string   `json:"userEmail"`
-	status     string   `json:"status"`
-	userRoles  []string `json:"userRoles"`
+	Id         uint64   `json:"id"`
+	Username   string   `json:"username"`
+	UserGender string   `json:"userGender"`
+	NickName   string   `json:"nickName"`
+	UserPhone  string   `json:"userPhone"`
+	UserEmail  string   `json:"userEmail"`
+	Status     string   `json:"status"`
+	UserRoles  []string `json:"userRoles"`
 }
 
 type EditResponse {}
 
 type DeleteRequest {
-	ids []uint64 `json:"ids"`
+	Ids []uint64 `json:"ids"`
 }
 
 type DeleteResponse {}

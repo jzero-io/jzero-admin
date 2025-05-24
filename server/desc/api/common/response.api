@@ -5,8 +5,8 @@ info (
 )
 
 type PageResponse {
-	current int   `json:"current"`
-	size    int   `json:"size"`
-	total   int64 `json:"total"`
+	Current int   `json:"current"`
+	Size    int   `json:"size"`
+	Total   int64 `json:"total"`
 }
 

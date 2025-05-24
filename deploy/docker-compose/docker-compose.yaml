@@ -27,7 +27,19 @@ services:
       - VITE_SERVICE_BASE_URL=http://127.0.0.1
     ports:
       - "80:80"
-
+  postgres:
+    image: postgres
+    restart: always
+    container_name: jzero-admin-postgres
+    environment:
+      TZ: Asia/Shanghai
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_USER: root
+      POSTGRES_DB: jzeroadmin
+    volumes:
+      - ./postgres/data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
   mysql8:
     image: mysql:8.0
     restart: always

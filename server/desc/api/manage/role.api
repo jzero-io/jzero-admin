@@ -10,82 +10,82 @@ import (
 )
 
 type ManageRole {
-	id         uint64 `json:"id"`
-	roleName   string `json:"roleName"`
-	roleCode   string `json:"roleCode"`
-	roleDesc   string `json:"roleDesc"`
-	status     string `json:"status"`
-	createTime string `json:"createTime"`
-	updateTime string `json:"updateTime"`
+	Id         uint64 `json:"id"`
+	RoleName   string `json:"roleName"`
+	RoleCode   string `json:"roleCode"`
+	RoleDesc   string `json:"roleDesc"`
+	Status     string `json:"status"`
+	CreateTime string `json:"createTime"`
+	UpdateTime string `json:"updateTime"`
 }
 
 type ListRequest {
 	PageRequest
-	roleName string `form:"roleName,optional"`
-	roleCode string `form:"roleCode,optional"`
-	status   string `form:"status,optional"`
+	RoleName string `form:"roleName,optional"`
+	RoleCode string `form:"roleCode,optional"`
+	Status   string `form:"status,optional"`
 }
 
 type ListResponse {
 	PageResponse
-	records []ManageRole `json:"records"`
+	Records []ManageRole `json:"records"`
 }
 
 type GetAllRequest {}
 
 type GetAllResponse {
-	id       uint64 `json:"id"`
-	roleName string `json:"roleName"`
-	roleCode string `json:"roleCode"`
+	Id       uint64 `json:"id"`
+	RoleName string `json:"roleName"`
+	RoleCode string `json:"roleCode"`
 }
 
 type AddRequest {
-	roleName string `json:"roleName"`
-	roleCode string `json:"roleCode"`
-	roleDesc string `json:"roleDesc"`
-	status   string `json:"status"`
+	RoleName string `json:"roleName"`
+	RoleCode string `json:"roleCode"`
+	RoleDesc string `json:"roleDesc"`
+	Status   string `json:"status"`
 }
 
 type AddResponse {}
 
 type EditRequest {
-	id       uint64 `json:"id"`
-	roleName string `json:"roleName"`
-	roleCode string `json:"roleCode"`
-	roleDesc string `json:"roleDesc"`
-	status   string `json:"status"`
+	Id       uint64 `json:"id"`
+	RoleName string `json:"roleName"`
+	RoleCode string `json:"roleCode"`
+	RoleDesc string `json:"roleDesc"`
+	Status   string `json:"status"`
 }
 
 type EditResponse {}
 
 type DeleteRequest {
-	ids []uint64 `json:"ids"`
+	Ids []uint64 `json:"ids"`
 }
 
 type DeleteResponse {}
 
 type SetMenusRequest {
-	roleId  uint64   `json:"roleId"`
-	menuIds []uint64 `json:"menuIds"`
+	RoleId  uint64   `json:"roleId"`
+	MenuIds []uint64 `json:"menuIds"`
 }
 
 type SetMenusResponse {}
 
 type GetMenusRequest {
-	roleId uint64 `form:"roleId"`
+	RoleId uint64 `form:"roleId"`
 }
 
 type GetMenusResponse {
-	menuIds []uint64 `json:"menuIds"`
+	MenuIds []uint64 `json:"menuIds"`
 }
 
 type UpdateHomeRequest {
-	roleId uint64 `json:"roleId"`
-	home   string `json:"home"`
+	RoleId uint64 `json:"roleId"`
+	Home   string `json:"home"`
 }
 
 type GetHomeRequest {
-	roleId uint64 `form:"roleId"`
+	RoleId uint64 `form:"roleId"`
 }
 
 @server (

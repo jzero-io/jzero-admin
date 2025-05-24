@@ -13,20 +13,23 @@ import (
 	"github.com/huandu/go-sqlbuilder"
 	"github.com/jzero-io/jzero-contrib/condition"
 	"github.com/jzero-io/jzero-contrib/modelx"
-	"github.com/zeromicro/go-zero/core/stores/builder"
 	"github.com/zeromicro/go-zero/core/stores/sqlc"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
-	"github.com/zeromicro/go-zero/core/stringx"
 )
 
 var (
-	manageMenuFieldNames          = builder.RawFieldNames(&ManageMenu{})
-	manageMenuRows                = strings.Join(manageMenuFieldNames, ",")
-	manageMenuRowsExpectAutoSet   = strings.Join(stringx.Remove(manageMenuFieldNames, "`id`"), ",")
-	manageMenuRowsWithPlaceHolder = strings.Join(stringx.Remove(manageMenuFieldNames, "`id`"), "=?,") + "=?"
+	manageMenuFieldNames        []string
+	manageMenuRows              string
+	manageMenuRowsExpectAutoSet string
 
 	cacheJzeroadminManageMenuIdPrefix = "cache:jzeroadmin:manageMenu:id:"
 )
+
+func initVars() {
+	manageMenuFieldNames = condition.RawFieldNames(&ManageMenu{})
+	manageMenuRows = strings.Join(manageMenuFieldNames, ",")
+	manageMenuRowsExpectAutoSet = strings.Join(condition.RemoveIgnoreColumns(manageMenuFieldNames, "`id`"), ",")
+}
 
 type (
 	manageMenuModel interface {
@@ -93,15 +96,18 @@ func newManageMenuModel(conn sqlx.SqlConn, op ...opts.Opt[modelx.ModelOpts]) *de
 	if o.CachedConn != nil {
 		cachedConn = *o.CachedConn
 	}
+
+	initVars()
+
 	return &defaultManageMenuModel{
 		cachedConn: cachedConn,
 		conn:       conn,
-		table:      "`manage_menu`",
+		table:      condition.Table("`manage_menu`"),
 	}
 }
 func (m *defaultManageMenuModel) Delete(ctx context.Context, session sqlx.Session, id uint64) error {
 	sb := sqlbuilder.DeleteFrom(m.table)
-	sb.Where(sb.EQ("`id`", id))
+	sb.Where(sb.EQ(condition.Field("`id`"), id))
 	statement, args := sb.Build()
 	var err error
 	if session != nil {
@@ -116,7 +122,7 @@ func (m *defaultManageMenuModel) DeleteWithCache(ctx context.Context, session sq
 	jzeroadminManageMenuIdKey := fmt.Sprintf("%s%v", cacheJzeroadminManageMenuIdPrefix, id)
 	_, err := m.cachedConn.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
 		sb := sqlbuilder.DeleteFrom(m.table)
-		sb.Where(sb.EQ("`id`", id))
+		sb.Where(sb.EQ(condition.Field("`id`"), id))
 		statement, args := sb.Build()
 		if session != nil {
 			return session.ExecCtx(ctx, statement, args...)
@@ -128,7 +134,7 @@ func (m *defaultManageMenuModel) DeleteWithCache(ctx context.Context, session sq
 
 func (m *defaultManageMenuModel) FindOne(ctx context.Context, session sqlx.Session, id uint64) (*ManageMenu, error) {
 	sb := sqlbuilder.Select(manageMenuRows).From(m.table)
-	sb.Where(sb.EQ("`id`", id))
+	sb.Where(sb.EQ(condition.Field("`id`"), id))
 	sb.Limit(1)
 	sql, args := sb.Build()
 	var resp ManageMenu
@@ -153,7 +159,7 @@ func (m *defaultManageMenuModel) FindOneWithCache(ctx context.Context, session s
 	var resp ManageMenu
 	err := m.cachedConn.QueryRowCtx(ctx, &resp, jzeroadminManageMenuIdKey, func(ctx context.Context, conn sqlx.SqlConn, v any) error {
 		sb := sqlbuilder.Select(manageMenuRows).From(m.table)
-		sb.Where(sb.EQ("`id`", id))
+		sb.Where(sb.EQ(condition.Field("`id`"), id))
 		sql, args := sb.Build()
 		if session != nil {
 			return session.QueryRowCtx(ctx, v, sql, args...)
@@ -202,7 +208,7 @@ func (m *defaultManageMenuModel) Update(ctx context.Context, session sqlx.Sessio
 		assigns = append(assigns, sb.Assign(s, nil))
 	}
 	sb.Set(assigns...)
-	sb.Where(sb.EQ("`id`", nil))
+	sb.Where(sb.EQ(condition.Field("`id`"), nil))
 	statement, _ := sb.Build()
 
 	var err error
@@ -224,7 +230,7 @@ func (m *defaultManageMenuModel) UpdateWithCache(ctx context.Context, session sq
 			assigns = append(assigns, sb.Assign(s, nil))
 		}
 		sb.Set(assigns...)
-		sb.Where(sb.EQ("`id`", nil))
+		sb.Where(sb.EQ(condition.Field("`id`"), nil))
 		statement, _ := sb.Build()
 		if session != nil {
 			return session.ExecCtx(ctx, statement, data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Status, data.ParentId, data.MenuType, data.MenuName, data.HideInMenu, data.ActiveMenu, data.Order, data.RouteName, data.RoutePath, data.Component, data.Icon, data.IconType, data.I18nKey, data.KeepAlive, data.Href, data.MultiTab, data.FixedIndexInTab, data.Query, data.Permissions, data.Constant, data.ButtonCode, data.Id)
@@ -240,7 +246,7 @@ func (m *defaultManageMenuModel) formatPrimary(primary any) string {
 
 func (m *defaultManageMenuModel) queryPrimary(ctx context.Context, conn sqlx.SqlConn, v, primary any) error {
 	sb := sqlbuilder.Select(manageMenuRows).From(m.table)
-	sb.Where(sb.EQ("`id`", primary))
+	sb.Where(sb.EQ(condition.Field("`id`"), primary))
 	sql, args := sb.Build()
 	return conn.QueryRowCtx(ctx, v, sql, args...)
 }

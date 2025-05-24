@@ -5,53 +5,53 @@ info (
 )
 
 type Route {
-	id        int64       `json:"-"`
-	parentId  int64       `json:"-"`
-	name      string      `json:"name"`
-	path      string      `json:"path"`
-	meta      RouteMeta   `json:"meta"`
-	component string      `json:"component"`
-	props     interface{} `json:"props"`
-	redirect  string      `json:"redirect"`
-	children  []Route     `json:"children"`
+	Id        int64       `json:"-"`
+	ParentId  int64       `json:"-"`
+	Name      string      `json:"name"`
+	Path      string      `json:"path"`
+	Meta      RouteMeta   `json:"meta"`
+	Component string      `json:"component"`
+	Props     interface{} `json:"props"`
+	Redirect  string      `json:"redirect"`
+	Children  []Route     `json:"children"`
 }
 
 type RouteMeta {
-	title           string  `json:"title"`
-	i18nKey         string  `json:"i18nKey"`
-	localIcon       string  `json:"localIcon"`
-	icon            string  `json:"icon"`
-	order           int     `json:"order"`
-	hideInMenu      bool    `json:"hideInMenu"`
-	activeMenu      string  `json:"activeMenu"`
-	multiTab        bool    `json:"multiTab"`
-	fixedIndexInTab *int64  `json:"fixedIndexInTab"`
-	keepAlive       bool    `json:"keepAlive"`
-	constant        bool    `json:"constant"`
-	href            string  `json:"href"`
-	query           []Query `json:"query"`
+	Title           string  `json:"title"`
+	I18nKey         string  `json:"i18nKey"`
+	LocalIcon       string  `json:"localIcon"`
+	Icon            string  `json:"icon"`
+	Order           int     `json:"order"`
+	HideInMenu      bool    `json:"hideInMenu"`
+	ActiveMenu      string  `json:"activeMenu"`
+	MultiTab        bool    `json:"multiTab"`
+	FixedIndexInTab *int64  `json:"fixedIndexInTab"`
+	KeepAlive       bool    `json:"keepAlive"`
+	Constant        bool    `json:"constant"`
+	Href            string  `json:"href"`
+	Query           []Query `json:"query"`
 }
 
 type Query {
-	key   string `json:"key"`
-	value string `json:"value"`
+	Key   string `json:"key"`
+	Value string `json:"value"`
 }
 
 type GetConstantRoutesRequest {}
 
 type GetConstantRoutesResponseItem {
-	name      string    `json:"name"`
-	path      string    `json:"path"`
-	component string    `json:"component"`
-	props     bool      `json:"props"`
-	meta      RouteMeta `json:"meta"`
+	Name      string    `json:"name"`
+	Path      string    `json:"path"`
+	Component string    `json:"component"`
+	Props     bool      `json:"props"`
+	Meta      RouteMeta `json:"meta"`
 }
 
 type GetUserRoutesRequest {}
 
 type GetUserRoutesResponse {
-	routes []Route `json:"routes"`
-	home   string  `json:"home"`
+	Routes []Route `json:"routes"`
+	Home   string  `json:"home"`
 }
 
 type IsRouteExistRequest {}
