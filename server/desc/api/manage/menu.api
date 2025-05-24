@@ -10,44 +10,44 @@ import (
 )
 
 type AddRequest {
-	activeMenu      string       `json:"activeMenu,optional"`
-	menuType        string       `json:"menuType"`
-	menuName        string       `json:"menuName"`
-	routeName       string       `json:"routeName"`
-	routePath       string       `json:"routePath"`
-	component       string       `json:"component"`
-	icon            string       `json:"icon"`
-	iconType        string       `json:"iconType"`
-	parentId        uint64       `json:"parentId"`
-	status          string       `json:"status"`
-	keepAlive       bool         `json:"keepAlive"`
-	constant        bool         `json:"constant"`
-	order           uint64       `json:"order"`
-	hideInMenu      bool         `json:"hideInMenu"`
-	href            string       `json:"href,optional"`
-	multiTab        bool         `json:"multiTab,optional"`
-	fixedIndexInTab *int64       `json:"fixedIndexInTab,optional"`
-	query           []Query      `json:"query,optional"`
-	buttonCode      string       `json:"buttonCode,optional"`
-	permissions     []Permission `json:"permissions,optional"`
-	i18nKey         string       `json:"i18nKey,optional"`
+	ActiveMenu      string       `json:"activeMenu,optional"`
+	MenuType        string       `json:"menuType"`
+	MenuName        string       `json:"menuName"`
+	RouteName       string       `json:"routeName"`
+	RoutePath       string       `json:"routePath"`
+	Component       string       `json:"component"`
+	Icon            string       `json:"icon"`
+	IconType        string       `json:"iconType"`
+	ParentId        uint64       `json:"parentId"`
+	Status          string       `json:"status"`
+	KeepAlive       bool         `json:"keepAlive"`
+	Constant        bool         `json:"constant"`
+	Order           uint64       `json:"order"`
+	HideInMenu      bool         `json:"hideInMenu"`
+	Href            string       `json:"href,optional"`
+	MultiTab        bool         `json:"multiTab,optional"`
+	FixedIndexInTab *int64       `json:"fixedIndexInTab,optional"`
+	Query           []Query      `json:"query,optional"`
+	ButtonCode      string       `json:"buttonCode,optional"`
+	Permissions     []Permission `json:"permissions,optional"`
+	I18nKey         string       `json:"i18nKey,optional"`
 }
 
 type AddResponse {}
 
 type Button {
-	code string `json:"code"`
-	desc string `json:"desc"`
+	Code string `json:"code"`
+	Desc string `json:"desc"`
 }
 
 type Permission {
-	code string `json:"code"`
-	desc string `json:"desc"`
+	Code string `json:"code"`
+	Desc string `json:"desc"`
 }
 
 type Query {
-	key   string `json:"key"`
-	value string `json:"value"`
+	Key   string `json:"key"`
+	Value string `json:"value"`
 }
 
 type ListRequest {
@@ -55,79 +55,79 @@ type ListRequest {
 }
 
 type SystemMenu {
-	id              uint64       `json:"id"`
-	activeMenu      string       `json:"activeMenu,optional"`
-	menuType        string       `json:"menuType"`
-	menuName        string       `json:"menuName"`
-	routeName       string       `json:"routeName"`
-	routePath       string       `json:"routePath"`
-	component       string       `json:"component"`
-	icon            string       `json:"icon"`
-	iconType        string       `json:"iconType"`
-	parentId        uint64       `json:"parentId"`
-	status          string       `json:"status"`
-	keepAlive       bool         `json:"keepAlive"`
-	constant        bool         `json:"constant"`
-	order           uint64       `json:"order"`
-	hideInMenu      bool         `json:"hideInMenu"`
-	href            string       `json:"href,optional"`
-	multiTab        bool         `json:"multiTab,optional"`
-	fixedIndexInTab *int64       `json:"fixedIndexInTab,optional"`
-	query           []Query      `json:"query,optional"`
-	buttonCode      string       `json:"buttonCode,optional"`
-	permissions     []Permission `json:"permissions,optional"`
-	i18nKey         string       `json:"i18nKey,optional"`
-	children        []SystemMenu `json:"children"`
+	Id              uint64       `json:"id"`
+	ActiveMenu      string       `json:"activeMenu,optional"`
+	MenuType        string       `json:"menuType"`
+	MenuName        string       `json:"menuName"`
+	RouteName       string       `json:"routeName"`
+	RoutePath       string       `json:"routePath"`
+	Component       string       `json:"component"`
+	Icon            string       `json:"icon"`
+	IconType        string       `json:"iconType"`
+	ParentId        uint64       `json:"parentId"`
+	Status          string       `json:"status"`
+	KeepAlive       bool         `json:"keepAlive"`
+	Constant        bool         `json:"constant"`
+	Order           uint64       `json:"order"`
+	HideInMenu      bool         `json:"hideInMenu"`
+	Href            string       `json:"href,optional"`
+	MultiTab        bool         `json:"multiTab,optional"`
+	FixedIndexInTab *int64       `json:"fixedIndexInTab,optional"`
+	Query           []Query      `json:"query,optional"`
+	ButtonCode      string       `json:"buttonCode,optional"`
+	Permissions     []Permission `json:"permissions,optional"`
+	I18nKey         string       `json:"i18nKey,optional"`
+	Children        []SystemMenu `json:"children"`
 }
 
 type ListResponse {
 	PageResponse
-	records []SystemMenu `json:"records"`
+	Records []SystemMenu `json:"records"`
 }
 
 type TreeRequest {}
 
 type TreeResponse {
-	id       uint64         `json:"id"`
-	label    string         `json:"label"`
-	pId      uint64         `json:"pId"`
-	order    uint64         `json:"-"`
-	children []TreeResponse `json:"children"`
+	Id       uint64         `json:"id"`
+	Label    string         `json:"label"`
+	PId      uint64         `json:"pId"`
+	Order    uint64         `json:"-"`
+	Children []TreeResponse `json:"children"`
 }
 
 type GetAllPagesRequest {
-	roleId uint64 `form:"roleId,optional"`
+	RoleId uint64 `form:"roleId,optional"`
 }
 
 type DeleteRequest {
-	ids []uint64 `json:"ids"`
+	Ids []uint64 `json:"ids"`
 }
 
 type DeleteResponse {}
 
 type EditRequest {
-	id              uint64       `json:"id"`
-	activeMenu      string       `json:"activeMenu,optional"`
-	menuType        string       `json:"menuType"`
-	menuName        string       `json:"menuName"`
-	routeName       string       `json:"routeName"`
-	routePath       string       `json:"routePath"`
-	component       string       `json:"component"`
-	icon            string       `json:"icon"`
-	iconType        string       `json:"iconType"`
-	parentId        uint64       `json:"parentId"`
-	status          string       `json:"status"`
-	keepAlive       bool         `json:"keepAlive"`
-	constant        bool         `json:"constant"`
-	order           uint64       `json:"order"`
-	hideInMenu      bool         `json:"hideInMenu"`
-	href            string       `json:"href,optional"`
-	mutiTab         bool         `json:"mutiTab,optional"`
-	fixedIndexInTab *int64       `json:"fixedIndexInTab,optional"`
-	query           []Query      `json:"query"`
-	buttonCode      string       `json:"buttonCode,optional"`
-	permissions     []Permission `json:"permissions"`
-	i18nKey         string       `json:"i18nKey"`
+	Id              uint64       `json:"id"`
+	ActiveMenu      string       `json:"activeMenu,optional"`
+	MenuType        string       `json:"menuType"`
+	MenuName        string       `json:"menuName"`
+	RouteName       string       `json:"routeName"`
+	RoutePath       string       `json:"routePath"`
+	Component       string       `json:"component"`
+	Icon            string       `json:"icon"`
+	IconType        string       `json:"iconType"`
+	ParentId        uint64       `json:"parentId"`
+	Status          string       `json:"status"`
+	KeepAlive       bool         `json:"keepAlive"`
+	Constant        bool         `json:"constant"`
+	Order           uint64       `json:"order"`
+	HideInMenu      bool         `json:"hideInMenu"`
+	Href            string       `json:"href,optional"`
+	MutiTab         bool         `json:"mutiTab,optional"`
+	FixedIndexInTab *int64       `json:"fixedIndexInTab,optional"`
+	Query           []Query      `json:"query"`
+	ButtonCode      string       `json:"buttonCode,optional"`
+	Permissions     []Permission `json:"permissions"`
+	I18nKey         string       `json:"i18nKey"`
 }
 
 type EditResponse {}

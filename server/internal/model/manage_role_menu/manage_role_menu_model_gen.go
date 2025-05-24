@@ -13,20 +13,23 @@ import (
 	"github.com/huandu/go-sqlbuilder"
 	"github.com/jzero-io/jzero-contrib/condition"
 	"github.com/jzero-io/jzero-contrib/modelx"
-	"github.com/zeromicro/go-zero/core/stores/builder"
 	"github.com/zeromicro/go-zero/core/stores/sqlc"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
-	"github.com/zeromicro/go-zero/core/stringx"
 )
 
 var (
-	manageRoleMenuFieldNames          = builder.RawFieldNames(&ManageRoleMenu{})
-	manageRoleMenuRows                = strings.Join(manageRoleMenuFieldNames, ",")
-	manageRoleMenuRowsExpectAutoSet   = strings.Join(stringx.Remove(manageRoleMenuFieldNames, "`id`"), ",")
-	manageRoleMenuRowsWithPlaceHolder = strings.Join(stringx.Remove(manageRoleMenuFieldNames, "`id`"), "=?,") + "=?"
+	manageRoleMenuFieldNames        []string
+	manageRoleMenuRows              string
+	manageRoleMenuRowsExpectAutoSet string
 
 	cacheJzeroadminManageRoleMenuIdPrefix = "cache:jzeroadmin:manageRoleMenu:id:"
 )
+
+func initVars() {
+	manageRoleMenuFieldNames = condition.RawFieldNames(&ManageRoleMenu{})
+	manageRoleMenuRows = strings.Join(manageRoleMenuFieldNames, ",")
+	manageRoleMenuRowsExpectAutoSet = strings.Join(condition.RemoveIgnoreColumns(manageRoleMenuFieldNames, "`id`"), ",")
+}
 
 type (
 	manageRoleMenuModel interface {
@@ -75,15 +78,18 @@ func newManageRoleMenuModel(conn sqlx.SqlConn, op ...opts.Opt[modelx.ModelOpts])
 	if o.CachedConn != nil {
 		cachedConn = *o.CachedConn
 	}
+
+	initVars()
+
 	return &defaultManageRoleMenuModel{
 		cachedConn: cachedConn,
 		conn:       conn,
-		table:      "`manage_role_menu`",
+		table:      condition.Table("`manage_role_menu`"),
 	}
 }
 func (m *defaultManageRoleMenuModel) Delete(ctx context.Context, session sqlx.Session, id uint64) error {
 	sb := sqlbuilder.DeleteFrom(m.table)
-	sb.Where(sb.EQ("`id`", id))
+	sb.Where(sb.EQ(condition.Field("`id`"), id))
 	statement, args := sb.Build()
 	var err error
 	if session != nil {
@@ -98,7 +104,7 @@ func (m *defaultManageRoleMenuModel) DeleteWithCache(ctx context.Context, sessio
 	jzeroadminManageRoleMenuIdKey := fmt.Sprintf("%s%v", cacheJzeroadminManageRoleMenuIdPrefix, id)
 	_, err := m.cachedConn.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
 		sb := sqlbuilder.DeleteFrom(m.table)
-		sb.Where(sb.EQ("`id`", id))
+		sb.Where(sb.EQ(condition.Field("`id`"), id))
 		statement, args := sb.Build()
 		if session != nil {
 			return session.ExecCtx(ctx, statement, args...)
@@ -110,7 +116,7 @@ func (m *defaultManageRoleMenuModel) DeleteWithCache(ctx context.Context, sessio
 
 func (m *defaultManageRoleMenuModel) FindOne(ctx context.Context, session sqlx.Session, id uint64) (*ManageRoleMenu, error) {
 	sb := sqlbuilder.Select(manageRoleMenuRows).From(m.table)
-	sb.Where(sb.EQ("`id`", id))
+	sb.Where(sb.EQ(condition.Field("`id`"), id))
 	sb.Limit(1)
 	sql, args := sb.Build()
 	var resp ManageRoleMenu
@@ -135,7 +141,7 @@ func (m *defaultManageRoleMenuModel) FindOneWithCache(ctx context.Context, sessi
 	var resp ManageRoleMenu
 	err := m.cachedConn.QueryRowCtx(ctx, &resp, jzeroadminManageRoleMenuIdKey, func(ctx context.Context, conn sqlx.SqlConn, v any) error {
 		sb := sqlbuilder.Select(manageRoleMenuRows).From(m.table)
-		sb.Where(sb.EQ("`id`", id))
+		sb.Where(sb.EQ(condition.Field("`id`"), id))
 		sql, args := sb.Build()
 		if session != nil {
 			return session.QueryRowCtx(ctx, v, sql, args...)
@@ -184,7 +190,7 @@ func (m *defaultManageRoleMenuModel) Update(ctx context.Context, session sqlx.Se
 		assigns = append(assigns, sb.Assign(s, nil))
 	}
 	sb.Set(assigns...)
-	sb.Where(sb.EQ("`id`", nil))
+	sb.Where(sb.EQ(condition.Field("`id`"), nil))
 	statement, _ := sb.Build()
 
 	var err error
@@ -206,7 +212,7 @@ func (m *defaultManageRoleMenuModel) UpdateWithCache(ctx context.Context, sessio
 			assigns = append(assigns, sb.Assign(s, nil))
 		}
 		sb.Set(assigns...)
-		sb.Where(sb.EQ("`id`", nil))
+		sb.Where(sb.EQ(condition.Field("`id`"), nil))
 		statement, _ := sb.Build()
 		if session != nil {
 			return session.ExecCtx(ctx, statement, data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.RoleId, data.MenuId, data.IsHome, data.Id)
@@ -222,7 +228,7 @@ func (m *defaultManageRoleMenuModel) formatPrimary(primary any) string {
 
 func (m *defaultManageRoleMenuModel) queryPrimary(ctx context.Context, conn sqlx.SqlConn, v, primary any) error {
 	sb := sqlbuilder.Select(manageRoleMenuRows).From(m.table)
-	sb.Where(sb.EQ("`id`", primary))
+	sb.Where(sb.EQ(condition.Field("`id`"), primary))
 	sql, args := sb.Build()
 	return conn.QueryRowCtx(ctx, v, sql, args...)
 }
