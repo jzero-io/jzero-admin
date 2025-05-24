@@ -6,6 +6,7 @@ import (
 
 	"github.com/jzero-io/jzero-contrib/condition"
 	"github.com/samber/lo"
+	"github.com/spf13/cast"
 	"github.com/zeromicro/go-zero/core/logx"
 
 	"github.com/jzero-io/jzero-admin/server/internal/model/manage_menu"
@@ -52,7 +53,7 @@ func (l *GetAllPages) GetAllPages(req *types.GetAllPagesRequest) (resp []string,
 			In("id", uniqMenuIds).
 			Equal("menu_type", "2").
 			Equal("status", "1").
-			NotEqual("hide_in_menu", true).
+			NotEqual("hide_in_menu", cast.ToInt(true)).
 			Build()...)
 		if err != nil {
 			return nil, err
@@ -61,7 +62,7 @@ func (l *GetAllPages) GetAllPages(req *types.GetAllPagesRequest) (resp []string,
 		pages, err = l.svcCtx.Model.ManageMenu.FindByCondition(l.ctx, nil, condition.NewChain().
 			Equal("menu_type", "2").
 			Equal("status", "1").
-			NotEqual("hide_in_menu", true).
+			NotEqual("hide_in_menu", cast.ToInt(true)).
 			Build()...)
 		if err != nil {
 			return nil, err

@@ -6,6 +6,7 @@ import (
 	"sort"
 
 	"github.com/jzero-io/jzero-contrib/condition"
+	"github.com/spf13/cast"
 	"github.com/zeromicro/go-zero/core/logx"
 
 	"github.com/jzero-io/jzero-admin/server/internal/svc"
@@ -29,7 +30,7 @@ func NewTree(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Request) *
 
 func (l *Tree) Tree(req *types.TreeRequest) (resp []types.TreeResponse, err error) {
 	list, err := l.svcCtx.Model.ManageMenu.FindByCondition(l.ctx, nil, condition.NewChain().
-		NotEqual("constant", true).
+		NotEqual("constant", cast.ToInt(true)).
 		Build()...)
 	if err != nil {
 		return nil, err

@@ -17,7 +17,7 @@ require (
 	github.com/guregu/null/v5 v5.0.0
 	github.com/huandu/go-sqlbuilder v1.28.0
 	github.com/jzero-io/jzero-admin-plugins/hello v0.0.0-20241230101851-46b94d1fec86
-	github.com/jzero-io/jzero-contrib v0.25.1
+	github.com/jzero-io/jzero-contrib v0.25.2
 	github.com/nicksnyder/go-i18n/v2 v2.4.1
 	github.com/pkg/errors v0.9.1
 	github.com/samber/lo v1.49.1
