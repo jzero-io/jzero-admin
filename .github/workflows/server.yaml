@@ -32,7 +32,6 @@ jobs:
       - name: Upload to jaronnie/jzero-admin-deploy-server
         run: |          
           cd server
-          go get github.com/zeromicro/go-zero@0d5bcc60fb34665b8d9ca0bdc043282f4a8bb149
           rm -rf .git
           gorename github.com/jzero-io/jzero-admin/server/internal github.com/jzero-io/jzero-admin/server/server
           cd ..
