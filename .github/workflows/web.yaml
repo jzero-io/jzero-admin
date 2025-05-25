@@ -38,7 +38,7 @@ jobs:
         run: |-
           cd web
           pnpm i
-          VITE_SERVICE_BASE_URL=https://api.jzero-admin-server.jaronnie.com pnpm build
+          VITE_SERVICE_BASE_URL=https://jzero-admin-deploy-server.vercel.app pnpm build
           VITE_SERVICE_BASE_URL=https://api.jzero-admin-server.jaronnie.com pnpm build --outDir fc3-dist
           cd ..
 
