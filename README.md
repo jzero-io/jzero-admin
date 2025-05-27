@@ -36,4 +36,5 @@ docker-compose up
 
 ## 感谢
 
-* 使用在线 postgres 实例 [neon](https://neon.tech/)
+* 部署在阿里云函数计算上使用在线 mysql 实例 [sqlpub](https://sqlpub.com)
+* 部署在 vercel 上使用在线 postgres 实例 [neon](https://neon.tech)
