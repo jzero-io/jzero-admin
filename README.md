@@ -36,4 +36,4 @@ docker-compose up
 
 ## 感谢
 
-* 使用在线 mysql 实例 [sqlpub](https://sqlpub.com)
+* 使用在线 postgres 实例 [neon](https://neon.tech/)
