@@ -17,6 +17,9 @@ func BuildDataSource(c config.Config) string {
 	switch c.DatabaseType {
 	case "mysql":
 		sqlbuilder.DefaultFlavor = sqlbuilder.MySQL
+		if c.DatabaseUrl != "" {
+			return c.DatabaseUrl
+		}
 		return fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
 			c.Mysql.Username,
 			c.Mysql.Password,
@@ -24,9 +27,15 @@ func BuildDataSource(c config.Config) string {
 			c.Mysql.Database)
 	case "sqlite":
 		sqlbuilder.DefaultFlavor = sqlbuilder.SQLite
+		if c.DatabaseUrl != "" {
+			return c.DatabaseUrl
+		}
 		return c.Sqlite.Path
 	case "postgres":
 		sqlbuilder.DefaultFlavor = sqlbuilder.PostgreSQL
+		if c.DatabaseUrl != "" {
+			return c.DatabaseUrl
+		}
 		return fmt.Sprintf("postgres://%s:%s@%s/%s?sslmode=disable",
 			c.Postgres.Username,
 			c.Postgres.Password,

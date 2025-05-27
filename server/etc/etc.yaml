@@ -13,6 +13,7 @@ log:
     mode: file
 
 databaseType: "${DATABASE_TYPE}"
+databaseUrl: "${DATABASE_URL}"
 
 sqlite:
     path: "${SQLITE_PATH}"
