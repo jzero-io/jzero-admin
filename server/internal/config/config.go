@@ -14,9 +14,11 @@ type Config struct {
 	Banner BannerConf
 
 	DatabaseType string `json:",default=mysql"`
-	Postgres     PostgresConf
-	Mysql        MysqlConf
-	Sqlite       SqliteConf
+	DatabaseUrl  string `json:",optional"`
+
+	Postgres PostgresConf `json:",optional"`
+	Mysql    MysqlConf    `json:",optional"`
+	Sqlite   SqliteConf   `json:",optional"`
 
 	CacheType string          `json:",default=local"`
 	Redis     redis.RedisConf `json:",optional"`
