@@ -268,9 +268,9 @@ func (m *customCasbinRuleModel) FindSelectedColumnsByCondition(ctx context.Conte
 	var err error
 
 	if session != nil {
-		err = session.QueryRowsCtx(ctx, &resp, statement, args...)
+		err = session.QueryRowsPartialCtx(ctx, &resp, statement, args...)
 	} else {
-		err = m.conn.QueryRowsCtx(ctx, &resp, statement, args...)
+		err = m.conn.QueryRowsPartialCtx(ctx, &resp, statement, args...)
 	}
 	if err != nil {
 		return nil, err
