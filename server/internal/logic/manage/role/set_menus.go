@@ -38,7 +38,7 @@ func (l *SetMenus) SetMenus(req *types.SetMenusRequest) (resp *types.SetMenusRes
 		// 找到该角色的首页
 		roleHomeMenu, err := l.svcCtx.Model.ManageRoleMenu.FindOneByCondition(l.ctx, nil, condition.NewChain().
 			Equal("role_id", req.RoleId).
-			Equal("is_home", true).
+			Equal("is_home", cast.ToInt(true)).
 			Build()...)
 		if err != nil {
 			return errors.New("该角色无首页路由")

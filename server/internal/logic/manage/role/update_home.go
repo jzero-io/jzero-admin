@@ -38,7 +38,7 @@ func (l *UpdateHome) UpdateHome(req *types.UpdateHomeRequest) (resp *types.Empty
 	// 找到旧 home
 	oldRoleHomeMenu, err := l.svcCtx.Model.ManageRoleMenu.FindOneByCondition(l.ctx, nil, condition.NewChain().
 		Equal("role_id", req.RoleId).
-		Equal("is_home", true).
+		Equal("is_home", cast.ToInt(true)).
 		Build()...)
 	if err == nil {
 		oldRoleHomeMenu.IsHome = cast.ToInt64(false)
