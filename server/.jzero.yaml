@@ -7,11 +7,13 @@ gen:
   style: go_zero
   git-change: true
   change-logic-types: true
-  regen-api-types: true
   regen-api-handler: true
   route2Code: true
 
   model-driver: mysql
   model-cache: true
   model-ignore-columns: []
-  model-ddl-database: jzeroadmin
+  model-scheme: jzeroadmin
+
+  swagger:
+    merge: true
