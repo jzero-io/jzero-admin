@@ -1,0 +1,19 @@
+banner:
+    text: jzero-admin
+
+rest:
+    name: jzero-admin-api
+    host: 0.0.0.0
+    port: 8001
+    timeout: 20000
+
+log:
+    encoding: plain
+    level: debug
+    mode: file
+
+databaseType: mysql
+databaseUrl: root:123456@tcp(127.0.0.1:3306)/jzeroadmin
+
+cache:
+    type: local

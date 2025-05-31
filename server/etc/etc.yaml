@@ -2,21 +2,18 @@ banner:
     text: jzero-admin
 
 rest:
-    name: server-api
+    name: jzero-admin-api
     host: 0.0.0.0
     port: 8001
     timeout: 20000
 
 log:
     encoding: plain
-    level: debug
+    level: info
     mode: file
 
 databaseType: "${DATABASE_TYPE}"
 databaseUrl: "${DATABASE_URL}"
-
-sqlite:
-    path: "${SQLITE_PATH}"
 
 mysql:
     host: "${MYSQL_HOST}"
