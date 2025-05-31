@@ -127,5 +127,5 @@
   "lint-staged": {
     "*": "eslint --fix"
   },
-  "website": "https://demo.jzero-admin.jaronnie.com"
+  "website": "https://admin.jzero.io"
 }
