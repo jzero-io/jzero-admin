@@ -2,7 +2,7 @@ package manage_menu
 
 import (
 	"github.com/eddieowens/opts"
-	"github.com/jzero-io/jzero-contrib/modelx"
+	"github.com/jzero-io/jzero/core/stores/modelx"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )
 

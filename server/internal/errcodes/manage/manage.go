@@ -1,6 +1,6 @@
 package manage
 
-import "github.com/jzero-io/jzero-contrib/status"
+import "github.com/jzero-io/jzero/core/status"
 
 const (
 	ExistSubMenuCode = 10311

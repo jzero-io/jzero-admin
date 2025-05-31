@@ -14,8 +14,8 @@ import (
 	"golang.org/x/text/language"
 )
 
-// Conf is the configuration structure for i18n
-type Conf struct {
+// I18nConf is the configuration structure for i18n
+type I18nConf struct {
 	Dir string `json:","`
 }
 
@@ -84,7 +84,7 @@ func (l *Translator) AddBundleFromFile(path string) error {
 	return nil
 }
 
-func NewTranslator(conf Conf, efs embed.FS) *Translator {
+func NewTranslator(conf I18nConf, efs embed.FS) *Translator {
 	trans := &Translator{}
 	trans.localizer = make(map[language.Tag]*i18n.Localizer)
 	bundle := i18n.NewBundle(language.Chinese)

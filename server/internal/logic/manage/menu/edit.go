@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	null "github.com/guregu/null/v5"
-	"github.com/jzero-io/jzero-contrib/condition"
+	"github.com/jzero-io/jzero/core/stores/condition"
 	"github.com/pkg/errors"
 	"github.com/spf13/cast"
 	"github.com/zeromicro/go-zero/core/logx"

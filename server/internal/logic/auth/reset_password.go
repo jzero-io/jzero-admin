@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/jzero-io/jzero-contrib/condition"
+	"github.com/jzero-io/jzero/core/stores/condition"
 	"github.com/pkg/errors"
 	"github.com/zeromicro/go-zero/core/logx"
 

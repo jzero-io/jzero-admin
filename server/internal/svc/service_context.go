@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"github.com/casbin/casbin/v2"
-	"github.com/jzero-io/jzero-contrib/cache"
-	"github.com/jzero-io/jzero-contrib/modelx"
+	"github.com/jzero-io/jzero/core/stores/cache"
+	"github.com/jzero-io/jzero/core/stores/modelx"
 	"github.com/pkg/errors"
 	configurator "github.com/zeromicro/go-zero/core/configcenter"
 	zerocache "github.com/zeromicro/go-zero/core/stores/cache"
@@ -38,7 +38,7 @@ func NewServiceContext(cc configurator.Configurator[config.Config], route2Code f
 		Custom: custom.New(),
 	}
 	svcCtx.SetConfigListener()
-	svcCtx.SqlxConn = MustSqlConn(svcCtx.MustGetConfig())
+	svcCtx.SqlxConn = modelx.MustSqlConn(svcCtx.MustGetConfig().ModelConf)
 	if svcCtx.MustGetConfig().CacheType == "local" {
 		svcCtx.Cache = cache.NewSyncMap(errors.New("cache not found"))
 	} else {

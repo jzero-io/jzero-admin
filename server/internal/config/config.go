@@ -1,6 +1,7 @@
 package config
 
 import (
+	"github.com/jzero-io/jzero/core/stores/modelx"
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/redis"
 	"github.com/zeromicro/go-zero/rest"
@@ -13,17 +14,11 @@ type Config struct {
 	Log    LogConf
 	Banner BannerConf
 
-	DatabaseType string `json:",default=mysql"`
-	DatabaseUrl  string `json:",optional"`
-
-	Postgres PostgresConf `json:",optional"`
-	Mysql    MysqlConf    `json:",optional"`
-	Sqlite   SqliteConf   `json:",optional"`
-
+	modelx.ModelConf
 	CacheType string          `json:",default=local"`
 	Redis     redis.RedisConf `json:",optional"`
 
-	I18n i18n.Conf `json:",optional"`
+	I18n i18n.I18nConf `json:",optional"`
 
 	Jwt Jwt
 }
@@ -40,26 +35,6 @@ type BannerConf struct {
 	Text     string `json:",default=JZERO"`
 	Color    string `json:",default=green"`
 	FontName string `json:",default=starwars,options=big|larry3d|starwars|standard"`
-}
-
-type SqliteConf struct {
-	Path string `json:",default=data/jzero.db"`
-}
-
-type MysqlConf struct {
-	Database string `json:",default=jzeroadmin"`
-	Host     string `json:",default=127.0.0.1"`
-	Port     int    `json:",default=3306"`
-	Username string `json:",default=root"`
-	Password string `json:",default=123456"`
-}
-
-type PostgresConf struct {
-	Database string `json:",default=jzeroadmin"`
-	Host     string `json:",default=127.0.0.1"`
-	Port     int    `json:",default=5432"`
-	Username string `json:",default=root"`
-	Password string `json:",default=123456"`
 }
 
 type Jwt struct {

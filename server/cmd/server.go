@@ -1,12 +1,11 @@
 package cmd
 
 import (
-	"fmt"
 	"net/http"
 	"os"
 
 	figure "github.com/common-nighthawk/go-figure"
-	"github.com/jzero-io/jzero-contrib/dynamic_conf"
+	"github.com/jzero-io/jzero/core/configcenter/subscriber"
 	"github.com/spf13/cobra"
 	configurator "github.com/zeromicro/go-zero/core/configcenter"
 	"github.com/zeromicro/go-zero/core/logx"
@@ -27,26 +26,21 @@ var serverCmd = &cobra.Command{
 	Short: "server server",
 	Long:  "server server",
 	Run: func(cmd *cobra.Command, args []string) {
-		ss, err := dynamic_conf.NewFsNotify(cfgFile, dynamic_conf.WithUseEnv(true))
-		logx.Must(err)
 		cc := configurator.MustNewConfigCenter[config.Config](configurator.Config{
 			Type: "yaml",
-		}, ss)
+		}, subscriber.MustNewFsnotifySubscriber(cfgFile, subscriber.WithUseEnv(true)))
+
 		c, err := cc.GetConfig()
 		logx.Must(err)
 
 		// set up logger
-		if err := logx.SetUp(c.Log.LogConf); err != nil {
-			logx.Must(err)
-		}
+		logx.Must(logx.SetUp(c.Log.LogConf))
 		if c.Log.LogConf.Mode != "console" {
 			logx.AddWriter(logx.NewWriter(os.Stdout))
 		}
 
 		printBanner(c)
-		fmt.Printf("\nUsing Database: %s\n", c.DatabaseType)
-		fmt.Printf("%s conf: %s\n", c.DatabaseType, svc.BuildDataSource(c))
-		fmt.Printf("Using Cache: %s\n", c.CacheType)
+		printVersion()
 		logx.Infof("Starting rest server at %s:%d...", c.Rest.Host, c.Rest.Port)
 
 		svcCtx := svc.NewServiceContext(cc, handler.Route2Code)

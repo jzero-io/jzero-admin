@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/guregu/null/v5"
-	"github.com/jzero-io/jzero-contrib/condition"
+	"github.com/jzero-io/jzero/core/stores/condition"
 	"github.com/zeromicro/go-zero/core/logx"
 
 	"github.com/jzero-io/jzero-admin/server/internal/model/manage_user_role"

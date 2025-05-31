@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/golang-jwt/jwt/v4"
-	"github.com/jzero-io/jzero-contrib/status"
+	"github.com/jzero-io/jzero/core/status"
 	"github.com/pkg/errors"
 	"github.com/spf13/cast"
 	"github.com/zeromicro/go-zero/core/logx"

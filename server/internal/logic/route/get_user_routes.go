@@ -4,8 +4,8 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/jzero-io/jzero-contrib/condition"
-	"github.com/jzero-io/jzero-contrib/nullx"
+	"github.com/guregu/null/v5"
+	"github.com/jzero-io/jzero/core/stores/condition"
 	"github.com/samber/lo"
 	"github.com/spf13/cast"
 	"github.com/zeromicro/go-zero/core/logx"
@@ -108,7 +108,7 @@ func convert(list []*manage_menu.ManageMenu) []*types.Route {
 				HideInMenu:      cast.ToBool(item.HideInMenu),
 				ActiveMenu:      item.ActiveMenu.String,
 				MultiTab:        cast.ToBool(item.MultiTab),
-				FixedIndexInTab: nullx.NewInt(item.FixedIndexInTab).Ptr(),
+				FixedIndexInTab: null.NewInt(item.FixedIndexInTab.Int64, item.FixedIndexInTab.Valid).Ptr(),
 				KeepAlive:       cast.ToBool(item.KeepAlive),
 				Constant:        cast.ToBool(item.Constant),
 				Href:            item.Href.String,

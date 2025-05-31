@@ -3,7 +3,7 @@
 ## Install Jzero Framework
 
 ```shell
-go install github.com/jzero-io/jzero@latest
+go install github.com/jzero-io/jzero/cmd/jzero@latest
 
 jzero check
 ```
@@ -36,4 +36,4 @@ docker buildx build --platform linux/amd64 --progress=plain -t server:latest . -
 
 ## Documents
 
-https://jzero.jaronnie.com
+https://docs.jzero.io

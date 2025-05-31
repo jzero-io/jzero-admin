@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/jzero-io/jzero-contrib/condition"
-	"github.com/jzero-io/jzero-contrib/nullx"
+	"github.com/guregu/null/v5"
+	"github.com/jzero-io/jzero/core/stores/condition"
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/mr"
 
@@ -75,8 +75,8 @@ func (l *List) List(req *types.ListRequest) (resp *types.ListResponse, err error
 			Username:   user.Username,
 			UserGender: user.Gender,
 			NickName:   user.Nickname,
-			UserPhone:  nullx.NewString(user.Phone).ValueOrZero(),
-			UserEmail:  nullx.NewString(user.Email).ValueOrZero(),
+			UserPhone:  null.NewString(user.Phone.String, user.Phone.Valid).ValueOrZero(),
+			UserEmail:  null.NewString(user.Email.String, user.Email.Valid).ValueOrZero(),
 			Status:     user.Status,
 			CreateTime: user.CreateTime.Format(time.DateTime),
 			UpdateTime: user.UpdateTime.Format(time.DateTime),

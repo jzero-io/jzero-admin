@@ -1,5 +1,9 @@
 syntax: v1
 
+hooks:
+  before:
+    - go install tool
+
 gen:
   hooks:
     after:
