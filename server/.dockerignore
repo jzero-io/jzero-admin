@@ -1,3 +1,2 @@
-etc/.env.dev.yaml
-etc/.env.example.yaml
-etc/.env.yaml
+etc/example.etc.yaml
+etc/etc-local.yaml
