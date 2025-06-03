@@ -5,8 +5,8 @@ info (
 )
 
 import (
-	"../common/request.api"
-	"../common/response.api"
+	"../../common/request.api"
+	"../../common/response.api"
 )
 
 type ManageRole {
@@ -84,6 +84,8 @@ type UpdateHomeRequest {
 	Home   string `json:"home"`
 }
 
+type UpdateHomeResponse {}
+
 type GetHomeRequest {
 	RoleId uint64 `form:"roleId"`
 }
@@ -118,7 +120,7 @@ service server {
 	get /manage/getRoleMenus (GetMenusRequest) returns ([]uint64)
 
 	@handler UpdateHome
-	post /manage/updateRoleHome (UpdateHomeRequest) returns (Empty)
+	post /manage/updateRoleHome (UpdateHomeRequest) returns (UpdateHomeResponse)
 
 	@handler GetHome
 	get /manage/getRoleHome (GetHomeRequest) returns (string)

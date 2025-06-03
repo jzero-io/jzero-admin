@@ -76,9 +76,6 @@ type EditRequest struct {
 type EditResponse struct {
 }
 
-type Empty struct {
-}
-
 type GetAllPagesRequest struct {
 	RoleId uint64 `form:"roleId,optional"`
 }

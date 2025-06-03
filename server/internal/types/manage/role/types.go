@@ -37,9 +37,6 @@ type EditRequest struct {
 type EditResponse struct {
 }
 
-type Empty struct {
-}
-
 type GetAllRequest struct {
 }
 
@@ -105,4 +102,7 @@ type SetMenusResponse struct {
 type UpdateHomeRequest struct {
 	RoleId uint64 `json:"roleId"`
 	Home   string `json:"home"`
+}
+
+type UpdateHomeResponse struct {
 }

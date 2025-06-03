@@ -5,8 +5,8 @@ info (
 )
 
 import (
-	"../common/request.api"
-	"../common/response.api"
+	"../../common/request.api"
+	"../../common/response.api"
 )
 
 type AddRequest {

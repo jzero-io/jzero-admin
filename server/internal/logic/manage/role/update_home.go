@@ -27,7 +27,7 @@ func NewUpdateHome(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Requ
 	}
 }
 
-func (l *UpdateHome) UpdateHome(req *types.UpdateHomeRequest) (resp *types.Empty, err error) {
+func (l *UpdateHome) UpdateHome(req *types.UpdateHomeRequest) (resp *types.UpdateHomeResponse, err error) {
 	menu, err := l.svcCtx.Model.ManageMenu.FindOneByCondition(l.ctx, nil, condition.NewChain().
 		Equal("route_name", req.Home).
 		Build()...)

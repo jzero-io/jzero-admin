@@ -44,9 +44,6 @@ type EditRequest struct {
 type EditResponse struct {
 }
 
-type Empty struct {
-}
-
 type ListRequest struct {
 	PageRequest
 	Username   string `form:"username,optional"`
