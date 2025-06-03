@@ -133,10 +133,11 @@ type EditRequest {
 type EditResponse {}
 
 @server (
-	prefix:     /api
-	group:      manage/menu
-	jwt:        Jwt
-	middleware: Authx
+	prefix:          /api
+	group:           manage/menu
+	compact_handler: true
+	jwt:             Jwt
+	middleware:      Authx
 )
 service server {
 	@handler List

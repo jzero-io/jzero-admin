@@ -89,10 +89,11 @@ type GetHomeRequest {
 }
 
 @server (
-	prefix:     /api
-	group:      manage/role
-	jwt:        Jwt
-	middleware: Authx
+	prefix:          /api
+	group:           manage/role
+	compact_handler: true
+	jwt:             Jwt
+	middleware:      Authx
 )
 service server {
 	@handler List

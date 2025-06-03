@@ -4,9 +4,9 @@ info (
 	go_package: "version"
 )
 
-type GetRequest {}
+type VersionRequest {}
 
-type GetResponse {
+type VersionResponse {
 	Version   string `json:"version"`
 	GoVersion string `json:"goVersion"`
 	Commit    string `json:"commit"`
@@ -18,7 +18,7 @@ type GetResponse {
 	group:  version
 )
 service server {
-	@handler Get
-	get /version (GetRequest) returns (GetResponse)
+	@handler Version
+	get /version (VersionRequest) returns (VersionResponse)
 }
 
