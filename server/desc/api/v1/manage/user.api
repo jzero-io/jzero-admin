@@ -70,7 +70,7 @@ type DeleteRequest {
 type DeleteResponse {}
 
 @server (
-	prefix:          /api
+	prefix:          /api/v1
 	group:           manage/user
 	compact_handler: true
 	jwt:             Jwt

@@ -71,7 +71,7 @@ type ResetPasswordRequest {
 type ResetPasswordResponse {}
 
 @server (
-	prefix:          /api
+	prefix:          /api/v1
 	group:           auth
 	compact_handler: true
 )
@@ -96,7 +96,7 @@ service server {
 }
 
 @server (
-	prefix:          /api
+	prefix:          /api/v1
 	group:           auth
 	compact_handler: true
 	jwt:             Jwt

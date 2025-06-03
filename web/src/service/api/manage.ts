@@ -3,7 +3,7 @@ import { request } from '../request';
 /** get role list */
 export function GetRoleList(params?: Api.Manage.RoleSearchParams) {
   return request<Api.Manage.RoleList>({
-    url: '/api/manage/getRoleList',
+    url: '/api/v1/manage/getRoleList',
     method: 'get',
     params
   });
@@ -16,7 +16,7 @@ export function GetRoleList(params?: Api.Manage.RoleSearchParams) {
  */
 export function GetAllRoles() {
   return request<Api.Manage.AllRole[]>({
-    url: '/api/manage/getAllRoles',
+    url: '/api/v1/manage/getAllRoles',
     method: 'get'
   });
 }
@@ -24,7 +24,7 @@ export function GetAllRoles() {
 /** add role */
 export function AddRole(req: Api.Manage.AddRoleRequest) {
   return request<Api.Manage.AddRoleResponse>({
-    url: '/api/manage/addRole',
+    url: '/api/v1/manage/addRole',
     method: 'post',
     data: req
   });
@@ -33,7 +33,7 @@ export function AddRole(req: Api.Manage.AddRoleRequest) {
 /** edit role */
 export function EditRole(req: Api.Manage.EditRoleRequest) {
   return request<Api.Common.Empty>({
-    url: '/api/manage/editRole',
+    url: '/api/v1/manage/editRole',
     method: 'post',
     data: req
   });
@@ -41,7 +41,7 @@ export function EditRole(req: Api.Manage.EditRoleRequest) {
 
 export function GetRoleMenus(params: Api.Manage.GetRoleMenusRequest) {
   return request<number[]>({
-    url: '/api/manage/getRoleMenus',
+    url: '/api/v1/manage/getRoleMenus',
     method: 'get',
     params
   });
@@ -49,7 +49,7 @@ export function GetRoleMenus(params: Api.Manage.GetRoleMenusRequest) {
 
 export function SetRoleMenus(req: Api.Manage.SetRoleMenusRequest) {
   return request<Api.Common.Empty>({
-    url: '/api/manage/setRoleMenus',
+    url: '/api/v1/manage/setRoleMenus',
     method: 'post',
     data: req
   });
@@ -57,7 +57,7 @@ export function SetRoleMenus(req: Api.Manage.SetRoleMenusRequest) {
 
 export function GetRoleHome(roleId: number) {
   return request<string>({
-    url: '/api/manage/getRoleHome',
+    url: '/api/v1/manage/getRoleHome',
     method: 'get',
     params: {
       roleId
@@ -67,7 +67,7 @@ export function GetRoleHome(roleId: number) {
 
 export function UpdateRoleHome(req: Api.Manage.UpdateRoleHomeRequest) {
   return request<Api.Common.Empty>({
-    url: '/api/manage/updateRoleHome',
+    url: '/api/v1/manage/updateRoleHome',
     method: 'post',
     data: req
   });
@@ -76,7 +76,7 @@ export function UpdateRoleHome(req: Api.Manage.UpdateRoleHomeRequest) {
 /* delete role */
 export function DeleteRole(req: number[]) {
   return request<Api.Common.Empty>({
-    url: '/api/manage/deleteRole',
+    url: '/api/v1/manage/deleteRole',
     method: 'post',
     data: {
       ids: req
@@ -87,7 +87,7 @@ export function DeleteRole(req: number[]) {
 /** add user */
 export function AddUser(req: Api.Manage.AddUserRequest) {
   return request<Api.Manage.AddUserResponse>({
-    url: '/api/manage/addUser',
+    url: '/api/v1/manage/addUser',
     method: 'post',
     data: req
   });
@@ -96,7 +96,7 @@ export function AddUser(req: Api.Manage.AddUserRequest) {
 /** edit user */
 export function EditUser(req: Api.Manage.EditUserRequest) {
   return request<Api.Manage.EditUserResponse>({
-    url: '/api/manage/editUser',
+    url: '/api/v1/manage/editUser',
     method: 'post',
     data: req
   });
@@ -104,7 +104,7 @@ export function EditUser(req: Api.Manage.EditUserRequest) {
 
 export function DeleteUser(req: number[]) {
   return request<Api.Common.Empty>({
-    url: '/api/manage/deleteUser',
+    url: '/api/v1/manage/deleteUser',
     method: 'post',
     data: {
       ids: req
@@ -115,7 +115,7 @@ export function DeleteUser(req: number[]) {
 /** get user list */
 export function GetUserList(params?: Api.Manage.UserSearchParams) {
   return request<Api.Manage.UserList>({
-    url: '/api/manage/getUserList',
+    url: '/api/v1/manage/getUserList',
     method: 'get',
     params
   });
@@ -123,7 +123,7 @@ export function GetUserList(params?: Api.Manage.UserSearchParams) {
 
 export function AddMenu(req: Api.Manage.AddMenuRequest) {
   return request<Api.Common.Empty>({
-    url: '/api/manage/addMenu',
+    url: '/api/v1/manage/addMenu',
     method: 'post',
     data: req
   });
@@ -131,7 +131,7 @@ export function AddMenu(req: Api.Manage.AddMenuRequest) {
 
 export function EditMenu(req: Api.Manage.EditMenuRequest) {
   return request<Api.Common.Empty>({
-    url: '/api/manage/editMenu',
+    url: '/api/v1/manage/editMenu',
     method: 'post',
     data: req
   });
@@ -139,7 +139,7 @@ export function EditMenu(req: Api.Manage.EditMenuRequest) {
 
 export function DeleteMenu(req: number[]) {
   return request<Api.Common.Empty>({
-    url: '/api/manage/deleteMenu',
+    url: '/api/v1/manage/deleteMenu',
     method: 'post',
     data: {
       ids: req
@@ -150,7 +150,7 @@ export function DeleteMenu(req: number[]) {
 /** get menu list */
 export function GetMenuList() {
   return request<Api.Manage.MenuList>({
-    url: '/api/manage/getMenuList/v2',
+    url: '/api/v1/manage/getMenuList',
     method: 'get'
   });
 }
@@ -158,7 +158,7 @@ export function GetMenuList() {
 /** get all pages */
 export function GetAllPages(roleId: number) {
   return request<string[]>({
-    url: '/api/manage/getAllPages',
+    url: '/api/v1/manage/getAllPages',
     method: 'get',
     params: {
       roleId
@@ -169,7 +169,7 @@ export function GetAllPages(roleId: number) {
 /** get menu tree */
 export function GetMenuTree() {
   return request<Api.Manage.MenuTree[]>({
-    url: '/api/manage/getMenuTree',
+    url: '/api/v1/manage/getMenuTree',
     method: 'get'
   });
 }

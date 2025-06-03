@@ -91,7 +91,7 @@ type GetHomeRequest {
 }
 
 @server (
-	prefix:          /api
+	prefix:          /api/v1
 	group:           manage/role
 	compact_handler: true
 	jwt:             Jwt

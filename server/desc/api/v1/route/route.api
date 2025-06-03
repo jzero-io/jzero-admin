@@ -57,7 +57,7 @@ type GetUserRoutesResponse {
 type IsRouteExistRequest {}
 
 @server (
-	prefix:          /api
+	prefix:          /api/v1
 	group:           route
 	compact_handler: true
 	jwt:             Jwt
@@ -71,7 +71,7 @@ service server {
 }
 
 @server (
-	prefix:          /api
+	prefix:          /api/v1
 	group:           route
 	compact_handler: true
 )

@@ -133,7 +133,7 @@ type EditRequest {
 type EditResponse {}
 
 @server (
-	prefix:          /api
+	prefix:          /api/v1
 	group:           manage/menu
 	compact_handler: true
 	jwt:             Jwt
@@ -141,7 +141,7 @@ type EditResponse {}
 )
 service server {
 	@handler List
-	get /manage/getMenuList/v2 (ListRequest) returns (ListResponse)
+	get /manage/getMenuList (ListRequest) returns (ListResponse)
 
 	@handler Tree
 	get /manage/getMenuTree (TreeRequest) returns ([]TreeResponse)
