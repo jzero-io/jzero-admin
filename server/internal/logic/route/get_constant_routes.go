@@ -9,6 +9,7 @@ import (
 	"github.com/spf13/cast"
 	"github.com/zeromicro/go-zero/core/logx"
 
+	"github.com/jzero-io/jzero-admin/server/internal/model/manage_menu"
 	"github.com/jzero-io/jzero-admin/server/internal/svc"
 	types "github.com/jzero-io/jzero-admin/server/internal/types/route"
 )
@@ -30,7 +31,7 @@ func NewGetConstantRoutes(ctx context.Context, svcCtx *svc.ServiceContext, r *ht
 
 func (l *GetConstantRoutes) GetConstantRoutes(req *types.GetConstantRoutesRequest) (resp []types.GetConstantRoutesResponseItem, err error) {
 	menus, err := l.svcCtx.Model.ManageMenu.FindByCondition(l.ctx, nil, condition.NewChain().
-		Equal("constant", cast.ToInt(true)).
+		Equal(manage_menu.Constant, cast.ToInt(true)).
 		Build()...)
 	if err != nil {
 		return

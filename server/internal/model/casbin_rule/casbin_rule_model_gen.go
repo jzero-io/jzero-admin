@@ -24,6 +24,17 @@ var (
 	cacheJzeroadminCasbinRuleIdPrefix = "cache:jzeroadmin:casbinRule:id:"
 )
 
+const (
+	Id    condition.Field = "id"
+	PType condition.Field = "p_type"
+	V0    condition.Field = "v0"
+	V1    condition.Field = "v1"
+	V2    condition.Field = "v2"
+	V3    condition.Field = "v3"
+	V4    condition.Field = "v4"
+	V5    condition.Field = "v5"
+)
+
 func initVars() {
 	casbinRuleFieldNames = condition.RawFieldNames(&CasbinRule{})
 	casbinRuleRows = strings.Join(casbinRuleFieldNames, ",")
@@ -85,12 +96,12 @@ func newCasbinRuleModel(conn sqlx.SqlConn, op ...opts.Opt[modelx.ModelOpts]) *de
 	return &defaultCasbinRuleModel{
 		cachedConn: cachedConn,
 		conn:       conn,
-		table:      condition.Table("`casbin_rule`"),
+		table:      condition.AdaptTable("`casbin_rule`"),
 	}
 }
 func (m *defaultCasbinRuleModel) Delete(ctx context.Context, session sqlx.Session, id int64) error {
 	sb := sqlbuilder.DeleteFrom(m.table)
-	sb.Where(sb.EQ(condition.Field("`id`"), id))
+	sb.Where(sb.EQ(condition.AdaptField("`id`"), id))
 	statement, args := sb.Build()
 	var err error
 	if session != nil {
@@ -105,7 +116,7 @@ func (m *defaultCasbinRuleModel) DeleteWithCache(ctx context.Context, session sq
 	jzeroadminCasbinRuleIdKey := fmt.Sprintf("%s%v", cacheJzeroadminCasbinRuleIdPrefix, id)
 	_, err := m.cachedConn.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
 		sb := sqlbuilder.DeleteFrom(m.table)
-		sb.Where(sb.EQ(condition.Field("`id`"), id))
+		sb.Where(sb.EQ(condition.AdaptField("`id`"), id))
 		statement, args := sb.Build()
 		if session != nil {
 			return session.ExecCtx(ctx, statement, args...)
@@ -117,7 +128,7 @@ func (m *defaultCasbinRuleModel) DeleteWithCache(ctx context.Context, session sq
 
 func (m *defaultCasbinRuleModel) FindOne(ctx context.Context, session sqlx.Session, id int64) (*CasbinRule, error) {
 	sb := sqlbuilder.Select(casbinRuleRows).From(m.table)
-	sb.Where(sb.EQ(condition.Field("`id`"), id))
+	sb.Where(sb.EQ(condition.AdaptField("`id`"), id))
 	sb.Limit(1)
 	sql, args := sb.Build()
 	var resp CasbinRule
@@ -142,7 +153,7 @@ func (m *defaultCasbinRuleModel) FindOneWithCache(ctx context.Context, session s
 	var resp CasbinRule
 	err := m.cachedConn.QueryRowCtx(ctx, &resp, jzeroadminCasbinRuleIdKey, func(ctx context.Context, conn sqlx.SqlConn, v any) error {
 		sb := sqlbuilder.Select(casbinRuleRows).From(m.table)
-		sb.Where(sb.EQ(condition.Field("`id`"), id))
+		sb.Where(sb.EQ(condition.AdaptField("`id`"), id))
 		sql, args := sb.Build()
 		if session != nil {
 			return session.QueryRowCtx(ctx, v, sql, args...)
@@ -191,7 +202,7 @@ func (m *defaultCasbinRuleModel) Update(ctx context.Context, session sqlx.Sessio
 		assigns = append(assigns, sb.Assign(s, nil))
 	}
 	sb.Set(assigns...)
-	sb.Where(sb.EQ(condition.Field("`id`"), nil))
+	sb.Where(sb.EQ(condition.AdaptField("`id`"), nil))
 	statement, _ := sb.Build()
 
 	var err error
@@ -213,7 +224,7 @@ func (m *defaultCasbinRuleModel) UpdateWithCache(ctx context.Context, session sq
 			assigns = append(assigns, sb.Assign(s, nil))
 		}
 		sb.Set(assigns...)
-		sb.Where(sb.EQ(condition.Field("`id`"), nil))
+		sb.Where(sb.EQ(condition.AdaptField("`id`"), nil))
 		statement, _ := sb.Build()
 		if session != nil {
 			return session.ExecCtx(ctx, statement, data.PType, data.V0, data.V1, data.V2, data.V3, data.V4, data.V5, data.Id)
@@ -229,12 +240,12 @@ func (m *defaultCasbinRuleModel) formatPrimary(primary any) string {
 
 func (m *defaultCasbinRuleModel) queryPrimary(ctx context.Context, conn sqlx.SqlConn, v, primary any) error {
 	sb := sqlbuilder.Select(casbinRuleRows).From(m.table)
-	sb.Where(sb.EQ(condition.Field("`id`"), primary))
+	sb.Where(sb.EQ(condition.AdaptField("`id`"), primary))
 	sql, args := sb.Build()
 	return conn.QueryRowCtx(ctx, v, sql, args...)
 }
 
-func (m *defaultCasbinRuleModel) tableName() string {
+func (m *defaultCasbinRuleModel) TableName() string {
 	return m.table
 }
 

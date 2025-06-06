@@ -26,6 +26,21 @@ var (
 	cacheJzeroadminManageUserUsernamePrefix = "cache:jzeroadmin:manageUser:username:"
 )
 
+const (
+	Id         condition.Field = "id"
+	CreateTime condition.Field = "create_time"
+	UpdateTime condition.Field = "update_time"
+	CreateBy   condition.Field = "create_by"
+	UpdateBy   condition.Field = "update_by"
+	Username   condition.Field = "username"
+	Password   condition.Field = "password"
+	Nickname   condition.Field = "nickname"
+	Gender     condition.Field = "gender"
+	Phone      condition.Field = "phone"
+	Status     condition.Field = "status"
+	Email      condition.Field = "email"
+)
+
 func initVars() {
 	manageUserFieldNames = condition.RawFieldNames(&ManageUser{})
 	manageUserRows = strings.Join(manageUserFieldNames, ",")
@@ -93,12 +108,12 @@ func newManageUserModel(conn sqlx.SqlConn, op ...opts.Opt[modelx.ModelOpts]) *de
 	return &defaultManageUserModel{
 		cachedConn: cachedConn,
 		conn:       conn,
-		table:      condition.Table("`manage_user`"),
+		table:      condition.AdaptTable("`manage_user`"),
 	}
 }
 func (m *defaultManageUserModel) Delete(ctx context.Context, session sqlx.Session, id uint64) error {
 	sb := sqlbuilder.DeleteFrom(m.table)
-	sb.Where(sb.EQ(condition.Field("`id`"), id))
+	sb.Where(sb.EQ(condition.AdaptField("`id`"), id))
 	statement, args := sb.Build()
 	var err error
 	if session != nil {
@@ -119,7 +134,7 @@ func (m *defaultManageUserModel) DeleteWithCache(ctx context.Context, session sq
 	jzeroadminManageUserUsernameKey := fmt.Sprintf("%s%v", cacheJzeroadminManageUserUsernamePrefix, data.Username)
 	_, err = m.cachedConn.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
 		sb := sqlbuilder.DeleteFrom(m.table)
-		sb.Where(sb.EQ(condition.Field("`id`"), id))
+		sb.Where(sb.EQ(condition.AdaptField("`id`"), id))
 		statement, args := sb.Build()
 		if session != nil {
 			return session.ExecCtx(ctx, statement, args...)
@@ -131,7 +146,7 @@ func (m *defaultManageUserModel) DeleteWithCache(ctx context.Context, session sq
 
 func (m *defaultManageUserModel) FindOne(ctx context.Context, session sqlx.Session, id uint64) (*ManageUser, error) {
 	sb := sqlbuilder.Select(manageUserRows).From(m.table)
-	sb.Where(sb.EQ(condition.Field("`id`"), id))
+	sb.Where(sb.EQ(condition.AdaptField("`id`"), id))
 	sb.Limit(1)
 	sql, args := sb.Build()
 	var resp ManageUser
@@ -156,7 +171,7 @@ func (m *defaultManageUserModel) FindOneWithCache(ctx context.Context, session s
 	var resp ManageUser
 	err := m.cachedConn.QueryRowCtx(ctx, &resp, jzeroadminManageUserIdKey, func(ctx context.Context, conn sqlx.SqlConn, v any) error {
 		sb := sqlbuilder.Select(manageUserRows).From(m.table)
-		sb.Where(sb.EQ(condition.Field("`id`"), id))
+		sb.Where(sb.EQ(condition.AdaptField("`id`"), id))
 		sql, args := sb.Build()
 		if session != nil {
 			return session.QueryRowCtx(ctx, v, sql, args...)
@@ -262,7 +277,7 @@ func (m *defaultManageUserModel) Update(ctx context.Context, session sqlx.Sessio
 		assigns = append(assigns, sb.Assign(s, nil))
 	}
 	sb.Set(assigns...)
-	sb.Where(sb.EQ(condition.Field("`id`"), nil))
+	sb.Where(sb.EQ(condition.AdaptField("`id`"), nil))
 	statement, _ := sb.Build()
 
 	var err error
@@ -289,7 +304,7 @@ func (m *defaultManageUserModel) UpdateWithCache(ctx context.Context, session sq
 			assigns = append(assigns, sb.Assign(s, nil))
 		}
 		sb.Set(assigns...)
-		sb.Where(sb.EQ(condition.Field("`id`"), nil))
+		sb.Where(sb.EQ(condition.AdaptField("`id`"), nil))
 		statement, _ := sb.Build()
 		if session != nil {
 			return session.ExecCtx(ctx, statement, newData.CreateTime, newData.UpdateTime, newData.CreateBy, newData.UpdateBy, newData.Username, newData.Password, newData.Nickname, newData.Gender, newData.Phone, newData.Status, newData.Email, newData.Id)
@@ -305,12 +320,12 @@ func (m *defaultManageUserModel) formatPrimary(primary any) string {
 
 func (m *defaultManageUserModel) queryPrimary(ctx context.Context, conn sqlx.SqlConn, v, primary any) error {
 	sb := sqlbuilder.Select(manageUserRows).From(m.table)
-	sb.Where(sb.EQ(condition.Field("`id`"), primary))
+	sb.Where(sb.EQ(condition.AdaptField("`id`"), primary))
 	sql, args := sb.Build()
 	return conn.QueryRowCtx(ctx, v, sql, args...)
 }
 
-func (m *defaultManageUserModel) tableName() string {
+func (m *defaultManageUserModel) TableName() string {
 	return m.table
 }
 

@@ -8,6 +8,8 @@ import (
 	"github.com/spf13/cast"
 	"github.com/zeromicro/go-zero/core/logx"
 
+	"github.com/jzero-io/jzero-admin/server/internal/model/manage_menu"
+	"github.com/jzero-io/jzero-admin/server/internal/model/manage_role_menu"
 	"github.com/jzero-io/jzero-admin/server/internal/svc"
 	types "github.com/jzero-io/jzero-admin/server/internal/types/manage/role"
 )
@@ -29,7 +31,7 @@ func NewUpdateHome(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Requ
 
 func (l *UpdateHome) UpdateHome(req *types.UpdateHomeRequest) (resp *types.UpdateHomeResponse, err error) {
 	menu, err := l.svcCtx.Model.ManageMenu.FindOneByCondition(l.ctx, nil, condition.NewChain().
-		Equal("route_name", req.Home).
+		Equal(manage_menu.RouteName, req.Home).
 		Build()...)
 	if err != nil {
 		return nil, err
@@ -37,8 +39,8 @@ func (l *UpdateHome) UpdateHome(req *types.UpdateHomeRequest) (resp *types.Updat
 
 	// 找到旧 home
 	oldRoleHomeMenu, err := l.svcCtx.Model.ManageRoleMenu.FindOneByCondition(l.ctx, nil, condition.NewChain().
-		Equal("role_id", req.RoleId).
-		Equal("is_home", cast.ToInt(true)).
+		Equal(manage_role_menu.RoleId, req.RoleId).
+		Equal(manage_role_menu.IsHome, cast.ToInt(true)).
 		Build()...)
 	if err == nil {
 		oldRoleHomeMenu.IsHome = cast.ToInt64(false)
@@ -49,8 +51,8 @@ func (l *UpdateHome) UpdateHome(req *types.UpdateHomeRequest) (resp *types.Updat
 	}
 
 	roleMenu, err := l.svcCtx.Model.ManageRoleMenu.FindOneByCondition(l.ctx, nil, condition.NewChain().
-		Equal("role_id", req.RoleId).
-		Equal("menu_id", menu.Id).
+		Equal(manage_role_menu.RoleId, req.RoleId).
+		Equal(manage_role_menu.MenuId, menu.Id).
 		Build()...)
 	if err != nil {
 		return nil, err

@@ -25,6 +25,18 @@ var (
 	cacheJzeroadminManageRoleIdPrefix = "cache:jzeroadmin:manageRole:id:"
 )
 
+const (
+	Id         condition.Field = "id"
+	CreateTime condition.Field = "create_time"
+	UpdateTime condition.Field = "update_time"
+	CreateBy   condition.Field = "create_by"
+	UpdateBy   condition.Field = "update_by"
+	Name       condition.Field = "name"
+	Status     condition.Field = "status"
+	Code       condition.Field = "code"
+	Desc       condition.Field = "desc"
+)
+
 func initVars() {
 	manageRoleFieldNames = condition.RawFieldNames(&ManageRole{})
 	manageRoleRows = strings.Join(manageRoleFieldNames, ",")
@@ -87,12 +99,12 @@ func newManageRoleModel(conn sqlx.SqlConn, op ...opts.Opt[modelx.ModelOpts]) *de
 	return &defaultManageRoleModel{
 		cachedConn: cachedConn,
 		conn:       conn,
-		table:      condition.Table("`manage_role`"),
+		table:      condition.AdaptTable("`manage_role`"),
 	}
 }
 func (m *defaultManageRoleModel) Delete(ctx context.Context, session sqlx.Session, id uint64) error {
 	sb := sqlbuilder.DeleteFrom(m.table)
-	sb.Where(sb.EQ(condition.Field("`id`"), id))
+	sb.Where(sb.EQ(condition.AdaptField("`id`"), id))
 	statement, args := sb.Build()
 	var err error
 	if session != nil {
@@ -107,7 +119,7 @@ func (m *defaultManageRoleModel) DeleteWithCache(ctx context.Context, session sq
 	jzeroadminManageRoleIdKey := fmt.Sprintf("%s%v", cacheJzeroadminManageRoleIdPrefix, id)
 	_, err := m.cachedConn.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
 		sb := sqlbuilder.DeleteFrom(m.table)
-		sb.Where(sb.EQ(condition.Field("`id`"), id))
+		sb.Where(sb.EQ(condition.AdaptField("`id`"), id))
 		statement, args := sb.Build()
 		if session != nil {
 			return session.ExecCtx(ctx, statement, args...)
@@ -119,7 +131,7 @@ func (m *defaultManageRoleModel) DeleteWithCache(ctx context.Context, session sq
 
 func (m *defaultManageRoleModel) FindOne(ctx context.Context, session sqlx.Session, id uint64) (*ManageRole, error) {
 	sb := sqlbuilder.Select(manageRoleRows).From(m.table)
-	sb.Where(sb.EQ(condition.Field("`id`"), id))
+	sb.Where(sb.EQ(condition.AdaptField("`id`"), id))
 	sb.Limit(1)
 	sql, args := sb.Build()
 	var resp ManageRole
@@ -144,7 +156,7 @@ func (m *defaultManageRoleModel) FindOneWithCache(ctx context.Context, session s
 	var resp ManageRole
 	err := m.cachedConn.QueryRowCtx(ctx, &resp, jzeroadminManageRoleIdKey, func(ctx context.Context, conn sqlx.SqlConn, v any) error {
 		sb := sqlbuilder.Select(manageRoleRows).From(m.table)
-		sb.Where(sb.EQ(condition.Field("`id`"), id))
+		sb.Where(sb.EQ(condition.AdaptField("`id`"), id))
 		sql, args := sb.Build()
 		if session != nil {
 			return session.QueryRowCtx(ctx, v, sql, args...)
@@ -193,7 +205,7 @@ func (m *defaultManageRoleModel) Update(ctx context.Context, session sqlx.Sessio
 		assigns = append(assigns, sb.Assign(s, nil))
 	}
 	sb.Set(assigns...)
-	sb.Where(sb.EQ(condition.Field("`id`"), nil))
+	sb.Where(sb.EQ(condition.AdaptField("`id`"), nil))
 	statement, _ := sb.Build()
 
 	var err error
@@ -215,7 +227,7 @@ func (m *defaultManageRoleModel) UpdateWithCache(ctx context.Context, session sq
 			assigns = append(assigns, sb.Assign(s, nil))
 		}
 		sb.Set(assigns...)
-		sb.Where(sb.EQ(condition.Field("`id`"), nil))
+		sb.Where(sb.EQ(condition.AdaptField("`id`"), nil))
 		statement, _ := sb.Build()
 		if session != nil {
 			return session.ExecCtx(ctx, statement, data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Name, data.Status, data.Code, data.Desc, data.Id)
@@ -231,12 +243,12 @@ func (m *defaultManageRoleModel) formatPrimary(primary any) string {
 
 func (m *defaultManageRoleModel) queryPrimary(ctx context.Context, conn sqlx.SqlConn, v, primary any) error {
 	sb := sqlbuilder.Select(manageRoleRows).From(m.table)
-	sb.Where(sb.EQ(condition.Field("`id`"), primary))
+	sb.Where(sb.EQ(condition.AdaptField("`id`"), primary))
 	sql, args := sb.Build()
 	return conn.QueryRowCtx(ctx, v, sql, args...)
 }
 
-func (m *defaultManageRoleModel) tableName() string {
+func (m *defaultManageRoleModel) TableName() string {
 	return m.table
 }
 

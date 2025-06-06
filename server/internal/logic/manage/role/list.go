@@ -8,6 +8,7 @@ import (
 	"github.com/jzero-io/jzero/core/stores/condition"
 	"github.com/zeromicro/go-zero/core/logx"
 
+	"github.com/jzero-io/jzero-admin/server/internal/model/manage_role"
 	"github.com/jzero-io/jzero-admin/server/internal/svc"
 	types "github.com/jzero-io/jzero-admin/server/internal/types/manage/role"
 )
@@ -36,17 +37,17 @@ func (l *List) List(req *types.ListRequest) (resp *types.ListResponse, err error
 		Value:    (req.Current - 1) * req.Size,
 	}, condition.Condition{
 		Skip:     req.RoleName == "",
-		Field:    "name",
+		Field:    manage_role.Name,
 		Operator: condition.Like,
 		Value:    "%" + req.RoleName + "%",
 	}, condition.Condition{
 		Skip:     req.RoleCode == "",
-		Field:    "code",
+		Field:    manage_role.Code,
 		Operator: condition.Like,
 		Value:    "%" + req.RoleCode + "%",
 	}, condition.Condition{
 		Skip:     req.Status == "",
-		Field:    "status",
+		Field:    manage_role.Status,
 		Operator: condition.Equal,
 		Value:    req.Status,
 	})

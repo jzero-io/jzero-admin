@@ -9,6 +9,7 @@ import (
 	"github.com/jzero-io/jzero/core/stores/condition"
 	"github.com/zeromicro/go-zero/core/logx"
 
+	"github.com/jzero-io/jzero-admin/server/internal/model/manage_role"
 	"github.com/jzero-io/jzero-admin/server/internal/model/manage_user"
 	"github.com/jzero-io/jzero-admin/server/internal/model/manage_user_role"
 	"github.com/jzero-io/jzero-admin/server/internal/svc"
@@ -52,7 +53,7 @@ func (l *Add) Add(req *types.AddRequest) (resp *types.AddResponse, err error) {
 	var bulk []*manage_user_role.ManageUserRole
 	var roleIds []uint64
 	roles, err := l.svcCtx.Model.ManageRole.FindByCondition(l.ctx, nil, condition.Condition{
-		Field:    "code",
+		Field:    manage_role.Code,
 		Operator: condition.In,
 		Value:    req.UserRoles,
 	})

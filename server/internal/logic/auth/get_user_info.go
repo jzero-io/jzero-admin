@@ -9,6 +9,10 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 
 	"github.com/jzero-io/jzero-admin/server/internal/auth"
+	"github.com/jzero-io/jzero-admin/server/internal/model/manage_menu"
+	"github.com/jzero-io/jzero-admin/server/internal/model/manage_role"
+	"github.com/jzero-io/jzero-admin/server/internal/model/manage_role_menu"
+	"github.com/jzero-io/jzero-admin/server/internal/model/manage_user_role"
 	"github.com/jzero-io/jzero-admin/server/internal/svc"
 	types "github.com/jzero-io/jzero-admin/server/internal/types/auth"
 )
@@ -40,7 +44,7 @@ func (l *GetUserInfo) GetUserInfo(req *types.GetUserInfoRequest) (resp *types.Ge
 	}
 
 	userRoles, err := l.svcCtx.Model.ManageUserRole.FindByCondition(l.ctx, nil, condition.NewChain().
-		Equal("user_id", user.Id).
+		Equal(manage_user_role.UserId, user.Id).
 		Build()...)
 	if err != nil {
 		return nil, err
@@ -52,7 +56,7 @@ func (l *GetUserInfo) GetUserInfo(req *types.GetUserInfoRequest) (resp *types.Ge
 	}
 
 	roles, err := l.svcCtx.Model.ManageRole.FindByCondition(l.ctx, nil, condition.NewChain().
-		In("id", roleIds).
+		In(manage_role.Id, roleIds).
 		Build()...)
 	if err != nil {
 		return nil, err
@@ -64,7 +68,7 @@ func (l *GetUserInfo) GetUserInfo(req *types.GetUserInfoRequest) (resp *types.Ge
 
 	// get role buttons
 	roleMenus, err := l.svcCtx.Model.ManageRoleMenu.FindByCondition(l.ctx, nil, condition.NewChain().
-		In("role_id", roleIds).
+		In(manage_role_menu.RoleId, roleIds).
 		Build()...)
 	if err != nil {
 		return nil, err
@@ -74,9 +78,9 @@ func (l *GetUserInfo) GetUserInfo(req *types.GetUserInfoRequest) (resp *types.Ge
 		menuIds = append(menuIds, roleMenu.MenuId)
 	}
 	menus, err := l.svcCtx.Model.ManageMenu.FindByCondition(l.ctx, nil, condition.NewChain().
-		In("id", menuIds).
-		Equal("status", "1").
-		Equal("menu_type", "3").
+		In(manage_menu.Id, menuIds).
+		Equal(manage_menu.Status, "1").
+		Equal(manage_menu.MenuType, "3").
 		Build()...)
 	if err != nil {
 		return nil, err

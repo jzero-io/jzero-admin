@@ -8,6 +8,7 @@ import (
 	"github.com/spf13/cast"
 	"github.com/zeromicro/go-zero/core/logx"
 
+	"github.com/jzero-io/jzero-admin/server/internal/model/manage_role_menu"
 	"github.com/jzero-io/jzero-admin/server/internal/svc"
 	types "github.com/jzero-io/jzero-admin/server/internal/types/manage/role"
 )
@@ -29,8 +30,8 @@ func NewGetHome(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Request
 
 func (l *GetHome) GetHome(req *types.GetHomeRequest) (resp string, err error) {
 	roleHomeMenu, err := l.svcCtx.Model.ManageRoleMenu.FindOneByCondition(l.ctx, nil, condition.NewChain().
-		Equal("role_id", req.RoleId).
-		Equal("is_home", cast.ToInt(true)).
+		Equal(manage_role_menu.RoleId, req.RoleId).
+		Equal(manage_role_menu.IsHome, cast.ToInt(true)).
 		Build()...)
 	if err != nil {
 		return "", err

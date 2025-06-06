@@ -10,6 +10,9 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/mr"
 
+	"github.com/jzero-io/jzero-admin/server/internal/model/manage_role"
+	"github.com/jzero-io/jzero-admin/server/internal/model/manage_user"
+	"github.com/jzero-io/jzero-admin/server/internal/model/manage_user_role"
 	"github.com/jzero-io/jzero-admin/server/internal/svc"
 	types "github.com/jzero-io/jzero-admin/server/internal/types/manage/user"
 )
@@ -38,32 +41,32 @@ func (l *List) List(req *types.ListRequest) (resp *types.ListResponse, err error
 		Value:    (req.Current - 1) * req.Size,
 	}, condition.Condition{
 		Skip:     req.Username == "",
-		Field:    "username",
+		Field:    manage_user.Username,
 		Operator: condition.Like,
 		Value:    "%" + req.Username + "%",
 	}, condition.Condition{
 		Skip:     req.UserGender == "",
-		Field:    "gender",
+		Field:    manage_user.Gender,
 		Operator: condition.Equal,
 		Value:    req.UserGender,
 	}, condition.Condition{
 		Skip:     req.NickName == "",
-		Field:    "nickname",
+		Field:    manage_user.Nickname,
 		Operator: condition.Like,
 		Value:    "%" + req.NickName + "%",
 	}, condition.Condition{
 		Skip:     req.UserPhone == "",
-		Field:    "phone",
+		Field:    manage_user.Phone,
 		Operator: condition.Like,
 		Value:    "%" + req.UserPhone + "%",
 	}, condition.Condition{
 		Skip:     req.UserEmail == "",
-		Field:    "email",
+		Field:    manage_user.Email,
 		Operator: condition.Like,
 		Value:    "%" + req.UserEmail + "%",
 	}, condition.Condition{
 		Skip:     req.Status == "",
-		Field:    "status",
+		Field:    manage_user.Status,
 		Operator: condition.Equal,
 		Value:    req.Status,
 	})
@@ -89,7 +92,7 @@ func (l *List) List(req *types.ListRequest) (resp *types.ListResponse, err error
 		}
 	}, func(item int, writer mr.Writer[types.ManageUser], cancel func(error)) {
 		userRoles, err := l.svcCtx.Model.ManageUserRole.FindByCondition(l.ctx, nil, condition.Condition{
-			Field:    "user_id",
+			Field:    manage_user_role.UserId,
 			Operator: condition.Equal,
 			Value:    records[item].Id,
 		})
@@ -106,7 +109,7 @@ func (l *List) List(req *types.ListRequest) (resp *types.ListResponse, err error
 		}
 
 		roles, err := l.svcCtx.Model.ManageRole.FindByCondition(l.ctx, nil, condition.Condition{
-			Field:    "id",
+			Field:    manage_role.Id,
 			Operator: condition.In,
 			Value:    roleIds,
 		})

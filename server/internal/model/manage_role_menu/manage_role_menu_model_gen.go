@@ -25,6 +25,17 @@ var (
 	cacheJzeroadminManageRoleMenuIdPrefix = "cache:jzeroadmin:manageRoleMenu:id:"
 )
 
+const (
+	Id         condition.Field = "id"
+	CreateTime condition.Field = "create_time"
+	UpdateTime condition.Field = "update_time"
+	CreateBy   condition.Field = "create_by"
+	UpdateBy   condition.Field = "update_by"
+	RoleId     condition.Field = "role_id"
+	MenuId     condition.Field = "menu_id"
+	IsHome     condition.Field = "is_home"
+)
+
 func initVars() {
 	manageRoleMenuFieldNames = condition.RawFieldNames(&ManageRoleMenu{})
 	manageRoleMenuRows = strings.Join(manageRoleMenuFieldNames, ",")
@@ -86,12 +97,12 @@ func newManageRoleMenuModel(conn sqlx.SqlConn, op ...opts.Opt[modelx.ModelOpts])
 	return &defaultManageRoleMenuModel{
 		cachedConn: cachedConn,
 		conn:       conn,
-		table:      condition.Table("`manage_role_menu`"),
+		table:      condition.AdaptTable("`manage_role_menu`"),
 	}
 }
 func (m *defaultManageRoleMenuModel) Delete(ctx context.Context, session sqlx.Session, id uint64) error {
 	sb := sqlbuilder.DeleteFrom(m.table)
-	sb.Where(sb.EQ(condition.Field("`id`"), id))
+	sb.Where(sb.EQ(condition.AdaptField("`id`"), id))
 	statement, args := sb.Build()
 	var err error
 	if session != nil {
@@ -106,7 +117,7 @@ func (m *defaultManageRoleMenuModel) DeleteWithCache(ctx context.Context, sessio
 	jzeroadminManageRoleMenuIdKey := fmt.Sprintf("%s%v", cacheJzeroadminManageRoleMenuIdPrefix, id)
 	_, err := m.cachedConn.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
 		sb := sqlbuilder.DeleteFrom(m.table)
-		sb.Where(sb.EQ(condition.Field("`id`"), id))
+		sb.Where(sb.EQ(condition.AdaptField("`id`"), id))
 		statement, args := sb.Build()
 		if session != nil {
 			return session.ExecCtx(ctx, statement, args...)
@@ -118,7 +129,7 @@ func (m *defaultManageRoleMenuModel) DeleteWithCache(ctx context.Context, sessio
 
 func (m *defaultManageRoleMenuModel) FindOne(ctx context.Context, session sqlx.Session, id uint64) (*ManageRoleMenu, error) {
 	sb := sqlbuilder.Select(manageRoleMenuRows).From(m.table)
-	sb.Where(sb.EQ(condition.Field("`id`"), id))
+	sb.Where(sb.EQ(condition.AdaptField("`id`"), id))
 	sb.Limit(1)
 	sql, args := sb.Build()
 	var resp ManageRoleMenu
@@ -143,7 +154,7 @@ func (m *defaultManageRoleMenuModel) FindOneWithCache(ctx context.Context, sessi
 	var resp ManageRoleMenu
 	err := m.cachedConn.QueryRowCtx(ctx, &resp, jzeroadminManageRoleMenuIdKey, func(ctx context.Context, conn sqlx.SqlConn, v any) error {
 		sb := sqlbuilder.Select(manageRoleMenuRows).From(m.table)
-		sb.Where(sb.EQ(condition.Field("`id`"), id))
+		sb.Where(sb.EQ(condition.AdaptField("`id`"), id))
 		sql, args := sb.Build()
 		if session != nil {
 			return session.QueryRowCtx(ctx, v, sql, args...)
@@ -192,7 +203,7 @@ func (m *defaultManageRoleMenuModel) Update(ctx context.Context, session sqlx.Se
 		assigns = append(assigns, sb.Assign(s, nil))
 	}
 	sb.Set(assigns...)
-	sb.Where(sb.EQ(condition.Field("`id`"), nil))
+	sb.Where(sb.EQ(condition.AdaptField("`id`"), nil))
 	statement, _ := sb.Build()
 
 	var err error
@@ -214,7 +225,7 @@ func (m *defaultManageRoleMenuModel) UpdateWithCache(ctx context.Context, sessio
 			assigns = append(assigns, sb.Assign(s, nil))
 		}
 		sb.Set(assigns...)
-		sb.Where(sb.EQ(condition.Field("`id`"), nil))
+		sb.Where(sb.EQ(condition.AdaptField("`id`"), nil))
 		statement, _ := sb.Build()
 		if session != nil {
 			return session.ExecCtx(ctx, statement, data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.RoleId, data.MenuId, data.IsHome, data.Id)
@@ -230,12 +241,12 @@ func (m *defaultManageRoleMenuModel) formatPrimary(primary any) string {
 
 func (m *defaultManageRoleMenuModel) queryPrimary(ctx context.Context, conn sqlx.SqlConn, v, primary any) error {
 	sb := sqlbuilder.Select(manageRoleMenuRows).From(m.table)
-	sb.Where(sb.EQ(condition.Field("`id`"), primary))
+	sb.Where(sb.EQ(condition.AdaptField("`id`"), primary))
 	sql, args := sb.Build()
 	return conn.QueryRowCtx(ctx, v, sql, args...)
 }
 
-func (m *defaultManageRoleMenuModel) tableName() string {
+func (m *defaultManageRoleMenuModel) TableName() string {
 	return m.table
 }
 

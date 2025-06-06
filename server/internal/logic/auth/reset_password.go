@@ -10,6 +10,7 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 
 	"github.com/jzero-io/jzero-admin/server/internal/constant"
+	"github.com/jzero-io/jzero-admin/server/internal/model/manage_user"
 	"github.com/jzero-io/jzero-admin/server/internal/svc"
 	types "github.com/jzero-io/jzero-admin/server/internal/types/auth"
 )
@@ -40,7 +41,7 @@ func (l *ResetPassword) ResetPassword(req *types.ResetPasswordRequest) (resp *ty
 	}
 
 	user, err := l.svcCtx.Model.ManageUser.FindOneByCondition(l.ctx, nil, condition.Condition{
-		Field:    "email",
+		Field:    manage_user.Email,
 		Operator: condition.Equal,
 		Value:    req.Email,
 	})

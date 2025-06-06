@@ -10,6 +10,7 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 
 	"github.com/jzero-io/jzero-admin/server/internal/model/manage_menu"
+	"github.com/jzero-io/jzero-admin/server/internal/model/manage_role_menu"
 	"github.com/jzero-io/jzero-admin/server/internal/svc"
 	types "github.com/jzero-io/jzero-admin/server/internal/types/manage/menu"
 )
@@ -33,7 +34,7 @@ func (l *GetAllPages) GetAllPages(req *types.GetAllPagesRequest) (resp []string,
 	var pages []*manage_menu.ManageMenu
 	if req.RoleId != 0 {
 		roleMenus, err := l.svcCtx.Model.ManageRoleMenu.FindByCondition(l.ctx, nil, condition.NewChain().
-			In("role_id", req.RoleId).
+			In(manage_role_menu.RoleId, req.RoleId).
 			Build()...)
 		if err != nil {
 			return nil, err
@@ -50,19 +51,19 @@ func (l *GetAllPages) GetAllPages(req *types.GetAllPagesRequest) (resp []string,
 		}
 
 		pages, err = l.svcCtx.Model.ManageMenu.FindByCondition(l.ctx, nil, condition.NewChain().
-			In("id", uniqMenuIds).
-			Equal("menu_type", "2").
-			Equal("status", "1").
-			NotEqual("hide_in_menu", cast.ToInt(true)).
+			In(manage_menu.Id, uniqMenuIds).
+			Equal(manage_menu.MenuType, "2").
+			Equal(manage_menu.Status, "1").
+			NotEqual(manage_menu.HideInMenu, cast.ToInt(true)).
 			Build()...)
 		if err != nil {
 			return nil, err
 		}
 	} else {
 		pages, err = l.svcCtx.Model.ManageMenu.FindByCondition(l.ctx, nil, condition.NewChain().
-			Equal("menu_type", "2").
-			Equal("status", "1").
-			NotEqual("hide_in_menu", cast.ToInt(true)).
+			Equal(manage_menu.MenuType, "2").
+			Equal(manage_menu.Status, "1").
+			NotEqual(manage_menu.HideInMenu, cast.ToInt(true)).
 			Build()...)
 		if err != nil {
 			return nil, err

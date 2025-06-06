@@ -25,6 +25,21 @@ var (
 	cacheJzeroadminManageEmailIdPrefix = "cache:jzeroadmin:manageEmail:id:"
 )
 
+const (
+	Id         condition.Field = "id"
+	CreateTime condition.Field = "create_time"
+	UpdateTime condition.Field = "update_time"
+	CreateBy   condition.Field = "create_by"
+	UpdateBy   condition.Field = "update_by"
+	From       condition.Field = "from"
+	Host       condition.Field = "host"
+	Port       condition.Field = "port"
+	Username   condition.Field = "username"
+	Password   condition.Field = "password"
+	EnableSsl  condition.Field = "enable_ssl"
+	IsVerify   condition.Field = "is_verify"
+)
+
 func initVars() {
 	manageEmailFieldNames = condition.RawFieldNames(&ManageEmail{})
 	manageEmailRows = strings.Join(manageEmailFieldNames, ",")
@@ -90,12 +105,12 @@ func newManageEmailModel(conn sqlx.SqlConn, op ...opts.Opt[modelx.ModelOpts]) *d
 	return &defaultManageEmailModel{
 		cachedConn: cachedConn,
 		conn:       conn,
-		table:      condition.Table("`manage_email`"),
+		table:      condition.AdaptTable("`manage_email`"),
 	}
 }
 func (m *defaultManageEmailModel) Delete(ctx context.Context, session sqlx.Session, id uint64) error {
 	sb := sqlbuilder.DeleteFrom(m.table)
-	sb.Where(sb.EQ(condition.Field("`id`"), id))
+	sb.Where(sb.EQ(condition.AdaptField("`id`"), id))
 	statement, args := sb.Build()
 	var err error
 	if session != nil {
@@ -110,7 +125,7 @@ func (m *defaultManageEmailModel) DeleteWithCache(ctx context.Context, session s
 	jzeroadminManageEmailIdKey := fmt.Sprintf("%s%v", cacheJzeroadminManageEmailIdPrefix, id)
 	_, err := m.cachedConn.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
 		sb := sqlbuilder.DeleteFrom(m.table)
-		sb.Where(sb.EQ(condition.Field("`id`"), id))
+		sb.Where(sb.EQ(condition.AdaptField("`id`"), id))
 		statement, args := sb.Build()
 		if session != nil {
 			return session.ExecCtx(ctx, statement, args...)
@@ -122,7 +137,7 @@ func (m *defaultManageEmailModel) DeleteWithCache(ctx context.Context, session s
 
 func (m *defaultManageEmailModel) FindOne(ctx context.Context, session sqlx.Session, id uint64) (*ManageEmail, error) {
 	sb := sqlbuilder.Select(manageEmailRows).From(m.table)
-	sb.Where(sb.EQ(condition.Field("`id`"), id))
+	sb.Where(sb.EQ(condition.AdaptField("`id`"), id))
 	sb.Limit(1)
 	sql, args := sb.Build()
 	var resp ManageEmail
@@ -147,7 +162,7 @@ func (m *defaultManageEmailModel) FindOneWithCache(ctx context.Context, session 
 	var resp ManageEmail
 	err := m.cachedConn.QueryRowCtx(ctx, &resp, jzeroadminManageEmailIdKey, func(ctx context.Context, conn sqlx.SqlConn, v any) error {
 		sb := sqlbuilder.Select(manageEmailRows).From(m.table)
-		sb.Where(sb.EQ(condition.Field("`id`"), id))
+		sb.Where(sb.EQ(condition.AdaptField("`id`"), id))
 		sql, args := sb.Build()
 		if session != nil {
 			return session.QueryRowCtx(ctx, v, sql, args...)
@@ -196,7 +211,7 @@ func (m *defaultManageEmailModel) Update(ctx context.Context, session sqlx.Sessi
 		assigns = append(assigns, sb.Assign(s, nil))
 	}
 	sb.Set(assigns...)
-	sb.Where(sb.EQ(condition.Field("`id`"), nil))
+	sb.Where(sb.EQ(condition.AdaptField("`id`"), nil))
 	statement, _ := sb.Build()
 
 	var err error
@@ -218,7 +233,7 @@ func (m *defaultManageEmailModel) UpdateWithCache(ctx context.Context, session s
 			assigns = append(assigns, sb.Assign(s, nil))
 		}
 		sb.Set(assigns...)
-		sb.Where(sb.EQ(condition.Field("`id`"), nil))
+		sb.Where(sb.EQ(condition.AdaptField("`id`"), nil))
 		statement, _ := sb.Build()
 		if session != nil {
 			return session.ExecCtx(ctx, statement, data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.From, data.Host, data.Port, data.Username, data.Password, data.EnableSsl, data.IsVerify, data.Id)
@@ -234,12 +249,12 @@ func (m *defaultManageEmailModel) formatPrimary(primary any) string {
 
 func (m *defaultManageEmailModel) queryPrimary(ctx context.Context, conn sqlx.SqlConn, v, primary any) error {
 	sb := sqlbuilder.Select(manageEmailRows).From(m.table)
-	sb.Where(sb.EQ(condition.Field("`id`"), primary))
+	sb.Where(sb.EQ(condition.AdaptField("`id`"), primary))
 	sql, args := sb.Build()
 	return conn.QueryRowCtx(ctx, v, sql, args...)
 }
 
-func (m *defaultManageEmailModel) tableName() string {
+func (m *defaultManageEmailModel) TableName() string {
 	return m.table
 }
 

@@ -14,11 +14,11 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/guregu/null/v5 v5.0.0
 	github.com/huandu/go-sqlbuilder v1.35.0
-	github.com/jzero-io/jzero v0.39.3
+	github.com/jzero-io/jzero v0.39.8-0.20250606045450-24d48d1b6b0b
 	github.com/nicksnyder/go-i18n/v2 v2.6.0
 	github.com/pkg/errors v0.9.1
 	github.com/samber/lo v1.50.0
-	github.com/spf13/cast v1.9.1
+	github.com/spf13/cast v1.9.2
 	github.com/spf13/cobra v1.9.1
 	github.com/stretchr/testify v1.10.0
 	github.com/zeromicro/go-zero v1.8.3

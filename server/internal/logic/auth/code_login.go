@@ -13,6 +13,8 @@ import (
 
 	"github.com/jzero-io/jzero-admin/server/internal/auth"
 	"github.com/jzero-io/jzero-admin/server/internal/constant"
+	"github.com/jzero-io/jzero-admin/server/internal/model/manage_user"
+	"github.com/jzero-io/jzero-admin/server/internal/model/manage_user_role"
 	"github.com/jzero-io/jzero-admin/server/internal/svc"
 	types "github.com/jzero-io/jzero-admin/server/internal/types/auth"
 	"github.com/jzero-io/jzero-admin/server/pkg/jwt"
@@ -49,7 +51,7 @@ func (l *CodeLogin) CodeLogin(req *types.CodeLoginRequest) (resp *types.LoginRes
 	}
 
 	user, err := l.svcCtx.Model.ManageUser.FindOneByCondition(l.ctx, nil, condition.Condition{
-		Field:    "email",
+		Field:    manage_user.Email,
 		Operator: condition.Equal,
 		Value:    req.Email,
 	})
@@ -58,7 +60,7 @@ func (l *CodeLogin) CodeLogin(req *types.CodeLoginRequest) (resp *types.LoginRes
 	}
 
 	userRoles, err := l.svcCtx.Model.ManageUserRole.FindByCondition(l.ctx, nil, condition.NewChain().
-		Equal("user_id", user.Id).
+		Equal(manage_user_role.UserId, user.Id).
 		Build()...)
 	if err != nil {
 		return nil, err
