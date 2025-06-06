@@ -1,7 +1,6 @@
-#
-#hooks:
-#  before:
-#    - go install tool
+hooks:
+  before:
+    - go install tool
 
 gen:
   hooks:
