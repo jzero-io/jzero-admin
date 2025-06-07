@@ -58,7 +58,7 @@ func (l *Edit) Edit(req *types.EditRequest) (resp *types.EditResponse, err error
 	var bulk []*manage_user_role.ManageUserRole
 	var roleIds []uint64
 	roles, err := l.svcCtx.Model.ManageRole.FindByCondition(l.ctx, nil, condition.Condition{
-		Field:    manage_role.Id,
+		Field:    manage_role.Code,
 		Operator: condition.In,
 		Value:    req.UserRoles,
 	})
