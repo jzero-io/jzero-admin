@@ -14,7 +14,7 @@ gen:
   model-driver: mysql
   model-cache: true
   model-ignore-columns: []
-  model-scheme: jzeroadmin
+  model-schema: jzeroadmin
 
   swagger:
     merge: true

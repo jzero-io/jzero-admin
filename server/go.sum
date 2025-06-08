@@ -216,6 +216,10 @@ github.com/jzero-io/jzero/cmd/jzero v0.39.3 h1:6opVuTnSYeSJ6hRM+gUqIqENVgXtGWJjs
 github.com/jzero-io/jzero/cmd/jzero v0.39.3/go.mod h1:ggeXtBy1Izx80qrHPBZc+eanGDJfZebRzm40SfcSJXo=
 github.com/jzero-io/jzero/cmd/jzero v0.39.8-0.20250606051639-d5ab27437c42 h1:FOFXVWes0ZF/qoIlmheHviMVOvo70S3Y43DrXdtXwNY=
 github.com/jzero-io/jzero/cmd/jzero v0.39.8-0.20250606051639-d5ab27437c42/go.mod h1:/TK/smMnzsux1H7EBApY+sl/fW225rPP8W9lf+PkNi0=
+github.com/jzero-io/jzero/cmd/jzero v0.39.8-0.20250608085410-2ef639213e5e h1:Lk/BPl2NKAkMVU3flr79ILBUqQHJHPBU6pChSVQ6hxA=
+github.com/jzero-io/jzero/cmd/jzero v0.39.8-0.20250608085410-2ef639213e5e/go.mod h1:/TK/smMnzsux1H7EBApY+sl/fW225rPP8W9lf+PkNi0=
+github.com/jzero-io/jzero/cmd/jzero v0.39.8-0.20250608091640-f8b96c7af6f7 h1:R0fImwo2YIuooYev7vNQcKuwsAot2ZBgs7Ge7+SwU8s=
+github.com/jzero-io/jzero/cmd/jzero v0.39.8-0.20250608091640-f8b96c7af6f7/go.mod h1:/TK/smMnzsux1H7EBApY+sl/fW225rPP8W9lf+PkNi0=
 github.com/kevinburke/ssh_config v1.2.0 h1:x584FjTGwHzMwvHx18PXxbBVzfnxogHaAReU4gf13a4=
 github.com/kevinburke/ssh_config v1.2.0/go.mod h1:CT57kijsi8u/K/BOFA39wgDQJ9CxiF4nAY/ojJ6r6mM=
 github.com/kisielk/errcheck v1.5.0/go.mod h1:pFxgyoBC7bSaBwPgfKdkLd5X25qrDl4LWUI2bnpBCr8=
