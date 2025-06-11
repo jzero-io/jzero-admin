@@ -12,7 +12,7 @@ gen:
   route2Code: true
 
   model-driver: mysql
-  model-cache: true
+  model-cache: false
   model-ignore-columns: []
   model-schema: jzeroadmin
 
