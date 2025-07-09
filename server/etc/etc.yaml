@@ -33,5 +33,4 @@ redis:
     host: "${REDIS_HOST}"
     type: "${REDIS_TYPE:-node}"
 
-cache:
-    type: "${CACHE_TYPE}"
+cache_type: "${CACHE_TYPE}"

@@ -15,5 +15,4 @@ log:
 databaseType: mysql
 databaseUrl: root:123456@tcp(127.0.0.1:3306)/jzeroadmin
 
-cache:
-    type: local
+cache_type: local
