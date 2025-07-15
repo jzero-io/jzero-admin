@@ -5,12 +5,8 @@ services:
     restart: always
     environment:
       - TZ=Asia/Shanghai
-      - DATABASE_TYPE=mysql
-      - MYSQL_HOST=mysql8
-      - MYSQL_PORT=3306
-      - MYSQL_DATABASE=jzeroadmin
-      - MYSQL_USER=root
-      - MYSQL_PASSWORD=123456
+      - DRIVER_NAME=mysql
+      - DATASOURCE=root:123456@tcp(mysql8:3306)/jzeroadmin
       - CACHE_TYPE=local
     depends_on:
       - mysql8
