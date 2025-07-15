@@ -32,9 +32,6 @@ jobs:
       - name: Upload to jaronnie/jzero-admin-deploy-server
         run: |          
           cd server
-          # todo: replace to go-zero official repo
-          go mod edit -replace github.com/zeromicro/go-zero=github.com/jzero-io/go-zero@v0.0.0-20250526044911-afb5ad80bad0
-          rm -rf .git
           gorename github.com/jzero-io/jzero-admin/server/internal github.com/jzero-io/jzero-admin/server/server
           cd ..
 
