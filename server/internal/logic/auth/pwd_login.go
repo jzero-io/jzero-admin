@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/golang-jwt/jwt/v4"
 	"github.com/jzero-io/jzero/core/stores/condition"
 	"github.com/pkg/errors"
 	"github.com/zeromicro/go-zero/core/logx"
@@ -14,8 +15,12 @@ import (
 	"github.com/jzero-io/jzero-admin/server/internal/model/manage_user_role"
 	"github.com/jzero-io/jzero-admin/server/internal/svc"
 	types "github.com/jzero-io/jzero-admin/server/internal/types/auth"
-	"github.com/jzero-io/jzero-admin/server/pkg/jwt"
 )
+
+func CreateToken(secret string, claims jwt.MapClaims) (string, error) {
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	return token.SignedString([]byte(secret))
+}
 
 type PwdLogin struct {
 	logx.Logger
@@ -56,7 +61,6 @@ func (l *PwdLogin) PwdLogin(req *types.PwdLoginRequest) (resp *types.LoginRespon
 		roleIds = append(roleIds, userRole.RoleId)
 	}
 
-	j := jwt.NewJwt(config.Jwt.AccessSecret)
 	marshal, err := json.Marshal(auth.Auth{
 		Id:       int(user.Id),
 		Username: user.Username,
@@ -76,13 +80,13 @@ func (l *PwdLogin) PwdLogin(req *types.PwdLoginRequest) (resp *types.LoginRespon
 	expirationTime := time.Now().Add(time.Duration(config.Jwt.AccessExpire) * time.Second).Unix()
 	claims["exp"] = expirationTime
 
-	token, err := j.CreateToken(claims)
+	token, err := CreateToken(l.svcCtx.MustGetConfig().Jwt.AccessSecret, claims)
 	if err != nil {
 		return nil, err
 	}
 
 	claims["exp"] = time.Now().Add(time.Duration(config.Jwt.RefreshExpire) * time.Second).Unix()
-	refreshToken, err := j.CreateToken(claims)
+	refreshToken, err := CreateToken(l.svcCtx.MustGetConfig().Jwt.AccessSecret, claims)
 	if err != nil {
 		return nil, err
 	}

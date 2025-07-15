@@ -12,25 +12,12 @@ log:
     level: info
     mode: file
 
-databaseType: "${DATABASE_TYPE}"
-databaseUrl: "${DATABASE_URL}"
-
-mysql:
-    host: "${MYSQL_HOST}"
-    port: ${MYSQL_PORT:-3306}
-    username: "${MYSQL_USER}"
-    password: "${MYSQL_PASSWORD}"
-    database: "${MYSQL_DATABASE}"
-
-postgres:
-    host: "${POSTGRES_HOST}"
-    port: ${POSTGRES_PORT:-5432}
-    username: "${POSTGRES_USER}"
-    password: "${POSTGRES_PASSWORD}"
-    database: "${POSTGRES_DATABASE}"
+sqlx:
+    datasource: "${DATASOURCE}"
+    driverName: "${DRIVER_NAME}"
 
 redis:
     host: "${REDIS_HOST}"
     type: "${REDIS_TYPE:-node}"
 
-cache_type: "${CACHE_TYPE}"
+cacheType: "${CACHE_TYPE}"

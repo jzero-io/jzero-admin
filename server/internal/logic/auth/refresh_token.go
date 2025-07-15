@@ -5,12 +5,12 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/pkg/errors"
+	"github.com/golang-jwt/jwt/v4"
 	"github.com/zeromicro/go-zero/core/logx"
+	"github.com/zeromicro/go-zero/rest/token"
 
 	"github.com/jzero-io/jzero-admin/server/internal/svc"
 	types "github.com/jzero-io/jzero-admin/server/internal/types/auth"
-	"github.com/jzero-io/jzero-admin/server/pkg/jwt"
 )
 
 type RefreshToken struct {
@@ -35,27 +35,30 @@ func (l *RefreshToken) RefreshToken(req *types.RefreshTokenRequest) (resp *types
 	}
 
 	// 解析 refreshToken
-	j := jwt.NewJwt(config.Jwt.AccessSecret)
-	claims, err := j.ParseToken(req.RefreshToken)
+	parser := token.NewTokenParser()
+	tok, err := parser.ParseToken(&http.Request{
+		Header: http.Header{
+			"Authorization": []string{req.RefreshToken},
+		},
+	}, l.svcCtx.MustGetConfig().Jwt.AccessSecret, "")
 	if err != nil {
-		return nil, errors.New("无效的 refreshToken")
+		return nil, err
 	}
 
-	// 验证 refreshToken 是否过期
-	exp, ok := claims["exp"].(float64)
-	if !ok || time.Now().Unix() > int64(exp) {
-		return nil, errors.New("refreshToken 已过期")
+	claims, ok := tok.Claims.(jwt.MapClaims)
+	if !ok {
+		return nil, jwt.ErrTokenInvalidClaims
 	}
 
 	// 设置新的过期时间
 	claims["exp"] = time.Now().Add(time.Duration(config.Jwt.AccessExpire) * time.Second).Unix()
-	newAccessToken, err := j.CreateToken(claims)
+	newAccessToken, err := CreateToken(l.svcCtx.MustGetConfig().Jwt.AccessSecret, claims)
 	if err != nil {
 		return nil, err
 	}
 
 	claims["exp"] = time.Now().Add(time.Duration(config.Jwt.RefreshExpire) * time.Second).Unix()
-	newRefreshToken, err := j.CreateToken(claims)
+	newRefreshToken, err := CreateToken(l.svcCtx.MustGetConfig().Jwt.AccessSecret, claims)
 	if err != nil {
 		return nil, err
 	}

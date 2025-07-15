@@ -25,7 +25,7 @@ func MustCasbinEnforcer(svcCtx *ServiceContext) *casbin.Enforcer {
 	db, err := svcCtx.SqlxConn.RawDB()
 	logx.Must(err)
 
-	adapter, err := sqladapter.NewAdapter(db, c.DatabaseType, "casbin_rule")
+	adapter, err := sqladapter.NewAdapter(db, c.Sqlx.DriverName, "casbin_rule")
 	logx.Must(err)
 
 	casbinModel, err := casbinmodel.NewModelFromString(CasbinModelConf)

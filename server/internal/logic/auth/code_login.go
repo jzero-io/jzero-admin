@@ -17,7 +17,6 @@ import (
 	"github.com/jzero-io/jzero-admin/server/internal/model/manage_user_role"
 	"github.com/jzero-io/jzero-admin/server/internal/svc"
 	types "github.com/jzero-io/jzero-admin/server/internal/types/auth"
-	"github.com/jzero-io/jzero-admin/server/pkg/jwt"
 )
 
 type CodeLogin struct {
@@ -70,7 +69,6 @@ func (l *CodeLogin) CodeLogin(req *types.CodeLoginRequest) (resp *types.LoginRes
 		roleIds = append(roleIds, userRole.RoleId)
 	}
 
-	j := jwt.NewJwt(config.Jwt.AccessSecret)
 	marshal, err := json.Marshal(auth.Auth{
 		Id:       int(user.Id),
 		Username: user.Username,
@@ -90,13 +88,13 @@ func (l *CodeLogin) CodeLogin(req *types.CodeLoginRequest) (resp *types.LoginRes
 	expirationTime := time.Now().Add(time.Duration(config.Jwt.AccessExpire) * time.Second).Unix()
 	claims["exp"] = expirationTime
 
-	token, err := j.CreateToken(claims)
+	token, err := CreateToken(l.svcCtx.MustGetConfig().Jwt.AccessSecret, claims)
 	if err != nil {
 		return nil, err
 	}
 
 	claims["exp"] = time.Now().Add(time.Duration(config.Jwt.RefreshExpire) * time.Second).Unix()
-	refreshToken, err := j.CreateToken(claims)
+	refreshToken, err := CreateToken(l.svcCtx.MustGetConfig().Jwt.AccessSecret, claims)
 	if err != nil {
 		return nil, err
 	}
