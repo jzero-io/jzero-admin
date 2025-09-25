@@ -23,7 +23,7 @@ const { name, version, dependencies } = {
   name: 'jzero-admin',
   version: 'v1.0.0-beta',
   dependencies: {
-    jzero: 'v0.39.1',
+    jzero: 'v0.60.4',
     'soybean-admin': 'v1.3.7+fork',
     vue: 'v3.5.11',
     'naive-ui': '2.40.1'

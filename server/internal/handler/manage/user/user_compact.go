@@ -1,11 +1,13 @@
 package user
 
 import (
+	"net/http"
+
+	"github.com/zeromicro/go-zero/rest/httpx"
+
 	"github.com/jzero-io/jzero-admin/server/internal/logic/manage/user"
 	"github.com/jzero-io/jzero-admin/server/internal/svc"
 	types "github.com/jzero-io/jzero-admin/server/internal/types/manage/user"
-	"github.com/zeromicro/go-zero/rest/httpx"
-	"net/http"
 )
 
 func Add(svcCtx *svc.ServiceContext) http.HandlerFunc {

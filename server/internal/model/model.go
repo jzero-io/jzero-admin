@@ -4,6 +4,9 @@ package model
 
 import (
 	"github.com/eddieowens/opts"
+	"github.com/jzero-io/jzero/core/stores/modelx"
+	"github.com/zeromicro/go-zero/core/stores/sqlx"
+
 	"github.com/jzero-io/jzero-admin/server/internal/model/casbin_rule"
 	"github.com/jzero-io/jzero-admin/server/internal/model/manage_email"
 	"github.com/jzero-io/jzero-admin/server/internal/model/manage_menu"
@@ -11,8 +14,6 @@ import (
 	"github.com/jzero-io/jzero-admin/server/internal/model/manage_role_menu"
 	"github.com/jzero-io/jzero-admin/server/internal/model/manage_user"
 	"github.com/jzero-io/jzero-admin/server/internal/model/manage_user_role"
-	"github.com/jzero-io/jzero/core/stores/modelx"
-	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )
 
 type Model struct {

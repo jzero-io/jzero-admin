@@ -15,6 +15,3 @@ gen:
   model-cache: false
   model-ignore-columns: []
   model-schema: jzeroadmin
-
-  swagger:
-    merge: true

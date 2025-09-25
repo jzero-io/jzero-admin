@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/jzero-io/jzero-admin/server/internal/svc"
 	"github.com/zeromicro/go-zero/rest"
 
 	auth "github.com/jzero-io/jzero-admin/server/internal/handler/auth"
@@ -14,6 +13,7 @@ import (
 	manageuser "github.com/jzero-io/jzero-admin/server/internal/handler/manage/user"
 	route "github.com/jzero-io/jzero-admin/server/internal/handler/route"
 	version "github.com/jzero-io/jzero-admin/server/internal/handler/version"
+	"github.com/jzero-io/jzero-admin/server/internal/svc"
 )
 
 var (

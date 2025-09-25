@@ -14,6 +14,8 @@ import (
 	"github.com/zeromicro/go-zero/rest/httpx"
 
 	"github.com/jzero-io/jzero-admin/server/internal/config"
+	"github.com/jzero-io/jzero-admin/server/internal/custom"
+	"github.com/jzero-io/jzero-admin/server/internal/global"
 	"github.com/jzero-io/jzero-admin/server/internal/handler"
 	"github.com/jzero-io/jzero-admin/server/internal/middleware"
 	"github.com/jzero-io/jzero-admin/server/internal/svc"
@@ -44,6 +46,7 @@ var serverCmd = &cobra.Command{
 		logx.Infof("Starting rest server at %s:%d...", c.Rest.Host, c.Rest.Port)
 
 		svcCtx := svc.NewServiceContext(cc, handler.Route2Code)
+		global.ServiceContext = *svcCtx
 		run(svcCtx)
 	},
 }
@@ -56,19 +59,20 @@ func run(svcCtx *svc.ServiceContext) {
 		header.Add("Access-Control-Allow-Headers", "X-Request-Id")
 		header.Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, UPDATE")
 	}, nil, "*"))
+
+	ctm := custom.New(server)
+	ctm.Init()
+
 	middleware.Register(server)
 
 	// server add api handlers
 	handler.RegisterHandlers(server, svcCtx)
 
-	// server add custom routes
-	svcCtx.Custom.AddRoutes(server)
-
 	plugins.LoadPlugins(server, *svcCtx)
 
 	group := service.NewServiceGroup()
 	group.Add(server)
-	group.Add(svcCtx.Custom)
+	group.Add(ctm)
 	group.Start()
 }
 

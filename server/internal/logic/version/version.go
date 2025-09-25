@@ -1,16 +1,15 @@
 package version
 
 import (
+	"context"
 	"net/http"
 	"os"
 	"runtime"
 
-	"context"
+	"github.com/zeromicro/go-zero/core/logx"
 
 	"github.com/jzero-io/jzero-admin/server/internal/svc"
 	types "github.com/jzero-io/jzero-admin/server/internal/types/version"
-
-	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type Version struct {
