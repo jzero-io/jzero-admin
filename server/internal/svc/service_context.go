@@ -42,6 +42,7 @@ func NewServiceContext(cc configurator.Configurator[config.Config], route2Code f
 		miniRedis, err := miniredis.Run()
 		logx.Must(err)
 		svcCtx.Redis = redis.MustNewRedis(redis.RedisConf{
+			Type: redis.NodeType,
 			Host: miniRedis.Addr(),
 		})
 	}
