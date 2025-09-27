@@ -33,8 +33,5 @@ logs
 dist
 
 data
-
-etc/etc-local.yaml
-.jzero.dev.yaml
 /server
 !/server/

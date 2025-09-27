@@ -6,10 +6,10 @@ services:
     environment:
       - TZ=Asia/Shanghai
       - DRIVER_NAME=mysql
-      - DATASOURCE=root:123456@tcp(mysql8:3306)/jzeroadmin
+      - DATASOURCE=root:123456@tcp(mysql:3306)/jzeroadmin
       - CACHE_TYPE=local
     depends_on:
-      - mysql8
+      - mysql
   web:
     build:
       context: ../../web
@@ -33,22 +33,19 @@ services:
       POSTGRES_USER: root
       POSTGRES_DB: jzeroadmin
     volumes:
-      - ./postgres/sql:/docker-entrypoint-initdb.d
-      - ./postgres/data:/var/lib/postgresql/data
+      - ./postgres/data:/var/lib/postgres/data
     ports:
       - "5432:5432"
-  mysql8:
+  mysql:
     image: mysql:8.0
     restart: always
-    container_name: jzero-admin-mysql8
+    container_name: jzero-admin-mysql
     environment:
       - TZ=Asia/Shanghai
       - MYSQL_ROOT_PASSWORD=123456
       - MYSQL_ROOT_USER=root
       - MYSQL_DATABASE=jzeroadmin
     volumes:
-      - ./mysql8/data:/var/lib/mysql
-      - ./mysql8/config:/etc/mysql/conf.d
-      - ./mysql8/sql:/docker-entrypoint-initdb.d
+      - ./mysql/data:/var/lib/mysql
     ports:
       - "3306:3306"
