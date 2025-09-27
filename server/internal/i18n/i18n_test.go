@@ -8,7 +8,7 @@ import (
 )
 
 func TestTranslate(t *testing.T) {
-	c := Conf{
+	c := I18nConf{
 		Dir: "",
 	}
 

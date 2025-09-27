@@ -61,7 +61,7 @@ func run(svcCtx *svc.ServiceContext) {
 	}, nil, "*"))
 
 	ctm := custom.New(server)
-	ctm.Init()
+	logx.Must(ctm.Init())
 
 	middleware.Register(server)
 

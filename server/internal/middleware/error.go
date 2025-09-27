@@ -12,7 +12,7 @@ import (
 )
 
 func ErrorMiddleware(ctx context.Context, err error) (int, any) {
-	logx.Error("Request Error Context: %v", ctx)
+	logx.Errorf("Request Error Context: %v", ctx)
 
 	if errors.Is(err, jwt.ErrTokenExpired) {
 		logx.Error(err)

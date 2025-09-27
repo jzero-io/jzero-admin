@@ -15,7 +15,7 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/guregu/null/v5 v5.0.0
 	github.com/huandu/go-sqlbuilder v1.37.0
-	github.com/jzero-io/jzero v0.60.4
+	github.com/jzero-io/jzero v0.60.5-0.20250927101116-d22dc933a521
 	github.com/nicksnyder/go-i18n/v2 v2.6.0
 	github.com/pkg/errors v0.9.1
 	github.com/samber/lo v1.51.0
