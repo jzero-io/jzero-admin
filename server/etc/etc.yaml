@@ -10,10 +10,10 @@ rest:
 log:
     encoding: plain
     level: info
-    mode: file
+    mode: console
 
 sqlx:
-    datasource: "${DATASOURCE:-root:123456@tcp(127.0.0.1:3306)/jzeroadmin}"
+    datasource: "${DATASOURCE:-root:123456@tcp(127.0.0.1:3306)/jzeroadmin?charset=utf8mb4&parseTime=True&loc=Local}"
     driverName: "${DRIVER_NAME:-mysql}"
 
 redis:

@@ -12,7 +12,7 @@ COPY ./ ./
 RUN --mount=type=cache,target=/go/pkg CGO_ENABLED=0 GOOS=linux GOARCH=$TARGETARCH go build -a -ldflags="$LDFLAGS" -o /dist/app main.go \
     && jzero gen swagger \
     && mkdir -p /dist/etc && cp etc/etc.yaml /dist/etc/etc.yaml \
-    && mkdir -p /dist/desc && cp -r desc/swagger /dist/desc
+    && mkdir -p /dist/desc && cp -r desc/swagger /dist/desc && cp -r desc/sql_migration /dist/desc
 
 FROM --platform=$TARGETPLATFORM alpine:latest
 

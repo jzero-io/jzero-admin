@@ -6,7 +6,7 @@ services:
     environment:
       - TZ=Asia/Shanghai
       - DRIVER_NAME=mysql
-      - DATASOURCE=root:123456@tcp(mysql:3306)/jzeroadmin
+      - DATASOURCE=root:123456@tcp(mysql:3306)/jzeroadmin?charset=utf8mb4&parseTime=True&loc=Local
       - CACHE_TYPE=local
     depends_on:
       - mysql
@@ -46,6 +46,7 @@ services:
       - MYSQL_ROOT_USER=root
       - MYSQL_DATABASE=jzeroadmin
     volumes:
+      - ./mysql/config:/etc/mysql/conf.d
       - ./mysql/data:/var/lib/mysql
     ports:
       - "3306:3306"
