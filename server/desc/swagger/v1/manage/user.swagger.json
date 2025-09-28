@@ -1,0 +1,391 @@
+{
+  "basePath": "/",
+  "consumes": [
+    "application/json"
+  ],
+  "info": {
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/v1/manage/addUser": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "接口权限编码:manage:user:add",
+        "operationId": "manage/UserAdd",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "nickName": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                },
+                "status": {
+                  "default": "1",
+                  "example": "1",
+                  "type": "string"
+                },
+                "userEmail": {
+                  "type": "string"
+                },
+                "userGender": {
+                  "default": "1",
+                  "example": "1",
+                  "type": "string"
+                },
+                "userPhone": {
+                  "type": "string"
+                },
+                "userRoles": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "username": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "username",
+                "userGender",
+                "nickName",
+                "userPhone",
+                "userEmail",
+                "status",
+                "password",
+                "userRoles"
+              ],
+              "type": "object"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "Add",
+        "tags": [
+          "manage/user"
+        ]
+      }
+    },
+    "/api/v1/manage/deleteUser": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "接口权限编码:manage:user:delete",
+        "operationId": "manage/UserDelete",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "ids": {
+                  "items": {
+                    "type": "integer"
+                  },
+                  "type": "array"
+                }
+              },
+              "required": [
+                "ids"
+              ],
+              "type": "object"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "Delete",
+        "tags": [
+          "manage/user"
+        ]
+      }
+    },
+    "/api/v1/manage/editUser": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "接口权限编码:manage:user:edit",
+        "operationId": "manage/UserEdit",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "nickName": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string"
+                },
+                "userEmail": {
+                  "type": "string"
+                },
+                "userGender": {
+                  "type": "string"
+                },
+                "userPhone": {
+                  "type": "string"
+                },
+                "userRoles": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "username": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "username",
+                "userGender",
+                "nickName",
+                "userPhone",
+                "userEmail",
+                "status",
+                "userRoles"
+              ],
+              "type": "object"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "Edit",
+        "tags": [
+          "manage/user"
+        ]
+      }
+    },
+    "/api/v1/manage/getUserList": {
+      "get": {
+        "description": "接口权限编码:manage:user:list",
+        "operationId": "manage/UserList",
+        "parameters": [
+          {
+            "allowEmptyValue": true,
+            "default": 1,
+            "in": "query",
+            "name": "current",
+            "type": "integer"
+          },
+          {
+            "allowEmptyValue": true,
+            "default": 10,
+            "in": "query",
+            "name": "size",
+            "type": "integer"
+          },
+          {
+            "allowEmptyValue": true,
+            "in": "query",
+            "name": "username",
+            "type": "string"
+          },
+          {
+            "allowEmptyValue": true,
+            "in": "query",
+            "name": "userGender",
+            "type": "string"
+          },
+          {
+            "allowEmptyValue": true,
+            "in": "query",
+            "name": "nickName",
+            "type": "string"
+          },
+          {
+            "allowEmptyValue": true,
+            "in": "query",
+            "name": "userPhone",
+            "type": "string"
+          },
+          {
+            "allowEmptyValue": true,
+            "in": "query",
+            "name": "userEmail",
+            "type": "string"
+          },
+          {
+            "allowEmptyValue": true,
+            "in": "query",
+            "name": "status",
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "properties": {
+                "current": {
+                  "type": "integer"
+                },
+                "records": {
+                  "items": {
+                    "properties": {
+                      "createTime": {
+                        "type": "string"
+                      },
+                      "id": {
+                        "type": "integer"
+                      },
+                      "nickName": {
+                        "type": "string"
+                      },
+                      "status": {
+                        "type": "string"
+                      },
+                      "updateTime": {
+                        "type": "string"
+                      },
+                      "userEmail": {
+                        "type": "string"
+                      },
+                      "userGender": {
+                        "type": "string"
+                      },
+                      "userPhone": {
+                        "type": "string"
+                      },
+                      "userRoles": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      "username": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "username",
+                      "userGender",
+                      "nickName",
+                      "userPhone",
+                      "userEmail",
+                      "userRoles",
+                      "status",
+                      "createTime",
+                      "updateTime"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
+                "size": {
+                  "type": "integer"
+                },
+                "total": {
+                  "type": "integer"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "List",
+        "tags": [
+          "manage/user"
+        ]
+      }
+    }
+  },
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "securityDefinitions": {
+    "apiKey": {
+      "description": "Enter Authorization",
+      "in": "header",
+      "name": "Authorization",
+      "type": "apiKey"
+    }
+  },
+  "swagger": "2.0"
+}

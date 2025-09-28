@@ -1,0 +1,517 @@
+{
+  "basePath": "/",
+  "consumes": [
+    "application/json"
+  ],
+  "info": {
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/v1/route/getConstantRoutes": {
+      "get": {
+        "description": "接口权限编码:route:getConstantRoutes",
+        "operationId": "routeGetConstantRoutes",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "items": {
+                "properties": {
+                  "component": {
+                    "type": "string"
+                  },
+                  "meta": {
+                    "properties": {
+                      "activeMenu": {
+                        "type": "string"
+                      },
+                      "constant": {
+                        "type": "boolean"
+                      },
+                      "fixedIndexInTab": {
+                        "type": "integer"
+                      },
+                      "hideInMenu": {
+                        "type": "boolean"
+                      },
+                      "href": {
+                        "type": "string"
+                      },
+                      "i18nKey": {
+                        "type": "string"
+                      },
+                      "icon": {
+                        "type": "string"
+                      },
+                      "keepAlive": {
+                        "type": "boolean"
+                      },
+                      "localIcon": {
+                        "type": "string"
+                      },
+                      "multiTab": {
+                        "type": "boolean"
+                      },
+                      "order": {
+                        "type": "integer"
+                      },
+                      "query": {
+                        "items": {
+                          "properties": {
+                            "key": {
+                              "type": "string"
+                            },
+                            "value": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "key",
+                            "value"
+                          ],
+                          "type": "object"
+                        },
+                        "type": "array"
+                      },
+                      "title": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "title",
+                      "i18nKey",
+                      "localIcon",
+                      "icon",
+                      "order",
+                      "hideInMenu",
+                      "activeMenu",
+                      "multiTab",
+                      "fixedIndexInTab",
+                      "keepAlive",
+                      "constant",
+                      "href",
+                      "query"
+                    ],
+                    "type": "object"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "path": {
+                    "type": "string"
+                  },
+                  "props": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "name",
+                  "path",
+                  "component",
+                  "props",
+                  "meta"
+                ],
+                "type": "object"
+              },
+              "properties": {
+                "component": {
+                  "type": "string"
+                },
+                "meta": {
+                  "properties": {
+                    "activeMenu": {
+                      "type": "string"
+                    },
+                    "constant": {
+                      "type": "boolean"
+                    },
+                    "fixedIndexInTab": {
+                      "type": "integer"
+                    },
+                    "hideInMenu": {
+                      "type": "boolean"
+                    },
+                    "href": {
+                      "type": "string"
+                    },
+                    "i18nKey": {
+                      "type": "string"
+                    },
+                    "icon": {
+                      "type": "string"
+                    },
+                    "keepAlive": {
+                      "type": "boolean"
+                    },
+                    "localIcon": {
+                      "type": "string"
+                    },
+                    "multiTab": {
+                      "type": "boolean"
+                    },
+                    "order": {
+                      "type": "integer"
+                    },
+                    "query": {
+                      "items": {
+                        "properties": {
+                          "key": {
+                            "type": "string"
+                          },
+                          "value": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "key",
+                          "value"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "title": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "title",
+                    "i18nKey",
+                    "localIcon",
+                    "icon",
+                    "order",
+                    "hideInMenu",
+                    "activeMenu",
+                    "multiTab",
+                    "fixedIndexInTab",
+                    "keepAlive",
+                    "constant",
+                    "href",
+                    "query"
+                  ],
+                  "type": "object"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "path": {
+                  "type": "string"
+                },
+                "props": {
+                  "type": "boolean"
+                }
+              },
+              "type": "array"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "GetConstantRoutes",
+        "tags": [
+          "route"
+        ]
+      }
+    },
+    "/api/v1/route/getUserRoutes": {
+      "get": {
+        "description": "接口权限编码:route:getUserRoutes",
+        "operationId": "routeGetUserRoutes",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "properties": {
+                "home": {
+                  "type": "string"
+                },
+                "routes": {
+                  "items": {
+                    "properties": {
+                      "-": {
+                        "type": "integer"
+                      },
+                      "children": {
+                        "items": {
+                          "properties": {
+                            "-": {
+                              "type": "integer"
+                            },
+                            "children": {
+                              "items": {
+                                "type": "object"
+                              },
+                              "type": "array"
+                            },
+                            "component": {
+                              "type": "string"
+                            },
+                            "meta": {
+                              "properties": {
+                                "activeMenu": {
+                                  "type": "string"
+                                },
+                                "constant": {
+                                  "type": "boolean"
+                                },
+                                "fixedIndexInTab": {
+                                  "type": "integer"
+                                },
+                                "hideInMenu": {
+                                  "type": "boolean"
+                                },
+                                "href": {
+                                  "type": "string"
+                                },
+                                "i18nKey": {
+                                  "type": "string"
+                                },
+                                "icon": {
+                                  "type": "string"
+                                },
+                                "keepAlive": {
+                                  "type": "boolean"
+                                },
+                                "localIcon": {
+                                  "type": "string"
+                                },
+                                "multiTab": {
+                                  "type": "boolean"
+                                },
+                                "order": {
+                                  "type": "integer"
+                                },
+                                "query": {
+                                  "items": {
+                                    "type": "object"
+                                  },
+                                  "type": "array"
+                                },
+                                "title": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "title",
+                                "i18nKey",
+                                "localIcon",
+                                "icon",
+                                "order",
+                                "hideInMenu",
+                                "activeMenu",
+                                "multiTab",
+                                "fixedIndexInTab",
+                                "keepAlive",
+                                "constant",
+                                "href",
+                                "query"
+                              ],
+                              "type": "object"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "path": {
+                              "type": "string"
+                            },
+                            "props": {},
+                            "redirect": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "-",
+                            "-",
+                            "name",
+                            "path",
+                            "meta",
+                            "component",
+                            "props",
+                            "redirect",
+                            "children"
+                          ],
+                          "type": "object"
+                        },
+                        "type": "array"
+                      },
+                      "component": {
+                        "type": "string"
+                      },
+                      "meta": {
+                        "properties": {
+                          "activeMenu": {
+                            "type": "string"
+                          },
+                          "constant": {
+                            "type": "boolean"
+                          },
+                          "fixedIndexInTab": {
+                            "type": "integer"
+                          },
+                          "hideInMenu": {
+                            "type": "boolean"
+                          },
+                          "href": {
+                            "type": "string"
+                          },
+                          "i18nKey": {
+                            "type": "string"
+                          },
+                          "icon": {
+                            "type": "string"
+                          },
+                          "keepAlive": {
+                            "type": "boolean"
+                          },
+                          "localIcon": {
+                            "type": "string"
+                          },
+                          "multiTab": {
+                            "type": "boolean"
+                          },
+                          "order": {
+                            "type": "integer"
+                          },
+                          "query": {
+                            "items": {
+                              "properties": {
+                                "key": {
+                                  "type": "string"
+                                },
+                                "value": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "key",
+                                "value"
+                              ],
+                              "type": "object"
+                            },
+                            "type": "array"
+                          },
+                          "title": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "title",
+                          "i18nKey",
+                          "localIcon",
+                          "icon",
+                          "order",
+                          "hideInMenu",
+                          "activeMenu",
+                          "multiTab",
+                          "fixedIndexInTab",
+                          "keepAlive",
+                          "constant",
+                          "href",
+                          "query"
+                        ],
+                        "type": "object"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "path": {
+                        "type": "string"
+                      },
+                      "props": {},
+                      "redirect": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "-",
+                      "-",
+                      "name",
+                      "path",
+                      "meta",
+                      "component",
+                      "props",
+                      "redirect",
+                      "children"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "GetUserRoutes",
+        "tags": [
+          "route"
+        ]
+      }
+    },
+    "/api/v1/route/isRouteExist": {
+      "get": {
+        "description": "接口权限编码:route:isRouteExist",
+        "operationId": "routeIsRouteExist",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "IsRouteExist",
+        "tags": [
+          "route"
+        ]
+      }
+    }
+  },
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "securityDefinitions": {
+    "apiKey": {
+      "description": "Enter Authorization",
+      "in": "header",
+      "name": "Authorization",
+      "type": "apiKey"
+    }
+  },
+  "swagger": "2.0"
+}

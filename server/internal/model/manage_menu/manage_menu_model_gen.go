@@ -262,6 +262,17 @@ func (m *defaultManageMenuModel) TableName() string {
 	return m.table
 }
 
+func (m *defaultManageMenuModel) withTableColumns(columns ...string) []string {
+	var withTableColumns []string
+	for _, col := range columns {
+		if strings.Contains(col, ".") {
+			withTableColumns = append(withTableColumns, col)
+		} else {
+			withTableColumns = append(withTableColumns, m.table+"."+col)
+		}
+	}
+	return withTableColumns
+}
 func (m *customManageMenuModel) BulkInsert(ctx context.Context, session sqlx.Session, datas []*ManageMenu) error {
 	if len(datas) == 0 {
 		return nil
@@ -287,7 +298,7 @@ func (m *customManageMenuModel) FindSelectedColumnsByCondition(ctx context.Conte
 	if len(columns) == 0 {
 		columns = manageMenuFieldNames
 	}
-	sb := sqlbuilder.Select(columns...).From(m.table)
+	sb := sqlbuilder.Select(m.withTableColumns(columns...)...).From(m.table)
 	builder := condition.Select(*sb, conds...)
 	statement, args := builder.Build()
 
@@ -337,7 +348,7 @@ func (m *customManageMenuModel) CountByCondition(ctx context.Context, session sq
 }
 
 func (m *customManageMenuModel) FindOneByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) (*ManageMenu, error) {
-	sb := sqlbuilder.Select(manageMenuFieldNames...).From(m.table)
+	sb := sqlbuilder.Select(m.withTableColumns(manageMenuFieldNames...)...).From(m.table)
 
 	builder := condition.Select(*sb, conds...)
 	builder.Limit(1)
@@ -358,7 +369,7 @@ func (m *customManageMenuModel) FindOneByCondition(ctx context.Context, session 
 }
 
 func (m *customManageMenuModel) PageByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) ([]*ManageMenu, int64, error) {
-	sb := sqlbuilder.Select(manageMenuFieldNames...).From(m.table)
+	sb := sqlbuilder.Select(m.withTableColumns(manageMenuFieldNames...)...).From(m.table)
 	builder := condition.Select(*sb, conds...)
 
 	var resp []*ManageMenu

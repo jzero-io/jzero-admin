@@ -1,0 +1,2776 @@
+{
+  "basePath": "/",
+  "consumes": [
+    "application/json"
+  ],
+  "info": {},
+  "paths": {
+    "/api/v1/auth/code-login": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "接口权限编码:auth:codeLogin",
+        "operationId": "authCodeLogin",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "verificationCode": {
+                  "type": "string"
+                },
+                "verificationUuid": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "email",
+                "verificationUuid",
+                "verificationCode"
+              ],
+              "type": "object"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "properties": {
+                "refreshToken": {
+                  "type": "string"
+                },
+                "token": {
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "CodeLogin",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/v1/auth/error": {
+      "post": {
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "description": "接口权限编码:auth:error",
+        "operationId": "authError",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "Error",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/v1/auth/getUserInfo": {
+      "get": {
+        "description": "接口权限编码:auth:getUserInfo",
+        "operationId": "authGetUserInfo",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "properties": {
+                "buttons": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "roles": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "userId": {
+                  "type": "string"
+                },
+                "username": {
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "GetUserInfo",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/v1/auth/pwd-login": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "接口权限编码:auth:pwdLogin",
+        "operationId": "authPwdLogin",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "password": {
+                  "type": "string"
+                },
+                "username": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "username",
+                "password"
+              ],
+              "type": "object"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "properties": {
+                "refreshToken": {
+                  "type": "string"
+                },
+                "token": {
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "PwdLogin",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/v1/auth/refreshToken": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "接口权限编码:auth:refreshToken",
+        "operationId": "authRefreshToken",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "refreshToken": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "refreshToken"
+              ],
+              "type": "object"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "properties": {
+                "refreshToken": {
+                  "type": "string"
+                },
+                "token": {
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "RefreshToken",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/v1/auth/register": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "接口权限编码:auth:register",
+        "operationId": "authRegister",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                },
+                "username": {
+                  "type": "string"
+                },
+                "verificationCode": {
+                  "type": "string"
+                },
+                "verificationUuid": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "email",
+                "verificationUuid",
+                "verificationCode",
+                "username",
+                "password"
+              ],
+              "type": "object"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "Register",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/v1/auth/resetPassword": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "接口权限编码:auth:resetPassword",
+        "operationId": "authResetPassword",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                },
+                "verificationCode": {
+                  "type": "string"
+                },
+                "verificationUuid": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "email",
+                "verificationUuid",
+                "verificationCode",
+                "password"
+              ],
+              "type": "object"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "ResetPassword",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/v1/auth/sendVerificationCode": {
+      "get": {
+        "description": "接口权限编码:auth:sendVerificationCode",
+        "operationId": "authSendVerificationCode",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "email",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "verificationType",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "properties": {
+                "verificationUuid": {
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "SendVerificationCode",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/v1/manage/addMenu": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "接口权限编码:manage:menu:add",
+        "operationId": "manage/MenuAdd",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "activeMenu": {
+                  "type": "string"
+                },
+                "buttonCode": {
+                  "type": "string"
+                },
+                "component": {
+                  "type": "string"
+                },
+                "constant": {
+                  "type": "boolean"
+                },
+                "fixedIndexInTab": {
+                  "type": "integer"
+                },
+                "hideInMenu": {
+                  "type": "boolean"
+                },
+                "href": {
+                  "type": "string"
+                },
+                "i18nKey": {
+                  "type": "string"
+                },
+                "icon": {
+                  "type": "string"
+                },
+                "iconType": {
+                  "type": "string"
+                },
+                "keepAlive": {
+                  "type": "boolean"
+                },
+                "menuName": {
+                  "type": "string"
+                },
+                "menuType": {
+                  "type": "string"
+                },
+                "multiTab": {
+                  "type": "boolean"
+                },
+                "order": {
+                  "type": "integer"
+                },
+                "parentId": {
+                  "type": "integer"
+                },
+                "permissions": {
+                  "items": {
+                    "properties": {
+                      "code": {
+                        "type": "string"
+                      },
+                      "desc": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "desc"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
+                "query": {
+                  "items": {
+                    "properties": {
+                      "key": {
+                        "type": "string"
+                      },
+                      "value": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "key",
+                      "value"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
+                "routeName": {
+                  "type": "string"
+                },
+                "routePath": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "menuType",
+                "menuName",
+                "routeName",
+                "routePath",
+                "component",
+                "icon",
+                "iconType",
+                "parentId",
+                "status",
+                "keepAlive",
+                "constant",
+                "order",
+                "hideInMenu"
+              ],
+              "type": "object"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "Add",
+        "tags": [
+          "manage/menu"
+        ]
+      }
+    },
+    "/api/v1/manage/addRole": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "接口权限编码:manage:role:add",
+        "operationId": "manage/RoleAdd",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "roleCode": {
+                  "type": "string"
+                },
+                "roleDesc": {
+                  "type": "string"
+                },
+                "roleName": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "roleName",
+                "roleCode",
+                "roleDesc",
+                "status"
+              ],
+              "type": "object"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "Add",
+        "tags": [
+          "manage/role"
+        ]
+      }
+    },
+    "/api/v1/manage/addUser": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "接口权限编码:manage:user:add",
+        "operationId": "manage/UserAdd",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "nickName": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                },
+                "status": {
+                  "default": "1",
+                  "example": "1",
+                  "type": "string"
+                },
+                "userEmail": {
+                  "type": "string"
+                },
+                "userGender": {
+                  "default": "1",
+                  "example": "1",
+                  "type": "string"
+                },
+                "userPhone": {
+                  "type": "string"
+                },
+                "userRoles": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "username": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "username",
+                "userGender",
+                "nickName",
+                "userPhone",
+                "userEmail",
+                "status",
+                "password",
+                "userRoles"
+              ],
+              "type": "object"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "Add",
+        "tags": [
+          "manage/user"
+        ]
+      }
+    },
+    "/api/v1/manage/deleteMenu": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "接口权限编码:manage:menu:delete",
+        "operationId": "manage/MenuDelete",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "ids": {
+                  "items": {
+                    "type": "integer"
+                  },
+                  "type": "array"
+                }
+              },
+              "required": [
+                "ids"
+              ],
+              "type": "object"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "Delete",
+        "tags": [
+          "manage/menu"
+        ]
+      }
+    },
+    "/api/v1/manage/deleteRole": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "接口权限编码:manage:role:delete",
+        "operationId": "manage/RoleDelete",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "ids": {
+                  "items": {
+                    "type": "integer"
+                  },
+                  "type": "array"
+                }
+              },
+              "required": [
+                "ids"
+              ],
+              "type": "object"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "Delete",
+        "tags": [
+          "manage/role"
+        ]
+      }
+    },
+    "/api/v1/manage/deleteUser": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "接口权限编码:manage:user:delete",
+        "operationId": "manage/UserDelete",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "ids": {
+                  "items": {
+                    "type": "integer"
+                  },
+                  "type": "array"
+                }
+              },
+              "required": [
+                "ids"
+              ],
+              "type": "object"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "Delete",
+        "tags": [
+          "manage/user"
+        ]
+      }
+    },
+    "/api/v1/manage/editMenu": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "接口权限编码:manage:menu:edit",
+        "operationId": "manage/MenuEdit",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "activeMenu": {
+                  "type": "string"
+                },
+                "buttonCode": {
+                  "type": "string"
+                },
+                "component": {
+                  "type": "string"
+                },
+                "constant": {
+                  "type": "boolean"
+                },
+                "fixedIndexInTab": {
+                  "type": "integer"
+                },
+                "hideInMenu": {
+                  "type": "boolean"
+                },
+                "href": {
+                  "type": "string"
+                },
+                "i18nKey": {
+                  "type": "string"
+                },
+                "icon": {
+                  "type": "string"
+                },
+                "iconType": {
+                  "type": "string"
+                },
+                "id": {
+                  "type": "integer"
+                },
+                "keepAlive": {
+                  "type": "boolean"
+                },
+                "menuName": {
+                  "type": "string"
+                },
+                "menuType": {
+                  "type": "string"
+                },
+                "mutiTab": {
+                  "type": "boolean"
+                },
+                "order": {
+                  "type": "integer"
+                },
+                "parentId": {
+                  "type": "integer"
+                },
+                "permissions": {
+                  "items": {
+                    "properties": {
+                      "code": {
+                        "type": "string"
+                      },
+                      "desc": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "desc"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
+                "query": {
+                  "items": {
+                    "properties": {
+                      "key": {
+                        "type": "string"
+                      },
+                      "value": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "key",
+                      "value"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
+                "routeName": {
+                  "type": "string"
+                },
+                "routePath": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "menuType",
+                "menuName",
+                "routeName",
+                "routePath",
+                "component",
+                "icon",
+                "iconType",
+                "parentId",
+                "status",
+                "keepAlive",
+                "constant",
+                "order",
+                "hideInMenu",
+                "query",
+                "permissions",
+                "i18nKey"
+              ],
+              "type": "object"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "Edit",
+        "tags": [
+          "manage/menu"
+        ]
+      }
+    },
+    "/api/v1/manage/editRole": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "接口权限编码:manage:role:edit",
+        "operationId": "manage/RoleEdit",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "roleCode": {
+                  "type": "string"
+                },
+                "roleDesc": {
+                  "type": "string"
+                },
+                "roleName": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "roleName",
+                "roleCode",
+                "roleDesc",
+                "status"
+              ],
+              "type": "object"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "Edit",
+        "tags": [
+          "manage/role"
+        ]
+      }
+    },
+    "/api/v1/manage/editUser": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "接口权限编码:manage:user:edit",
+        "operationId": "manage/UserEdit",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "nickName": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string"
+                },
+                "userEmail": {
+                  "type": "string"
+                },
+                "userGender": {
+                  "type": "string"
+                },
+                "userPhone": {
+                  "type": "string"
+                },
+                "userRoles": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "username": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "username",
+                "userGender",
+                "nickName",
+                "userPhone",
+                "userEmail",
+                "status",
+                "userRoles"
+              ],
+              "type": "object"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "Edit",
+        "tags": [
+          "manage/user"
+        ]
+      }
+    },
+    "/api/v1/manage/getAllPages": {
+      "get": {
+        "description": "接口权限编码:manage:menu:getAllPages",
+        "operationId": "manage/MenuGetAllPages",
+        "parameters": [
+          {
+            "allowEmptyValue": true,
+            "in": "query",
+            "name": "roleId",
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "GetAllPages",
+        "tags": [
+          "manage/menu"
+        ]
+      }
+    },
+    "/api/v1/manage/getAllRoles": {
+      "get": {
+        "description": "接口权限编码:manage:role:getAll",
+        "operationId": "manage/RoleGetAll",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "items": {
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "roleCode": {
+                    "type": "string"
+                  },
+                  "roleName": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "id",
+                  "roleName",
+                  "roleCode"
+                ],
+                "type": "object"
+              },
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "roleCode": {
+                  "type": "string"
+                },
+                "roleName": {
+                  "type": "string"
+                }
+              },
+              "type": "array"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "GetAll",
+        "tags": [
+          "manage/role"
+        ]
+      }
+    },
+    "/api/v1/manage/getMenuList": {
+      "get": {
+        "description": "接口权限编码:manage:menu:list",
+        "operationId": "manage/MenuList",
+        "parameters": [
+          {
+            "allowEmptyValue": true,
+            "default": 1,
+            "in": "query",
+            "name": "current",
+            "type": "integer"
+          },
+          {
+            "allowEmptyValue": true,
+            "default": 10,
+            "in": "query",
+            "name": "size",
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "properties": {
+                "current": {
+                  "type": "integer"
+                },
+                "records": {
+                  "items": {
+                    "properties": {
+                      "activeMenu": {
+                        "type": "string"
+                      },
+                      "buttonCode": {
+                        "type": "string"
+                      },
+                      "children": {
+                        "items": {
+                          "properties": {
+                            "activeMenu": {
+                              "type": "string"
+                            },
+                            "buttonCode": {
+                              "type": "string"
+                            },
+                            "children": {
+                              "items": {
+                                "type": "object"
+                              },
+                              "type": "array"
+                            },
+                            "component": {
+                              "type": "string"
+                            },
+                            "constant": {
+                              "type": "boolean"
+                            },
+                            "fixedIndexInTab": {
+                              "type": "integer"
+                            },
+                            "hideInMenu": {
+                              "type": "boolean"
+                            },
+                            "href": {
+                              "type": "string"
+                            },
+                            "i18nKey": {
+                              "type": "string"
+                            },
+                            "icon": {
+                              "type": "string"
+                            },
+                            "iconType": {
+                              "type": "string"
+                            },
+                            "id": {
+                              "type": "integer"
+                            },
+                            "keepAlive": {
+                              "type": "boolean"
+                            },
+                            "menuName": {
+                              "type": "string"
+                            },
+                            "menuType": {
+                              "type": "string"
+                            },
+                            "multiTab": {
+                              "type": "boolean"
+                            },
+                            "order": {
+                              "type": "integer"
+                            },
+                            "parentId": {
+                              "type": "integer"
+                            },
+                            "permissions": {
+                              "items": {
+                                "type": "object"
+                              },
+                              "type": "array"
+                            },
+                            "query": {
+                              "items": {
+                                "type": "object"
+                              },
+                              "type": "array"
+                            },
+                            "routeName": {
+                              "type": "string"
+                            },
+                            "routePath": {
+                              "type": "string"
+                            },
+                            "status": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "menuType",
+                            "menuName",
+                            "routeName",
+                            "routePath",
+                            "component",
+                            "icon",
+                            "iconType",
+                            "parentId",
+                            "status",
+                            "keepAlive",
+                            "constant",
+                            "order",
+                            "hideInMenu",
+                            "children"
+                          ],
+                          "type": "object"
+                        },
+                        "type": "array"
+                      },
+                      "component": {
+                        "type": "string"
+                      },
+                      "constant": {
+                        "type": "boolean"
+                      },
+                      "fixedIndexInTab": {
+                        "type": "integer"
+                      },
+                      "hideInMenu": {
+                        "type": "boolean"
+                      },
+                      "href": {
+                        "type": "string"
+                      },
+                      "i18nKey": {
+                        "type": "string"
+                      },
+                      "icon": {
+                        "type": "string"
+                      },
+                      "iconType": {
+                        "type": "string"
+                      },
+                      "id": {
+                        "type": "integer"
+                      },
+                      "keepAlive": {
+                        "type": "boolean"
+                      },
+                      "menuName": {
+                        "type": "string"
+                      },
+                      "menuType": {
+                        "type": "string"
+                      },
+                      "multiTab": {
+                        "type": "boolean"
+                      },
+                      "order": {
+                        "type": "integer"
+                      },
+                      "parentId": {
+                        "type": "integer"
+                      },
+                      "permissions": {
+                        "items": {
+                          "properties": {
+                            "code": {
+                              "type": "string"
+                            },
+                            "desc": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "code",
+                            "desc"
+                          ],
+                          "type": "object"
+                        },
+                        "type": "array"
+                      },
+                      "query": {
+                        "items": {
+                          "properties": {
+                            "key": {
+                              "type": "string"
+                            },
+                            "value": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "key",
+                            "value"
+                          ],
+                          "type": "object"
+                        },
+                        "type": "array"
+                      },
+                      "routeName": {
+                        "type": "string"
+                      },
+                      "routePath": {
+                        "type": "string"
+                      },
+                      "status": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "menuType",
+                      "menuName",
+                      "routeName",
+                      "routePath",
+                      "component",
+                      "icon",
+                      "iconType",
+                      "parentId",
+                      "status",
+                      "keepAlive",
+                      "constant",
+                      "order",
+                      "hideInMenu",
+                      "children"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
+                "size": {
+                  "type": "integer"
+                },
+                "total": {
+                  "type": "integer"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "List",
+        "tags": [
+          "manage/menu"
+        ]
+      }
+    },
+    "/api/v1/manage/getMenuTree": {
+      "get": {
+        "description": "接口权限编码:manage:menu:tree",
+        "operationId": "manage/MenuTree",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "items": {
+                "properties": {
+                  "-": {
+                    "type": "integer"
+                  },
+                  "children": {
+                    "items": {
+                      "properties": {
+                        "-": {
+                          "type": "integer"
+                        },
+                        "children": {
+                          "items": {
+                            "properties": {
+                              "-": {
+                                "type": "integer"
+                              },
+                              "children": {
+                                "items": {
+                                  "type": "object"
+                                },
+                                "type": "array"
+                              },
+                              "id": {
+                                "type": "integer"
+                              },
+                              "label": {
+                                "type": "string"
+                              },
+                              "pId": {
+                                "type": "integer"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "label",
+                              "pId",
+                              "-",
+                              "children"
+                            ],
+                            "type": "object"
+                          },
+                          "type": "array"
+                        },
+                        "id": {
+                          "type": "integer"
+                        },
+                        "label": {
+                          "type": "string"
+                        },
+                        "pId": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "label",
+                        "pId",
+                        "-",
+                        "children"
+                      ],
+                      "type": "object"
+                    },
+                    "type": "array"
+                  },
+                  "id": {
+                    "type": "integer"
+                  },
+                  "label": {
+                    "type": "string"
+                  },
+                  "pId": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "id",
+                  "label",
+                  "pId",
+                  "-",
+                  "children"
+                ],
+                "type": "object"
+              },
+              "properties": {
+                "-": {
+                  "type": "integer"
+                },
+                "children": {
+                  "items": {
+                    "properties": {
+                      "-": {
+                        "type": "integer"
+                      },
+                      "children": {
+                        "items": {
+                          "properties": {
+                            "-": {
+                              "type": "integer"
+                            },
+                            "children": {
+                              "items": {
+                                "type": "object"
+                              },
+                              "type": "array"
+                            },
+                            "id": {
+                              "type": "integer"
+                            },
+                            "label": {
+                              "type": "string"
+                            },
+                            "pId": {
+                              "type": "integer"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "label",
+                            "pId",
+                            "-",
+                            "children"
+                          ],
+                          "type": "object"
+                        },
+                        "type": "array"
+                      },
+                      "id": {
+                        "type": "integer"
+                      },
+                      "label": {
+                        "type": "string"
+                      },
+                      "pId": {
+                        "type": "integer"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "label",
+                      "pId",
+                      "-",
+                      "children"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
+                "id": {
+                  "type": "integer"
+                },
+                "label": {
+                  "type": "string"
+                },
+                "pId": {
+                  "type": "integer"
+                }
+              },
+              "type": "array"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "Tree",
+        "tags": [
+          "manage/menu"
+        ]
+      }
+    },
+    "/api/v1/manage/getRoleHome": {
+      "get": {
+        "description": "接口权限编码:manage:role:getHome",
+        "operationId": "manage/RoleGetHome",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "roleId",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "GetHome",
+        "tags": [
+          "manage/role"
+        ]
+      }
+    },
+    "/api/v1/manage/getRoleList": {
+      "get": {
+        "description": "接口权限编码:manage:role:list",
+        "operationId": "manage/RoleList",
+        "parameters": [
+          {
+            "allowEmptyValue": true,
+            "default": 1,
+            "in": "query",
+            "name": "current",
+            "type": "integer"
+          },
+          {
+            "allowEmptyValue": true,
+            "default": 10,
+            "in": "query",
+            "name": "size",
+            "type": "integer"
+          },
+          {
+            "allowEmptyValue": true,
+            "in": "query",
+            "name": "roleName",
+            "type": "string"
+          },
+          {
+            "allowEmptyValue": true,
+            "in": "query",
+            "name": "roleCode",
+            "type": "string"
+          },
+          {
+            "allowEmptyValue": true,
+            "in": "query",
+            "name": "status",
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "properties": {
+                "current": {
+                  "type": "integer"
+                },
+                "records": {
+                  "items": {
+                    "properties": {
+                      "createTime": {
+                        "type": "string"
+                      },
+                      "id": {
+                        "type": "integer"
+                      },
+                      "roleCode": {
+                        "type": "string"
+                      },
+                      "roleDesc": {
+                        "type": "string"
+                      },
+                      "roleName": {
+                        "type": "string"
+                      },
+                      "status": {
+                        "type": "string"
+                      },
+                      "updateTime": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "roleName",
+                      "roleCode",
+                      "roleDesc",
+                      "status",
+                      "createTime",
+                      "updateTime"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
+                "size": {
+                  "type": "integer"
+                },
+                "total": {
+                  "type": "integer"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "List",
+        "tags": [
+          "manage/role"
+        ]
+      }
+    },
+    "/api/v1/manage/getRoleMenus": {
+      "get": {
+        "description": "接口权限编码:manage:role:getMenus",
+        "operationId": "manage/RoleGetMenus",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "roleId",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "items": {
+                "type": "integer"
+              },
+              "type": "array"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "GetMenus",
+        "tags": [
+          "manage/role"
+        ]
+      }
+    },
+    "/api/v1/manage/getUserList": {
+      "get": {
+        "description": "接口权限编码:manage:user:list",
+        "operationId": "manage/UserList",
+        "parameters": [
+          {
+            "allowEmptyValue": true,
+            "default": 1,
+            "in": "query",
+            "name": "current",
+            "type": "integer"
+          },
+          {
+            "allowEmptyValue": true,
+            "default": 10,
+            "in": "query",
+            "name": "size",
+            "type": "integer"
+          },
+          {
+            "allowEmptyValue": true,
+            "in": "query",
+            "name": "username",
+            "type": "string"
+          },
+          {
+            "allowEmptyValue": true,
+            "in": "query",
+            "name": "userGender",
+            "type": "string"
+          },
+          {
+            "allowEmptyValue": true,
+            "in": "query",
+            "name": "nickName",
+            "type": "string"
+          },
+          {
+            "allowEmptyValue": true,
+            "in": "query",
+            "name": "userPhone",
+            "type": "string"
+          },
+          {
+            "allowEmptyValue": true,
+            "in": "query",
+            "name": "userEmail",
+            "type": "string"
+          },
+          {
+            "allowEmptyValue": true,
+            "in": "query",
+            "name": "status",
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "properties": {
+                "current": {
+                  "type": "integer"
+                },
+                "records": {
+                  "items": {
+                    "properties": {
+                      "createTime": {
+                        "type": "string"
+                      },
+                      "id": {
+                        "type": "integer"
+                      },
+                      "nickName": {
+                        "type": "string"
+                      },
+                      "status": {
+                        "type": "string"
+                      },
+                      "updateTime": {
+                        "type": "string"
+                      },
+                      "userEmail": {
+                        "type": "string"
+                      },
+                      "userGender": {
+                        "type": "string"
+                      },
+                      "userPhone": {
+                        "type": "string"
+                      },
+                      "userRoles": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      "username": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "username",
+                      "userGender",
+                      "nickName",
+                      "userPhone",
+                      "userEmail",
+                      "userRoles",
+                      "status",
+                      "createTime",
+                      "updateTime"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
+                "size": {
+                  "type": "integer"
+                },
+                "total": {
+                  "type": "integer"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "List",
+        "tags": [
+          "manage/user"
+        ]
+      }
+    },
+    "/api/v1/manage/setRoleMenus": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "接口权限编码:manage:role:setMenus",
+        "operationId": "manage/RoleSetMenus",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "menuIds": {
+                  "items": {
+                    "type": "integer"
+                  },
+                  "type": "array"
+                },
+                "roleId": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "roleId",
+                "menuIds"
+              ],
+              "type": "object"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "SetMenus",
+        "tags": [
+          "manage/role"
+        ]
+      }
+    },
+    "/api/v1/manage/updateRoleHome": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "接口权限编码:manage:role:updateHome",
+        "operationId": "manage/RoleUpdateHome",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "home": {
+                  "type": "string"
+                },
+                "roleId": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "roleId",
+                "home"
+              ],
+              "type": "object"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "UpdateHome",
+        "tags": [
+          "manage/role"
+        ]
+      }
+    },
+    "/api/v1/route/getConstantRoutes": {
+      "get": {
+        "description": "接口权限编码:route:getConstantRoutes",
+        "operationId": "routeGetConstantRoutes",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "items": {
+                "properties": {
+                  "component": {
+                    "type": "string"
+                  },
+                  "meta": {
+                    "properties": {
+                      "activeMenu": {
+                        "type": "string"
+                      },
+                      "constant": {
+                        "type": "boolean"
+                      },
+                      "fixedIndexInTab": {
+                        "type": "integer"
+                      },
+                      "hideInMenu": {
+                        "type": "boolean"
+                      },
+                      "href": {
+                        "type": "string"
+                      },
+                      "i18nKey": {
+                        "type": "string"
+                      },
+                      "icon": {
+                        "type": "string"
+                      },
+                      "keepAlive": {
+                        "type": "boolean"
+                      },
+                      "localIcon": {
+                        "type": "string"
+                      },
+                      "multiTab": {
+                        "type": "boolean"
+                      },
+                      "order": {
+                        "type": "integer"
+                      },
+                      "query": {
+                        "items": {
+                          "properties": {
+                            "key": {
+                              "type": "string"
+                            },
+                            "value": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "key",
+                            "value"
+                          ],
+                          "type": "object"
+                        },
+                        "type": "array"
+                      },
+                      "title": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "title",
+                      "i18nKey",
+                      "localIcon",
+                      "icon",
+                      "order",
+                      "hideInMenu",
+                      "activeMenu",
+                      "multiTab",
+                      "fixedIndexInTab",
+                      "keepAlive",
+                      "constant",
+                      "href",
+                      "query"
+                    ],
+                    "type": "object"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "path": {
+                    "type": "string"
+                  },
+                  "props": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "name",
+                  "path",
+                  "component",
+                  "props",
+                  "meta"
+                ],
+                "type": "object"
+              },
+              "properties": {
+                "component": {
+                  "type": "string"
+                },
+                "meta": {
+                  "properties": {
+                    "activeMenu": {
+                      "type": "string"
+                    },
+                    "constant": {
+                      "type": "boolean"
+                    },
+                    "fixedIndexInTab": {
+                      "type": "integer"
+                    },
+                    "hideInMenu": {
+                      "type": "boolean"
+                    },
+                    "href": {
+                      "type": "string"
+                    },
+                    "i18nKey": {
+                      "type": "string"
+                    },
+                    "icon": {
+                      "type": "string"
+                    },
+                    "keepAlive": {
+                      "type": "boolean"
+                    },
+                    "localIcon": {
+                      "type": "string"
+                    },
+                    "multiTab": {
+                      "type": "boolean"
+                    },
+                    "order": {
+                      "type": "integer"
+                    },
+                    "query": {
+                      "items": {
+                        "properties": {
+                          "key": {
+                            "type": "string"
+                          },
+                          "value": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "key",
+                          "value"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "title": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "title",
+                    "i18nKey",
+                    "localIcon",
+                    "icon",
+                    "order",
+                    "hideInMenu",
+                    "activeMenu",
+                    "multiTab",
+                    "fixedIndexInTab",
+                    "keepAlive",
+                    "constant",
+                    "href",
+                    "query"
+                  ],
+                  "type": "object"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "path": {
+                  "type": "string"
+                },
+                "props": {
+                  "type": "boolean"
+                }
+              },
+              "type": "array"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "GetConstantRoutes",
+        "tags": [
+          "route"
+        ]
+      }
+    },
+    "/api/v1/route/getUserRoutes": {
+      "get": {
+        "description": "接口权限编码:route:getUserRoutes",
+        "operationId": "routeGetUserRoutes",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "properties": {
+                "home": {
+                  "type": "string"
+                },
+                "routes": {
+                  "items": {
+                    "properties": {
+                      "-": {
+                        "type": "integer"
+                      },
+                      "children": {
+                        "items": {
+                          "properties": {
+                            "-": {
+                              "type": "integer"
+                            },
+                            "children": {
+                              "items": {
+                                "type": "object"
+                              },
+                              "type": "array"
+                            },
+                            "component": {
+                              "type": "string"
+                            },
+                            "meta": {
+                              "properties": {
+                                "activeMenu": {
+                                  "type": "string"
+                                },
+                                "constant": {
+                                  "type": "boolean"
+                                },
+                                "fixedIndexInTab": {
+                                  "type": "integer"
+                                },
+                                "hideInMenu": {
+                                  "type": "boolean"
+                                },
+                                "href": {
+                                  "type": "string"
+                                },
+                                "i18nKey": {
+                                  "type": "string"
+                                },
+                                "icon": {
+                                  "type": "string"
+                                },
+                                "keepAlive": {
+                                  "type": "boolean"
+                                },
+                                "localIcon": {
+                                  "type": "string"
+                                },
+                                "multiTab": {
+                                  "type": "boolean"
+                                },
+                                "order": {
+                                  "type": "integer"
+                                },
+                                "query": {
+                                  "items": {
+                                    "type": "object"
+                                  },
+                                  "type": "array"
+                                },
+                                "title": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "title",
+                                "i18nKey",
+                                "localIcon",
+                                "icon",
+                                "order",
+                                "hideInMenu",
+                                "activeMenu",
+                                "multiTab",
+                                "fixedIndexInTab",
+                                "keepAlive",
+                                "constant",
+                                "href",
+                                "query"
+                              ],
+                              "type": "object"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "path": {
+                              "type": "string"
+                            },
+                            "props": {},
+                            "redirect": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "-",
+                            "-",
+                            "name",
+                            "path",
+                            "meta",
+                            "component",
+                            "props",
+                            "redirect",
+                            "children"
+                          ],
+                          "type": "object"
+                        },
+                        "type": "array"
+                      },
+                      "component": {
+                        "type": "string"
+                      },
+                      "meta": {
+                        "properties": {
+                          "activeMenu": {
+                            "type": "string"
+                          },
+                          "constant": {
+                            "type": "boolean"
+                          },
+                          "fixedIndexInTab": {
+                            "type": "integer"
+                          },
+                          "hideInMenu": {
+                            "type": "boolean"
+                          },
+                          "href": {
+                            "type": "string"
+                          },
+                          "i18nKey": {
+                            "type": "string"
+                          },
+                          "icon": {
+                            "type": "string"
+                          },
+                          "keepAlive": {
+                            "type": "boolean"
+                          },
+                          "localIcon": {
+                            "type": "string"
+                          },
+                          "multiTab": {
+                            "type": "boolean"
+                          },
+                          "order": {
+                            "type": "integer"
+                          },
+                          "query": {
+                            "items": {
+                              "properties": {
+                                "key": {
+                                  "type": "string"
+                                },
+                                "value": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "key",
+                                "value"
+                              ],
+                              "type": "object"
+                            },
+                            "type": "array"
+                          },
+                          "title": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "title",
+                          "i18nKey",
+                          "localIcon",
+                          "icon",
+                          "order",
+                          "hideInMenu",
+                          "activeMenu",
+                          "multiTab",
+                          "fixedIndexInTab",
+                          "keepAlive",
+                          "constant",
+                          "href",
+                          "query"
+                        ],
+                        "type": "object"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "path": {
+                        "type": "string"
+                      },
+                      "props": {},
+                      "redirect": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "-",
+                      "-",
+                      "name",
+                      "path",
+                      "meta",
+                      "component",
+                      "props",
+                      "redirect",
+                      "children"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "GetUserRoutes",
+        "tags": [
+          "route"
+        ]
+      }
+    },
+    "/api/v1/route/isRouteExist": {
+      "get": {
+        "description": "接口权限编码:route:isRouteExist",
+        "operationId": "routeIsRouteExist",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "IsRouteExist",
+        "tags": [
+          "route"
+        ]
+      }
+    },
+    "/api/v1/version": {
+      "get": {
+        "description": "接口权限编码:version:version",
+        "operationId": "versionVersion",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "properties": {
+                "commit": {
+                  "type": "string"
+                },
+                "date": {
+                  "type": "string"
+                },
+                "goVersion": {
+                  "type": "string"
+                },
+                "version": {
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "Version",
+        "tags": [
+          "version"
+        ]
+      }
+    }
+  },
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "securityDefinitions": {
+    "apiKey": {
+      "description": "Enter Authorization",
+      "in": "header",
+      "name": "Authorization",
+      "type": "apiKey"
+    }
+  },
+  "swagger": "2.0"
+}

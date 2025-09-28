@@ -225,6 +225,17 @@ func (m *defaultCasbinRuleModel) TableName() string {
 	return m.table
 }
 
+func (m *defaultCasbinRuleModel) withTableColumns(columns ...string) []string {
+	var withTableColumns []string
+	for _, col := range columns {
+		if strings.Contains(col, ".") {
+			withTableColumns = append(withTableColumns, col)
+		} else {
+			withTableColumns = append(withTableColumns, m.table+"."+col)
+		}
+	}
+	return withTableColumns
+}
 func (m *customCasbinRuleModel) BulkInsert(ctx context.Context, session sqlx.Session, datas []*CasbinRule) error {
 	if len(datas) == 0 {
 		return nil
@@ -250,7 +261,7 @@ func (m *customCasbinRuleModel) FindSelectedColumnsByCondition(ctx context.Conte
 	if len(columns) == 0 {
 		columns = casbinRuleFieldNames
 	}
-	sb := sqlbuilder.Select(columns...).From(m.table)
+	sb := sqlbuilder.Select(m.withTableColumns(columns...)...).From(m.table)
 	builder := condition.Select(*sb, conds...)
 	statement, args := builder.Build()
 
@@ -300,7 +311,7 @@ func (m *customCasbinRuleModel) CountByCondition(ctx context.Context, session sq
 }
 
 func (m *customCasbinRuleModel) FindOneByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) (*CasbinRule, error) {
-	sb := sqlbuilder.Select(casbinRuleFieldNames...).From(m.table)
+	sb := sqlbuilder.Select(m.withTableColumns(casbinRuleFieldNames...)...).From(m.table)
 
 	builder := condition.Select(*sb, conds...)
 	builder.Limit(1)
@@ -321,7 +332,7 @@ func (m *customCasbinRuleModel) FindOneByCondition(ctx context.Context, session 
 }
 
 func (m *customCasbinRuleModel) PageByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) ([]*CasbinRule, int64, error) {
-	sb := sqlbuilder.Select(casbinRuleFieldNames...).From(m.table)
+	sb := sqlbuilder.Select(m.withTableColumns(casbinRuleFieldNames...)...).From(m.table)
 	builder := condition.Select(*sb, conds...)
 
 	var resp []*CasbinRule

@@ -226,6 +226,17 @@ func (m *defaultManageRoleMenuModel) TableName() string {
 	return m.table
 }
 
+func (m *defaultManageRoleMenuModel) withTableColumns(columns ...string) []string {
+	var withTableColumns []string
+	for _, col := range columns {
+		if strings.Contains(col, ".") {
+			withTableColumns = append(withTableColumns, col)
+		} else {
+			withTableColumns = append(withTableColumns, m.table+"."+col)
+		}
+	}
+	return withTableColumns
+}
 func (m *customManageRoleMenuModel) BulkInsert(ctx context.Context, session sqlx.Session, datas []*ManageRoleMenu) error {
 	if len(datas) == 0 {
 		return nil
@@ -251,7 +262,7 @@ func (m *customManageRoleMenuModel) FindSelectedColumnsByCondition(ctx context.C
 	if len(columns) == 0 {
 		columns = manageRoleMenuFieldNames
 	}
-	sb := sqlbuilder.Select(columns...).From(m.table)
+	sb := sqlbuilder.Select(m.withTableColumns(columns...)...).From(m.table)
 	builder := condition.Select(*sb, conds...)
 	statement, args := builder.Build()
 
@@ -301,7 +312,7 @@ func (m *customManageRoleMenuModel) CountByCondition(ctx context.Context, sessio
 }
 
 func (m *customManageRoleMenuModel) FindOneByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) (*ManageRoleMenu, error) {
-	sb := sqlbuilder.Select(manageRoleMenuFieldNames...).From(m.table)
+	sb := sqlbuilder.Select(m.withTableColumns(manageRoleMenuFieldNames...)...).From(m.table)
 
 	builder := condition.Select(*sb, conds...)
 	builder.Limit(1)
@@ -322,7 +333,7 @@ func (m *customManageRoleMenuModel) FindOneByCondition(ctx context.Context, sess
 }
 
 func (m *customManageRoleMenuModel) PageByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) ([]*ManageRoleMenu, int64, error) {
-	sb := sqlbuilder.Select(manageRoleMenuFieldNames...).From(m.table)
+	sb := sqlbuilder.Select(m.withTableColumns(manageRoleMenuFieldNames...)...).From(m.table)
 	builder := condition.Select(*sb, conds...)
 
 	var resp []*ManageRoleMenu

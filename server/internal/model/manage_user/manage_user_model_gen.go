@@ -261,6 +261,17 @@ func (m *defaultManageUserModel) TableName() string {
 	return m.table
 }
 
+func (m *defaultManageUserModel) withTableColumns(columns ...string) []string {
+	var withTableColumns []string
+	for _, col := range columns {
+		if strings.Contains(col, ".") {
+			withTableColumns = append(withTableColumns, col)
+		} else {
+			withTableColumns = append(withTableColumns, m.table+"."+col)
+		}
+	}
+	return withTableColumns
+}
 func (m *customManageUserModel) BulkInsert(ctx context.Context, session sqlx.Session, datas []*ManageUser) error {
 	if len(datas) == 0 {
 		return nil
@@ -286,7 +297,7 @@ func (m *customManageUserModel) FindSelectedColumnsByCondition(ctx context.Conte
 	if len(columns) == 0 {
 		columns = manageUserFieldNames
 	}
-	sb := sqlbuilder.Select(columns...).From(m.table)
+	sb := sqlbuilder.Select(m.withTableColumns(columns...)...).From(m.table)
 	builder := condition.Select(*sb, conds...)
 	statement, args := builder.Build()
 
@@ -336,7 +347,7 @@ func (m *customManageUserModel) CountByCondition(ctx context.Context, session sq
 }
 
 func (m *customManageUserModel) FindOneByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) (*ManageUser, error) {
-	sb := sqlbuilder.Select(manageUserFieldNames...).From(m.table)
+	sb := sqlbuilder.Select(m.withTableColumns(manageUserFieldNames...)...).From(m.table)
 
 	builder := condition.Select(*sb, conds...)
 	builder.Limit(1)
@@ -357,7 +368,7 @@ func (m *customManageUserModel) FindOneByCondition(ctx context.Context, session 
 }
 
 func (m *customManageUserModel) PageByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) ([]*ManageUser, int64, error) {
-	sb := sqlbuilder.Select(manageUserFieldNames...).From(m.table)
+	sb := sqlbuilder.Select(m.withTableColumns(manageUserFieldNames...)...).From(m.table)
 	builder := condition.Select(*sb, conds...)
 
 	var resp []*ManageUser

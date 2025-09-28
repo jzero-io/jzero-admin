@@ -231,6 +231,8 @@ github.com/jzero-io/jzero v0.60.5-0.20250928090212-dea6ee059184 h1:GbQLCu8Cg62wG
 github.com/jzero-io/jzero v0.60.5-0.20250928090212-dea6ee059184/go.mod h1:zSAcVX3yPo++R6yqPb253X05zGSKkRQWPDKL1vFReiY=
 github.com/jzero-io/jzero/cmd/jzero v0.60.4 h1:sT3SPzcAjsnK7rVx0JM+wWpsP3HBU/zKbd+699byDqk=
 github.com/jzero-io/jzero/cmd/jzero v0.60.4/go.mod h1:jFj4p9w/Ki6/AL8Q8OtoO1xcycBmNkLYSFBZGomHDms=
+github.com/jzero-io/jzero/cmd/jzero v0.60.5-0.20250928095410-33e2378bf8ff h1:RNDff/Z6cLkTVqcT+qECzr7xE7nROHxDBgPxBg65bco=
+github.com/jzero-io/jzero/cmd/jzero v0.60.5-0.20250928095410-33e2378bf8ff/go.mod h1:jFj4p9w/Ki6/AL8Q8OtoO1xcycBmNkLYSFBZGomHDms=
 github.com/kevinburke/ssh_config v1.2.0 h1:x584FjTGwHzMwvHx18PXxbBVzfnxogHaAReU4gf13a4=
 github.com/kevinburke/ssh_config v1.2.0/go.mod h1:CT57kijsi8u/K/BOFA39wgDQJ9CxiF4nAY/ojJ6r6mM=
 github.com/kisielk/errcheck v1.5.0/go.mod h1:pFxgyoBC7bSaBwPgfKdkLd5X25qrDl4LWUI2bnpBCr8=

@@ -1,0 +1,567 @@
+{
+  "basePath": "/",
+  "consumes": [
+    "application/json"
+  ],
+  "info": {
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/v1/manage/addRole": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "接口权限编码:manage:role:add",
+        "operationId": "manage/RoleAdd",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "roleCode": {
+                  "type": "string"
+                },
+                "roleDesc": {
+                  "type": "string"
+                },
+                "roleName": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "roleName",
+                "roleCode",
+                "roleDesc",
+                "status"
+              ],
+              "type": "object"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "Add",
+        "tags": [
+          "manage/role"
+        ]
+      }
+    },
+    "/api/v1/manage/deleteRole": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "接口权限编码:manage:role:delete",
+        "operationId": "manage/RoleDelete",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "ids": {
+                  "items": {
+                    "type": "integer"
+                  },
+                  "type": "array"
+                }
+              },
+              "required": [
+                "ids"
+              ],
+              "type": "object"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "Delete",
+        "tags": [
+          "manage/role"
+        ]
+      }
+    },
+    "/api/v1/manage/editRole": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "接口权限编码:manage:role:edit",
+        "operationId": "manage/RoleEdit",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "roleCode": {
+                  "type": "string"
+                },
+                "roleDesc": {
+                  "type": "string"
+                },
+                "roleName": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "roleName",
+                "roleCode",
+                "roleDesc",
+                "status"
+              ],
+              "type": "object"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "Edit",
+        "tags": [
+          "manage/role"
+        ]
+      }
+    },
+    "/api/v1/manage/getAllRoles": {
+      "get": {
+        "description": "接口权限编码:manage:role:getAll",
+        "operationId": "manage/RoleGetAll",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "items": {
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "roleCode": {
+                    "type": "string"
+                  },
+                  "roleName": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "id",
+                  "roleName",
+                  "roleCode"
+                ],
+                "type": "object"
+              },
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "roleCode": {
+                  "type": "string"
+                },
+                "roleName": {
+                  "type": "string"
+                }
+              },
+              "type": "array"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "GetAll",
+        "tags": [
+          "manage/role"
+        ]
+      }
+    },
+    "/api/v1/manage/getRoleHome": {
+      "get": {
+        "description": "接口权限编码:manage:role:getHome",
+        "operationId": "manage/RoleGetHome",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "roleId",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "GetHome",
+        "tags": [
+          "manage/role"
+        ]
+      }
+    },
+    "/api/v1/manage/getRoleList": {
+      "get": {
+        "description": "接口权限编码:manage:role:list",
+        "operationId": "manage/RoleList",
+        "parameters": [
+          {
+            "allowEmptyValue": true,
+            "default": 1,
+            "in": "query",
+            "name": "current",
+            "type": "integer"
+          },
+          {
+            "allowEmptyValue": true,
+            "default": 10,
+            "in": "query",
+            "name": "size",
+            "type": "integer"
+          },
+          {
+            "allowEmptyValue": true,
+            "in": "query",
+            "name": "roleName",
+            "type": "string"
+          },
+          {
+            "allowEmptyValue": true,
+            "in": "query",
+            "name": "roleCode",
+            "type": "string"
+          },
+          {
+            "allowEmptyValue": true,
+            "in": "query",
+            "name": "status",
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "properties": {
+                "current": {
+                  "type": "integer"
+                },
+                "records": {
+                  "items": {
+                    "properties": {
+                      "createTime": {
+                        "type": "string"
+                      },
+                      "id": {
+                        "type": "integer"
+                      },
+                      "roleCode": {
+                        "type": "string"
+                      },
+                      "roleDesc": {
+                        "type": "string"
+                      },
+                      "roleName": {
+                        "type": "string"
+                      },
+                      "status": {
+                        "type": "string"
+                      },
+                      "updateTime": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "roleName",
+                      "roleCode",
+                      "roleDesc",
+                      "status",
+                      "createTime",
+                      "updateTime"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
+                "size": {
+                  "type": "integer"
+                },
+                "total": {
+                  "type": "integer"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "List",
+        "tags": [
+          "manage/role"
+        ]
+      }
+    },
+    "/api/v1/manage/getRoleMenus": {
+      "get": {
+        "description": "接口权限编码:manage:role:getMenus",
+        "operationId": "manage/RoleGetMenus",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "roleId",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "items": {
+                "type": "integer"
+              },
+              "type": "array"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "GetMenus",
+        "tags": [
+          "manage/role"
+        ]
+      }
+    },
+    "/api/v1/manage/setRoleMenus": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "接口权限编码:manage:role:setMenus",
+        "operationId": "manage/RoleSetMenus",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "menuIds": {
+                  "items": {
+                    "type": "integer"
+                  },
+                  "type": "array"
+                },
+                "roleId": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "roleId",
+                "menuIds"
+              ],
+              "type": "object"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "SetMenus",
+        "tags": [
+          "manage/role"
+        ]
+      }
+    },
+    "/api/v1/manage/updateRoleHome": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "接口权限编码:manage:role:updateHome",
+        "operationId": "manage/RoleUpdateHome",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "home": {
+                  "type": "string"
+                },
+                "roleId": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "roleId",
+                "home"
+              ],
+              "type": "object"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "UpdateHome",
+        "tags": [
+          "manage/role"
+        ]
+      }
+    }
+  },
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "securityDefinitions": {
+    "apiKey": {
+      "description": "Enter Authorization",
+      "in": "header",
+      "name": "Authorization",
+      "type": "apiKey"
+    }
+  },
+  "swagger": "2.0"
+}

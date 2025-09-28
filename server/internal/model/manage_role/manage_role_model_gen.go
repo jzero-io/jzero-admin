@@ -228,6 +228,17 @@ func (m *defaultManageRoleModel) TableName() string {
 	return m.table
 }
 
+func (m *defaultManageRoleModel) withTableColumns(columns ...string) []string {
+	var withTableColumns []string
+	for _, col := range columns {
+		if strings.Contains(col, ".") {
+			withTableColumns = append(withTableColumns, col)
+		} else {
+			withTableColumns = append(withTableColumns, m.table+"."+col)
+		}
+	}
+	return withTableColumns
+}
 func (m *customManageRoleModel) BulkInsert(ctx context.Context, session sqlx.Session, datas []*ManageRole) error {
 	if len(datas) == 0 {
 		return nil
@@ -253,7 +264,7 @@ func (m *customManageRoleModel) FindSelectedColumnsByCondition(ctx context.Conte
 	if len(columns) == 0 {
 		columns = manageRoleFieldNames
 	}
-	sb := sqlbuilder.Select(columns...).From(m.table)
+	sb := sqlbuilder.Select(m.withTableColumns(columns...)...).From(m.table)
 	builder := condition.Select(*sb, conds...)
 	statement, args := builder.Build()
 
@@ -303,7 +314,7 @@ func (m *customManageRoleModel) CountByCondition(ctx context.Context, session sq
 }
 
 func (m *customManageRoleModel) FindOneByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) (*ManageRole, error) {
-	sb := sqlbuilder.Select(manageRoleFieldNames...).From(m.table)
+	sb := sqlbuilder.Select(m.withTableColumns(manageRoleFieldNames...)...).From(m.table)
 
 	builder := condition.Select(*sb, conds...)
 	builder.Limit(1)
@@ -324,7 +335,7 @@ func (m *customManageRoleModel) FindOneByCondition(ctx context.Context, session 
 }
 
 func (m *customManageRoleModel) PageByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) ([]*ManageRole, int64, error) {
-	sb := sqlbuilder.Select(manageRoleFieldNames...).From(m.table)
+	sb := sqlbuilder.Select(m.withTableColumns(manageRoleFieldNames...)...).From(m.table)
 	builder := condition.Select(*sb, conds...)
 
 	var resp []*ManageRole

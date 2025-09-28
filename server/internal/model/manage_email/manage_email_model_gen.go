@@ -234,6 +234,17 @@ func (m *defaultManageEmailModel) TableName() string {
 	return m.table
 }
 
+func (m *defaultManageEmailModel) withTableColumns(columns ...string) []string {
+	var withTableColumns []string
+	for _, col := range columns {
+		if strings.Contains(col, ".") {
+			withTableColumns = append(withTableColumns, col)
+		} else {
+			withTableColumns = append(withTableColumns, m.table+"."+col)
+		}
+	}
+	return withTableColumns
+}
 func (m *customManageEmailModel) BulkInsert(ctx context.Context, session sqlx.Session, datas []*ManageEmail) error {
 	if len(datas) == 0 {
 		return nil
@@ -259,7 +270,7 @@ func (m *customManageEmailModel) FindSelectedColumnsByCondition(ctx context.Cont
 	if len(columns) == 0 {
 		columns = manageEmailFieldNames
 	}
-	sb := sqlbuilder.Select(columns...).From(m.table)
+	sb := sqlbuilder.Select(m.withTableColumns(columns...)...).From(m.table)
 	builder := condition.Select(*sb, conds...)
 	statement, args := builder.Build()
 
@@ -309,7 +320,7 @@ func (m *customManageEmailModel) CountByCondition(ctx context.Context, session s
 }
 
 func (m *customManageEmailModel) FindOneByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) (*ManageEmail, error) {
-	sb := sqlbuilder.Select(manageEmailFieldNames...).From(m.table)
+	sb := sqlbuilder.Select(m.withTableColumns(manageEmailFieldNames...)...).From(m.table)
 
 	builder := condition.Select(*sb, conds...)
 	builder.Limit(1)
@@ -330,7 +341,7 @@ func (m *customManageEmailModel) FindOneByCondition(ctx context.Context, session
 }
 
 func (m *customManageEmailModel) PageByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) ([]*ManageEmail, int64, error) {
-	sb := sqlbuilder.Select(manageEmailFieldNames...).From(m.table)
+	sb := sqlbuilder.Select(m.withTableColumns(manageEmailFieldNames...)...).From(m.table)
 	builder := condition.Select(*sb, conds...)
 
 	var resp []*ManageEmail
