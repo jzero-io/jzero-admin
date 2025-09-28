@@ -49,7 +49,6 @@ func NewServiceContext(cc configurator.Configurator[config.Config], route2Code f
 	svcCtx.Cache = cache.NewRedisNode(svcCtx.Redis, errors.New("cache not found"), cache.WithExpiry(time.Duration(5)*time.Second))
 	svcCtx.CasbinEnforcer = MustCasbinEnforcer(svcCtx)
 	svcCtx.Model = model.NewModel(svcCtx.SqlxConn, modelx.WithCachedConn(modelx.NewConnWithCache(svcCtx.SqlxConn, svcCtx.Cache)))
-	svcCtx.Middleware = NewMiddleware(svcCtx, route2Code)
 	svcCtx.Trans = i18n.NewTranslator(svcCtx.MustGetConfig().I18n, i18n.LocaleFS)
 	return svcCtx
 }

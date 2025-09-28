@@ -22,6 +22,25 @@ import (
 	"github.com/jzero-io/jzero-admin/server/plugins"
 )
 
+type Server struct {
+	Rest   *rest.Server
+	Custom *custom.Custom
+}
+
+func NewServer(restConf rest.RestConf) *Server {
+	restServer := rest.MustNewServer(restConf, rest.WithUnauthorizedCallback(func(w http.ResponseWriter, r *http.Request, err error) {
+		httpx.ErrorCtx(r.Context(), w, err)
+	}), rest.WithCustomCors(func(header http.Header) {
+		header.Set("Access-Control-Allow-Origin", "*")
+		header.Add("Access-Control-Allow-Headers", "X-Request-Id")
+		header.Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, UPDATE")
+	}, nil, "*"))
+	return &Server{
+		Rest:   restServer,
+		Custom: custom.New(restServer),
+	}
+}
+
 // serverCmd represents the server command
 var serverCmd = &cobra.Command{
 	Use:   "server",
@@ -41,43 +60,35 @@ var serverCmd = &cobra.Command{
 			logx.AddWriter(logx.NewWriter(os.Stdout))
 		}
 
-		printBanner(c)
+		printBanner(c.Banner)
 		printVersion()
 		logx.Infof("Starting rest server at %s:%d...", c.Rest.Host, c.Rest.Port)
 
-		svcCtx := svc.NewServiceContext(cc, handler.Route2Code)
-		global.ServiceContext = *svcCtx
-		run(svcCtx)
+		NewServer(c.Rest.RestConf).run(cc)
 	},
 }
 
-func run(svcCtx *svc.ServiceContext) {
-	server := rest.MustNewServer(svcCtx.MustGetConfig().Rest.RestConf, rest.WithUnauthorizedCallback(func(w http.ResponseWriter, r *http.Request, err error) {
-		httpx.ErrorCtx(r.Context(), w, err)
-	}), rest.WithCustomCors(func(header http.Header) {
-		header.Set("Access-Control-Allow-Origin", "*")
-		header.Add("Access-Control-Allow-Headers", "X-Request-Id")
-		header.Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, UPDATE")
-	}, nil, "*"))
+func (s *Server) run(cc configurator.Configurator[config.Config]) {
+	logx.Must(s.Custom.Init(cc))
 
-	ctm := custom.New(server)
-	logx.Must(ctm.Init())
-
-	middleware.Register(server)
+	svcCtx := svc.NewServiceContext(cc, handler.Route2Code)
+	svcCtx.Middleware = middleware.NewMiddleware(svcCtx, handler.Route2Code)
+	global.ServiceContext = *svcCtx
+	middleware.Register(s.Rest)
 
 	// server add api handlers
-	handler.RegisterHandlers(server, svcCtx)
+	handler.RegisterHandlers(s.Rest, svcCtx)
 
-	plugins.LoadPlugins(server, *svcCtx)
+	plugins.LoadPlugins(s.Rest, *svcCtx)
 
 	group := service.NewServiceGroup()
-	group.Add(server)
-	group.Add(ctm)
+	group.Add(s.Rest)
+	group.Add(s.Custom)
 	group.Start()
 }
 
-func printBanner(c config.Config) {
-	figure.NewColorFigure(c.Banner.Text, c.Banner.FontName, c.Banner.Color, true).Print()
+func printBanner(c config.BannerConf) {
+	figure.NewColorFigure(c.Text, c.FontName, c.Color, true).Print()
 }
 
 func init() {
