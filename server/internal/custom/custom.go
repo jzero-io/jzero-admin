@@ -35,7 +35,16 @@ func (c *Custom) Init(cc configurator.Configurator[config.Config]) error {
 	errcodes.Register()
 
 	// migrate database
-	if err = migrate.Migrate(context.Background(), cfg.Sqlx.SqlConf); err != nil {
+	if err = migrate.Migrate(context.Background(), cfg.Sqlx.SqlConf, migrate.WithSource(func() string {
+		switch cfg.Sqlx.DriverName {
+		case "mysql":
+			return "file://desc/sql_migration"
+		case "pgx":
+			return "file://desc/sql_migration/postgresql"
+		default:
+			return "file://desc/sql_migration"
+		}
+	}())); err != nil {
 		if errors.Is(err, os.ErrNotExist) {
 			logx.Infof("migration source not exist, skip migration")
 			return nil
