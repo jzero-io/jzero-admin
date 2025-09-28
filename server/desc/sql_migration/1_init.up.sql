@@ -1,8 +1,3 @@
-SET NAMES utf8mb4;
-
-# 转储表 casbin_rule
-# ------------------------------------------------------------
-
 DROP TABLE IF EXISTS `casbin_rule`;
 
 CREATE TABLE `casbin_rule` (
@@ -16,9 +11,6 @@ CREATE TABLE `casbin_rule` (
                                `v5` varchar(100) DEFAULT NULL,
                                PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-LOCK TABLES `casbin_rule` WRITE;
-/*!40000 ALTER TABLE `casbin_rule` DISABLE KEYS */;
 
 INSERT INTO `casbin_rule` (`id`, `p_type`, `v0`, `v1`, `v2`, `v3`, `v4`, `v5`)
 VALUES
@@ -42,10 +34,6 @@ VALUES
     (429,'p','1','manage:menu:tree','','','',''),
     (430,'p','1','manage:role:updateHome','','','',''),
     (431,'p','1','manage:role:getHome','','','','');
-
-/*!40000 ALTER TABLE `casbin_rule` ENABLE KEYS */;
-UNLOCK TABLES;
-
 
 # 转储表 manage_email
 # ------------------------------------------------------------
@@ -105,9 +93,6 @@ CREATE TABLE `manage_menu` (
                                PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-LOCK TABLES `manage_menu` WRITE;
-/*!40000 ALTER TABLE `manage_menu` DISABLE KEYS */;
-
 INSERT INTO `manage_menu` (`id`, `create_time`, `update_time`, `create_by`, `update_by`, `status`, `parent_id`, `menu_type`, `menu_name`, `hide_in_menu`, `active_menu`, `order`, `route_name`, `route_path`, `component`, `icon`, `icon_type`, `i18n_key`, `keep_alive`, `href`, `multi_tab`, `fixed_index_in_tab`, `query`, `permissions`, `constant`, `button_code`)
 VALUES
     (1,'2024-11-10 21:12:35','2024-11-10 21:12:35',NULL,NULL,'1',0,'2','关于',0,'',6,'about','/about','layout.base$view.about','fluent:book-information-24-regular','1','route.about',0,'',0,NULL,'[]','[]',0,NULL),
@@ -134,10 +119,6 @@ VALUES
     (37,'2024-11-30 03:10:37','2024-11-30 03:10:37',NULL,NULL,'1',36,'2','项目文档',0,'',0,'document_project','/document/project','view.iframe-page','logo','2','route.document_project',0,'https://jzero.jaronnie.com',0,NULL,'[]','[]',0,''),
     (38,'2024-11-30 03:20:13','2024-11-30 03:20:13',NULL,NULL,'1',3,'2','用户详情',1,'',0,'manage_user-detail','/manage/user-detail/:id','view.manage_user-detail','','1','route.manage_user-detail',0,'',0,NULL,'[]','[]',0,'');
 
-/*!40000 ALTER TABLE `manage_menu` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
 # 转储表 manage_role
 # ------------------------------------------------------------
 
@@ -156,16 +137,10 @@ CREATE TABLE `manage_role` (
                                PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-LOCK TABLES `manage_role` WRITE;
-/*!40000 ALTER TABLE `manage_role` DISABLE KEYS */;
-
 INSERT INTO `manage_role` (`id`, `create_time`, `update_time`, `create_by`, `update_by`, `name`, `status`, `code`, `desc`)
 VALUES
     (1,'2024-10-29 22:23:50','2024-10-29 22:23:50',1,NULL,'超级管理员','1','R_SUPER','超级管理员'),
     (2,'2024-11-28 12:46:13','2024-11-28 12:46:13',1,NULL,'测试用户','1','R_TEST','测试用户');
-
-/*!40000 ALTER TABLE `manage_role` ENABLE KEYS */;
-UNLOCK TABLES;
 
 
 # 转储表 manage_role_menu
@@ -184,9 +159,6 @@ CREATE TABLE `manage_role_menu` (
                                     `is_home` tinyint(1) NOT NULL,
                                     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-LOCK TABLES `manage_role_menu` WRITE;
-/*!40000 ALTER TABLE `manage_role_menu` DISABLE KEYS */;
 
 INSERT INTO `manage_role_menu` (`id`, `create_time`, `update_time`, `create_by`, `update_by`, `role_id`, `menu_id`, `is_home`)
 VALUES
@@ -223,10 +195,6 @@ VALUES
     (811,'2024-12-04 01:49:15','2024-12-04 01:49:15',NULL,NULL,2,37,0),
     (812,'2024-12-04 01:49:15','2024-12-04 01:49:15',NULL,NULL,2,38,0);
 
-/*!40000 ALTER TABLE `manage_role_menu` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
 # 转储表 manage_user
 # ------------------------------------------------------------
 
@@ -249,16 +217,10 @@ CREATE TABLE `manage_user` (
                                UNIQUE KEY `uni_manage_user_username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-LOCK TABLES `manage_user` WRITE;
-/*!40000 ALTER TABLE `manage_user` DISABLE KEYS */;
-
 INSERT INTO `manage_user` (`id`, `create_time`, `update_time`, `create_by`, `update_by`, `username`, `password`, `nickname`, `gender`, `phone`, `status`, `email`)
 VALUES
     (1,'2024-10-24 09:45:00','2024-10-31 09:40:13',NULL,NULL,'jzero','123456','jzero','1','','1','jaron@jaronnie.com'),
     (3,'2024-11-28 12:50:29','2024-11-28 12:50:29',NULL,NULL,'test','123456','测试用户','1','1234567890','1','test@qq.com');
-
-/*!40000 ALTER TABLE `manage_user` ENABLE KEYS */;
-UNLOCK TABLES;
 
 
 # 转储表 manage_user_role
@@ -277,14 +239,8 @@ CREATE TABLE `manage_user_role` (
                                     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-LOCK TABLES `manage_user_role` WRITE;
-/*!40000 ALTER TABLE `manage_user_role` DISABLE KEYS */;
-
 INSERT INTO `manage_user_role` (`id`, `create_time`, `update_time`, `create_by`, `update_by`, `user_id`, `role_id`)
 VALUES
     (1,'2024-10-31 09:40:13','2024-10-31 09:40:13',NULL,NULL,1,1),
     (4,'2024-11-28 12:49:54','2024-11-28 12:49:54',NULL,NULL,2,2),
     (5,'2024-11-28 12:50:29','2024-11-28 12:50:29',NULL,NULL,3,2);
-
-/*!40000 ALTER TABLE `manage_user_role` ENABLE KEYS */;
-UNLOCK TABLES;
