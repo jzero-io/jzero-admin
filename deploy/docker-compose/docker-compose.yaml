@@ -7,7 +7,11 @@ services:
       - TZ=Asia/Shanghai
       - DRIVER_NAME=mysql
       - DATASOURCE=root:123456@tcp(mysql:3306)/jzeroadmin?charset=utf8mb4&parseTime=True&loc=Local
-      - CACHE_TYPE=local
+#      # using postgres
+#      - DRIVER_NAME=pgx
+#      - DATASOURCE=postgres://root:123456@postgres:5432/jzeroadmin
+      - REDIS_HOST=redis:6379
+      - CACHE_TYPE=redis
     depends_on:
       - mysql
   web:
@@ -50,3 +54,9 @@ services:
       - ./mysql/data:/var/lib/mysql
     ports:
       - "3306:3306"
+  redis:
+    image: redis
+    restart: always
+    container_name: jzero-admin-redis
+    ports:
+      - "6379:6379"
