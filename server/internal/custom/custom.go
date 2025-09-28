@@ -35,7 +35,7 @@ func (c *Custom) Init(cc configurator.Configurator[config.Config]) error {
 	errcodes.Register()
 
 	// migrate database
-	if err = migrate.Migrate(context.Background(), cfg.Sqlx.SqlConf, migrate.WithSource(func() string {
+	if err = migrate.MigrateUp(context.Background(), cfg.Sqlx.SqlConf, migrate.WithSource(func() string {
 		switch cfg.Sqlx.DriverName {
 		case "mysql":
 			return "file://desc/sql_migration"
