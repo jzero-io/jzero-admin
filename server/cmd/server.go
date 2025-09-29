@@ -60,7 +60,7 @@ var serverCmd = &cobra.Command{
 			logx.AddWriter(logx.NewWriter(os.Stdout))
 		}
 
-		printBanner(c.Banner)
+		printBanner(c)
 		printVersion()
 		logx.Infof("Starting rest server at %s:%d...", c.Rest.Host, c.Rest.Port)
 
@@ -72,13 +72,9 @@ func (s *Server) run(cc configurator.Configurator[config.Config]) {
 	logx.Must(s.Custom.Init(cc))
 
 	svcCtx := svc.NewServiceContext(cc, handler.Route2Code)
-	svcCtx.Middleware = middleware.NewMiddleware(svcCtx, handler.Route2Code)
 	global.ServiceContext = *svcCtx
 	middleware.Register(s.Rest)
-
-	// server add api handlers
 	handler.RegisterHandlers(s.Rest, svcCtx)
-
 	plugins.LoadPlugins(s.Rest, *svcCtx)
 
 	group := service.NewServiceGroup()
@@ -87,8 +83,8 @@ func (s *Server) run(cc configurator.Configurator[config.Config]) {
 	group.Start()
 }
 
-func printBanner(c config.BannerConf) {
-	figure.NewColorFigure(c.Text, c.FontName, c.Color, true).Print()
+func printBanner(c config.Config) {
+	figure.NewColorFigure(c.Banner.Text, c.Banner.FontName, c.Banner.Color, true).Print()
 }
 
 func init() {

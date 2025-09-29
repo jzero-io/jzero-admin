@@ -7,11 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/jzero-io/jzero-admin/core-engine/helper/auth"
 	"github.com/jzero-io/jzero/core/stores/condition"
 	"github.com/pkg/errors"
 	"github.com/zeromicro/go-zero/core/logx"
 
-	"github.com/jzero-io/jzero-admin/server/internal/auth"
 	"github.com/jzero-io/jzero-admin/server/internal/constant"
 	"github.com/jzero-io/jzero-admin/server/internal/model/manage_user"
 	"github.com/jzero-io/jzero-admin/server/internal/model/manage_user_role"

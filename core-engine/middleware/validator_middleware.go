@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"reflect"
@@ -10,16 +11,15 @@ import (
 	unTrans "github.com/go-playground/universal-translator"
 	"github.com/go-playground/validator/v10"
 	zhTrans "github.com/go-playground/validator/v10/translations/zh"
-	"github.com/pkg/errors"
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type Validator struct {
-	instance *validator.Validate
-	trans    unTrans.Translator
+type ValidatorMiddleware struct {
+	instance     *validator.Validate
+	zhTranslator unTrans.Translator
 }
 
-func NewValidator() *Validator {
+func NewValidatorMiddleware() *ValidatorMiddleware {
 	validate := validator.New()
 	uni := unTrans.New(zh_Hans_CN.New())
 
@@ -27,36 +27,30 @@ func NewValidator() *Validator {
 		return getLabelValue(field)
 	})
 
-	// register validation functions for custom validation
-	err := validate.RegisterValidation("customValidation", func(fl validator.FieldLevel) bool {
-		return false
-	})
-
-	trans, _ := uni.GetTranslator("zh_Hans_CN")
-	err = zhTrans.RegisterDefaultTranslations(validate, trans)
+	zhTranslator, _ := uni.GetTranslator("zh_Hans_CN")
+	err := zhTrans.RegisterDefaultTranslations(validate, zhTranslator)
 	logx.Must(err)
 
-	// register custom validation error message
-	err = validate.RegisterTranslation("customValidation", trans, registerTranslator("customValidation", "自定义错误消息"), translate)
-	logx.Must(err)
-
-	return &Validator{
-		instance: validate,
-		trans:    trans,
+	return &ValidatorMiddleware{
+		instance:     validate,
+		zhTranslator: zhTranslator,
 	}
 }
 
-func (v *Validator) Validate(r *http.Request, data any) (err error) {
-	err = v.instance.Struct(data)
+func (v *ValidatorMiddleware) Validate(r *http.Request, data any) error {
+	var errJoin error
+
+	err := v.instance.Struct(data)
 	if err != nil {
 		for _, ve := range err.(validator.ValidationErrors) {
-			if v.trans != nil {
-				return errors.New(ve.Translate(v.trans))
+			if v.zhTranslator != nil && r.Context().Value("lang").(string) == "zh-CN" {
+				errJoin = errors.Join(errors.New(ve.Translate(v.zhTranslator)))
+			} else {
+				errJoin = errors.Join(ve)
 			}
-			return ve
 		}
 	}
-	return nil
+	return errJoin
 }
 
 func getLabelValue(field reflect.StructField) string {
@@ -72,7 +66,7 @@ func getLabelValue(field reflect.StructField) string {
 	return ""
 }
 
-func registerTranslator(tag string, msg string) validator.RegisterTranslationsFunc {
+func RegisterTranslator(tag string, msg string) validator.RegisterTranslationsFunc {
 	return func(trans unTrans.Translator) error {
 		if err := trans.Add(tag, msg, false); err != nil {
 			return err
@@ -81,7 +75,7 @@ func registerTranslator(tag string, msg string) validator.RegisterTranslationsFu
 	}
 }
 
-func translate(trans unTrans.Translator, fe validator.FieldError) string {
+func Translate(trans unTrans.Translator, fe validator.FieldError) string {
 	msg, err := trans.T(fe.Tag(), fe.Field())
 	if err != nil {
 		panic(fe.(error).Error())

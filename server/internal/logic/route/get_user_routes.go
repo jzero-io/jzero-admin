@@ -5,12 +5,12 @@ import (
 	"net/http"
 
 	"github.com/guregu/null/v5"
+	"github.com/jzero-io/jzero-admin/core-engine/helper/auth"
 	"github.com/jzero-io/jzero/core/stores/condition"
 	"github.com/samber/lo"
 	"github.com/spf13/cast"
 	"github.com/zeromicro/go-zero/core/logx"
 
-	"github.com/jzero-io/jzero-admin/server/internal/auth"
 	"github.com/jzero-io/jzero-admin/server/internal/logic/manage/menu"
 	"github.com/jzero-io/jzero-admin/server/internal/model/manage_menu"
 	"github.com/jzero-io/jzero-admin/server/internal/model/manage_role_menu"

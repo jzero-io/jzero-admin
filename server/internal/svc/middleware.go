@@ -1,9 +1,17 @@
 package svc
 
 import (
-	"github.com/zeromicro/go-zero/rest"
+	"net/http"
+
+	"github.com/jzero-io/jzero-admin/core-engine/middleware"
 )
 
 type Middleware struct {
-	Authx rest.Middleware
+	middleware.Middleware
+}
+
+func NewMiddleware(svcCtx *ServiceContext, route2Code func(r *http.Request) string) Middleware {
+	return Middleware{
+		Middleware: middleware.NewMiddleware(svcCtx.ServiceContext, route2Code),
+	}
 }

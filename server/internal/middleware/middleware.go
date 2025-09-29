@@ -1,36 +1,15 @@
 package middleware
 
 import (
-	"context"
-	"net/http"
-
 	"github.com/zeromicro/go-zero/rest"
 	"github.com/zeromicro/go-zero/rest/httpx"
 
-	"github.com/jzero-io/jzero-admin/server/internal/svc"
+	"github.com/jzero-io/jzero-admin/server/internal/global"
 )
 
 func Register(server *rest.Server) {
-	httpx.SetOkHandler(ResponseMiddleware)
-	httpx.SetErrorHandlerCtx(ErrorMiddleware)
-	httpx.SetValidator(NewValidator())
-
-	// i18n middleware
-	server.Use(func(next http.HandlerFunc) http.HandlerFunc {
-		return func(writer http.ResponseWriter, request *http.Request) {
-			rctx := request.Context()
-			if lang := request.Header.Get("Accept-Language"); lang == "" {
-				rctx = context.WithValue(rctx, "lang", "zh-CN")
-			} else {
-				rctx = context.WithValue(rctx, "lang", lang)
-			}
-			next(writer, request.WithContext(rctx))
-		}
-	})
-}
-
-func NewMiddleware(svcCtx *svc.ServiceContext, route2Code func(r *http.Request) string) svc.Middleware {
-	return svc.Middleware{
-		Authx: NewAuthxMiddleware(svcCtx.CasbinEnforcer, route2Code).Handle,
-	}
+	httpx.SetOkHandler(global.ServiceContext.Middleware.Ok)
+	httpx.SetErrorHandlerCtx(global.ServiceContext.Middleware.Error)
+	httpx.SetValidator(global.ServiceContext.Middleware.Validate)
+	server.Use(global.ServiceContext.Middleware.I18n)
 }

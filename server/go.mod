@@ -1,11 +1,11 @@
 module github.com/jzero-io/jzero-admin/server
 
-go 1.24.3
+go 1.24.5
 
 require (
 	github.com/Blank-Xu/sql-adapter v1.1.2
 	github.com/alicebob/miniredis/v2 v2.35.0
-	github.com/casbin/casbin/v2 v2.105.0
+	github.com/casbin/casbin/v2 v2.127.0
 	github.com/common-nighthawk/go-figure v0.0.0-20210622060536-734e95fb86be
 	github.com/eddieowens/opts v0.1.0
 	github.com/go-playground/locales v0.14.1
@@ -99,6 +99,7 @@ require (
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/jzero-io/desc v1.1.0 // indirect
 	github.com/jzero-io/go_fmt v0.0.0-20250905015347-1a45352494b7 // indirect
+	github.com/jzero-io/jzero-admin/core-engine v0.0.0-20250929015223-0413b8e5be06 // indirect
 	github.com/jzero-io/jzero/cmd/jzero v0.60.5-0.20250928095410-33e2378bf8ff // indirect
 	github.com/kevinburke/ssh_config v1.2.0 // indirect
 	github.com/klauspost/compress v1.18.0 // indirect
