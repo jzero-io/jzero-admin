@@ -25,9 +25,18 @@ type ServiceContext struct {
 	Cache          cache.Cache
 	CasbinEnforcer *casbin.Enforcer
 	Trans          *i18n.Translator
+	Middleware
 }
 
-type ServiceContextOpts struct{}
+type ServiceContextOpts struct {
+	Serverless bool
+}
+
+func WithServerless(serverless bool) opts.Opt[ServiceContextOpts] {
+	return func(opts *ServiceContextOpts) {
+		opts.Serverless = serverless
+	}
+}
 
 func (opts ServiceContextOpts) DefaultOptions() ServiceContextOpts {
 	return ServiceContextOpts{}
@@ -51,5 +60,6 @@ func NewServiceContext(c config.Config, route2code func(r *http.Request) string,
 	svcCtx.Cache = cache.NewRedisNode(svcCtx.Redis, errors.New("cache not found"), cache.WithExpiry(time.Duration(5)*time.Second))
 	svcCtx.CasbinEnforcer = MustCasbinEnforcer(svcCtx)
 	svcCtx.Trans = i18n.NewTranslator(c.I18n, i18n.LocaleFS)
+	svcCtx.Middleware = NewMiddleware(svcCtx, route2code)
 	return svcCtx
 }
