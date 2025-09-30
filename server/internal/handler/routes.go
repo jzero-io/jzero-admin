@@ -12,6 +12,7 @@ import (
 	managerole "github.com/jzero-io/jzero-admin/server/internal/handler/manage/role"
 	manageuser "github.com/jzero-io/jzero-admin/server/internal/handler/manage/user"
 	route "github.com/jzero-io/jzero-admin/server/internal/handler/route"
+	swagger "github.com/jzero-io/jzero-admin/server/internal/handler/swagger"
 	version "github.com/jzero-io/jzero-admin/server/internal/handler/version"
 	"github.com/jzero-io/jzero-admin/server/internal/svc"
 )
@@ -231,6 +232,17 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 			},
 			rest.WithPrefix("/api/v1"),
+		)
+	}
+	{
+		server.AddRoutes(
+			[]rest.Route{
+				{
+					Method:  http.MethodGet,
+					Path:    "/swagger",
+					Handler: swagger.Swagger(serverCtx),
+				},
+			},
 		)
 	}
 	{

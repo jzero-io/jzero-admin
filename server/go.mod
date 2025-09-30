@@ -9,7 +9,7 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/guregu/null/v5 v5.0.0
 	github.com/huandu/go-sqlbuilder v1.37.0
-	github.com/jzero-io/jzero v0.60.5-0.20250928090212-dea6ee059184
+	github.com/jzero-io/jzero v0.60.5-0.20250929095034-fd95775c76eb
 	github.com/jzero-io/jzero-admin/core-engine v0.0.0-20250929045321-743a68929d60
 	github.com/pkg/errors v0.9.1
 	github.com/samber/lo v1.51.0

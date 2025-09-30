@@ -4,4 +4,6 @@ import (
 	"github.com/jzero-io/jzero-admin/server/internal/svc"
 )
 
-var ServiceContext svc.ServiceContext
+var (
+	ServiceContext svc.ServiceContext
+)

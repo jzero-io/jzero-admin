@@ -6,36 +6,25 @@ import (
 
 	"github.com/jzero-io/jzero/core/stores/migrate"
 	"github.com/pkg/errors"
-	configurator "github.com/zeromicro/go-zero/core/configcenter"
 	"github.com/zeromicro/go-zero/core/logx"
-	"github.com/zeromicro/go-zero/rest"
 
 	"github.com/jzero-io/jzero-admin/server/internal/config"
 	"github.com/jzero-io/jzero-admin/server/internal/errcodes"
 )
 
-type Custom struct {
-	Server *rest.Server
-}
+type Custom struct{}
 
-func New(server *rest.Server) *Custom {
-	return &Custom{
-		Server: server,
-	}
+func New() *Custom {
+	return &Custom{}
 }
 
 // Init Please add custom logic here.
-func (c *Custom) Init(cc configurator.Configurator[config.Config]) error {
-	cfg, err := cc.GetConfig()
-	if err != nil {
-		return err
-	}
-
+func (c *Custom) Init(cfg config.Config) error {
 	// register errcodes
 	errcodes.Register()
 
 	// migrate database
-	if err = migrate.MigrateUp(context.Background(), cfg.Sqlx.SqlConf, migrate.WithSource(func() string {
+	if err := migrate.MigrateUp(context.Background(), cfg.Sqlx.SqlConf, migrate.WithSource(func() string {
 		switch cfg.Sqlx.DriverName {
 		case "mysql":
 			return "file://desc/sql_migration"
@@ -52,7 +41,6 @@ func (c *Custom) Init(cc configurator.Configurator[config.Config]) error {
 		return err
 	}
 
-	c.AddRoutes(c.Server)
 	return nil
 }
 

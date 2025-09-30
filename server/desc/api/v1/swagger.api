@@ -1,0 +1,14 @@
+syntax = "v1"
+
+info (
+	go_package: "swagger"
+)
+
+@server (
+	group: swagger
+)
+service server {
+	@handler Swagger
+	get /swagger
+}
+

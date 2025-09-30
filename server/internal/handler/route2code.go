@@ -43,6 +43,7 @@ var RoutesCodesMap = map[string]string{
 	"GET:/api/v1/route/getConstantRoutes":   "route:getConstantRoutes",
 	"GET:/api/v1/route/getUserRoutes":       "route:getUserRoutes",
 	"GET:/api/v1/route/isRouteExist":        "route:isRouteExist",
+	"GET:/swagger":                          "swagger:swagger",
 	"GET:/api/v1/version":                   "version:version",
 }
 

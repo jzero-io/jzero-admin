@@ -2,6 +2,10 @@ hooks:
   before:
     - go install tool
 
+# new for serverless plugins config
+new:
+  home: .template/jzero-admin-plugin
+
 gen:
   hooks:
     after:
@@ -14,4 +18,4 @@ gen:
   model-driver: mysql
   model-cache: false
   model-ignore-columns: []
-  model-schema: jzeroadmin
+  model-schema: jzero-admin

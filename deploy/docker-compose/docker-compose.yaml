@@ -6,10 +6,10 @@ services:
     environment:
       - TZ=Asia/Shanghai
       - DRIVER_NAME=mysql
-      - DATASOURCE=root:123456@tcp(mysql:3306)/jzeroadmin?charset=utf8mb4&parseTime=True&loc=Local
+      - DATASOURCE=root:123456@tcp(mysql:3306)/jzero-admin?charset=utf8mb4&parseTime=True&loc=Local
 #      # using postgres
 #      - DRIVER_NAME=pgx
-#      - DATASOURCE=postgres://root:123456@postgres:5432/jzeroadmin
+#      - DATASOURCE=postgres://root:123456@postgres:5432/jzero-admin
       - REDIS_HOST=redis:6379
       - CACHE_TYPE=redis
     depends_on:
@@ -35,7 +35,7 @@ services:
       TZ: Asia/Shanghai
       POSTGRES_PASSWORD: 123456
       POSTGRES_USER: root
-      POSTGRES_DB: jzeroadmin
+      POSTGRES_DB: jzero-admin
     volumes:
       - ./postgres/data:/var/lib/postgres/data
     ports:
@@ -48,7 +48,7 @@ services:
       - TZ=Asia/Shanghai
       - MYSQL_ROOT_PASSWORD=123456
       - MYSQL_ROOT_USER=root
-      - MYSQL_DATABASE=jzeroadmin
+      - MYSQL_DATABASE=jzero-admin
     volumes:
       - ./mysql/config:/etc/mysql/conf.d
       - ./mysql/data:/var/lib/mysql
