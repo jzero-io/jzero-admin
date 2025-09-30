@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"io"
+	"io/fs"
 	"path/filepath"
 	"strings"
 
@@ -137,6 +138,9 @@ func migrateUp(ctx context.Context, sourceUrl, databaseUrl string, c sqlx.SqlCon
 	}
 	fileSource, err := fileDriver.Open(sourceUrl)
 	if err != nil {
+		if errors.Is(err, fs.ErrNotExist) {
+			return nil
+		}
 		return err
 	}
 
