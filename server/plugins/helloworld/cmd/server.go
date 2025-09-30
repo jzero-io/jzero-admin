@@ -1,10 +1,12 @@
 package cmd
 
 import (
+	"context"
 	"net/http"
 	"os"
 
 	"github.com/common-nighthawk/go-figure"
+	"github.com/jzero-io/jzero-admin/core-engine/migrate"
 	"github.com/jzero-io/jzero/core/configcenter/subscriber"
 	"github.com/spf13/cobra"
 	configurator "github.com/zeromicro/go-zero/core/configcenter"
@@ -41,8 +43,12 @@ var serverCmd = &cobra.Command{
 
 		printBanner(c)
 		printVersion()
-		logx.Infof("Starting rest server at %s:%d...", c.Rest.Host, c.Rest.Port)
 
+		logx.Infof("Starting sql migrate...")
+		logx.Must(migrate.MigrateUp(context.Background(), c.Sqlx.SqlConf))
+		logx.Infof("Finished sql migrate...")
+
+		logx.Infof("Starting rest server at %s:%d...", c.Rest.Host, c.Rest.Port)
 		restServer := rest.MustNewServer(c.Rest.RestConf, rest.WithUnauthorizedCallback(func(w http.ResponseWriter, r *http.Request, err error) {
 			httpx.ErrorCtx(r.Context(), w, err)
 		}), rest.WithCustomCors(func(header http.Header) {
@@ -51,7 +57,7 @@ var serverCmd = &cobra.Command{
 			header.Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, UPDATE")
 		}, nil, "*"))
 
-		customServer := custom.New()
+		customServer := custom.New(c)
 
 		logx.Must(customServer.Init())
 		svcCtx := svc.NewServiceContext(cc, handler.Route2Code)

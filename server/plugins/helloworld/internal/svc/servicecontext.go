@@ -47,6 +47,6 @@ func NewServiceContext(cc configurator.Configurator[config.Config], route2code f
 	}
 
 	svcCtx.Model = model.NewModel(svcCtx.SqlxConn, modelx.WithCachedConn(modelx.NewConnWithCache(svcCtx.SqlxConn, svcCtx.Cache)))
-	svcCtx.Middleware = NewMiddleware(svcCtx, route2code)
+	svcCtx.Middleware = NewMiddleware(svcCtx)
 	return svcCtx
 }

@@ -10,12 +10,12 @@ import (
 	"github.com/jzero-io/jzero-admin/server/internal/svc"
 )
 
-func LoadPlugins(server *rest.Server, svcCtx *svc.ServiceContext) {
 
+
+func LoadPlugins(server *rest.Server, svcCtx *svc.ServiceContext) {
 	{
 		serverless := helloworld.New(svcCtx.ServiceContext)
 		serverless.HandlerFunc(server, serverless.SvcCtx)
 		handler.RegisterRoute2Code(serverless.RouteCodesMap)
 	}
-
 }

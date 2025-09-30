@@ -6,10 +6,12 @@ import (
 	"github.com/jzero-io/jzero/core/configcenter/subscriber"
 	configurator "github.com/zeromicro/go-zero/core/configcenter"
 	"github.com/zeromicro/go-zero/core/logx"
+	"github.com/zeromicro/go-zero/core/service"
 	"github.com/zeromicro/go-zero/rest"
 	coresvc "github.com/jzero-io/jzero-admin/core-engine/svc"
 
 	"{{ .Module }}/internal/config"
+	"{{ .Module }}/internal/custom"
 	"{{ .Module }}/internal/global"
     "{{ .Module }}/internal/handler"
     "{{ .Module }}/internal/svc"
@@ -27,8 +29,18 @@ func New(coreSvcCtx *coresvc.ServiceContext) *Serverless {
 		Type: "yaml",
 	}, subscriber.MustNewFsnotifySubscriber(filepath.Join("plugins", "{{ .DirName }}", "etc", "etc.yaml"), subscriber.WithUseEnv(true)))
 
+    c, err := cc.GetConfig()
+    logx.Must(err)
+
+    customServer := custom.New(c)
+    logx.Must(customServer.Init())
+
 	svcCtx := svc.NewServiceContext(cc, handler.Route2Code, svc.WithCoreServiceContext(coreSvcCtx))
 	global.ServiceContext = *svcCtx
+
+	group := service.NewServiceGroup()
+    group.Add(customServer)
+    group.Start()
 
 	return &Serverless{
 		SvcCtx:      svcCtx,

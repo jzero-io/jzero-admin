@@ -8,8 +8,8 @@ import (
 )
 
 func Register(server *rest.Server) {
-	httpx.SetOkHandler(global.ServiceContext.Middleware.Ok)
-	httpx.SetErrorHandlerCtx(global.ServiceContext.Middleware.Error)
-	httpx.SetValidator(global.ServiceContext.Middleware.Validate)
-	server.Use(global.ServiceContext.Middleware.I18n)
+	httpx.SetOkHandler(global.ServiceContext.Ok)
+	httpx.SetErrorHandlerCtx(global.ServiceContext.Error)
+	httpx.SetValidator(global.ServiceContext.Validate)
+	server.Use(global.ServiceContext.I18n)
 }
