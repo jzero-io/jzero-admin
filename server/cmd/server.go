@@ -48,6 +48,15 @@ var serverCmd = &cobra.Command{
 
 		logx.Infof("Starting sql migrate...")
 		logx.Must(migrate.MigrateUp(context.Background(), c.Sqlx.SqlConf))
+
+		pluginMigrateFunc := plugins.GetPluginMigrateUpFunc()
+		for _, f := range pluginMigrateFunc {
+			logx.Must(migrate.MigrateUp(context.Background(), c.Sqlx.SqlConf,
+				migrate.WithPluginName(f.Name),
+				migrate.WithPreProcessSqlFunc(f.PreProcessSqlFunc),
+				migrate.WithBeforeMigrateUpFunc(f.BeforeMigrateUpFunc),
+				migrate.WithAfterMigrateUpFunc(f.AfterMigrateUpFunc)))
+		}
 		logx.Infof("Finished sql migrate...")
 
 		logx.Infof("Starting rest server at %s:%d...", c.Rest.Host, c.Rest.Port)

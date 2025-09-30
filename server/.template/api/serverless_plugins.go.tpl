@@ -10,6 +10,28 @@ import (
 	{{end}}
 )
 
+type PluginMigrateUpFunc struct {
+	Name string
+	PreProcessSqlFunc    func(version uint, content string) string
+	BeforeMigrateUpFunc map[uint]func(version uint) error
+	AfterMigrateUpFunc  map[uint]func(version uint) error
+}
+
+func GetPluginMigrateUpFunc() []PluginMigrateUpFunc {
+	var pluginMigrateUpFuncs []PluginMigrateUpFunc
+	{{ range $v := .Plugins }}
+	{
+		pluginMigrateUpFuncs = append(pluginMigrateUpFuncs,PluginMigrateUpFunc{
+			Name: "{{ $v.Path | base }}",
+			PreProcessSqlFunc:    {{ $v.Path | base }}.PreProcessSqlFunc,
+			BeforeMigrateUpFunc: {{ $v.Path | base }}.BeforeMigrateUpFunc,
+			AfterMigrateUpFunc:  {{ $v.Path | base }}.AfterMigrateUpFunc,
+		})
+	}
+	{{end}}
+	return pluginMigrateUpFuncs
+}
+
 func LoadPlugins(server *rest.Server, svcCtx *svc.ServiceContext) {
 	{{ range $v := .Plugins }}
 	{

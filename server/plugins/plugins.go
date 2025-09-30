@@ -10,12 +10,34 @@ import (
 	"github.com/jzero-io/jzero-admin/server/internal/svc"
 )
 
+type PluginMigrateUpFunc struct {
+	Name                string
+	PreProcessSqlFunc   func(version uint, content string) string
+	BeforeMigrateUpFunc map[uint]func(version uint) error
+	AfterMigrateUpFunc  map[uint]func(version uint) error
+}
 
+func GetPluginMigrateUpFunc() []PluginMigrateUpFunc {
+	var pluginMigrateUpFuncs []PluginMigrateUpFunc
+
+	{
+		pluginMigrateUpFuncs = append(pluginMigrateUpFuncs, PluginMigrateUpFunc{
+			Name:                "helloworld",
+			PreProcessSqlFunc:   helloworld.PreProcessSqlFunc,
+			BeforeMigrateUpFunc: helloworld.BeforeMigrateUpFunc,
+			AfterMigrateUpFunc:  helloworld.AfterMigrateUpFunc,
+		})
+	}
+
+	return pluginMigrateUpFuncs
+}
 
 func LoadPlugins(server *rest.Server, svcCtx *svc.ServiceContext) {
+
 	{
 		serverless := helloworld.New(svcCtx.ServiceContext)
 		serverless.HandlerFunc(server, serverless.SvcCtx)
 		handler.RegisterRoute2Code(serverless.RouteCodesMap)
 	}
+
 }
