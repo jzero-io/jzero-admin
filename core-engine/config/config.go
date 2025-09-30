@@ -10,14 +10,15 @@ import (
 )
 
 type Config struct {
-	Rest      RestConf
-	Jwt       Jwt
-	Log       LogConf
-	Banner    BannerConf
-	Sqlx      SqlxConf
-	CacheType string          `json:",default=local"`
-	Redis     redis.RedisConf `json:",optional"`
-	I18n      i18n.I18nConf   `json:",optional"`
+	Rest       RestConf
+	Jwt        Jwt
+	Log        LogConf
+	Banner     BannerConf
+	Sqlx       SqlxConf
+	CacheType  string          `json:",default=local"`
+	Redis      redis.RedisConf `json:",optional"`
+	I18n       i18n.I18nConf   `json:",optional"`
+	Serverless bool            `json:",optional"`
 }
 
 type RestConf struct {
