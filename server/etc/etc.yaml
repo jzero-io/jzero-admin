@@ -15,6 +15,10 @@ log:
 sqlx:
     datasource: "${DATASOURCE:-root:123456@tcp(127.0.0.1:3306)/jzero-admin?charset=utf8mb4&parseTime=True&loc=Local}"
     driverName: "${DRIVER_NAME:-mysql}"
+#    datasource: "${DATASOURCE:-postgres://root:123456@localhost:5432/jzero-admin}"
+#    driverName: "${DRIVER_NAME:-pgx}"
+#    datasource: "${DATASOURCE:-jzero-admin.db}"
+#    driverName: "${DRIVER_NAME:-sqlite}"
 
 redis:
     host: "${REDIS_HOST:-127.0.0.1:6379}"

@@ -159,8 +159,8 @@ github.com/jackc/puddle/v2 v2.2.2 h1:PR8nw+E/1w0GLuRFSmiioY6UooMp6KJv0/61nB7icHo
 github.com/jackc/puddle/v2 v2.2.2/go.mod h1:vriiEXHvEE654aYKXXjOvZM39qJ0q+azkZFrfEOc3H4=
 github.com/jaronnie/genius v0.6.1 h1:Uc5DkO9YuyqcQLEz6jjpWF9dwHX7UKwOFVjZEdtYlHc=
 github.com/jaronnie/genius v0.6.1/go.mod h1:FHpApD8c1nRZGJvIoD+1H7VydBvVOoTU95CcdAo38bY=
-github.com/jzero-io/jzero v0.60.5-0.20250929095034-fd95775c76eb h1:abbo7Uqutuh/3M/FIWU+3NE1V369uheDw58ZKzhfMdU=
-github.com/jzero-io/jzero v0.60.5-0.20250929095034-fd95775c76eb/go.mod h1:zSAcVX3yPo++R6yqPb253X05zGSKkRQWPDKL1vFReiY=
+github.com/jzero-io/jzero v0.60.5-0.20251001091231-69bd4952570b h1:Nbgv7WoWsVS3+7wbwZyqnwCJt7OqNhPOmWPDYNbYBAc=
+github.com/jzero-io/jzero v0.60.5-0.20251001091231-69bd4952570b/go.mod h1:ccl4Jq/yrw1PDUOlZnT2fRtDb9vUbHa797muD5mqwoE=
 github.com/jzero-io/jzero-admin/core-engine v0.0.0-20251001053837-02694edf0d31 h1:ORfsRq/YNvEH2P1qoPuXyDmE87Nkr1qYrfpaFsF8KN8=
 github.com/jzero-io/jzero-admin/core-engine v0.0.0-20251001053837-02694edf0d31/go.mod h1:9JbnJwSPx/CLFeIPrfUcUImuTzJxW22QvXIB9Ab15pw=
 github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51 h1:Z9n2FFNUXsshfwJMBgNA0RU6/i7WVaAegv3PtuIHPMs=
