@@ -6,6 +6,7 @@ import (
 	"io"
 	"io/fs"
 	"path/filepath"
+	"regexp"
 	"strings"
 
 	"github.com/eddieowens/opts"
@@ -18,7 +19,6 @@ import (
 )
 
 type MigrateUpOpts struct {
-	PreProcessSqlFunc    func(version uint, content string) string
 	BeforeMigrateUpFuncs map[uint]func(version uint) error
 	AfterMigrateUpFuncs  map[uint]func(version uint) error
 	PluginName           string
@@ -26,12 +26,6 @@ type MigrateUpOpts struct {
 
 func (opts MigrateUpOpts) DefaultOptions() MigrateUpOpts {
 	return MigrateUpOpts{}
-}
-
-func WithPreProcessSqlFunc(f func(uint, string) string) opts.Opt[MigrateUpOpts] {
-	return func(opts *MigrateUpOpts) {
-		opts.PreProcessSqlFunc = f
-	}
 }
 
 func WithBeforeMigrateUpFunc(mapFuncs map[uint]func(uint) error) opts.Opt[MigrateUpOpts] {
@@ -90,9 +84,8 @@ func MigrateUp(ctx context.Context, c sqlx.SqlConf, op ...opts.Opt[MigrateUpOpts
 
 type customFileSource struct {
 	*file.File
-	preProcessSqlFunc func(version uint, content string) string
-	sqlConf           sqlx.SqlConf
-	ctx               context.Context
+	sqlConf sqlx.SqlConf
+	ctx     context.Context
 }
 
 func (c *customFileSource) ReadUp(version uint) (r io.ReadCloser, identifier string, err error) {
@@ -110,7 +103,7 @@ func (c *customFileSource) ReadUp(version uint) (r io.ReadCloser, identifier str
 		return nil, "", err
 	}
 
-	return io.NopCloser(strings.NewReader(c.preProcessSqlFunc(version, string(content)))), id, nil
+	return io.NopCloser(strings.NewReader(c.preprocessSQL(string(content)))), id, nil
 }
 
 func (c *customFileSource) ReadDown(version uint) (r io.ReadCloser, identifier string, err error) {
@@ -128,7 +121,20 @@ func (c *customFileSource) ReadDown(version uint) (r io.ReadCloser, identifier s
 		return nil, "", err
 	}
 
-	return io.NopCloser(strings.NewReader(c.preProcessSqlFunc(version, string(content)))), id, nil
+	return io.NopCloser(strings.NewReader(c.preprocessSQL(string(content)))), id, nil
+}
+
+func (c *customFileSource) preprocessSQL(content string) string {
+	if c.sqlConf.DriverName == "pgx" {
+		// Match INSERT INTO ... VALUES ... patterns and add ON CONFLICT DO NOTHING
+		insertRegex := regexp.MustCompile(`(?i)(INSERT\s+INTO\s+[^;]+VALUES[^;]*);`)
+		content = insertRegex.ReplaceAllString(content, "$1 ON CONFLICT DO NOTHING;")
+	} else {
+		// For MySQL, replace INSERT INTO with INSERT IGNORE INTO
+		insertRegex := regexp.MustCompile(`(?i)INSERT\s+INTO`)
+		content = insertRegex.ReplaceAllString(content, "INSERT IGNORE INTO")
+	}
+	return content
 }
 
 func migrateUp(ctx context.Context, sourceUrl, databaseUrl string, c sqlx.SqlConf, ops MigrateUpOpts) error {
@@ -145,23 +151,14 @@ func migrateUp(ctx context.Context, sourceUrl, databaseUrl string, c sqlx.SqlCon
 	}
 
 	customSource := &customFileSource{
-		File:              fileSource.(*file.File),
-		preProcessSqlFunc: ops.PreProcessSqlFunc,
-		sqlConf:           c,
-		ctx:               ctx,
+		File:    fileSource.(*file.File),
+		sqlConf: c,
+		ctx:     ctx,
 	}
 
-	var m *migrate.Migrate
-	if ops.PreProcessSqlFunc == nil {
-		m, err = migrate.New(sourceUrl, databaseUrl)
-		if err != nil {
-			return err
-		}
-	} else {
-		m, err = migrate.NewWithSourceInstance("file", customSource, databaseUrl)
-		if err != nil {
-			return err
-		}
+	m, err := migrate.NewWithSourceInstance("file", customSource, databaseUrl)
+	if err != nil {
+		return err
 	}
 	defer m.Close()
 
