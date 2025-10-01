@@ -55,7 +55,7 @@ func (l *SendVerificationCode) SendVerificationCode(req *types.SendVerificationC
 		// 设置邮件主题
 		m.SetHeader("Subject", "验证码")
 		// 设置邮件正文
-		m.SetBody("text/plain", fmt.Sprintf("JzeroAdmin 邮箱验证码: %s", verificationCode))
+		m.SetBody("text/plain", fmt.Sprintf("jzero-admin 邮箱验证码: %s", verificationCode))
 		// 配置 SMTP 服务器信息
 		d := gomail.NewDialer(email.Host, cast.ToInt(email.Port), email.Username, email.Password)
 		d.SSL = cast.ToBool(email.EnableSsl)

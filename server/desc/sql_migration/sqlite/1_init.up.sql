@@ -194,8 +194,7 @@ CREATE TABLE manage_user (
 
 INSERT INTO manage_user (id, create_time, update_time, create_by, update_by, username, password, nickname, gender, phone, status, email)
 VALUES
-    (1,'2024-10-24 09:45:00','2024-10-31 09:40:13',NULL,NULL,'jzero','123456','jzero','1','','1','jaron@jaronnie.com'),
-    (3,'2024-11-28 12:50:29','2024-11-28 12:50:29',NULL,NULL,'test','123456','测试用户','1','1234567890','1','test@qq.com');
+    (1,'2024-10-24 09:45:00','2024-10-31 09:40:13',NULL,NULL,'admin','123456','超级管理员','1','','1',NULL);
 
 DROP TABLE IF EXISTS manage_user_role;
 

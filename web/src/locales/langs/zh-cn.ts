@@ -1,6 +1,6 @@
 const local: App.I18n.Schema = {
   system: {
-    title: 'Jzero 管理系统',
+    title: 'jzero-admin',
     updateTitle: '系统版本更新通知',
     updateContent: '检测到系统有新版本发布，是否立即刷新页面？',
     updateConfirm: '立即刷新',
@@ -252,7 +252,7 @@ const local: App.I18n.Schema = {
     },
     about: {
       title: '关于',
-      introduction: `JzeroAdmin 基于 jzero 脚手架搭建后台系统并配备代码生成, 前端基于 soybean-admin 搭建。`,
+      introduction: `jzero-admin 基于 jzero 脚手架搭建后台系统并配备代码生成, 前端基于 soybean-admin 搭建。`,
       projectInfo: {
         title: '项目信息',
         version: '版本',

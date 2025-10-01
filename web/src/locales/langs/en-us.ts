@@ -1,6 +1,6 @@
 const local: App.I18n.Schema = {
   system: {
-    title: 'JzeroAdmin',
+    title: 'jzero-admin',
     updateTitle: 'System Version Update Notification',
     updateContent: 'A new version of the system has been detected. Do you want to refresh the page immediately?',
     updateConfirm: 'Refresh immediately',
@@ -252,7 +252,7 @@ const local: App.I18n.Schema = {
     },
     about: {
       title: 'About',
-      introduction: `JzeroAdmin builds the backend system based on jzero scaffolding and is equipped with code generation, and the front end is built based on soybean-admin.`,
+      introduction: `jzero-admin builds the backend system based on jzero scaffolding and is equipped with code generation, and the front end is built based on soybean-admin.`,
       projectInfo: {
         title: 'Project Info',
         version: 'Version',

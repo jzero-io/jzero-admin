@@ -7,7 +7,7 @@ defineOptions({
 <template>
   <DarkModeContainer class="h-full flex-center">
     <a href="https://github.com/jzero-io/jzero-admin/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">
-      Copyright MIT © 2024-2025 jzero teams
+      Copyright MIT © 2024-2025 jzero-io teams
     </a>
   </DarkModeContainer>
 </template>
