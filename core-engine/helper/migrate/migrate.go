@@ -137,10 +137,14 @@ func (c *customFileSource) preprocessSQL(content string) string {
 		// Match INSERT INTO ... VALUES ... patterns and add ON CONFLICT DO NOTHING
 		insertRegex := regexp.MustCompile(`(?i)(INSERT\s+INTO\s+[^;]+VALUES[^;]*);`)
 		content = insertRegex.ReplaceAllString(content, "$1 ON CONFLICT DO NOTHING;")
-	} else {
+	} else if c.sqlConf.DriverName == "mysql" {
 		// For MySQL, replace INSERT INTO with INSERT IGNORE INTO
 		insertRegex := regexp.MustCompile(`(?i)INSERT\s+INTO`)
 		content = insertRegex.ReplaceAllString(content, "INSERT IGNORE INTO")
+	} else if c.sqlConf.DriverName == "sqlite" {
+		// For SQLite, replace INSERT INTO with INSERT OR IGNORE INTO
+		insertRegex := regexp.MustCompile(`(?i)INSERT\s+INTO`)
+		content = insertRegex.ReplaceAllString(content, "INSERT OR IGNORE INTO")
 	}
 	return content
 }
@@ -212,6 +216,9 @@ func migrateUp(ctx context.Context, source, dataSource string, c sqlx.SqlConf, o
 			}
 			currentVersion = nextVersion
 		} else {
+			if err != nil {
+				return err
+			}
 			break
 		}
 	}
