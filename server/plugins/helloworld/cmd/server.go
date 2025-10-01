@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/common-nighthawk/go-figure"
-	"github.com/jzero-io/jzero-admin/core-engine/migrate"
+	"github.com/jzero-io/jzero-admin/core-engine/helper/migrate"
 	"github.com/jzero-io/jzero/core/configcenter/subscriber"
 	"github.com/spf13/cobra"
 	configurator "github.com/zeromicro/go-zero/core/configcenter"

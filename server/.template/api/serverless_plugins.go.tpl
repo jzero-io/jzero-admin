@@ -7,12 +7,12 @@ import (
     "{{ .Module }}/internal/handler"
     "{{ .Module }}/internal/svc"
 	{{range $v := .Plugins}}{{ $v.Path | base }} "{{ $v.Module }}/serverless"
+	{{ $v.Path | base }}_migration "{{ $v.Module }}/desc/sql_migration/golang"
 	{{end}}
 )
 
 type PluginMigrateUpFunc struct {
 	Name string
-	PreProcessSqlFunc    func(version uint, content string) string
 	BeforeMigrateUpFunc map[uint]func(version uint) error
 	AfterMigrateUpFunc  map[uint]func(version uint) error
 }
@@ -23,9 +23,8 @@ func GetPluginMigrateUpFunc() []PluginMigrateUpFunc {
 	{
 		pluginMigrateUpFuncs = append(pluginMigrateUpFuncs,PluginMigrateUpFunc{
 			Name: "{{ $v.Path | base }}",
-			PreProcessSqlFunc:    {{ $v.Path | base }}.PreProcessSqlFunc,
-			BeforeMigrateUpFunc: {{ $v.Path | base }}.BeforeMigrateUpFunc,
-			AfterMigrateUpFunc:  {{ $v.Path | base }}.AfterMigrateUpFunc,
+			BeforeMigrateUpFunc: {{ $v.Path | base }}_migration.BeforeMigrateUpFunc,
+			AfterMigrateUpFunc:  {{ $v.Path | base }}_migration.AfterMigrateUpFunc,
 		})
 	}
 	{{end}}

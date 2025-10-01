@@ -2,6 +2,7 @@
 package plugins
 
 import (
+	helloworld_migration "helloworld/desc/sql_migration/golang"
 	helloworld "helloworld/serverless"
 
 	"github.com/zeromicro/go-zero/rest"
@@ -12,7 +13,6 @@ import (
 
 type PluginMigrateUpFunc struct {
 	Name                string
-	PreProcessSqlFunc   func(version uint, content string) string
 	BeforeMigrateUpFunc map[uint]func(version uint) error
 	AfterMigrateUpFunc  map[uint]func(version uint) error
 }
@@ -23,9 +23,8 @@ func GetPluginMigrateUpFunc() []PluginMigrateUpFunc {
 	{
 		pluginMigrateUpFuncs = append(pluginMigrateUpFuncs, PluginMigrateUpFunc{
 			Name:                "helloworld",
-			PreProcessSqlFunc:   helloworld.PreProcessSqlFunc,
-			BeforeMigrateUpFunc: helloworld.BeforeMigrateUpFunc,
-			AfterMigrateUpFunc:  helloworld.AfterMigrateUpFunc,
+			BeforeMigrateUpFunc: helloworld_migration.BeforeMigrateUpFunc,
+			AfterMigrateUpFunc:  helloworld_migration.AfterMigrateUpFunc,
 		})
 	}
 

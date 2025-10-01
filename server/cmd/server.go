@@ -2,11 +2,12 @@ package cmd
 
 import (
 	"context"
+	"helloworld/desc/sql_migration/golang"
 	"net/http"
 	"os"
 
 	"github.com/common-nighthawk/go-figure"
-	"github.com/jzero-io/jzero-admin/core-engine/migrate"
+	"github.com/jzero-io/jzero-admin/core-engine/helper/migrate"
 	"github.com/jzero-io/jzero/core/configcenter/subscriber"
 	"github.com/spf13/cobra"
 	configurator "github.com/zeromicro/go-zero/core/configcenter"
@@ -47,13 +48,14 @@ var serverCmd = &cobra.Command{
 		printVersion()
 
 		logx.Infof("Starting sql migrate...")
-		logx.Must(migrate.MigrateUp(context.Background(), c.Sqlx.SqlConf))
+		logx.Must(migrate.MigrateUp(context.Background(), c.Sqlx.SqlConf,
+			migrate.WithBeforeMigrateUpFunc(golang.BeforeMigrateUpFunc),
+			migrate.WithAfterMigrateUpFunc(golang.AfterMigrateUpFunc)))
 
 		pluginMigrateFunc := plugins.GetPluginMigrateUpFunc()
 		for _, f := range pluginMigrateFunc {
 			logx.Must(migrate.MigrateUp(context.Background(), c.Sqlx.SqlConf,
 				migrate.WithPluginName(f.Name),
-				migrate.WithPreProcessSqlFunc(f.PreProcessSqlFunc),
 				migrate.WithBeforeMigrateUpFunc(f.BeforeMigrateUpFunc),
 				migrate.WithAfterMigrateUpFunc(f.AfterMigrateUpFunc)))
 		}
