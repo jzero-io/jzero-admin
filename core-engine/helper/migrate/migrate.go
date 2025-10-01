@@ -49,12 +49,12 @@ func WithPluginName(pluginName string) opts.Opt[MigrateUpOpts] {
 func MigrateUp(ctx context.Context, c sqlx.SqlConf, op ...opts.Opt[MigrateUpOpts]) error {
 	ops := opts.DefaultApply(op...)
 	var (
-		databaseUrl    string
+		dataSource     = c.DataSource
 		source         = filepath.Join("desc", "sql_migration")
 		paramConnector string
 	)
 
-	if strings.Contains(databaseUrl, "?") {
+	if strings.Contains(dataSource, "?") {
 		paramConnector = "&"
 	} else {
 		paramConnector = "?"
@@ -62,21 +62,21 @@ func MigrateUp(ctx context.Context, c sqlx.SqlConf, op ...opts.Opt[MigrateUpOpts
 
 	switch c.DriverName {
 	case "mysql":
-		databaseUrl = "mysql://" + c.DataSource
+		dataSource = "mysql://" + c.DataSource
 		if ops.PluginName != "" {
 			source = filepath.Join("plugins", ops.PluginName, "desc", "sql_migration")
-			databaseUrl = fmt.Sprintf("%s%sx-migrations-table=%s", databaseUrl, paramConnector, "schema_migrations_plugin_"+ops.PluginName)
+			dataSource = fmt.Sprintf("%s%sx-migrations-table=%s", dataSource, paramConnector, "schema_migrations_plugin_"+ops.PluginName)
 		}
 	case "pgx":
-		databaseUrl = "pgx5://" + strings.TrimPrefix(c.DataSource, "postgres://")
+		dataSource = "pgx5://" + strings.TrimPrefix(c.DataSource, "postgres://")
 		source = filepath.Join(source, "postgresql")
 		if ops.PluginName != "" {
 			source = filepath.Join("plugins", ops.PluginName, "desc", "sql_migration", "postgresql")
-			databaseUrl = fmt.Sprintf("%s%sx-migrations-table=%s", databaseUrl, paramConnector, "schema_migrations_plugin_"+ops.PluginName)
+			dataSource = fmt.Sprintf("%s%sx-migrations-table=%s", dataSource, paramConnector, "schema_migrations_plugin_"+ops.PluginName)
 		}
 	}
 
-	if err := migrateUp(ctx, source, databaseUrl, c, ops); err != nil {
+	if err := migrateUp(ctx, source, dataSource, c, ops); err != nil {
 		return err
 	}
 	return nil
@@ -137,12 +137,12 @@ func (c *customFileSource) preprocessSQL(content string) string {
 	return content
 }
 
-func migrateUp(ctx context.Context, sourceUrl, databaseUrl string, c sqlx.SqlConf, ops MigrateUpOpts) error {
+func migrateUp(ctx context.Context, source, dataSource string, c sqlx.SqlConf, ops MigrateUpOpts) error {
 	fileDriver := &file.File{}
-	if !strings.HasPrefix(sourceUrl, "file://") {
-		sourceUrl = "file://" + sourceUrl
+	if !strings.HasPrefix(source, "file://") {
+		source = "file://" + source
 	}
-	fileSource, err := fileDriver.Open(sourceUrl)
+	fileSource, err := fileDriver.Open(source)
 	if err != nil {
 		if errors.Is(err, fs.ErrNotExist) {
 			return nil
@@ -156,7 +156,7 @@ func migrateUp(ctx context.Context, sourceUrl, databaseUrl string, c sqlx.SqlCon
 		ctx:     ctx,
 	}
 
-	m, err := migrate.NewWithSourceInstance("file", customSource, databaseUrl)
+	m, err := migrate.NewWithSourceInstance("file", customSource, dataSource)
 	if err != nil {
 		return err
 	}
