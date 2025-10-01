@@ -182,7 +182,10 @@ func migrateUp(ctx context.Context, source, dataSource string, c sqlx.SqlConf, o
 		return err
 	}
 	// 获取当前版本
-	currentVersion, _, err := m.Version()
+	currentVersion, dirty, err := m.Version()
+	if dirty {
+		return migrate.ErrDirty{Version: int(currentVersion)}
+	}
 	if err != nil {
 		if errors.Is(err, migrate.ErrNilVersion) {
 			// 不存在的话, 直接返回 Up
@@ -216,9 +219,6 @@ func migrateUp(ctx context.Context, source, dataSource string, c sqlx.SqlConf, o
 			}
 			currentVersion = nextVersion
 		} else {
-			if err != nil {
-				return err
-			}
 			break
 		}
 	}
