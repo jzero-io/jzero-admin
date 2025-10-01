@@ -175,7 +175,7 @@ func migrateUp(ctx context.Context, source, dataSource string, c sqlx.SqlConf, o
 		if errors.Is(err, migrate.ErrNilVersion) {
 			// 不存在的话, 直接返回 Up
 			if err = m.Up(); err != nil {
-				if errors.Is(err, migrate.ErrNilVersion) || errors.Is(err, migrate.ErrNoChange) {
+				if errors.Is(err, fs.ErrNotExist) || errors.Is(err, migrate.ErrNilVersion) || errors.Is(err, migrate.ErrNoChange) {
 					return nil
 				}
 			}
