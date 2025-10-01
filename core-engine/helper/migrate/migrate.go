@@ -77,6 +77,11 @@ func MigrateUp(ctx context.Context, c sqlx.SqlConf, op ...opts.Opt[MigrateUpOpts
 		}
 	case "sqlite":
 		dataSource = "sqlite://" + c.DataSource
+		source = filepath.Join(source, "sqlite")
+		if ops.PluginName != "" {
+			source = filepath.Join("plugins", ops.PluginName, "desc", "sql_migration", "sqlite")
+			dataSource = fmt.Sprintf("%s%sx-migrations-table=%s", dataSource, paramConnector, "schema_migrations_plugin_"+ops.PluginName)
+		}
 	}
 
 	if err := migrateUp(ctx, source, dataSource, c, ops); err != nil {
