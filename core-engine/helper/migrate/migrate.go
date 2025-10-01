@@ -76,7 +76,7 @@ func MigrateUp(ctx context.Context, c sqlx.SqlConf, op ...opts.Opt[MigrateUpOpts
 			dataSource = fmt.Sprintf("%s%sx-migrations-table=%s", dataSource, paramConnector, "schema_migrations_plugin_"+ops.PluginName)
 		}
 	case "sqlite":
-		dataSource = "sqlite3://" + c.DataSource
+		dataSource = "sqlite://" + c.DataSource
 	}
 
 	if err := migrateUp(ctx, source, dataSource, c, ops); err != nil {
