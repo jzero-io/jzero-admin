@@ -13,6 +13,7 @@ import (
 	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/mysql"
 	_ "github.com/golang-migrate/migrate/v4/database/pgx/v5"
+	_ "github.com/golang-migrate/migrate/v4/database/sqlite"
 	"github.com/golang-migrate/migrate/v4/source/file"
 	"github.com/pkg/errors"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
@@ -74,6 +75,8 @@ func MigrateUp(ctx context.Context, c sqlx.SqlConf, op ...opts.Opt[MigrateUpOpts
 			source = filepath.Join("plugins", ops.PluginName, "desc", "sql_migration", "postgresql")
 			dataSource = fmt.Sprintf("%s%sx-migrations-table=%s", dataSource, paramConnector, "schema_migrations_plugin_"+ops.PluginName)
 		}
+	case "sqlite":
+		dataSource = "sqlite3://" + c.DataSource
 	}
 
 	if err := migrateUp(ctx, source, dataSource, c, ops); err != nil {
