@@ -164,10 +164,10 @@ func migrateUp(ctx context.Context, source, dataSource string, c sqlx.SqlConf, o
 
 	if ops.BeforeMigrateUpFuncs == nil && ops.AfterMigrateUpFuncs == nil {
 		err = m.Up()
-		if err != nil && !errors.Is(err, migrate.ErrNoChange) {
-			return err
+		if errors.Is(err, fs.ErrNotExist) || errors.Is(err, migrate.ErrNilVersion) || errors.Is(err, migrate.ErrNoChange) {
+			return nil
 		}
-		return nil
+		return err
 	}
 	// 获取当前版本
 	currentVersion, _, err := m.Version()
