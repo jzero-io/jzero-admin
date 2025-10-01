@@ -157,12 +157,8 @@ github.com/jaronnie/genius v0.6.1 h1:Uc5DkO9YuyqcQLEz6jjpWF9dwHX7UKwOFVjZEdtYlHc
 github.com/jaronnie/genius v0.6.1/go.mod h1:FHpApD8c1nRZGJvIoD+1H7VydBvVOoTU95CcdAo38bY=
 github.com/jzero-io/jzero v0.60.5-0.20250929095034-fd95775c76eb h1:abbo7Uqutuh/3M/FIWU+3NE1V369uheDw58ZKzhfMdU=
 github.com/jzero-io/jzero v0.60.5-0.20250929095034-fd95775c76eb/go.mod h1:zSAcVX3yPo++R6yqPb253X05zGSKkRQWPDKL1vFReiY=
-github.com/jzero-io/jzero-admin/core-engine v0.0.0-20250930091937-c7cbfccc8fc3 h1:q3bbNgbx+eakhJOKHx6O/7OVohBUNTAzISIB81F4fPc=
-github.com/jzero-io/jzero-admin/core-engine v0.0.0-20250930091937-c7cbfccc8fc3/go.mod h1:YC4xaxRnYzFZgtw0i5QsOaqzpz8mqIPa9aRMF0BOCRo=
-github.com/jzero-io/jzero-admin/core-engine v0.0.0-20251001021805-30c6012080bb h1:pGk1gPSauYFnEeFEpLPJCOdsQJfnqdCwHBLTC0KgChA=
-github.com/jzero-io/jzero-admin/core-engine v0.0.0-20251001021805-30c6012080bb/go.mod h1:YC4xaxRnYzFZgtw0i5QsOaqzpz8mqIPa9aRMF0BOCRo=
-github.com/jzero-io/jzero-admin/core-engine v0.0.0-20251001022537-1777d8b72bd4 h1:tmQ7wSewOoVi/M/suGhYFljYl/QLfpzeWGTk7o/xLGg=
-github.com/jzero-io/jzero-admin/core-engine v0.0.0-20251001022537-1777d8b72bd4/go.mod h1:YC4xaxRnYzFZgtw0i5QsOaqzpz8mqIPa9aRMF0BOCRo=
+github.com/jzero-io/jzero-admin/core-engine v0.0.0-20251001030806-1938d5cbbeca h1:b9kRUdLNeBcLDX/jybCvZJDnKZTbZew5Vegw/tXN3B0=
+github.com/jzero-io/jzero-admin/core-engine v0.0.0-20251001030806-1938d5cbbeca/go.mod h1:YC4xaxRnYzFZgtw0i5QsOaqzpz8mqIPa9aRMF0BOCRo=
 github.com/kisielk/errcheck v1.5.0/go.mod h1:pFxgyoBC7bSaBwPgfKdkLd5X25qrDl4LWUI2bnpBCr8=
 github.com/kisielk/gotool v1.0.0/go.mod h1:XhKaO+MFFWcvkIS/tQcRk01m1F5IRFswLeQ+oQHNcck=
 github.com/klauspost/compress v1.18.0 h1:c/Cqfb0r+Yi+JtIEq73FWXVkRonBlf0CRNYc8Zttxdo=

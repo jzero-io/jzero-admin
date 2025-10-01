@@ -6,7 +6,7 @@ require (
 	github.com/common-nighthawk/go-figure v0.0.0-20210622060536-734e95fb86be
 	github.com/eddieowens/opts v0.1.0
 	github.com/jzero-io/jzero v0.60.5-0.20250928090212-dea6ee059184
-	github.com/jzero-io/jzero-admin/core-engine v0.0.0-20251001022537-1777d8b72bd4
+	github.com/jzero-io/jzero-admin/core-engine v0.0.0-20251001030806-1938d5cbbeca
 	github.com/spf13/cast v1.10.0
 	github.com/spf13/cobra v1.10.1
 	github.com/zeromicro/go-zero v1.9.0

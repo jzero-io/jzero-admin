@@ -2,12 +2,8 @@
 package plugins
 
 import (
-	helloworld_migration "helloworld/desc/sql_migration/golang"
-	helloworld "helloworld/serverless"
-
 	"github.com/zeromicro/go-zero/rest"
 
-	"github.com/jzero-io/jzero-admin/server/internal/handler"
 	"github.com/jzero-io/jzero-admin/server/internal/svc"
 )
 
@@ -20,23 +16,9 @@ type PluginMigrateUpFunc struct {
 func GetPluginMigrateUpFunc() []PluginMigrateUpFunc {
 	var pluginMigrateUpFuncs []PluginMigrateUpFunc
 
-	{
-		pluginMigrateUpFuncs = append(pluginMigrateUpFuncs, PluginMigrateUpFunc{
-			Name:                "helloworld",
-			BeforeMigrateUpFunc: helloworld_migration.BeforeMigrateUpFunc,
-			AfterMigrateUpFunc:  helloworld_migration.AfterMigrateUpFunc,
-		})
-	}
-
 	return pluginMigrateUpFuncs
 }
 
 func LoadPlugins(server *rest.Server, svcCtx *svc.ServiceContext) {
-
-	{
-		serverless := helloworld.New(svcCtx.ServiceContext)
-		serverless.HandlerFunc(server, serverless.SvcCtx)
-		handler.RegisterRoute2Code(serverless.RouteCodesMap)
-	}
 
 }

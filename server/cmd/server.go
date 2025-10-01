@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"context"
-	"helloworld/desc/sql_migration/golang"
 	"net/http"
 	"os"
 
@@ -16,6 +15,7 @@ import (
 	"github.com/zeromicro/go-zero/rest"
 	"github.com/zeromicro/go-zero/rest/httpx"
 
+	"github.com/jzero-io/jzero-admin/server/desc/sql_migration/golang"
 	"github.com/jzero-io/jzero-admin/server/internal/config"
 	"github.com/jzero-io/jzero-admin/server/internal/custom"
 	"github.com/jzero-io/jzero-admin/server/internal/global"
