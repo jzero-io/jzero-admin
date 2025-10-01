@@ -29,6 +29,8 @@ logs
 # goreleaser output
 dist
 
+*.db
+
 data
 /server
 !/server/
