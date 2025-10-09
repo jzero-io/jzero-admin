@@ -7,13 +7,12 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/jzero-io/jzero/core/status"
 	"github.com/pkg/errors"
-	"github.com/spf13/cast"
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type Body struct {
 	Data any    `json:"data"`
-	Code string `json:"code"`
+	Code int    `json:"code"`
 	Msg  string `json:"msg"`
 }
 
@@ -35,7 +34,7 @@ func (e *ErrorMiddleware) Handle(ctx context.Context, err error) (int, any) {
 	if errors.Is(err, jwt.ErrTokenExpired) {
 		return http.StatusOK, Body{
 			Data: nil,
-			Code: "40101",
+			Code: 40101,
 			Msg:  "token expired to refresh token",
 		}
 	}
@@ -43,7 +42,7 @@ func (e *ErrorMiddleware) Handle(ctx context.Context, err error) (int, any) {
 	fromError := status.FromError(err)
 	return http.StatusOK, Body{
 		Data: nil,
-		Code: cast.ToString(int(fromError.Code())),
+		Code: int(fromError.Code()),
 		Msg:  fromError.Error(),
 	}
 }
@@ -51,7 +50,7 @@ func (e *ErrorMiddleware) Handle(ctx context.Context, err error) (int, any) {
 func (o *OkMiddleware) Handle(_ context.Context, data any) any {
 	return Body{
 		Data: data,
-		Code: cast.ToString(http.StatusOK),
+		Code: http.StatusOK,
 		Msg:  "success",
 	}
 }
