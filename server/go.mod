@@ -10,7 +10,7 @@ require (
 	github.com/guregu/null/v5 v5.0.0
 	github.com/huandu/go-sqlbuilder v1.37.0
 	github.com/jzero-io/jzero v0.62.0
-	github.com/jzero-io/jzero-admin/core-engine v0.0.0-20251001092913-fbacc0fe7742
+	github.com/jzero-io/jzero-admin/core-engine v0.0.0-20251009025920-b409b73d89c1
 	github.com/pkg/errors v0.9.1
 	github.com/samber/lo v1.52.0
 	github.com/spf13/cast v1.10.0
