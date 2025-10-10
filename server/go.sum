@@ -161,10 +161,6 @@ github.com/jaronnie/genius v0.6.1 h1:Uc5DkO9YuyqcQLEz6jjpWF9dwHX7UKwOFVjZEdtYlHc
 github.com/jaronnie/genius v0.6.1/go.mod h1:FHpApD8c1nRZGJvIoD+1H7VydBvVOoTU95CcdAo38bY=
 github.com/jzero-io/jzero v0.62.0 h1:QYmpCUHhaNhSXAIk3iN9k3OhHI68Urq6SlnQPmK2S54=
 github.com/jzero-io/jzero v0.62.0/go.mod h1:1vGKcbnWnSAAv/oSV/V4jA2loEaEXzCdDjTsTyiS868=
-github.com/jzero-io/jzero-admin/core-engine v0.0.0-20251001092913-fbacc0fe7742 h1:Bll9RZQ78N5AlXCRqxsMdHOK82DsEhSa8yA4BPWPwCM=
-github.com/jzero-io/jzero-admin/core-engine v0.0.0-20251001092913-fbacc0fe7742/go.mod h1:9JbnJwSPx/CLFeIPrfUcUImuTzJxW22QvXIB9Ab15pw=
-github.com/jzero-io/jzero-admin/core-engine v0.0.0-20251009023811-76581e8c52ee h1:dEY34DWomKyfWSsoZD8wOb6AC0XeC5ak5JA1IcaWz6E=
-github.com/jzero-io/jzero-admin/core-engine v0.0.0-20251009023811-76581e8c52ee/go.mod h1:9JbnJwSPx/CLFeIPrfUcUImuTzJxW22QvXIB9Ab15pw=
 github.com/jzero-io/jzero-admin/core-engine v0.0.0-20251009025920-b409b73d89c1 h1:NQ4HovyF/hUTIqnybkNyrcTga3JXOzkawDDCEl8m2FA=
 github.com/jzero-io/jzero-admin/core-engine v0.0.0-20251009025920-b409b73d89c1/go.mod h1:9JbnJwSPx/CLFeIPrfUcUImuTzJxW22QvXIB9Ab15pw=
 github.com/kisielk/errcheck v1.5.0/go.mod h1:pFxgyoBC7bSaBwPgfKdkLd5X25qrDl4LWUI2bnpBCr8=
