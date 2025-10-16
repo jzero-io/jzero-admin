@@ -1,18 +1,9 @@
 package custom
 
-import (
-	"{{.Module}}/internal/config"
-)
+type Custom struct{}
 
-type Custom struct{
-    c config.Config
-	// Please add custom fields here.
-}
-
-func New(c config.Config) *Custom {
-	return &Custom{
-		c: c,
-	}
+func New() *Custom {
+	return &Custom{}
 }
 
 // Init Please add custom logic here.

@@ -4,8 +4,8 @@ import (
 	"path/filepath"
 
 	coresvc "github.com/jzero-io/jzero-admin/core-engine/svc"
+	"github.com/jzero-io/jzero/core/configcenter"
 	"github.com/jzero-io/jzero/core/configcenter/subscriber"
-	configurator "github.com/zeromicro/go-zero/core/configcenter"
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/service"
 	"github.com/zeromicro/go-zero/rest"
@@ -25,14 +25,12 @@ type Serverless struct {
 
 // New serverless function
 func New(coreSvcCtx *coresvc.ServiceContext) *Serverless {
-	cc := configurator.MustNewConfigCenter[config.Config](configurator.Config{
+	cc := configcenter.MustNewConfigCenter[config.Config](configcenter.Config{
 		Type: "yaml",
 	}, subscriber.MustNewFsnotifySubscriber(filepath.Join("plugins", "helloworld", "etc", "etc.yaml"), subscriber.WithUseEnv(true)))
+	global.ServiceContext.ConfigCenter = cc
 
-	c, err := cc.GetConfig()
-	logx.Must(err)
-
-	customServer := custom.New(c)
+	customServer := custom.New()
 	logx.Must(customServer.Init())
 
 	svcCtx := svc.NewServiceContext(cc, handler.Route2Code, svc.WithCoreServiceContext(coreSvcCtx))

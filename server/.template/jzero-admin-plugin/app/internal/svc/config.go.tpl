@@ -7,7 +7,7 @@ import (
 )
 
 func (sc *ServiceContext) GetConfig() (config.Config, error) {
-	return sc.Config.GetConfig()
+	return sc.ConfigCenter.GetConfig()
 }
 
 func (sc *ServiceContext) MustGetConfig() config.Config {
@@ -17,7 +17,7 @@ func (sc *ServiceContext) MustGetConfig() config.Config {
 }
 
 func (sc *ServiceContext) SetConfigListener() {
-	sc.Config.AddListener(func() {
+	sc.ConfigCenter.AddListener(func() {
 	    v, err := sc.GetConfig()
 		if err != nil {
 		    logx.Errorf("reload config error: %v", err)

@@ -36,7 +36,7 @@ func NewRefreshToken(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Re
 }
 
 func (l *RefreshToken) RefreshToken(req *types.RefreshTokenRequest) (resp *types.RefreshTokenResponse, err error) {
-	config, err := l.svcCtx.Config.GetConfig()
+	config, err := l.svcCtx.ConfigCenter.GetConfig()
 	if err != nil {
 		return nil, err
 	}

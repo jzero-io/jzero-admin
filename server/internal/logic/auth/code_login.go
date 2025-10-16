@@ -35,7 +35,7 @@ func NewCodeLogin(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Reque
 }
 
 func (l *CodeLogin) CodeLogin(req *types.CodeLoginRequest) (resp *types.LoginResponse, err error) {
-	config, err := l.svcCtx.Config.GetConfig()
+	config, err := l.svcCtx.ConfigCenter.GetConfig()
 	if err != nil {
 		return nil, err
 	}

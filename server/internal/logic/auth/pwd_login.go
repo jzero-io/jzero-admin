@@ -38,7 +38,7 @@ func NewPwdLogin(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Reques
 }
 
 func (l *PwdLogin) PwdLogin(req *types.PwdLoginRequest) (resp *types.LoginResponse, err error) {
-	config, err := l.svcCtx.Config.GetConfig()
+	config, err := l.svcCtx.ConfigCenter.GetConfig()
 	if err != nil {
 		return nil, err
 	}

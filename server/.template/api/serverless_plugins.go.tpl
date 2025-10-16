@@ -4,32 +4,10 @@ package plugins
 import (
 	"github.com/zeromicro/go-zero/rest"
 
-    "{{ .Module }}/internal/handler"
     "{{ .Module }}/internal/svc"
 	{{range $v := .Plugins}}{{ $v.Path | base }} "{{ $v.Module }}/serverless"
-	{{ $v.Path | base }}_migration "{{ $v.Module }}/desc/sql_migration/golang"
 	{{end}}
 )
-
-type PluginMigrateUpFunc struct {
-	Name string
-	BeforeMigrateUpFunc map[uint]func(version uint) error
-	AfterMigrateUpFunc  map[uint]func(version uint) error
-}
-
-func GetPluginMigrateUpFunc() []PluginMigrateUpFunc {
-	var pluginMigrateUpFuncs []PluginMigrateUpFunc
-	{{ range $v := .Plugins }}
-	{
-		pluginMigrateUpFuncs = append(pluginMigrateUpFuncs,PluginMigrateUpFunc{
-			Name: "{{ $v.Path | base }}",
-			BeforeMigrateUpFunc: {{ $v.Path | base }}_migration.BeforeMigrateUpFunc,
-			AfterMigrateUpFunc:  {{ $v.Path | base }}_migration.AfterMigrateUpFunc,
-		})
-	}
-	{{end}}
-	return pluginMigrateUpFuncs
-}
 
 func LoadPlugins(server *rest.Server, svcCtx *svc.ServiceContext) {
 	{{ range $v := .Plugins }}

@@ -5,8 +5,8 @@ import (
 
 	"github.com/eddieowens/opts"
 	"github.com/jzero-io/jzero-admin/core-engine/svc"
+	"github.com/jzero-io/jzero/core/configcenter"
 	"github.com/jzero-io/jzero/core/stores/modelx"
-	configurator "github.com/zeromicro/go-zero/core/configcenter"
 
 	"helloworld/internal/config"
 	"helloworld/internal/model"
@@ -14,8 +14,8 @@ import (
 
 type ServiceContext struct {
 	*svc.ServiceContext
-	Config configurator.Configurator[config.Config]
-	Model  model.Model
+	ConfigCenter configcenter.ConfigCenter[config.Config]
+	Model        model.Model
 	Middleware
 }
 
@@ -33,10 +33,10 @@ func WithCoreServiceContext(coreSvcCtx *svc.ServiceContext) opts.Opt[ServiceCont
 	}
 }
 
-func NewServiceContext(cc configurator.Configurator[config.Config], route2code func(r *http.Request) string, op ...opts.Opt[ServiceContextOpts]) *ServiceContext {
+func NewServiceContext(cc configcenter.ConfigCenter[config.Config], route2code func(r *http.Request) string, op ...opts.Opt[ServiceContextOpts]) *ServiceContext {
 	o := opts.DefaultApply(op...)
 	svcCtx := &ServiceContext{
-		Config: cc,
+		ConfigCenter: cc,
 	}
 	svcCtx.SetConfigListener()
 

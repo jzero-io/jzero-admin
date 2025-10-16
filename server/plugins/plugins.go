@@ -7,18 +7,6 @@ import (
 	"github.com/jzero-io/jzero-admin/server/internal/svc"
 )
 
-type PluginMigrateUpFunc struct {
-	Name                string
-	BeforeMigrateUpFunc map[uint]func(version uint) error
-	AfterMigrateUpFunc  map[uint]func(version uint) error
-}
-
-func GetPluginMigrateUpFunc() []PluginMigrateUpFunc {
-	var pluginMigrateUpFuncs []PluginMigrateUpFunc
-
-	return pluginMigrateUpFuncs
-}
-
 func LoadPlugins(server *rest.Server, svcCtx *svc.ServiceContext) {
 
 }

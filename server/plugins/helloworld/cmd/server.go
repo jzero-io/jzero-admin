@@ -6,10 +6,9 @@ import (
 	"os"
 
 	"github.com/common-nighthawk/go-figure"
-	"github.com/jzero-io/jzero-admin/core-engine/helper/migrate"
+	"github.com/jzero-io/jzero/core/configcenter"
 	"github.com/jzero-io/jzero/core/configcenter/subscriber"
 	"github.com/spf13/cobra"
-	configurator "github.com/zeromicro/go-zero/core/configcenter"
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/service"
 	"github.com/zeromicro/go-zero/rest"
@@ -28,28 +27,22 @@ var serverCmd = &cobra.Command{
 	Short: "helloworld server",
 	Long:  "helloworld server",
 	Run: func(cmd *cobra.Command, args []string) {
-		cc := configurator.MustNewConfigCenter[config.Config](configurator.Config{
+		cc := configcenter.MustNewConfigCenter[config.Config](configcenter.Config{
 			Type: "yaml",
-		}, subscriber.MustNewFsnotifySubscriber(cfgFile, subscriber.WithUseEnv(true)))
-
-		c, err := cc.GetConfig()
-		logx.Must(err)
+		}, subscriber.MustNewFsnotifySubscriber(cmd.Flags().Lookup("config").Value.String(), subscriber.WithUseEnv(true)))
+		global.ServiceContext.ConfigCenter = cc
 
 		// set up logger
-		logx.Must(logx.SetUp(c.Log.LogConf))
-		if c.Log.LogConf.Mode != "console" {
+		logx.Must(logx.SetUp(cc.MustGetConfig().Log.LogConf))
+		if cc.MustGetConfig().Log.LogConf.Mode != "console" {
 			logx.AddWriter(logx.NewWriter(os.Stdout))
 		}
 
-		printBanner(c)
+		printBanner(cc.MustGetConfig())
 		printVersion()
 
-		logx.Infof("Starting sql migrate...")
-		logx.Must(migrate.MigrateUp(context.Background(), c.Sqlx.SqlConf))
-		logx.Infof("Finished sql migrate...")
-
-		logx.Infof("Starting rest server at %s:%d...", c.Rest.Host, c.Rest.Port)
-		restServer := rest.MustNewServer(c.Rest.RestConf, rest.WithUnauthorizedCallback(func(w http.ResponseWriter, r *http.Request, err error) {
+		logx.Infof("Starting rest server at %s:%d...", cc.MustGetConfig().Rest.Host, cc.MustGetConfig().Rest.Port)
+		restServer := rest.MustNewServer(cc.MustGetConfig().Rest.RestConf, rest.WithUnauthorizedCallback(func(w http.ResponseWriter, r *http.Request, err error) {
 			httpx.ErrorCtx(r.Context(), w, err)
 		}), rest.WithCustomCors(func(header http.Header) {
 			header.Set("Access-Control-Allow-Origin", "*")
@@ -57,7 +50,7 @@ var serverCmd = &cobra.Command{
 			header.Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, UPDATE")
 		}, nil, "*"))
 
-		customServer := custom.New(c)
+		customServer := custom.New()
 
 		logx.Must(customServer.Init())
 		svcCtx := svc.NewServiceContext(cc, handler.Route2Code)

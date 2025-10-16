@@ -1,0 +1,19 @@
+banner:
+  text: jzero-admin
+
+rest:
+  name: jzero-admin-api
+  host: 0.0.0.0
+  port: 8001
+  timeout: 20000
+
+log:
+  encoding: plain
+  level: info
+  mode: console
+
+sqlx:
+    datasource: "${DATASOURCE:-jzero-admin.db}"
+    driverName: "${DRIVER_NAME:-sqlite}"
+
+cacheType: "${CACHE_TYPE:-local}"
