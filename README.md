@@ -22,7 +22,7 @@
 
 ### 部署在阿里云函数计算
 
-[demo 演示地址](https://jzero-admin.jaronnie.com)
+[demo 演示地址](http://jzero-admin.jaronnie.com)
 
 ## 本地一键部署
 
@@ -33,8 +33,3 @@ docker-compose up
 # 修改源码后重新编译
 # docker-compose up --build
 ```
-
-## 感谢
-
-* 部署在阿里云函数计算上使用在线 mysql 实例 [sqlpub](https://sqlpub.com)
-* 部署在 vercel 上使用在线 postgres 实例 [neon](https://neon.tech)
