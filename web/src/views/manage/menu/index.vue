@@ -30,11 +30,6 @@ const { columns, columnChecks, data, loading, pagination, getData, getDataByPage
       width: 48
     },
     {
-      key: 'id',
-      title: $t('page.manage.menu.id'),
-      align: 'center'
-    },
-    {
       key: 'menuType',
       title: $t('page.manage.menu.menuType'),
       align: 'center',
@@ -53,9 +48,10 @@ const { columns, columnChecks, data, loading, pagination, getData, getDataByPage
     },
     {
       key: 'menuName',
-      title: $t('page.manage.menu.menuName'),
-      align: 'center',
-      minWidth: 120,
+      title: () => <span style="padding-left: 24px">{$t('page.manage.menu.menuName')}</span>,
+      align: 'left',
+      minWidth: 200,
+      tree: true,
       render: row => {
         const { i18nKey, menuName } = row;
 
@@ -130,12 +126,6 @@ const { columns, columnChecks, data, loading, pagination, getData, getDataByPage
 
         return <NTag type={tagMap[hide]}>{label}</NTag>;
       }
-    },
-    {
-      key: 'parentId',
-      title: $t('page.manage.menu.parentId'),
-      width: 90,
-      align: 'center'
     },
     {
       key: 'order',
