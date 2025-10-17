@@ -1,3 +1,7 @@
+hooks:
+  before:
+    - go install tool
+
 new:
   home: .template/jzero-admin-plugin
 

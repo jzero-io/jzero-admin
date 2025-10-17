@@ -244,6 +244,9 @@ func (m *defaultManageUserModel) Update(ctx context.Context, session sqlx.Sessio
 	split := strings.Split(manageUserRowsExpectAutoSet, ",")
 	var assigns []string
 	for _, s := range split {
+		if condition.Unquote(s) == condition.Unquote("`id`") {
+			continue
+		}
 		assigns = append(assigns, sb.Assign(s, nil))
 	}
 	sb.Set(assigns...)

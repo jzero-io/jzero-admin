@@ -209,6 +209,9 @@ func (m *defaultManageRoleMenuModel) Update(ctx context.Context, session sqlx.Se
 	split := strings.Split(manageRoleMenuRowsExpectAutoSet, ",")
 	var assigns []string
 	for _, s := range split {
+		if condition.Unquote(s) == condition.Unquote("`id`") {
+			continue
+		}
 		assigns = append(assigns, sb.Assign(s, nil))
 	}
 	sb.Set(assigns...)

@@ -217,6 +217,9 @@ func (m *defaultManageEmailModel) Update(ctx context.Context, session sqlx.Sessi
 	split := strings.Split(manageEmailRowsExpectAutoSet, ",")
 	var assigns []string
 	for _, s := range split {
+		if condition.Unquote(s) == condition.Unquote("`id`") {
+			continue
+		}
 		assigns = append(assigns, sb.Assign(s, nil))
 	}
 	sb.Set(assigns...)
