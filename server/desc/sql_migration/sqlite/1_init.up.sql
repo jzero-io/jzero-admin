@@ -124,8 +124,7 @@ CREATE TABLE manage_role (
 
 INSERT INTO manage_role (id, create_time, update_time, create_by, update_by, name, status, code, "desc")
 VALUES
-    (1,'2024-10-29 22:23:50','2024-10-29 22:23:50',1,NULL,'超级管理员','1','R_SUPER','超级管理员'),
-    (2,'2024-11-28 12:46:13','2024-11-28 12:46:13',1,NULL,'测试用户','1','R_TEST','测试用户');
+    (1,'2024-10-29 22:23:50','2024-10-29 22:23:50',1,NULL,'超级管理员','1','R_SUPER','超级管理员');
 
 DROP TABLE IF EXISTS manage_role_menu;
 
