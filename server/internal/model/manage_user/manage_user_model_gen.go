@@ -37,7 +37,7 @@ const (
 	Email      condition.Field = "email"
 )
 
-func initVars() {
+func initManageUserVars() {
 	manageUserFieldNames = condition.RawFieldNames(&ManageUser{})
 	manageUserRows = strings.Join(manageUserFieldNames, ",")
 	manageUserRowsExpectAutoSet = strings.Join(condition.RemoveIgnoreColumns(manageUserFieldNames, "`id`"), ",")
@@ -98,7 +98,7 @@ func newManageUserModel(conn sqlx.SqlConn, op ...opts.Opt[modelx.ModelOpts]) *de
 		cachedConn = *o.CachedConn
 	}
 
-	initVars()
+	initManageUserVars()
 
 	return &defaultManageUserModel{
 		cachedConn: cachedConn,

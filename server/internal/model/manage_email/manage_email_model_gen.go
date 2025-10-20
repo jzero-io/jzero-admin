@@ -37,7 +37,7 @@ const (
 	IsVerify   condition.Field = "is_verify"
 )
 
-func initVars() {
+func initManageEmailVars() {
 	manageEmailFieldNames = condition.RawFieldNames(&ManageEmail{})
 	manageEmailRows = strings.Join(manageEmailFieldNames, ",")
 	manageEmailRowsExpectAutoSet = strings.Join(condition.RemoveIgnoreColumns(manageEmailFieldNames, "`id`"), ",")
@@ -97,7 +97,7 @@ func newManageEmailModel(conn sqlx.SqlConn, op ...opts.Opt[modelx.ModelOpts]) *d
 		cachedConn = *o.CachedConn
 	}
 
-	initVars()
+	initManageEmailVars()
 
 	return &defaultManageEmailModel{
 		cachedConn: cachedConn,

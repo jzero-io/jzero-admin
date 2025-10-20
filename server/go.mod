@@ -9,7 +9,7 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/guregu/null/v5 v5.0.0
 	github.com/huandu/go-sqlbuilder v1.38.0
-	github.com/jzero-io/jzero v0.63.2
+	github.com/jzero-io/jzero v0.63.3
 	github.com/jzero-io/jzero-admin/core-engine v0.0.0-20251016022908-ea160f46b21f
 	github.com/pkg/errors v0.9.1
 	github.com/samber/lo v1.52.0
@@ -91,7 +91,7 @@ require (
 	github.com/jhump/protoreflect v1.17.0 // indirect
 	github.com/jzero-io/desc v1.1.0 // indirect
 	github.com/jzero-io/go_fmt v0.0.0-20250905015347-1a45352494b7 // indirect
-	github.com/jzero-io/jzero/cmd/jzero v0.63.2 // indirect
+	github.com/jzero-io/jzero/cmd/jzero v0.63.3 // indirect
 	github.com/kevinburke/ssh_config v1.2.0 // indirect
 	github.com/klauspost/compress v1.18.0 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect

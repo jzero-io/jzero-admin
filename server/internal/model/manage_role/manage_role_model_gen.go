@@ -34,7 +34,7 @@ const (
 	Desc       condition.Field = "desc"
 )
 
-func initVars() {
+func initManageRoleVars() {
 	manageRoleFieldNames = condition.RawFieldNames(&ManageRole{})
 	manageRoleRows = strings.Join(manageRoleFieldNames, ",")
 	manageRoleRowsExpectAutoSet = strings.Join(condition.RemoveIgnoreColumns(manageRoleFieldNames, "`id`"), ",")
@@ -91,7 +91,7 @@ func newManageRoleModel(conn sqlx.SqlConn, op ...opts.Opt[modelx.ModelOpts]) *de
 		cachedConn = *o.CachedConn
 	}
 
-	initVars()
+	initManageRoleVars()
 
 	return &defaultManageRoleModel{
 		cachedConn: cachedConn,

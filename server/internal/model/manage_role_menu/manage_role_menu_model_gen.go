@@ -33,7 +33,7 @@ const (
 	IsHome     condition.Field = "is_home"
 )
 
-func initVars() {
+func initManageRoleMenuVars() {
 	manageRoleMenuFieldNames = condition.RawFieldNames(&ManageRoleMenu{})
 	manageRoleMenuRows = strings.Join(manageRoleMenuFieldNames, ",")
 	manageRoleMenuRowsExpectAutoSet = strings.Join(condition.RemoveIgnoreColumns(manageRoleMenuFieldNames, "`id`"), ",")
@@ -89,7 +89,7 @@ func newManageRoleMenuModel(conn sqlx.SqlConn, op ...opts.Opt[modelx.ModelOpts])
 		cachedConn = *o.CachedConn
 	}
 
-	initVars()
+	initManageRoleMenuVars()
 
 	return &defaultManageRoleMenuModel{
 		cachedConn: cachedConn,

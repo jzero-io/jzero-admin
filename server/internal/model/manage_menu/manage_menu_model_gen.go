@@ -51,7 +51,7 @@ const (
 	ButtonCode      condition.Field = "button_code"
 )
 
-func initVars() {
+func initManageMenuVars() {
 	manageMenuFieldNames = condition.RawFieldNames(&ManageMenu{})
 	manageMenuRows = strings.Join(manageMenuFieldNames, ",")
 	manageMenuRowsExpectAutoSet = strings.Join(condition.RemoveIgnoreColumns(manageMenuFieldNames, "`id`"), ",")
@@ -125,7 +125,7 @@ func newManageMenuModel(conn sqlx.SqlConn, op ...opts.Opt[modelx.ModelOpts]) *de
 		cachedConn = *o.CachedConn
 	}
 
-	initVars()
+	initManageMenuVars()
 
 	return &defaultManageMenuModel{
 		cachedConn: cachedConn,

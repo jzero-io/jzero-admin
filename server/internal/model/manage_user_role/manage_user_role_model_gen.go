@@ -32,7 +32,7 @@ const (
 	RoleId     condition.Field = "role_id"
 )
 
-func initVars() {
+func initManageUserRoleVars() {
 	manageUserRoleFieldNames = condition.RawFieldNames(&ManageUserRole{})
 	manageUserRoleRows = strings.Join(manageUserRoleFieldNames, ",")
 	manageUserRoleRowsExpectAutoSet = strings.Join(condition.RemoveIgnoreColumns(manageUserRoleFieldNames, "`id`"), ",")
@@ -87,7 +87,7 @@ func newManageUserRoleModel(conn sqlx.SqlConn, op ...opts.Opt[modelx.ModelOpts])
 		cachedConn = *o.CachedConn
 	}
 
-	initVars()
+	initManageUserRoleVars()
 
 	return &defaultManageUserRoleModel{
 		cachedConn: cachedConn,
