@@ -55,7 +55,7 @@ services:
     ports:
       - "3306:3306"
   redis:
-    image: redis
+    image: redis:latest
     restart: always
     container_name: jzero-admin-redis
     ports:

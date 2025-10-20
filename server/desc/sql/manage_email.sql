@@ -1,9 +1,9 @@
 CREATE TABLE `manage_email` (
-  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `id` bigint NOT NULL AUTO_INCREMENT,
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `create_by` bigint DEFAULT NULL,
-  `update_by` bigint DEFAULT NULL,
+  `create_by` bigint NOT NULL,
+  `update_by` bigint NOT NULL,
   `from` longtext NOT NULL,
   `host` longtext NOT NULL,
   `port` bigint NOT NULL,

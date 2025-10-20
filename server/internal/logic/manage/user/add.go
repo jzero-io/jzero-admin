@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/guregu/null/v5"
 	"github.com/jzero-io/jzero/core/stores/condition"
 	"github.com/zeromicro/go-zero/core/logx"
 
@@ -39,9 +38,9 @@ func (l *Add) Add(req *types.AddRequest) (resp *types.AddResponse, err error) {
 		Password:   req.Password,
 		Nickname:   req.NickName,
 		Gender:     req.UserGender,
-		Phone:      null.StringFrom(req.UserPhone).NullString,
+		Phone:      req.UserPhone,
 		Status:     req.Status,
-		Email:      null.StringFrom(req.UserEmail).NullString,
+		Email:      req.UserEmail,
 	}); err != nil {
 		return nil, err
 	}
@@ -51,7 +50,7 @@ func (l *Add) Add(req *types.AddRequest) (resp *types.AddResponse, err error) {
 	}
 
 	var bulk []*manage_user_role.ManageUserRole
-	var roleIds []uint64
+	var roleIds []int64
 	roles, err := l.svcCtx.Model.ManageRole.FindByCondition(l.ctx, nil, condition.Condition{
 		Field:    manage_role.Code,
 		Operator: condition.In,
@@ -69,8 +68,8 @@ func (l *Add) Add(req *types.AddRequest) (resp *types.AddResponse, err error) {
 		bulk = append(bulk, &manage_user_role.ManageUserRole{
 			CreateTime: time.Now(),
 			UpdateTime: time.Now(),
-			UserId:     int64(user.Id),
-			RoleId:     int64(v),
+			UserId:     user.Id,
+			RoleId:     v,
 		})
 	}
 

@@ -36,7 +36,7 @@ func (l *GetHome) GetHome(req *types.GetHomeRequest) (resp string, err error) {
 	if err != nil {
 		return "", err
 	}
-	one, err := l.svcCtx.Model.ManageMenu.FindOne(l.ctx, nil, uint64(roleHomeMenu.MenuId))
+	one, err := l.svcCtx.Model.ManageMenu.FindOne(l.ctx, nil, roleHomeMenu.MenuId)
 	if err != nil {
 		return "", err
 	}

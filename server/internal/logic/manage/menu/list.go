@@ -69,11 +69,11 @@ func convert(list []*manage_menu.ManageMenu) []*types.SystemMenu {
 		var menu types.SystemMenu
 		var permissions []types.Permission
 		var query []types.Query
-		Unmarshal(item.Permissions.String, &permissions)
-		Unmarshal(item.Query.String, &query)
+		Unmarshal(item.Permissions, &permissions)
+		Unmarshal(item.Query, &query)
 		menu = types.SystemMenu{
 			Id:              item.Id,
-			ActiveMenu:      item.ActiveMenu.String,
+			ActiveMenu:      item.ActiveMenu,
 			MenuType:        item.MenuType,
 			MenuName:        item.MenuName,
 			RouteName:       item.RouteName,
@@ -81,17 +81,17 @@ func convert(list []*manage_menu.ManageMenu) []*types.SystemMenu {
 			Component:       item.Component,
 			Icon:            item.Icon,
 			IconType:        item.IconType,
-			ParentId:        uint64(item.ParentId),
+			ParentId:        item.ParentId,
 			Status:          item.Status,
 			KeepAlive:       cast.ToBool(item.KeepAlive),
 			Constant:        cast.ToBool(item.Constant),
-			Order:           uint64(item.Order),
+			Order:           item.Order,
 			HideInMenu:      cast.ToBool(item.HideInMenu),
-			Href:            item.Href.String,
+			Href:            item.Href,
 			MultiTab:        cast.ToBool(item.MultiTab),
-			FixedIndexInTab: null.NewInt(item.FixedIndexInTab.Int64, item.FixedIndexInTab.Valid).Ptr(),
+			FixedIndexInTab: null.NewInt(item.FixedIndexInTab, item.FixedIndexInTab != 0).Ptr(),
 			Query:           query,
-			ButtonCode:      item.ButtonCode.String,
+			ButtonCode:      item.ButtonCode,
 			Permissions:     permissions,
 			I18nKey:         item.I18nKey,
 			Children:        nil,
@@ -101,7 +101,7 @@ func convert(list []*manage_menu.ManageMenu) []*types.SystemMenu {
 	return records
 }
 
-func buildMenuTree(menus []*types.SystemMenu, parentId uint64) []types.SystemMenu {
+func buildMenuTree(menus []*types.SystemMenu, parentId int64) []types.SystemMenu {
 	var result []types.SystemMenu
 	for _, menu := range menus {
 		if menu.ParentId == parentId {

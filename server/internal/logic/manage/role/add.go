@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/guregu/null/v5"
 	"github.com/jzero-io/jzero-admin/core-engine/helper/auth"
 	"github.com/jzero-io/jzero/core/stores/condition"
 	"github.com/pkg/errors"
@@ -46,7 +45,7 @@ func (l *Add) Add(req *types.AddRequest) (resp *types.AddResponse, err error) {
 	}
 
 	// find home menu
-	var homeMenuId uint64
+	var homeMenuId int64
 	if home, err := l.svcCtx.Model.ManageMenu.FindOneByCondition(l.ctx, nil, condition.NewChain().Equal("route_path", "/home").Build()...); err != nil {
 		return nil, err
 	} else {
@@ -60,7 +59,7 @@ func (l *Add) Add(req *types.AddRequest) (resp *types.AddResponse, err error) {
 			Desc:       req.RoleDesc,
 			CreateTime: time.Now(),
 			UpdateTime: time.Now(),
-			CreateBy:   null.IntFrom(int64(authInfo.Id)).NullInt64,
+			CreateBy:   int64(authInfo.Id),
 			Status:     req.Status,
 		}); err != nil {
 			return err
@@ -76,9 +75,9 @@ func (l *Add) Add(req *types.AddRequest) (resp *types.AddResponse, err error) {
 		if _, err = l.svcCtx.Model.ManageRoleMenu.Insert(l.ctx, session, &manage_role_menu.ManageRoleMenu{
 			CreateTime: time.Now(),
 			UpdateTime: time.Now(),
-			CreateBy:   null.IntFrom(int64(authInfo.Id)).NullInt64,
-			RoleId:     int64(role.Id),
-			MenuId:     int64(homeMenuId),
+			CreateBy:   int64(authInfo.Id),
+			RoleId:     role.Id,
+			MenuId:     homeMenuId,
 			IsHome:     cast.ToInt64(true),
 		}); err != nil {
 			return err

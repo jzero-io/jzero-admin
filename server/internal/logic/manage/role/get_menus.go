@@ -27,7 +27,7 @@ func NewGetMenus(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Reques
 	}
 }
 
-func (l *GetMenus) GetMenus(req *types.GetMenusRequest) (resp []uint64, err error) {
+func (l *GetMenus) GetMenus(req *types.GetMenusRequest) (resp []int64, err error) {
 	menus, err := l.svcCtx.Model.ManageRoleMenu.FindByCondition(l.ctx, nil, condition.Condition{
 		Field:    manage_role_menu.RoleId,
 		Operator: condition.Equal,
@@ -37,9 +37,9 @@ func (l *GetMenus) GetMenus(req *types.GetMenusRequest) (resp []uint64, err erro
 		return
 	}
 
-	var menuIds []uint64
+	var menuIds []int64
 	for _, menu := range menus {
-		menuIds = append(menuIds, uint64(menu.MenuId))
+		menuIds = append(menuIds, menu.MenuId)
 	}
 	resp = menuIds
 

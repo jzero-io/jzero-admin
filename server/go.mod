@@ -3,6 +3,7 @@ module github.com/jzero-io/jzero-admin/server
 go 1.24.5
 
 require (
+	github.com/casbin/casbin/v2 v2.127.0
 	github.com/common-nighthawk/go-figure v0.0.0-20210622060536-734e95fb86be
 	github.com/eddieowens/opts v0.1.0
 	github.com/golang-jwt/jwt/v4 v4.5.2
@@ -36,7 +37,6 @@ require (
 	github.com/bmatcuk/doublestar/v4 v4.8.1 // indirect
 	github.com/bufbuild/protocompile v0.14.1 // indirect
 	github.com/buger/jsonparser v1.1.1 // indirect
-	github.com/casbin/casbin/v2 v2.127.0 // indirect
 	github.com/casbin/govaluate v1.3.0 // indirect
 	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect

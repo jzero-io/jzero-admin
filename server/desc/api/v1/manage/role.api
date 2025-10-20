@@ -10,7 +10,7 @@ import (
 )
 
 type ManageRole {
-	Id         uint64 `json:"id"`
+	Id         int64  `json:"id"`
 	RoleName   string `json:"roleName"`
 	RoleCode   string `json:"roleCode"`
 	RoleDesc   string `json:"roleDesc"`
@@ -34,7 +34,7 @@ type ListResponse {
 type GetAllRequest {}
 
 type GetAllResponse {
-	Id       uint64 `json:"id"`
+	Id       int64  `json:"id"`
 	RoleName string `json:"roleName"`
 	RoleCode string `json:"roleCode"`
 }
@@ -49,7 +49,7 @@ type AddRequest {
 type AddResponse {}
 
 type EditRequest {
-	Id       uint64 `json:"id"`
+	Id       int64  `json:"id"`
 	RoleName string `json:"roleName"`
 	RoleCode string `json:"roleCode"`
 	RoleDesc string `json:"roleDesc"`
@@ -59,35 +59,35 @@ type EditRequest {
 type EditResponse {}
 
 type DeleteRequest {
-	Ids []uint64 `json:"ids"`
+	Ids []int64 `json:"ids"`
 }
 
 type DeleteResponse {}
 
 type SetMenusRequest {
-	RoleId  uint64   `json:"roleId"`
-	MenuIds []uint64 `json:"menuIds"`
+	RoleId  int64   `json:"roleId"`
+	MenuIds []int64 `json:"menuIds"`
 }
 
 type SetMenusResponse {}
 
 type GetMenusRequest {
-	RoleId uint64 `form:"roleId"`
+	RoleId int64 `form:"roleId"`
 }
 
 type GetMenusResponse {
-	MenuIds []uint64 `json:"menuIds"`
+	MenuIds []int64 `json:"menuIds"`
 }
 
 type UpdateHomeRequest {
-	RoleId uint64 `json:"roleId"`
+	RoleId int64  `json:"roleId"`
 	Home   string `json:"home"`
 }
 
 type UpdateHomeResponse {}
 
 type GetHomeRequest {
-	RoleId uint64 `form:"roleId"`
+	RoleId int64 `form:"roleId"`
 }
 
 @server (
@@ -117,7 +117,7 @@ service server {
 	post /manage/setRoleMenus (SetMenusRequest) returns (SetMenusResponse)
 
 	@handler GetMenus
-	get /manage/getRoleMenus (GetMenusRequest) returns ([]uint64)
+	get /manage/getRoleMenus (GetMenusRequest) returns ([]int64)
 
 	@handler UpdateHome
 	post /manage/updateRoleHome (UpdateHomeRequest) returns (UpdateHomeResponse)

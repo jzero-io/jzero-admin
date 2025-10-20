@@ -53,9 +53,9 @@ func (l *GetUserRoutes) GetUserRoutes(req *types.GetUserRoutesRequest) (resp *ty
 		return nil, err
 	}
 
-	var menuIds []uint64
+	var menuIds []int64
 	for _, roleMenu := range roleMenus {
-		menuIds = append(menuIds, uint64(roleMenu.MenuId))
+		menuIds = append(menuIds, roleMenu.MenuId)
 	}
 	uniqMenuIds := lo.Uniq(menuIds)
 
@@ -78,7 +78,7 @@ func (l *GetUserRoutes) GetUserRoutes(req *types.GetUserRoutesRequest) (resp *ty
 	for _, rm := range roleMenus {
 		if cast.ToBool(rm.IsHome) {
 			for _, m := range menus {
-				if m.Id == uint64(rm.MenuId) {
+				if m.Id == rm.MenuId {
 					resp.Home = m.RouteName
 				}
 			}
@@ -94,10 +94,10 @@ func convert(list []*manage_menu.ManageMenu) []*types.Route {
 		var route types.Route
 		var query []types.Query
 
-		menu.Unmarshal(item.Query.String, &query)
+		menu.Unmarshal(item.Query, &query)
 
 		route = types.Route{
-			Id:       int64(item.Id),
+			Id:       item.Id,
 			ParentId: item.ParentId,
 			Name:     item.RouteName,
 			Path:     item.RoutePath,
@@ -107,12 +107,12 @@ func convert(list []*manage_menu.ManageMenu) []*types.Route {
 				Icon:            item.Icon,
 				Order:           int(item.Order),
 				HideInMenu:      cast.ToBool(item.HideInMenu),
-				ActiveMenu:      item.ActiveMenu.String,
+				ActiveMenu:      item.ActiveMenu,
 				MultiTab:        cast.ToBool(item.MultiTab),
-				FixedIndexInTab: null.NewInt(item.FixedIndexInTab.Int64, item.FixedIndexInTab.Valid).Ptr(),
+				FixedIndexInTab: null.NewInt(item.FixedIndexInTab, item.FixedIndexInTab != 0).Ptr(),
 				KeepAlive:       cast.ToBool(item.KeepAlive),
 				Constant:        cast.ToBool(item.Constant),
-				Href:            item.Href.String,
+				Href:            item.Href,
 				Query:           query,
 			},
 			Component: item.Component,
@@ -120,7 +120,7 @@ func convert(list []*manage_menu.ManageMenu) []*types.Route {
 		}
 		if item.Component == "view.iframe-page" {
 			route.Props = map[string]any{
-				"url": item.Href.String,
+				"url": item.Href,
 			}
 			route.Meta.Href = ""
 		}

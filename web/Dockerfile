@@ -1,16 +1,14 @@
-FROM node:20.12.2-bullseye-slim as builder
+FROM node:20.12.2-bullseye-slim AS builder
 
 WORKDIR /jzero-admin
 
 COPY ./ ./
 
 RUN --mount=type=cache,target=/node_modules npm install -g pnpm@8.15.6 \
-  && rm -rf package-lock.json \
-  && rm -rf pnpm-lock.yaml \
   && pnpm i \
   && pnpm build
 
-FROM nginx:1.26-alpine
+FROM nginx:alpine
 
 WORKDIR /usr/share/nginx/
 

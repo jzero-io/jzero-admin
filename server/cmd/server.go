@@ -31,7 +31,6 @@ var serverCmd = &cobra.Command{
 		cc := configcenter.MustNewConfigCenter[config.Config](configcenter.Config{
 			Type: "yaml",
 		}, subscriber.MustNewFsnotifySubscriber(cmd.Flags().Lookup("config").Value.String(), subscriber.WithUseEnv(true)))
-		global.ServiceContext.ConfigCenter = cc
 
 		// set up logger
 		logx.Must(logx.SetUp(cc.MustGetConfig().Log.LogConf))
@@ -51,14 +50,14 @@ var serverCmd = &cobra.Command{
 			header.Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, UPDATE")
 		}, nil, "*"))
 
-		customServer := custom.New()
-		logx.Must(customServer.Init())
-
 		svcCtx := svc.NewServiceContext(cc, handler.Route2Code)
 		global.ServiceContext = *svcCtx
 		middleware.Register(restServer)
 		handler.RegisterHandlers(restServer, svcCtx)
 		plugins.LoadPlugins(restServer, svcCtx)
+
+		customServer := custom.New()
+		logx.Must(customServer.Init())
 
 		group := service.NewServiceGroup()
 		group.Add(restServer)

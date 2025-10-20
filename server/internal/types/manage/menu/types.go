@@ -18,11 +18,11 @@ type AddRequest struct {
 	Component       string       `json:"component"`
 	Icon            string       `json:"icon"`
 	IconType        string       `json:"iconType"`
-	ParentId        uint64       `json:"parentId"`
+	ParentId        int64        `json:"parentId"`
 	Status          string       `json:"status"`
 	KeepAlive       bool         `json:"keepAlive"`
 	Constant        bool         `json:"constant"`
-	Order           uint64       `json:"order"`
+	Order           int64        `json:"order"`
 	HideInMenu      bool         `json:"hideInMenu"`
 	Href            string       `json:"href,optional"`
 	MultiTab        bool         `json:"multiTab,optional"`
@@ -42,14 +42,14 @@ type Button struct {
 }
 
 type DeleteRequest struct {
-	Ids []uint64 `json:"ids"`
+	Ids []int64 `json:"ids"`
 }
 
 type DeleteResponse struct {
 }
 
 type EditRequest struct {
-	Id              uint64       `json:"id"`
+	Id              int64        `json:"id"`
 	ActiveMenu      string       `json:"activeMenu,optional"`
 	MenuType        string       `json:"menuType"`
 	MenuName        string       `json:"menuName"`
@@ -58,11 +58,11 @@ type EditRequest struct {
 	Component       string       `json:"component"`
 	Icon            string       `json:"icon"`
 	IconType        string       `json:"iconType"`
-	ParentId        uint64       `json:"parentId"`
+	ParentId        int64        `json:"parentId"`
 	Status          string       `json:"status"`
 	KeepAlive       bool         `json:"keepAlive"`
 	Constant        bool         `json:"constant"`
-	Order           uint64       `json:"order"`
+	Order           int64        `json:"order"`
 	HideInMenu      bool         `json:"hideInMenu"`
 	Href            string       `json:"href,optional"`
 	MutiTab         bool         `json:"mutiTab,optional"`
@@ -77,7 +77,7 @@ type EditResponse struct {
 }
 
 type GetAllPagesRequest struct {
-	RoleId uint64 `form:"roleId,optional"`
+	RoleId int64 `form:"roleId,optional"`
 }
 
 type ListRequest struct {
@@ -111,7 +111,7 @@ type Query struct {
 }
 
 type SystemMenu struct {
-	Id              uint64       `json:"id"`
+	Id              int64        `json:"id"`
 	ActiveMenu      string       `json:"activeMenu,optional"`
 	MenuType        string       `json:"menuType"`
 	MenuName        string       `json:"menuName"`
@@ -120,11 +120,11 @@ type SystemMenu struct {
 	Component       string       `json:"component"`
 	Icon            string       `json:"icon"`
 	IconType        string       `json:"iconType"`
-	ParentId        uint64       `json:"parentId"`
+	ParentId        int64        `json:"parentId"`
 	Status          string       `json:"status"`
 	KeepAlive       bool         `json:"keepAlive"`
 	Constant        bool         `json:"constant"`
-	Order           uint64       `json:"order"`
+	Order           int64        `json:"order"`
 	HideInMenu      bool         `json:"hideInMenu"`
 	Href            string       `json:"href,optional"`
 	MultiTab        bool         `json:"multiTab,optional"`
@@ -140,9 +140,9 @@ type TreeRequest struct {
 }
 
 type TreeResponse struct {
-	Id       uint64         `json:"id"`
+	Id       int64          `json:"id"`
 	Label    string         `json:"label"`
-	PId      uint64         `json:"pId"`
-	Order    uint64         `json:"-"`
+	PId      int64          `json:"pId"`
+	Order    int64          `json:"-"`
 	Children []TreeResponse `json:"children"`
 }

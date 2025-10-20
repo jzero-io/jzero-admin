@@ -48,8 +48,8 @@ func (l *SetMenus) SetMenus(req *types.SetMenusRequest) (resp *types.SetMenusRes
 
 		for _, v := range req.MenuIds {
 			data := &manage_role_menu.ManageRoleMenu{
-				RoleId:     int64(req.RoleId),
-				MenuId:     int64(v),
+				RoleId:     req.RoleId,
+				MenuId:     v,
 				CreateTime: time.Now(),
 				UpdateTime: time.Now(),
 			}
@@ -100,7 +100,7 @@ func (l *SetMenus) SetMenus(req *types.SetMenusRequest) (resp *types.SetMenusRes
 	}
 	for _, v := range menus {
 		var permissions []menu_types.Permission
-		menu.Unmarshal(v.Permissions.String, &permissions)
+		menu.Unmarshal(v.Permissions, &permissions)
 		for _, perm := range permissions {
 			newPolicies = append(newPolicies, []string{cast.ToString(req.RoleId), perm.Code})
 		}

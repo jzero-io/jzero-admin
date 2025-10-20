@@ -10,7 +10,7 @@ import (
 )
 
 type ManageUser {
-	Id         uint64   `json:"id"`
+	Id         int64    `json:"id"`
 	Username   string   `json:"username"`
 	UserGender string   `json:"userGender"`
 	NickName   string   `json:"nickName"`
@@ -51,7 +51,7 @@ type AddRequest {
 type AddResponse {}
 
 type EditRequest {
-	Id         uint64   `json:"id"`
+	Id         int64    `json:"id"`
 	Username   string   `json:"username"`
 	UserGender string   `json:"userGender"`
 	NickName   string   `json:"nickName"`
@@ -64,7 +64,7 @@ type EditRequest {
 type EditResponse {}
 
 type DeleteRequest {
-	Ids []uint64 `json:"ids"`
+	Ids []int64 `json:"ids"`
 }
 
 type DeleteResponse {}

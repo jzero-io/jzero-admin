@@ -49,7 +49,7 @@ func (l *Tree) Tree(req *types.TreeRequest) (resp []types.TreeResponse, err erro
 	return
 }
 
-func buildSimpleMenuTree(menus []*types.SystemMenu, parentId uint64) []types.TreeResponse {
+func buildSimpleMenuTree(menus []*types.SystemMenu, parentId int64) []types.TreeResponse {
 	var result []types.TreeResponse
 	for _, menu := range menus {
 		if menu.ParentId == parentId {

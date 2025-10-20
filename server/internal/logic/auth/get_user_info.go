@@ -38,7 +38,7 @@ func (l *GetUserInfo) GetUserInfo(req *types.GetUserInfoRequest) (resp *types.Ge
 		return nil, err
 	}
 
-	user, err := l.svcCtx.Model.ManageUser.FindOne(l.ctx, nil, uint64(info.Id))
+	user, err := l.svcCtx.Model.ManageUser.FindOne(l.ctx, nil, int64(info.Id))
 	if err != nil {
 		return nil, err
 	}
@@ -87,7 +87,7 @@ func (l *GetUserInfo) GetUserInfo(req *types.GetUserInfoRequest) (resp *types.Ge
 	}
 	buttons := make([]string, 0)
 	for _, menu := range menus {
-		buttons = append(buttons, menu.ButtonCode.String)
+		buttons = append(buttons, menu.ButtonCode)
 	}
 
 	return &types.GetUserInfoResponse{

@@ -1,9 +1,9 @@
 CREATE TABLE `manage_role` (
-  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `id` bigint NOT NULL AUTO_INCREMENT,
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `create_by` bigint DEFAULT NULL,
-  `update_by` bigint DEFAULT NULL,
+  `create_by` bigint NOT NULL,
+  `update_by` bigint NOT NULL,
   `name` varchar(50) NOT NULL,
   `status` varchar(1) NOT NULL,
   `code` varchar(255) NOT NULL,

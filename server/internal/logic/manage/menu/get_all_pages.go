@@ -40,9 +40,9 @@ func (l *GetAllPages) GetAllPages(req *types.GetAllPagesRequest) (resp []string,
 			return nil, err
 		}
 
-		var menuIds []uint64
+		var menuIds []int64
 		for _, roleMenu := range roleMenus {
-			menuIds = append(menuIds, uint64(roleMenu.MenuId))
+			menuIds = append(menuIds, roleMenu.MenuId)
 		}
 		uniqMenuIds := lo.Uniq(menuIds)
 

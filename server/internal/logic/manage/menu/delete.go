@@ -53,7 +53,7 @@ func (l *Delete) Delete(req *types.DeleteRequest) (resp *types.DeleteResponse, e
 	if err == nil {
 		for _, menu := range menus {
 			var permissions []types.Permission
-			Unmarshal(menu.Permissions.String, &permissions)
+			Unmarshal(menu.Permissions, &permissions)
 			if len(permissions) > 0 {
 				roles, err := l.svcCtx.Model.ManageRoleMenu.FindByCondition(l.ctx, nil, condition.Condition{
 					Field:    manage_role_menu.MenuId,
