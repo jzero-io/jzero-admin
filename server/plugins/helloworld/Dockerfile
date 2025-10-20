@@ -1,11 +1,11 @@
-FROM --platform=$BUILDPLATFORM ghcr.io/jzero-io/jzero:latest as builder
+FROM --platform=$BUILDPLATFORM ghcr.io/jzero-io/jzero:latest AS builder
 
 ARG TARGETARCH
 ARG LDFLAGS
 
-ENV GOPROXY https://goproxy.cn,direct
+ENV GOPROXY=https://goproxy.cn,direct
 
-WORKDIR /usr/local/go/src/app
+WORKDIR /app
 
 COPY ./ ./
 
@@ -15,7 +15,7 @@ RUN --mount=type=cache,target=/go/pkg CGO_ENABLED=0 GOOS=linux GOARCH=$TARGETARC
     && mkdir -p /dist/desc && cp -r desc/swagger /dist/desc
 
 
-FROM --platform=$TARGETPLATFORM alpine:latest
+FROM alpine:latest
 
 WORKDIR /dist
 
