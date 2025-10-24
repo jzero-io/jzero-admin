@@ -9,9 +9,10 @@ import (
 	"github.com/eddieowens/opts"
 	"github.com/jzero-io/jzero/core/stores/cache"
 	"github.com/jzero-io/jzero/core/stores/modelx"
-	"github.com/jzero-io/jzero/core/stores/redis"
 	"github.com/pkg/errors"
 	"github.com/zeromicro/go-zero/core/logx"
+	zerocache "github.com/zeromicro/go-zero/core/stores/cache"
+	"github.com/zeromicro/go-zero/core/stores/redis"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 
 	"github.com/jzero-io/jzero-admin/core-engine/config"
@@ -57,7 +58,7 @@ func NewServiceContext(c config.Config, route2code func(r *http.Request) string,
 			Host: miniRedis.Addr(),
 		})
 	}
-	svcCtx.Cache = cache.NewRedisNode(svcCtx.Redis, errors.New("cache not found"), cache.WithExpiry(time.Duration(5)*time.Second))
+	svcCtx.Cache = cache.NewRedisNode(svcCtx.Redis, errors.New("cache not found"), zerocache.WithExpiry(time.Duration(5)*time.Second))
 	svcCtx.CasbinEnforcer = MustCasbinEnforcer(svcCtx)
 	svcCtx.Trans = i18n.NewTranslator(c.I18n, i18n.LocaleFS)
 	svcCtx.Middleware = NewMiddleware(svcCtx, route2code)

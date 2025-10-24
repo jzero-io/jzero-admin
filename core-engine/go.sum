@@ -138,6 +138,10 @@ github.com/jzero-io/jzero v0.60.5-0.20250928090212-dea6ee059184 h1:GbQLCu8Cg62wG
 github.com/jzero-io/jzero v0.60.5-0.20250928090212-dea6ee059184/go.mod h1:zSAcVX3yPo++R6yqPb253X05zGSKkRQWPDKL1vFReiY=
 github.com/jzero-io/jzero v0.63.0 h1:6fgI43fYV2A4lR+fYaFwrfrHbE8x7W+DMxtZOmaLjX0=
 github.com/jzero-io/jzero v0.63.0/go.mod h1:kZulEYSgE6aOeloBq8aPK2ca2f5kBu73b5TEQ8+Mt6I=
+github.com/jzero-io/jzero v0.63.4-0.20251024022842-78abfd10f408 h1:8x1ruoVNgXYn6IYj3/SD5yhjmNVrd7vEANfNzBzdU8o=
+github.com/jzero-io/jzero v0.63.4-0.20251024022842-78abfd10f408/go.mod h1:8FeCWu7jcGlFaMQQ/fSVj0C3wPleir2vxosmpAoxdSc=
+github.com/jzero-io/jzero v0.63.4-0.20251024035700-460aaf8264b7 h1:nNBOj8L8HhJbiHmNxWGFz4ca8dv+rST62iwoGbh20+0=
+github.com/jzero-io/jzero v0.63.4-0.20251024035700-460aaf8264b7/go.mod h1:8FeCWu7jcGlFaMQQ/fSVj0C3wPleir2vxosmpAoxdSc=
 github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51 h1:Z9n2FFNUXsshfwJMBgNA0RU6/i7WVaAegv3PtuIHPMs=
 github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51/go.mod h1:CzGEWj7cYgsdH8dAjBGEr58BoE7ScuLd+fwFZ44+/x8=
 github.com/klauspost/compress v1.18.0 h1:c/Cqfb0r+Yi+JtIEq73FWXVkRonBlf0CRNYc8Zttxdo=
@@ -199,6 +203,7 @@ github.com/prometheus/procfs v0.16.1 h1:hZ15bTNuirocR6u0JZ6BAHHmwS1p8B4P6MRqxtzM
 github.com/prometheus/procfs v0.16.1/go.mod h1:teAbpZRB1iIAJYREa1LsoWUXykVXA1KlTmWl8x/U+Is=
 github.com/redis/go-redis/v9 v9.14.0 h1:u4tNCjXOyzfgeLN+vAZaW1xUooqWDqVEsZN0U01jfAE=
 github.com/redis/go-redis/v9 v9.14.0/go.mod h1:huWgSWd8mW6+m0VPhJjSSQ+d6Nh1VICQ6Q5lHuCH/Iw=
+github.com/redis/go-redis/v9 v9.14.1/go.mod h1:huWgSWd8mW6+m0VPhJjSSQ+d6Nh1VICQ6Q5lHuCH/Iw=
 github.com/remyoudompheng/bigfft v0.0.0-20200410134404-eec4a21b6bb0 h1:OdAsTTz6OkFY5QxjkYwrChwuRruF69c169dPK26NUlk=
 github.com/remyoudompheng/bigfft v0.0.0-20200410134404-eec4a21b6bb0/go.mod h1:qqbHyh8v60DhA7CoWK5oRCqLrMHRGoxYCSS9EjAz6Eo=
 github.com/remyoudompheng/bigfft v0.0.0-20230129092748-24d4a6f8daec/go.mod h1:qqbHyh8v60DhA7CoWK5oRCqLrMHRGoxYCSS9EjAz6Eo=
