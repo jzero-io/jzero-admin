@@ -12,7 +12,7 @@ require (
 	github.com/go-playground/validator/v10 v10.27.0
 	github.com/golang-jwt/jwt/v4 v4.5.2
 	github.com/golang-migrate/migrate/v4 v4.19.0
-	github.com/jzero-io/jzero v0.63.4-0.20251024035700-460aaf8264b7
+	github.com/jzero-io/jzero v0.64.0
 	github.com/nicksnyder/go-i18n/v2 v2.6.0
 	github.com/pkg/errors v0.9.1
 	github.com/spf13/cast v1.10.0
