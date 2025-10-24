@@ -221,10 +221,15 @@ github.com/jzero-io/go_fmt v0.0.0-20250905015347-1a45352494b7 h1:XamNaWUxHlOd7yt
 github.com/jzero-io/go_fmt v0.0.0-20250905015347-1a45352494b7/go.mod h1:Wupl/J9DdDywVAOC5ExsbfkET0aYuNLhZPlpBF8+OnE=
 github.com/jzero-io/jzero v0.64.0 h1:g/m+Rx8pnGv1XziG9Zb0YgB4aMdbreKPhFAxr74iWII=
 github.com/jzero-io/jzero v0.64.0/go.mod h1:8FeCWu7jcGlFaMQQ/fSVj0C3wPleir2vxosmpAoxdSc=
+github.com/jzero-io/jzero v0.64.3/go.mod h1:8FeCWu7jcGlFaMQQ/fSVj0C3wPleir2vxosmpAoxdSc=
 github.com/jzero-io/jzero-admin/core-engine v0.0.0-20251024055641-e7495a7a105e h1:n/0xhVCGdnsZoy30OodhPGS4kpoSapB+grytMF3c+Jk=
 github.com/jzero-io/jzero-admin/core-engine v0.0.0-20251024055641-e7495a7a105e/go.mod h1:Am7GKfrnEBAgj3nwlUcbvXjz+HoooZGNxRaZBGRNW9I=
+github.com/jzero-io/jzero-admin/core-engine v0.0.0-20251024094101-33b61a29b443 h1:wIgavmNwhH6YgnDfzywlcHopukEXgv1htCU9BNVGho0=
+github.com/jzero-io/jzero-admin/core-engine v0.0.0-20251024094101-33b61a29b443/go.mod h1:1eM6vUMm/bfsW95A5RGrz1G5oo6bHoO1IqsfjRLCnU8=
 github.com/jzero-io/jzero/cmd/jzero v0.64.0 h1:AoCtsgdJa9dbli9uoFVvuweT7vIfA5S29+ZaTWybL4o=
 github.com/jzero-io/jzero/cmd/jzero v0.64.0/go.mod h1:P5yXSXdwsmUZs61knysL3Bm95VvuoWBIDjyH786FPGg=
+github.com/jzero-io/jzero/cmd/jzero v0.64.3 h1:S83eY8+r8pedqkOJe7936ZXPUwC9V7Yplv6/RX7OugA=
+github.com/jzero-io/jzero/cmd/jzero v0.64.3/go.mod h1:P5yXSXdwsmUZs61knysL3Bm95VvuoWBIDjyH786FPGg=
 github.com/kevinburke/ssh_config v1.2.0 h1:x584FjTGwHzMwvHx18PXxbBVzfnxogHaAReU4gf13a4=
 github.com/kevinburke/ssh_config v1.2.0/go.mod h1:CT57kijsi8u/K/BOFA39wgDQJ9CxiF4nAY/ojJ6r6mM=
 github.com/kisielk/errcheck v1.5.0/go.mod h1:pFxgyoBC7bSaBwPgfKdkLd5X25qrDl4LWUI2bnpBCr8=
