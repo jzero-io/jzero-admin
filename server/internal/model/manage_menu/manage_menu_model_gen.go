@@ -20,8 +20,65 @@ var (
 	manageMenuFieldNames        []string
 	manageMenuRows              string
 	manageMenuRowsExpectAutoSet string
+
+	ManageMenuField = struct {
+		Id              condition.Field
+		CreateTime      condition.Field
+		UpdateTime      condition.Field
+		CreateBy        condition.Field
+		UpdateBy        condition.Field
+		Status          condition.Field
+		ParentId        condition.Field
+		MenuType        condition.Field
+		MenuName        condition.Field
+		HideInMenu      condition.Field
+		ActiveMenu      condition.Field
+		Order           condition.Field
+		RouteName       condition.Field
+		RoutePath       condition.Field
+		Component       condition.Field
+		Icon            condition.Field
+		IconType        condition.Field
+		I18nKey         condition.Field
+		KeepAlive       condition.Field
+		Href            condition.Field
+		MultiTab        condition.Field
+		FixedIndexInTab condition.Field
+		Query           condition.Field
+		Permissions     condition.Field
+		Constant        condition.Field
+		ButtonCode      condition.Field
+	}{
+		Id:              "id",
+		CreateTime:      "create_time",
+		UpdateTime:      "update_time",
+		CreateBy:        "create_by",
+		UpdateBy:        "update_by",
+		Status:          "status",
+		ParentId:        "parent_id",
+		MenuType:        "menu_type",
+		MenuName:        "menu_name",
+		HideInMenu:      "hide_in_menu",
+		ActiveMenu:      "active_menu",
+		Order:           "order",
+		RouteName:       "route_name",
+		RoutePath:       "route_path",
+		Component:       "component",
+		Icon:            "icon",
+		IconType:        "icon_type",
+		I18nKey:         "i18n_key",
+		KeepAlive:       "keep_alive",
+		Href:            "href",
+		MultiTab:        "multi_tab",
+		FixedIndexInTab: "fixed_index_in_tab",
+		Query:           "query",
+		Permissions:     "permissions",
+		Constant:        "constant",
+		ButtonCode:      "button_code",
+	}
 )
 
+// Deprecated use ManageMenuField instead
 const (
 	Id              condition.Field = "id"
 	CreateTime      condition.Field = "create_time"
@@ -51,10 +108,10 @@ const (
 	ButtonCode      condition.Field = "button_code"
 )
 
-func initManageMenuVars() {
-	manageMenuFieldNames = condition.RawFieldNames(&ManageMenu{})
+func initManageMenuVars(flavor sqlbuilder.Flavor) {
+	manageMenuFieldNames = condition.RawFieldNamesWithFlavor(flavor, &ManageMenu{})
 	manageMenuRows = strings.Join(manageMenuFieldNames, ",")
-	manageMenuRowsExpectAutoSet = strings.Join(condition.RemoveIgnoreColumns(manageMenuFieldNames, "`id`"), ",")
+	manageMenuRowsExpectAutoSet = strings.Join(condition.RemoveIgnoreColumnsWithFlavor(flavor, manageMenuFieldNames, "`id`"), ",")
 }
 
 type (
@@ -82,6 +139,7 @@ type (
 	defaultManageMenuModel struct {
 		cachedConn sqlc.CachedConn
 		conn       sqlx.SqlConn
+		flavor     sqlbuilder.Flavor
 		table      string
 	}
 
@@ -125,12 +183,13 @@ func newManageMenuModel(conn sqlx.SqlConn, op ...opts.Opt[modelx.ModelOpts]) *de
 		cachedConn = *o.CachedConn
 	}
 
-	initManageMenuVars()
+	initManageMenuVars(o.Flavor)
 
 	return &defaultManageMenuModel{
 		cachedConn: cachedConn,
 		conn:       conn,
-		table:      condition.AdaptTable("`manage_menu`"),
+		flavor:     o.Flavor,
+		table:      condition.QuoteWithFlavor(o.Flavor, "`manage_menu`"),
 	}
 }
 
@@ -139,13 +198,14 @@ func (m *defaultManageMenuModel) clone() *defaultManageMenuModel {
 		cachedConn: m.cachedConn,
 		conn:       m.conn,
 		table:      m.table,
+		flavor:     m.flavor,
 	}
 }
 
 func (m *defaultManageMenuModel) Delete(ctx context.Context, session sqlx.Session, id int64) error {
 	sb := sqlbuilder.DeleteFrom(m.table)
-	sb.Where(sb.EQ(condition.AdaptField("`id`"), id))
-	statement, args := sb.Build()
+	sb.Where(sb.EQ(condition.QuoteWithFlavor(m.flavor, "`id`"), id))
+	statement, args := sb.BuildWithFlavor(m.flavor)
 	var err error
 	if session != nil {
 		_, err = session.ExecCtx(ctx, statement, args...)
@@ -157,9 +217,9 @@ func (m *defaultManageMenuModel) Delete(ctx context.Context, session sqlx.Sessio
 
 func (m *defaultManageMenuModel) FindOne(ctx context.Context, session sqlx.Session, id int64) (*ManageMenu, error) {
 	sb := sqlbuilder.Select(manageMenuRows).From(m.table)
-	sb.Where(sb.EQ(condition.AdaptField("`id`"), id))
+	sb.Where(sb.EQ(condition.QuoteWithFlavor(m.flavor, "`id`"), id))
 	sb.Limit(1)
-	sql, args := sb.Build()
+	sql, args := sb.BuildWithFlavor(m.flavor)
 	var resp ManageMenu
 	var err error
 	if session != nil {
@@ -181,7 +241,7 @@ func (m *defaultManageMenuModel) Insert(ctx context.Context, session sqlx.Sessio
 	statement, args := sqlbuilder.NewInsertBuilder().
 		InsertInto(m.table).
 		Cols(manageMenuRowsExpectAutoSet).
-		Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Status, data.ParentId, data.MenuType, data.MenuName, data.HideInMenu, data.ActiveMenu, data.Order, data.RouteName, data.RoutePath, data.Component, data.Icon, data.IconType, data.I18nKey, data.KeepAlive, data.Href, data.MultiTab, data.FixedIndexInTab, data.Query, data.Permissions, data.Constant, data.ButtonCode).Build()
+		Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Status, data.ParentId, data.MenuType, data.MenuName, data.HideInMenu, data.ActiveMenu, data.Order, data.RouteName, data.RoutePath, data.Component, data.Icon, data.IconType, data.I18nKey, data.KeepAlive, data.Href, data.MultiTab, data.FixedIndexInTab, data.Query, data.Permissions, data.Constant, data.ButtonCode).BuildWithFlavor(m.flavor)
 	if session != nil {
 		return session.ExecCtx(ctx, statement, args...)
 	}
@@ -195,12 +255,12 @@ func (m *defaultManageMenuModel) InsertV2(ctx context.Context, session sqlx.Sess
 		statement, args = sqlbuilder.NewInsertBuilder().
 			InsertInto(m.table).
 			Cols(manageMenuRowsExpectAutoSet).
-			Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Status, data.ParentId, data.MenuType, data.MenuName, data.HideInMenu, data.ActiveMenu, data.Order, data.RouteName, data.RoutePath, data.Component, data.Icon, data.IconType, data.I18nKey, data.KeepAlive, data.Href, data.MultiTab, data.FixedIndexInTab, data.Query, data.Permissions, data.Constant, data.ButtonCode).Returning("id").Build()
+			Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Status, data.ParentId, data.MenuType, data.MenuName, data.HideInMenu, data.ActiveMenu, data.Order, data.RouteName, data.RoutePath, data.Component, data.Icon, data.IconType, data.I18nKey, data.KeepAlive, data.Href, data.MultiTab, data.FixedIndexInTab, data.Query, data.Permissions, data.Constant, data.ButtonCode).Returning("id").BuildWithFlavor(m.flavor)
 	} else {
 		statement, args = sqlbuilder.NewInsertBuilder().
 			InsertInto(m.table).
 			Cols(manageMenuRowsExpectAutoSet).
-			Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Status, data.ParentId, data.MenuType, data.MenuName, data.HideInMenu, data.ActiveMenu, data.Order, data.RouteName, data.RoutePath, data.Component, data.Icon, data.IconType, data.I18nKey, data.KeepAlive, data.Href, data.MultiTab, data.FixedIndexInTab, data.Query, data.Permissions, data.Constant, data.ButtonCode).Build()
+			Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Status, data.ParentId, data.MenuType, data.MenuName, data.HideInMenu, data.ActiveMenu, data.Order, data.RouteName, data.RoutePath, data.Component, data.Icon, data.IconType, data.I18nKey, data.KeepAlive, data.Href, data.MultiTab, data.FixedIndexInTab, data.Query, data.Permissions, data.Constant, data.ButtonCode).BuildWithFlavor(m.flavor)
 	}
 	var primaryKey int64
 	var err error
@@ -251,8 +311,8 @@ func (m *defaultManageMenuModel) Update(ctx context.Context, session sqlx.Sessio
 		assigns = append(assigns, sb.Assign(s, nil))
 	}
 	sb.Set(assigns...)
-	sb.Where(sb.EQ(condition.AdaptField("`id`"), nil))
-	statement, _ := sb.Build()
+	sb.Where(sb.EQ(condition.QuoteWithFlavor(m.flavor, "`id`"), nil))
+	statement, _ := sb.BuildWithFlavor(m.flavor)
 
 	var err error
 	if session != nil {
@@ -267,9 +327,9 @@ func (m *defaultManageMenuModel) withTableColumns(columns ...string) []string {
 	var withTableColumns []string
 	for _, col := range columns {
 		if strings.Contains(col, ".") {
-			withTableColumns = append(withTableColumns, condition.AdaptField(col))
+			withTableColumns = append(withTableColumns, condition.QuoteWithFlavor(m.flavor, col))
 		} else {
-			withTableColumns = append(withTableColumns, m.table+"."+condition.AdaptField(col))
+			withTableColumns = append(withTableColumns, m.table+"."+condition.QuoteWithFlavor(m.flavor, col))
 		}
 	}
 	return withTableColumns
@@ -278,7 +338,7 @@ func (m *customManageMenuModel) WithTable(f func(table string) string) manageMen
 	mc := &customManageMenuModel{
 		defaultManageMenuModel: m.clone(),
 	}
-	mc.table = condition.AdaptTable(f(condition.Unquote(m.table)))
+	mc.table = condition.QuoteWithFlavor(m.flavor, f(m.table))
 	return mc
 }
 
@@ -288,11 +348,12 @@ func (m *customManageMenuModel) BulkInsert(ctx context.Context, session sqlx.Ses
 	}
 
 	sb := sqlbuilder.InsertInto(m.table)
+	sb.SetFlavor(m.flavor)
 	sb.Cols(manageMenuRowsExpectAutoSet)
 	for _, data := range datas {
 		sb.Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Status, data.ParentId, data.MenuType, data.MenuName, data.HideInMenu, data.ActiveMenu, data.Order, data.RouteName, data.RoutePath, data.Component, data.Icon, data.IconType, data.I18nKey, data.KeepAlive, data.Href, data.MultiTab, data.FixedIndexInTab, data.Query, data.Permissions, data.Constant, data.ButtonCode)
 	}
-	statement, args := sb.Build()
+	statement, args := sb.BuildWithFlavor(m.flavor)
 
 	var err error
 	if session != nil {
@@ -308,8 +369,8 @@ func (m *customManageMenuModel) FindSelectedColumnsByCondition(ctx context.Conte
 		columns = manageMenuFieldNames
 	}
 	sb := sqlbuilder.Select(m.withTableColumns(columns...)...).From(m.table)
-	builder := condition.Select(*sb, conds...)
-	statement, args := builder.Build()
+	builder := condition.SelectWithFlavor(m.flavor, *sb, conds...)
+	statement, args := builder.BuildWithFlavor(m.flavor)
 
 	var resp []*ManageMenu
 	var err error
@@ -338,13 +399,13 @@ func (m *customManageMenuModel) CountByCondition(ctx context.Context, session sq
 			countConds = append(countConds, cond)
 		}
 	}
-	countBuilder := condition.Select(*countsb, countConds...)
+	countBuilder := condition.SelectWithFlavor(m.flavor, *countsb, countConds...)
 
 	var (
 		total int64
 		err   error
 	)
-	statement, args := countBuilder.Build()
+	statement, args := countBuilder.BuildWithFlavor(m.flavor)
 	if session != nil {
 		err = session.QueryRowCtx(ctx, &total, statement, args...)
 	} else {
@@ -359,9 +420,9 @@ func (m *customManageMenuModel) CountByCondition(ctx context.Context, session sq
 func (m *customManageMenuModel) FindOneByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) (*ManageMenu, error) {
 	sb := sqlbuilder.Select(m.withTableColumns(manageMenuFieldNames...)...).From(m.table)
 
-	builder := condition.Select(*sb, conds...)
+	builder := condition.SelectWithFlavor(m.flavor, *sb, conds...)
 	builder.Limit(1)
-	statement, args := builder.Build()
+	statement, args := builder.BuildWithFlavor(m.flavor)
 
 	var resp ManageMenu
 	var err error
@@ -379,12 +440,12 @@ func (m *customManageMenuModel) FindOneByCondition(ctx context.Context, session 
 
 func (m *customManageMenuModel) PageByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) ([]*ManageMenu, int64, error) {
 	sb := sqlbuilder.Select(m.withTableColumns(manageMenuFieldNames...)...).From(m.table)
-	builder := condition.Select(*sb, conds...)
+	builder := condition.SelectWithFlavor(m.flavor, *sb, conds...)
 
 	var resp []*ManageMenu
 	var err error
 
-	statement, args := builder.Build()
+	statement, args := builder.BuildWithFlavor(m.flavor)
 
 	if session != nil {
 		err = session.QueryRowsCtx(ctx, &resp, statement, args...)
@@ -409,7 +470,7 @@ func (m *customManageMenuModel) UpdateFieldsByCondition(ctx context.Context, ses
 	}
 
 	sb := sqlbuilder.Update(m.table)
-	builder := condition.Update(*sb, conds...)
+	builder := condition.UpdateWithFlavor(m.flavor, *sb, conds...)
 
 	var assigns []string
 	for key, value := range field {
@@ -417,7 +478,7 @@ func (m *customManageMenuModel) UpdateFieldsByCondition(ctx context.Context, ses
 	}
 	builder.Set(assigns...)
 
-	statement, args := builder.Build()
+	statement, args := builder.BuildWithFlavor(m.flavor)
 
 	var err error
 	if session != nil {
@@ -436,8 +497,8 @@ func (m *customManageMenuModel) DeleteByCondition(ctx context.Context, session s
 		return nil
 	}
 	sb := sqlbuilder.DeleteFrom(m.table)
-	builder := condition.Delete(*sb, conds...)
-	statement, args := builder.Build()
+	builder := condition.DeleteWithFlavor(m.flavor, *sb, conds...)
+	statement, args := builder.BuildWithFlavor(m.flavor)
 
 	var err error
 	if session != nil {

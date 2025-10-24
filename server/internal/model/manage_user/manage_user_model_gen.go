@@ -20,8 +20,37 @@ var (
 	manageUserFieldNames        []string
 	manageUserRows              string
 	manageUserRowsExpectAutoSet string
+
+	ManageUserField = struct {
+		Id         condition.Field
+		CreateTime condition.Field
+		UpdateTime condition.Field
+		CreateBy   condition.Field
+		UpdateBy   condition.Field
+		Username   condition.Field
+		Password   condition.Field
+		Nickname   condition.Field
+		Gender     condition.Field
+		Phone      condition.Field
+		Status     condition.Field
+		Email      condition.Field
+	}{
+		Id:         "id",
+		CreateTime: "create_time",
+		UpdateTime: "update_time",
+		CreateBy:   "create_by",
+		UpdateBy:   "update_by",
+		Username:   "username",
+		Password:   "password",
+		Nickname:   "nickname",
+		Gender:     "gender",
+		Phone:      "phone",
+		Status:     "status",
+		Email:      "email",
+	}
 )
 
+// Deprecated use ManageUserField instead
 const (
 	Id         condition.Field = "id"
 	CreateTime condition.Field = "create_time"
@@ -37,10 +66,10 @@ const (
 	Email      condition.Field = "email"
 )
 
-func initManageUserVars() {
-	manageUserFieldNames = condition.RawFieldNames(&ManageUser{})
+func initManageUserVars(flavor sqlbuilder.Flavor) {
+	manageUserFieldNames = condition.RawFieldNamesWithFlavor(flavor, &ManageUser{})
 	manageUserRows = strings.Join(manageUserFieldNames, ",")
-	manageUserRowsExpectAutoSet = strings.Join(condition.RemoveIgnoreColumns(manageUserFieldNames, "`id`"), ",")
+	manageUserRowsExpectAutoSet = strings.Join(condition.RemoveIgnoreColumnsWithFlavor(flavor, manageUserFieldNames, "`id`"), ",")
 }
 
 type (
@@ -69,6 +98,7 @@ type (
 	defaultManageUserModel struct {
 		cachedConn sqlc.CachedConn
 		conn       sqlx.SqlConn
+		flavor     sqlbuilder.Flavor
 		table      string
 	}
 
@@ -98,12 +128,13 @@ func newManageUserModel(conn sqlx.SqlConn, op ...opts.Opt[modelx.ModelOpts]) *de
 		cachedConn = *o.CachedConn
 	}
 
-	initManageUserVars()
+	initManageUserVars(o.Flavor)
 
 	return &defaultManageUserModel{
 		cachedConn: cachedConn,
 		conn:       conn,
-		table:      condition.AdaptTable("`manage_user`"),
+		flavor:     o.Flavor,
+		table:      condition.QuoteWithFlavor(o.Flavor, "`manage_user`"),
 	}
 }
 
@@ -112,13 +143,14 @@ func (m *defaultManageUserModel) clone() *defaultManageUserModel {
 		cachedConn: m.cachedConn,
 		conn:       m.conn,
 		table:      m.table,
+		flavor:     m.flavor,
 	}
 }
 
 func (m *defaultManageUserModel) Delete(ctx context.Context, session sqlx.Session, id int64) error {
 	sb := sqlbuilder.DeleteFrom(m.table)
-	sb.Where(sb.EQ(condition.AdaptField("`id`"), id))
-	statement, args := sb.Build()
+	sb.Where(sb.EQ(condition.QuoteWithFlavor(m.flavor, "`id`"), id))
+	statement, args := sb.BuildWithFlavor(m.flavor)
 	var err error
 	if session != nil {
 		_, err = session.ExecCtx(ctx, statement, args...)
@@ -130,9 +162,9 @@ func (m *defaultManageUserModel) Delete(ctx context.Context, session sqlx.Sessio
 
 func (m *defaultManageUserModel) FindOne(ctx context.Context, session sqlx.Session, id int64) (*ManageUser, error) {
 	sb := sqlbuilder.Select(manageUserRows).From(m.table)
-	sb.Where(sb.EQ(condition.AdaptField("`id`"), id))
+	sb.Where(sb.EQ(condition.QuoteWithFlavor(m.flavor, "`id`"), id))
 	sb.Limit(1)
-	sql, args := sb.Build()
+	sql, args := sb.BuildWithFlavor(m.flavor)
 	var resp ManageUser
 	var err error
 	if session != nil {
@@ -158,7 +190,7 @@ func (m *defaultManageUserModel) FindOneByUsername(ctx context.Context, session 
 	condition.SelectByWhereRawSql(sb, "`username` = ?", username)
 	sb.Limit(1)
 
-	sql, args := sb.Build()
+	sql, args := sb.BuildWithFlavor(m.flavor)
 
 	if session != nil {
 		err = session.QueryRowCtx(ctx, &resp, sql, args...)
@@ -180,7 +212,7 @@ func (m *defaultManageUserModel) Insert(ctx context.Context, session sqlx.Sessio
 	statement, args := sqlbuilder.NewInsertBuilder().
 		InsertInto(m.table).
 		Cols(manageUserRowsExpectAutoSet).
-		Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Username, data.Password, data.Nickname, data.Gender, data.Phone, data.Status, data.Email).Build()
+		Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Username, data.Password, data.Nickname, data.Gender, data.Phone, data.Status, data.Email).BuildWithFlavor(m.flavor)
 	if session != nil {
 		return session.ExecCtx(ctx, statement, args...)
 	}
@@ -194,12 +226,12 @@ func (m *defaultManageUserModel) InsertV2(ctx context.Context, session sqlx.Sess
 		statement, args = sqlbuilder.NewInsertBuilder().
 			InsertInto(m.table).
 			Cols(manageUserRowsExpectAutoSet).
-			Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Username, data.Password, data.Nickname, data.Gender, data.Phone, data.Status, data.Email).Returning("id").Build()
+			Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Username, data.Password, data.Nickname, data.Gender, data.Phone, data.Status, data.Email).Returning("id").BuildWithFlavor(m.flavor)
 	} else {
 		statement, args = sqlbuilder.NewInsertBuilder().
 			InsertInto(m.table).
 			Cols(manageUserRowsExpectAutoSet).
-			Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Username, data.Password, data.Nickname, data.Gender, data.Phone, data.Status, data.Email).Build()
+			Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Username, data.Password, data.Nickname, data.Gender, data.Phone, data.Status, data.Email).BuildWithFlavor(m.flavor)
 	}
 	var primaryKey int64
 	var err error
@@ -250,8 +282,8 @@ func (m *defaultManageUserModel) Update(ctx context.Context, session sqlx.Sessio
 		assigns = append(assigns, sb.Assign(s, nil))
 	}
 	sb.Set(assigns...)
-	sb.Where(sb.EQ(condition.AdaptField("`id`"), nil))
-	statement, _ := sb.Build()
+	sb.Where(sb.EQ(condition.QuoteWithFlavor(m.flavor, "`id`"), nil))
+	statement, _ := sb.BuildWithFlavor(m.flavor)
 
 	var err error
 	if session != nil {
@@ -266,9 +298,9 @@ func (m *defaultManageUserModel) withTableColumns(columns ...string) []string {
 	var withTableColumns []string
 	for _, col := range columns {
 		if strings.Contains(col, ".") {
-			withTableColumns = append(withTableColumns, condition.AdaptField(col))
+			withTableColumns = append(withTableColumns, condition.QuoteWithFlavor(m.flavor, col))
 		} else {
-			withTableColumns = append(withTableColumns, m.table+"."+condition.AdaptField(col))
+			withTableColumns = append(withTableColumns, m.table+"."+condition.QuoteWithFlavor(m.flavor, col))
 		}
 	}
 	return withTableColumns
@@ -277,7 +309,7 @@ func (m *customManageUserModel) WithTable(f func(table string) string) manageUse
 	mc := &customManageUserModel{
 		defaultManageUserModel: m.clone(),
 	}
-	mc.table = condition.AdaptTable(f(condition.Unquote(m.table)))
+	mc.table = condition.QuoteWithFlavor(m.flavor, f(m.table))
 	return mc
 }
 
@@ -287,11 +319,12 @@ func (m *customManageUserModel) BulkInsert(ctx context.Context, session sqlx.Ses
 	}
 
 	sb := sqlbuilder.InsertInto(m.table)
+	sb.SetFlavor(m.flavor)
 	sb.Cols(manageUserRowsExpectAutoSet)
 	for _, data := range datas {
 		sb.Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Username, data.Password, data.Nickname, data.Gender, data.Phone, data.Status, data.Email)
 	}
-	statement, args := sb.Build()
+	statement, args := sb.BuildWithFlavor(m.flavor)
 
 	var err error
 	if session != nil {
@@ -307,8 +340,8 @@ func (m *customManageUserModel) FindSelectedColumnsByCondition(ctx context.Conte
 		columns = manageUserFieldNames
 	}
 	sb := sqlbuilder.Select(m.withTableColumns(columns...)...).From(m.table)
-	builder := condition.Select(*sb, conds...)
-	statement, args := builder.Build()
+	builder := condition.SelectWithFlavor(m.flavor, *sb, conds...)
+	statement, args := builder.BuildWithFlavor(m.flavor)
 
 	var resp []*ManageUser
 	var err error
@@ -337,13 +370,13 @@ func (m *customManageUserModel) CountByCondition(ctx context.Context, session sq
 			countConds = append(countConds, cond)
 		}
 	}
-	countBuilder := condition.Select(*countsb, countConds...)
+	countBuilder := condition.SelectWithFlavor(m.flavor, *countsb, countConds...)
 
 	var (
 		total int64
 		err   error
 	)
-	statement, args := countBuilder.Build()
+	statement, args := countBuilder.BuildWithFlavor(m.flavor)
 	if session != nil {
 		err = session.QueryRowCtx(ctx, &total, statement, args...)
 	} else {
@@ -358,9 +391,9 @@ func (m *customManageUserModel) CountByCondition(ctx context.Context, session sq
 func (m *customManageUserModel) FindOneByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) (*ManageUser, error) {
 	sb := sqlbuilder.Select(m.withTableColumns(manageUserFieldNames...)...).From(m.table)
 
-	builder := condition.Select(*sb, conds...)
+	builder := condition.SelectWithFlavor(m.flavor, *sb, conds...)
 	builder.Limit(1)
-	statement, args := builder.Build()
+	statement, args := builder.BuildWithFlavor(m.flavor)
 
 	var resp ManageUser
 	var err error
@@ -378,12 +411,12 @@ func (m *customManageUserModel) FindOneByCondition(ctx context.Context, session 
 
 func (m *customManageUserModel) PageByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) ([]*ManageUser, int64, error) {
 	sb := sqlbuilder.Select(m.withTableColumns(manageUserFieldNames...)...).From(m.table)
-	builder := condition.Select(*sb, conds...)
+	builder := condition.SelectWithFlavor(m.flavor, *sb, conds...)
 
 	var resp []*ManageUser
 	var err error
 
-	statement, args := builder.Build()
+	statement, args := builder.BuildWithFlavor(m.flavor)
 
 	if session != nil {
 		err = session.QueryRowsCtx(ctx, &resp, statement, args...)
@@ -408,7 +441,7 @@ func (m *customManageUserModel) UpdateFieldsByCondition(ctx context.Context, ses
 	}
 
 	sb := sqlbuilder.Update(m.table)
-	builder := condition.Update(*sb, conds...)
+	builder := condition.UpdateWithFlavor(m.flavor, *sb, conds...)
 
 	var assigns []string
 	for key, value := range field {
@@ -416,7 +449,7 @@ func (m *customManageUserModel) UpdateFieldsByCondition(ctx context.Context, ses
 	}
 	builder.Set(assigns...)
 
-	statement, args := builder.Build()
+	statement, args := builder.BuildWithFlavor(m.flavor)
 
 	var err error
 	if session != nil {
@@ -435,8 +468,8 @@ func (m *customManageUserModel) DeleteByCondition(ctx context.Context, session s
 		return nil
 	}
 	sb := sqlbuilder.DeleteFrom(m.table)
-	builder := condition.Delete(*sb, conds...)
-	statement, args := builder.Build()
+	builder := condition.DeleteWithFlavor(m.flavor, *sb, conds...)
+	statement, args := builder.BuildWithFlavor(m.flavor)
 
 	var err error
 	if session != nil {

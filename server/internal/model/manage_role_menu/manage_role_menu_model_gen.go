@@ -20,8 +20,29 @@ var (
 	manageRoleMenuFieldNames        []string
 	manageRoleMenuRows              string
 	manageRoleMenuRowsExpectAutoSet string
+
+	ManageRoleMenuField = struct {
+		Id         condition.Field
+		CreateTime condition.Field
+		UpdateTime condition.Field
+		CreateBy   condition.Field
+		UpdateBy   condition.Field
+		RoleId     condition.Field
+		MenuId     condition.Field
+		IsHome     condition.Field
+	}{
+		Id:         "id",
+		CreateTime: "create_time",
+		UpdateTime: "update_time",
+		CreateBy:   "create_by",
+		UpdateBy:   "update_by",
+		RoleId:     "role_id",
+		MenuId:     "menu_id",
+		IsHome:     "is_home",
+	}
 )
 
+// Deprecated use ManageRoleMenuField instead
 const (
 	Id         condition.Field = "id"
 	CreateTime condition.Field = "create_time"
@@ -33,10 +54,10 @@ const (
 	IsHome     condition.Field = "is_home"
 )
 
-func initManageRoleMenuVars() {
-	manageRoleMenuFieldNames = condition.RawFieldNames(&ManageRoleMenu{})
+func initManageRoleMenuVars(flavor sqlbuilder.Flavor) {
+	manageRoleMenuFieldNames = condition.RawFieldNamesWithFlavor(flavor, &ManageRoleMenu{})
 	manageRoleMenuRows = strings.Join(manageRoleMenuFieldNames, ",")
-	manageRoleMenuRowsExpectAutoSet = strings.Join(condition.RemoveIgnoreColumns(manageRoleMenuFieldNames, "`id`"), ",")
+	manageRoleMenuRowsExpectAutoSet = strings.Join(condition.RemoveIgnoreColumnsWithFlavor(flavor, manageRoleMenuFieldNames, "`id`"), ",")
 }
 
 type (
@@ -64,6 +85,7 @@ type (
 	defaultManageRoleMenuModel struct {
 		cachedConn sqlc.CachedConn
 		conn       sqlx.SqlConn
+		flavor     sqlbuilder.Flavor
 		table      string
 	}
 
@@ -89,12 +111,13 @@ func newManageRoleMenuModel(conn sqlx.SqlConn, op ...opts.Opt[modelx.ModelOpts])
 		cachedConn = *o.CachedConn
 	}
 
-	initManageRoleMenuVars()
+	initManageRoleMenuVars(o.Flavor)
 
 	return &defaultManageRoleMenuModel{
 		cachedConn: cachedConn,
 		conn:       conn,
-		table:      condition.AdaptTable("`manage_role_menu`"),
+		flavor:     o.Flavor,
+		table:      condition.QuoteWithFlavor(o.Flavor, "`manage_role_menu`"),
 	}
 }
 
@@ -103,13 +126,14 @@ func (m *defaultManageRoleMenuModel) clone() *defaultManageRoleMenuModel {
 		cachedConn: m.cachedConn,
 		conn:       m.conn,
 		table:      m.table,
+		flavor:     m.flavor,
 	}
 }
 
 func (m *defaultManageRoleMenuModel) Delete(ctx context.Context, session sqlx.Session, id int64) error {
 	sb := sqlbuilder.DeleteFrom(m.table)
-	sb.Where(sb.EQ(condition.AdaptField("`id`"), id))
-	statement, args := sb.Build()
+	sb.Where(sb.EQ(condition.QuoteWithFlavor(m.flavor, "`id`"), id))
+	statement, args := sb.BuildWithFlavor(m.flavor)
 	var err error
 	if session != nil {
 		_, err = session.ExecCtx(ctx, statement, args...)
@@ -121,9 +145,9 @@ func (m *defaultManageRoleMenuModel) Delete(ctx context.Context, session sqlx.Se
 
 func (m *defaultManageRoleMenuModel) FindOne(ctx context.Context, session sqlx.Session, id int64) (*ManageRoleMenu, error) {
 	sb := sqlbuilder.Select(manageRoleMenuRows).From(m.table)
-	sb.Where(sb.EQ(condition.AdaptField("`id`"), id))
+	sb.Where(sb.EQ(condition.QuoteWithFlavor(m.flavor, "`id`"), id))
 	sb.Limit(1)
-	sql, args := sb.Build()
+	sql, args := sb.BuildWithFlavor(m.flavor)
 	var resp ManageRoleMenu
 	var err error
 	if session != nil {
@@ -145,7 +169,7 @@ func (m *defaultManageRoleMenuModel) Insert(ctx context.Context, session sqlx.Se
 	statement, args := sqlbuilder.NewInsertBuilder().
 		InsertInto(m.table).
 		Cols(manageRoleMenuRowsExpectAutoSet).
-		Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.RoleId, data.MenuId, data.IsHome).Build()
+		Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.RoleId, data.MenuId, data.IsHome).BuildWithFlavor(m.flavor)
 	if session != nil {
 		return session.ExecCtx(ctx, statement, args...)
 	}
@@ -159,12 +183,12 @@ func (m *defaultManageRoleMenuModel) InsertV2(ctx context.Context, session sqlx.
 		statement, args = sqlbuilder.NewInsertBuilder().
 			InsertInto(m.table).
 			Cols(manageRoleMenuRowsExpectAutoSet).
-			Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.RoleId, data.MenuId, data.IsHome).Returning("id").Build()
+			Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.RoleId, data.MenuId, data.IsHome).Returning("id").BuildWithFlavor(m.flavor)
 	} else {
 		statement, args = sqlbuilder.NewInsertBuilder().
 			InsertInto(m.table).
 			Cols(manageRoleMenuRowsExpectAutoSet).
-			Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.RoleId, data.MenuId, data.IsHome).Build()
+			Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.RoleId, data.MenuId, data.IsHome).BuildWithFlavor(m.flavor)
 	}
 	var primaryKey int64
 	var err error
@@ -215,8 +239,8 @@ func (m *defaultManageRoleMenuModel) Update(ctx context.Context, session sqlx.Se
 		assigns = append(assigns, sb.Assign(s, nil))
 	}
 	sb.Set(assigns...)
-	sb.Where(sb.EQ(condition.AdaptField("`id`"), nil))
-	statement, _ := sb.Build()
+	sb.Where(sb.EQ(condition.QuoteWithFlavor(m.flavor, "`id`"), nil))
+	statement, _ := sb.BuildWithFlavor(m.flavor)
 
 	var err error
 	if session != nil {
@@ -231,9 +255,9 @@ func (m *defaultManageRoleMenuModel) withTableColumns(columns ...string) []strin
 	var withTableColumns []string
 	for _, col := range columns {
 		if strings.Contains(col, ".") {
-			withTableColumns = append(withTableColumns, condition.AdaptField(col))
+			withTableColumns = append(withTableColumns, condition.QuoteWithFlavor(m.flavor, col))
 		} else {
-			withTableColumns = append(withTableColumns, m.table+"."+condition.AdaptField(col))
+			withTableColumns = append(withTableColumns, m.table+"."+condition.QuoteWithFlavor(m.flavor, col))
 		}
 	}
 	return withTableColumns
@@ -242,7 +266,7 @@ func (m *customManageRoleMenuModel) WithTable(f func(table string) string) manag
 	mc := &customManageRoleMenuModel{
 		defaultManageRoleMenuModel: m.clone(),
 	}
-	mc.table = condition.AdaptTable(f(condition.Unquote(m.table)))
+	mc.table = condition.QuoteWithFlavor(m.flavor, f(m.table))
 	return mc
 }
 
@@ -252,11 +276,12 @@ func (m *customManageRoleMenuModel) BulkInsert(ctx context.Context, session sqlx
 	}
 
 	sb := sqlbuilder.InsertInto(m.table)
+	sb.SetFlavor(m.flavor)
 	sb.Cols(manageRoleMenuRowsExpectAutoSet)
 	for _, data := range datas {
 		sb.Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.RoleId, data.MenuId, data.IsHome)
 	}
-	statement, args := sb.Build()
+	statement, args := sb.BuildWithFlavor(m.flavor)
 
 	var err error
 	if session != nil {
@@ -272,8 +297,8 @@ func (m *customManageRoleMenuModel) FindSelectedColumnsByCondition(ctx context.C
 		columns = manageRoleMenuFieldNames
 	}
 	sb := sqlbuilder.Select(m.withTableColumns(columns...)...).From(m.table)
-	builder := condition.Select(*sb, conds...)
-	statement, args := builder.Build()
+	builder := condition.SelectWithFlavor(m.flavor, *sb, conds...)
+	statement, args := builder.BuildWithFlavor(m.flavor)
 
 	var resp []*ManageRoleMenu
 	var err error
@@ -302,13 +327,13 @@ func (m *customManageRoleMenuModel) CountByCondition(ctx context.Context, sessio
 			countConds = append(countConds, cond)
 		}
 	}
-	countBuilder := condition.Select(*countsb, countConds...)
+	countBuilder := condition.SelectWithFlavor(m.flavor, *countsb, countConds...)
 
 	var (
 		total int64
 		err   error
 	)
-	statement, args := countBuilder.Build()
+	statement, args := countBuilder.BuildWithFlavor(m.flavor)
 	if session != nil {
 		err = session.QueryRowCtx(ctx, &total, statement, args...)
 	} else {
@@ -323,9 +348,9 @@ func (m *customManageRoleMenuModel) CountByCondition(ctx context.Context, sessio
 func (m *customManageRoleMenuModel) FindOneByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) (*ManageRoleMenu, error) {
 	sb := sqlbuilder.Select(m.withTableColumns(manageRoleMenuFieldNames...)...).From(m.table)
 
-	builder := condition.Select(*sb, conds...)
+	builder := condition.SelectWithFlavor(m.flavor, *sb, conds...)
 	builder.Limit(1)
-	statement, args := builder.Build()
+	statement, args := builder.BuildWithFlavor(m.flavor)
 
 	var resp ManageRoleMenu
 	var err error
@@ -343,12 +368,12 @@ func (m *customManageRoleMenuModel) FindOneByCondition(ctx context.Context, sess
 
 func (m *customManageRoleMenuModel) PageByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) ([]*ManageRoleMenu, int64, error) {
 	sb := sqlbuilder.Select(m.withTableColumns(manageRoleMenuFieldNames...)...).From(m.table)
-	builder := condition.Select(*sb, conds...)
+	builder := condition.SelectWithFlavor(m.flavor, *sb, conds...)
 
 	var resp []*ManageRoleMenu
 	var err error
 
-	statement, args := builder.Build()
+	statement, args := builder.BuildWithFlavor(m.flavor)
 
 	if session != nil {
 		err = session.QueryRowsCtx(ctx, &resp, statement, args...)
@@ -373,7 +398,7 @@ func (m *customManageRoleMenuModel) UpdateFieldsByCondition(ctx context.Context,
 	}
 
 	sb := sqlbuilder.Update(m.table)
-	builder := condition.Update(*sb, conds...)
+	builder := condition.UpdateWithFlavor(m.flavor, *sb, conds...)
 
 	var assigns []string
 	for key, value := range field {
@@ -381,7 +406,7 @@ func (m *customManageRoleMenuModel) UpdateFieldsByCondition(ctx context.Context,
 	}
 	builder.Set(assigns...)
 
-	statement, args := builder.Build()
+	statement, args := builder.BuildWithFlavor(m.flavor)
 
 	var err error
 	if session != nil {
@@ -400,8 +425,8 @@ func (m *customManageRoleMenuModel) DeleteByCondition(ctx context.Context, sessi
 		return nil
 	}
 	sb := sqlbuilder.DeleteFrom(m.table)
-	builder := condition.Delete(*sb, conds...)
-	statement, args := builder.Build()
+	builder := condition.DeleteWithFlavor(m.flavor, *sb, conds...)
+	statement, args := builder.BuildWithFlavor(m.flavor)
 
 	var err error
 	if session != nil {

@@ -20,8 +20,37 @@ var (
 	manageEmailFieldNames        []string
 	manageEmailRows              string
 	manageEmailRowsExpectAutoSet string
+
+	ManageEmailField = struct {
+		Id         condition.Field
+		CreateTime condition.Field
+		UpdateTime condition.Field
+		CreateBy   condition.Field
+		UpdateBy   condition.Field
+		From       condition.Field
+		Host       condition.Field
+		Port       condition.Field
+		Username   condition.Field
+		Password   condition.Field
+		EnableSsl  condition.Field
+		IsVerify   condition.Field
+	}{
+		Id:         "id",
+		CreateTime: "create_time",
+		UpdateTime: "update_time",
+		CreateBy:   "create_by",
+		UpdateBy:   "update_by",
+		From:       "from",
+		Host:       "host",
+		Port:       "port",
+		Username:   "username",
+		Password:   "password",
+		EnableSsl:  "enable_ssl",
+		IsVerify:   "is_verify",
+	}
 )
 
+// Deprecated use ManageEmailField instead
 const (
 	Id         condition.Field = "id"
 	CreateTime condition.Field = "create_time"
@@ -37,10 +66,10 @@ const (
 	IsVerify   condition.Field = "is_verify"
 )
 
-func initManageEmailVars() {
-	manageEmailFieldNames = condition.RawFieldNames(&ManageEmail{})
+func initManageEmailVars(flavor sqlbuilder.Flavor) {
+	manageEmailFieldNames = condition.RawFieldNamesWithFlavor(flavor, &ManageEmail{})
 	manageEmailRows = strings.Join(manageEmailFieldNames, ",")
-	manageEmailRowsExpectAutoSet = strings.Join(condition.RemoveIgnoreColumns(manageEmailFieldNames, "`id`"), ",")
+	manageEmailRowsExpectAutoSet = strings.Join(condition.RemoveIgnoreColumnsWithFlavor(flavor, manageEmailFieldNames, "`id`"), ",")
 }
 
 type (
@@ -68,6 +97,7 @@ type (
 	defaultManageEmailModel struct {
 		cachedConn sqlc.CachedConn
 		conn       sqlx.SqlConn
+		flavor     sqlbuilder.Flavor
 		table      string
 	}
 
@@ -97,12 +127,13 @@ func newManageEmailModel(conn sqlx.SqlConn, op ...opts.Opt[modelx.ModelOpts]) *d
 		cachedConn = *o.CachedConn
 	}
 
-	initManageEmailVars()
+	initManageEmailVars(o.Flavor)
 
 	return &defaultManageEmailModel{
 		cachedConn: cachedConn,
 		conn:       conn,
-		table:      condition.AdaptTable("`manage_email`"),
+		flavor:     o.Flavor,
+		table:      condition.QuoteWithFlavor(o.Flavor, "`manage_email`"),
 	}
 }
 
@@ -111,13 +142,14 @@ func (m *defaultManageEmailModel) clone() *defaultManageEmailModel {
 		cachedConn: m.cachedConn,
 		conn:       m.conn,
 		table:      m.table,
+		flavor:     m.flavor,
 	}
 }
 
 func (m *defaultManageEmailModel) Delete(ctx context.Context, session sqlx.Session, id int64) error {
 	sb := sqlbuilder.DeleteFrom(m.table)
-	sb.Where(sb.EQ(condition.AdaptField("`id`"), id))
-	statement, args := sb.Build()
+	sb.Where(sb.EQ(condition.QuoteWithFlavor(m.flavor, "`id`"), id))
+	statement, args := sb.BuildWithFlavor(m.flavor)
 	var err error
 	if session != nil {
 		_, err = session.ExecCtx(ctx, statement, args...)
@@ -129,9 +161,9 @@ func (m *defaultManageEmailModel) Delete(ctx context.Context, session sqlx.Sessi
 
 func (m *defaultManageEmailModel) FindOne(ctx context.Context, session sqlx.Session, id int64) (*ManageEmail, error) {
 	sb := sqlbuilder.Select(manageEmailRows).From(m.table)
-	sb.Where(sb.EQ(condition.AdaptField("`id`"), id))
+	sb.Where(sb.EQ(condition.QuoteWithFlavor(m.flavor, "`id`"), id))
 	sb.Limit(1)
-	sql, args := sb.Build()
+	sql, args := sb.BuildWithFlavor(m.flavor)
 	var resp ManageEmail
 	var err error
 	if session != nil {
@@ -153,7 +185,7 @@ func (m *defaultManageEmailModel) Insert(ctx context.Context, session sqlx.Sessi
 	statement, args := sqlbuilder.NewInsertBuilder().
 		InsertInto(m.table).
 		Cols(manageEmailRowsExpectAutoSet).
-		Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.From, data.Host, data.Port, data.Username, data.Password, data.EnableSsl, data.IsVerify).Build()
+		Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.From, data.Host, data.Port, data.Username, data.Password, data.EnableSsl, data.IsVerify).BuildWithFlavor(m.flavor)
 	if session != nil {
 		return session.ExecCtx(ctx, statement, args...)
 	}
@@ -167,12 +199,12 @@ func (m *defaultManageEmailModel) InsertV2(ctx context.Context, session sqlx.Ses
 		statement, args = sqlbuilder.NewInsertBuilder().
 			InsertInto(m.table).
 			Cols(manageEmailRowsExpectAutoSet).
-			Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.From, data.Host, data.Port, data.Username, data.Password, data.EnableSsl, data.IsVerify).Returning("id").Build()
+			Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.From, data.Host, data.Port, data.Username, data.Password, data.EnableSsl, data.IsVerify).Returning("id").BuildWithFlavor(m.flavor)
 	} else {
 		statement, args = sqlbuilder.NewInsertBuilder().
 			InsertInto(m.table).
 			Cols(manageEmailRowsExpectAutoSet).
-			Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.From, data.Host, data.Port, data.Username, data.Password, data.EnableSsl, data.IsVerify).Build()
+			Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.From, data.Host, data.Port, data.Username, data.Password, data.EnableSsl, data.IsVerify).BuildWithFlavor(m.flavor)
 	}
 	var primaryKey int64
 	var err error
@@ -223,8 +255,8 @@ func (m *defaultManageEmailModel) Update(ctx context.Context, session sqlx.Sessi
 		assigns = append(assigns, sb.Assign(s, nil))
 	}
 	sb.Set(assigns...)
-	sb.Where(sb.EQ(condition.AdaptField("`id`"), nil))
-	statement, _ := sb.Build()
+	sb.Where(sb.EQ(condition.QuoteWithFlavor(m.flavor, "`id`"), nil))
+	statement, _ := sb.BuildWithFlavor(m.flavor)
 
 	var err error
 	if session != nil {
@@ -239,9 +271,9 @@ func (m *defaultManageEmailModel) withTableColumns(columns ...string) []string {
 	var withTableColumns []string
 	for _, col := range columns {
 		if strings.Contains(col, ".") {
-			withTableColumns = append(withTableColumns, condition.AdaptField(col))
+			withTableColumns = append(withTableColumns, condition.QuoteWithFlavor(m.flavor, col))
 		} else {
-			withTableColumns = append(withTableColumns, m.table+"."+condition.AdaptField(col))
+			withTableColumns = append(withTableColumns, m.table+"."+condition.QuoteWithFlavor(m.flavor, col))
 		}
 	}
 	return withTableColumns
@@ -250,7 +282,7 @@ func (m *customManageEmailModel) WithTable(f func(table string) string) manageEm
 	mc := &customManageEmailModel{
 		defaultManageEmailModel: m.clone(),
 	}
-	mc.table = condition.AdaptTable(f(condition.Unquote(m.table)))
+	mc.table = condition.QuoteWithFlavor(m.flavor, f(m.table))
 	return mc
 }
 
@@ -260,11 +292,12 @@ func (m *customManageEmailModel) BulkInsert(ctx context.Context, session sqlx.Se
 	}
 
 	sb := sqlbuilder.InsertInto(m.table)
+	sb.SetFlavor(m.flavor)
 	sb.Cols(manageEmailRowsExpectAutoSet)
 	for _, data := range datas {
 		sb.Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.From, data.Host, data.Port, data.Username, data.Password, data.EnableSsl, data.IsVerify)
 	}
-	statement, args := sb.Build()
+	statement, args := sb.BuildWithFlavor(m.flavor)
 
 	var err error
 	if session != nil {
@@ -280,8 +313,8 @@ func (m *customManageEmailModel) FindSelectedColumnsByCondition(ctx context.Cont
 		columns = manageEmailFieldNames
 	}
 	sb := sqlbuilder.Select(m.withTableColumns(columns...)...).From(m.table)
-	builder := condition.Select(*sb, conds...)
-	statement, args := builder.Build()
+	builder := condition.SelectWithFlavor(m.flavor, *sb, conds...)
+	statement, args := builder.BuildWithFlavor(m.flavor)
 
 	var resp []*ManageEmail
 	var err error
@@ -310,13 +343,13 @@ func (m *customManageEmailModel) CountByCondition(ctx context.Context, session s
 			countConds = append(countConds, cond)
 		}
 	}
-	countBuilder := condition.Select(*countsb, countConds...)
+	countBuilder := condition.SelectWithFlavor(m.flavor, *countsb, countConds...)
 
 	var (
 		total int64
 		err   error
 	)
-	statement, args := countBuilder.Build()
+	statement, args := countBuilder.BuildWithFlavor(m.flavor)
 	if session != nil {
 		err = session.QueryRowCtx(ctx, &total, statement, args...)
 	} else {
@@ -331,9 +364,9 @@ func (m *customManageEmailModel) CountByCondition(ctx context.Context, session s
 func (m *customManageEmailModel) FindOneByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) (*ManageEmail, error) {
 	sb := sqlbuilder.Select(m.withTableColumns(manageEmailFieldNames...)...).From(m.table)
 
-	builder := condition.Select(*sb, conds...)
+	builder := condition.SelectWithFlavor(m.flavor, *sb, conds...)
 	builder.Limit(1)
-	statement, args := builder.Build()
+	statement, args := builder.BuildWithFlavor(m.flavor)
 
 	var resp ManageEmail
 	var err error
@@ -351,12 +384,12 @@ func (m *customManageEmailModel) FindOneByCondition(ctx context.Context, session
 
 func (m *customManageEmailModel) PageByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) ([]*ManageEmail, int64, error) {
 	sb := sqlbuilder.Select(m.withTableColumns(manageEmailFieldNames...)...).From(m.table)
-	builder := condition.Select(*sb, conds...)
+	builder := condition.SelectWithFlavor(m.flavor, *sb, conds...)
 
 	var resp []*ManageEmail
 	var err error
 
-	statement, args := builder.Build()
+	statement, args := builder.BuildWithFlavor(m.flavor)
 
 	if session != nil {
 		err = session.QueryRowsCtx(ctx, &resp, statement, args...)
@@ -381,7 +414,7 @@ func (m *customManageEmailModel) UpdateFieldsByCondition(ctx context.Context, se
 	}
 
 	sb := sqlbuilder.Update(m.table)
-	builder := condition.Update(*sb, conds...)
+	builder := condition.UpdateWithFlavor(m.flavor, *sb, conds...)
 
 	var assigns []string
 	for key, value := range field {
@@ -389,7 +422,7 @@ func (m *customManageEmailModel) UpdateFieldsByCondition(ctx context.Context, se
 	}
 	builder.Set(assigns...)
 
-	statement, args := builder.Build()
+	statement, args := builder.BuildWithFlavor(m.flavor)
 
 	var err error
 	if session != nil {
@@ -408,8 +441,8 @@ func (m *customManageEmailModel) DeleteByCondition(ctx context.Context, session 
 		return nil
 	}
 	sb := sqlbuilder.DeleteFrom(m.table)
-	builder := condition.Delete(*sb, conds...)
-	statement, args := builder.Build()
+	builder := condition.DeleteWithFlavor(m.flavor, *sb, conds...)
+	statement, args := builder.BuildWithFlavor(m.flavor)
 
 	var err error
 	if session != nil {
