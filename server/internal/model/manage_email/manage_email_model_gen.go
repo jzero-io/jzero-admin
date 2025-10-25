@@ -72,7 +72,7 @@ const (
 func initManageEmailVars(flavor sqlbuilder.Flavor) {
 	manageEmailFieldNames = condition.RawFieldNamesWithFlavor(flavor, &ManageEmail{})
 	manageEmailRows = strings.Join(manageEmailFieldNames, ",")
-	manageEmailRowsExpectAutoSet = strings.Join(condition.RemoveIgnoreColumnsWithFlavor(flavor, manageEmailFieldNames, "`id`"), ",")
+	manageEmailRowsExpectAutoSet = strings.Join(condition.RemoveIgnoreColumnsWithFlavor(flavor, manageEmailFieldNames, "`id`", "`create_time`", "`update_time`"), ",")
 }
 
 type (
@@ -216,7 +216,7 @@ func (m *defaultManageEmailModel) Insert(ctx context.Context, session sqlx.Sessi
 	statement, args := sqlbuilder.NewInsertBuilder().
 		InsertInto(m.table).
 		Cols(manageEmailRowsExpectAutoSet).
-		Values(data.Uuid, data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.From, data.Host, data.Port, data.Username, data.Password, data.EnableSsl, data.IsVerify).BuildWithFlavor(m.flavor)
+		Values(data.Uuid, data.CreateBy, data.UpdateBy, data.From, data.Host, data.Port, data.Username, data.Password, data.EnableSsl, data.IsVerify).BuildWithFlavor(m.flavor)
 	if session != nil {
 		return session.ExecCtx(ctx, statement, args...)
 	}
@@ -230,12 +230,12 @@ func (m *defaultManageEmailModel) InsertV2(ctx context.Context, session sqlx.Ses
 		statement, args = sqlbuilder.NewInsertBuilder().
 			InsertInto(m.table).
 			Cols(manageEmailRowsExpectAutoSet).
-			Values(data.Uuid, data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.From, data.Host, data.Port, data.Username, data.Password, data.EnableSsl, data.IsVerify).Returning("id").BuildWithFlavor(m.flavor)
+			Values(data.Uuid, data.CreateBy, data.UpdateBy, data.From, data.Host, data.Port, data.Username, data.Password, data.EnableSsl, data.IsVerify).Returning("id").BuildWithFlavor(m.flavor)
 	} else {
 		statement, args = sqlbuilder.NewInsertBuilder().
 			InsertInto(m.table).
 			Cols(manageEmailRowsExpectAutoSet).
-			Values(data.Uuid, data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.From, data.Host, data.Port, data.Username, data.Password, data.EnableSsl, data.IsVerify).BuildWithFlavor(m.flavor)
+			Values(data.Uuid, data.CreateBy, data.UpdateBy, data.From, data.Host, data.Port, data.Username, data.Password, data.EnableSsl, data.IsVerify).BuildWithFlavor(m.flavor)
 	}
 	var primaryKey int64
 	var err error
@@ -291,9 +291,9 @@ func (m *defaultManageEmailModel) Update(ctx context.Context, session sqlx.Sessi
 
 	var err error
 	if session != nil {
-		_, err = session.ExecCtx(ctx, statement, newData.Uuid, newData.CreateTime, newData.UpdateTime, newData.CreateBy, newData.UpdateBy, newData.From, newData.Host, newData.Port, newData.Username, newData.Password, newData.EnableSsl, newData.IsVerify, newData.Id)
+		_, err = session.ExecCtx(ctx, statement, newData.Uuid, newData.CreateBy, newData.UpdateBy, newData.From, newData.Host, newData.Port, newData.Username, newData.Password, newData.EnableSsl, newData.IsVerify, newData.Id)
 	} else {
-		_, err = m.conn.ExecCtx(ctx, statement, newData.Uuid, newData.CreateTime, newData.UpdateTime, newData.CreateBy, newData.UpdateBy, newData.From, newData.Host, newData.Port, newData.Username, newData.Password, newData.EnableSsl, newData.IsVerify, newData.Id)
+		_, err = m.conn.ExecCtx(ctx, statement, newData.Uuid, newData.CreateBy, newData.UpdateBy, newData.From, newData.Host, newData.Port, newData.Username, newData.Password, newData.EnableSsl, newData.IsVerify, newData.Id)
 	}
 	return err
 }
@@ -326,7 +326,7 @@ func (m *customManageEmailModel) BulkInsert(ctx context.Context, session sqlx.Se
 	sb.SetFlavor(m.flavor)
 	sb.Cols(manageEmailRowsExpectAutoSet)
 	for _, data := range datas {
-		sb.Values(data.Uuid, data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.From, data.Host, data.Port, data.Username, data.Password, data.EnableSsl, data.IsVerify)
+		sb.Values(data.Uuid, data.CreateBy, data.UpdateBy, data.From, data.Host, data.Port, data.Username, data.Password, data.EnableSsl, data.IsVerify)
 	}
 	statement, args := sb.BuildWithFlavor(m.flavor)
 

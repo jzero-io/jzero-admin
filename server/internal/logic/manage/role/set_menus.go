@@ -3,7 +3,6 @@ package role
 import (
 	"context"
 	"net/http"
-	"time"
 
 	"github.com/jzero-io/jzero/core/stores/condition"
 	"github.com/pkg/errors"
@@ -48,10 +47,8 @@ func (l *SetMenus) SetMenus(req *types.SetMenusRequest) (resp *types.SetMenusRes
 
 		for _, v := range req.MenuUuids {
 			data := &manage_role_menu.ManageRoleMenu{
-				RoleUuid:   req.RoleUuid,
-				MenuUuid:   v,
-				CreateTime: time.Now(),
-				UpdateTime: time.Now(),
+				RoleUuid: req.RoleUuid,
+				MenuUuid: v,
 			}
 			if data.MenuUuid == roleHomeMenu.MenuUuid {
 				data.IsHome = cast.ToInt64(true)

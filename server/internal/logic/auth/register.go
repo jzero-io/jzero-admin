@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-	"time"
 
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
@@ -49,14 +48,12 @@ func (l *Register) Register(req *types.RegisterRequest) (resp *types.RegisterRes
 	}
 
 	_, err = l.svcCtx.Model.ManageUser.Insert(l.ctx, nil, &manage_user.ManageUser{
-		Uuid:       uuid.New().String(),
-		Username:   req.Username,
-		Password:   req.Password,
-		CreateTime: time.Now(),
-		UpdateTime: time.Now(),
-		Email:      req.Email,
-		Gender:     "1",
-		Status:     "1",
+		Uuid:     uuid.New().String(),
+		Username: req.Username,
+		Password: req.Password,
+		Email:    req.Email,
+		Gender:   "1",
+		Status:   "1",
 	})
 
 	return

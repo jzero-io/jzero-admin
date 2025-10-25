@@ -3,7 +3,6 @@ package role
 import (
 	"context"
 	"net/http"
-	"time"
 
 	"github.com/google/uuid"
 	"github.com/jzero-io/jzero-admin/core-engine/helper/auth"
@@ -56,27 +55,23 @@ func (l *Add) Add(req *types.AddRequest) (resp *types.AddResponse, err error) {
 	err = l.svcCtx.SqlxConn.TransactCtx(l.ctx, func(ctx context.Context, session sqlx.Session) error {
 		roleUuid := uuid.New().String()
 		if err = l.svcCtx.Model.ManageRole.InsertV2(l.ctx, session, &manage_role.ManageRole{
-			Uuid:       roleUuid,
-			Code:       req.RoleCode,
-			Name:       req.RoleName,
-			Desc:       req.RoleDesc,
-			CreateTime: time.Now(),
-			UpdateTime: time.Now(),
-			CreateBy:   authInfo.Uuid,
-			Status:     req.Status,
+			Uuid:     roleUuid,
+			Code:     req.RoleCode,
+			Name:     req.RoleName,
+			Desc:     req.RoleDesc,
+			CreateBy: authInfo.Uuid,
+			Status:   req.Status,
 		}); err != nil {
 			return err
 		}
 
 		// 添加首页路由
 		if err = l.svcCtx.Model.ManageRoleMenu.InsertV2(l.ctx, session, &manage_role_menu.ManageRoleMenu{
-			Uuid:       uuid.New().String(),
-			CreateTime: time.Now(),
-			UpdateTime: time.Now(),
-			CreateBy:   authInfo.Uuid,
-			RoleUuid:   roleUuid,
-			MenuUuid:   homeMenuUuid,
-			IsHome:     cast.ToInt64(true),
+			Uuid:     uuid.New().String(),
+			CreateBy: authInfo.Uuid,
+			RoleUuid: roleUuid,
+			MenuUuid: homeMenuUuid,
+			IsHome:   cast.ToInt64(true),
 		}); err != nil {
 			return err
 		}

@@ -1,3 +1,12 @@
+-- Create function to automatically update update_time
+CREATE OR REPLACE FUNCTION update_update_time_column()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.update_time = CURRENT_TIMESTAMP;
+    RETURN NEW;
+END;
+$$ language 'plpgsql';
+
 DROP TABLE IF EXISTS "manage_email";
 
 CREATE TABLE "manage_email" (
@@ -16,6 +25,9 @@ CREATE TABLE "manage_email" (
     is_verify smallint NOT NULL,
     PRIMARY KEY (id)
 );
+
+CREATE TRIGGER update_manage_email_update_time BEFORE UPDATE ON "manage_email"
+FOR EACH ROW EXECUTE FUNCTION update_update_time_column();
 
 DROP TABLE IF EXISTS "manage_menu";
 
@@ -49,6 +61,9 @@ CREATE TABLE "manage_menu" (
     button_code text NOT NULL,
     PRIMARY KEY (id)
 );
+
+CREATE TRIGGER update_manage_menu_update_time BEFORE UPDATE ON "manage_menu"
+FOR EACH ROW EXECUTE FUNCTION update_update_time_column();
 
 INSERT INTO "manage_menu" (uuid, create_time, update_time, create_by, update_by, status, parent_uuid, menu_type, menu_name, hide_in_menu, active_menu, "order", route_name, route_path, component, icon, icon_type, i18n_key, keep_alive, href, multi_tab, fixed_index_in_tab, query, permissions, constant, button_code)
 VALUES
@@ -92,6 +107,9 @@ CREATE TABLE "manage_role" (
     PRIMARY KEY (id)
 );
 
+CREATE TRIGGER update_manage_role_update_time BEFORE UPDATE ON "manage_role"
+FOR EACH ROW EXECUTE FUNCTION update_update_time_column();
+
 INSERT INTO "manage_role" (uuid, create_time, update_time, create_by, update_by, name, status, code, "desc")
 VALUES
     ('1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d','2024-10-29 22:23:50','2024-10-29 22:23:50',1,0,'超级管理员','1','R_SUPER','超级管理员');
@@ -111,6 +129,9 @@ CREATE TABLE "manage_role_menu" (
     is_home smallint NOT NULL,
     PRIMARY KEY (id)
 );
+
+CREATE TRIGGER update_manage_role_menu_update_time BEFORE UPDATE ON "manage_role_menu"
+FOR EACH ROW EXECUTE FUNCTION update_update_time_column();
 
 INSERT INTO "manage_role_menu" (uuid, create_time, update_time, create_by, update_by, role_uuid, menu_uuid, is_home)
 VALUES
@@ -153,6 +174,9 @@ CREATE TABLE "manage_user" (
     PRIMARY KEY (id)
 );
 
+CREATE TRIGGER update_manage_user_update_time BEFORE UPDATE ON "manage_user"
+FOR EACH ROW EXECUTE FUNCTION update_update_time_column();
+
 INSERT INTO "manage_user" (uuid, create_time, update_time, create_by, update_by, username, password, nickname, gender, phone, status, email)
 VALUES
     ('1c2d3e4f-5a6b-7c8d-9e0f-1a2b3c4d5e6f','2024-10-24 09:45:00','2024-10-31 09:40:13',0,0,'admin','123456','超级管理员','1','','1','');
@@ -170,6 +194,9 @@ CREATE TABLE "manage_user_role" (
     role_uuid varchar(36) NOT NULL,
     PRIMARY KEY (id)
 );
+
+CREATE TRIGGER update_manage_user_role_update_time BEFORE UPDATE ON "manage_user_role"
+FOR EACH ROW EXECUTE FUNCTION update_update_time_column();
 
 INSERT INTO "manage_user_role" (uuid, create_time, update_time, create_by, update_by, user_uuid, role_uuid)
 VALUES

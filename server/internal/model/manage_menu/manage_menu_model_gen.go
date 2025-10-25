@@ -114,7 +114,7 @@ const (
 func initManageMenuVars(flavor sqlbuilder.Flavor) {
 	manageMenuFieldNames = condition.RawFieldNamesWithFlavor(flavor, &ManageMenu{})
 	manageMenuRows = strings.Join(manageMenuFieldNames, ",")
-	manageMenuRowsExpectAutoSet = strings.Join(condition.RemoveIgnoreColumnsWithFlavor(flavor, manageMenuFieldNames, "`id`"), ",")
+	manageMenuRowsExpectAutoSet = strings.Join(condition.RemoveIgnoreColumnsWithFlavor(flavor, manageMenuFieldNames, "`id`", "`create_time`", "`update_time`"), ",")
 }
 
 type (
@@ -152,8 +152,8 @@ type (
 		Uuid            string    `db:"uuid"`
 		CreateTime      time.Time `db:"create_time"`
 		UpdateTime      time.Time `db:"update_time"`
-		CreateBy        int64     `db:"create_by"`
-		UpdateBy        int64     `db:"update_by"`
+		CreateBy        string    `db:"create_by"`
+		UpdateBy        string    `db:"update_by"`
 		Status          string    `db:"status"`
 		ParentUuid      string    `db:"parent_uuid"`
 		MenuType        string    `db:"menu_type"`
@@ -272,7 +272,7 @@ func (m *defaultManageMenuModel) Insert(ctx context.Context, session sqlx.Sessio
 	statement, args := sqlbuilder.NewInsertBuilder().
 		InsertInto(m.table).
 		Cols(manageMenuRowsExpectAutoSet).
-		Values(data.Uuid, data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Status, data.ParentUuid, data.MenuType, data.MenuName, data.HideInMenu, data.ActiveMenu, data.Order, data.RouteName, data.RoutePath, data.Component, data.Icon, data.IconType, data.I18nKey, data.KeepAlive, data.Href, data.MultiTab, data.FixedIndexInTab, data.Query, data.Permissions, data.Constant, data.ButtonCode).BuildWithFlavor(m.flavor)
+		Values(data.Uuid, data.CreateBy, data.UpdateBy, data.Status, data.ParentUuid, data.MenuType, data.MenuName, data.HideInMenu, data.ActiveMenu, data.Order, data.RouteName, data.RoutePath, data.Component, data.Icon, data.IconType, data.I18nKey, data.KeepAlive, data.Href, data.MultiTab, data.FixedIndexInTab, data.Query, data.Permissions, data.Constant, data.ButtonCode).BuildWithFlavor(m.flavor)
 	if session != nil {
 		return session.ExecCtx(ctx, statement, args...)
 	}
@@ -286,12 +286,12 @@ func (m *defaultManageMenuModel) InsertV2(ctx context.Context, session sqlx.Sess
 		statement, args = sqlbuilder.NewInsertBuilder().
 			InsertInto(m.table).
 			Cols(manageMenuRowsExpectAutoSet).
-			Values(data.Uuid, data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Status, data.ParentUuid, data.MenuType, data.MenuName, data.HideInMenu, data.ActiveMenu, data.Order, data.RouteName, data.RoutePath, data.Component, data.Icon, data.IconType, data.I18nKey, data.KeepAlive, data.Href, data.MultiTab, data.FixedIndexInTab, data.Query, data.Permissions, data.Constant, data.ButtonCode).Returning("id").BuildWithFlavor(m.flavor)
+			Values(data.Uuid, data.CreateBy, data.UpdateBy, data.Status, data.ParentUuid, data.MenuType, data.MenuName, data.HideInMenu, data.ActiveMenu, data.Order, data.RouteName, data.RoutePath, data.Component, data.Icon, data.IconType, data.I18nKey, data.KeepAlive, data.Href, data.MultiTab, data.FixedIndexInTab, data.Query, data.Permissions, data.Constant, data.ButtonCode).Returning("id").BuildWithFlavor(m.flavor)
 	} else {
 		statement, args = sqlbuilder.NewInsertBuilder().
 			InsertInto(m.table).
 			Cols(manageMenuRowsExpectAutoSet).
-			Values(data.Uuid, data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Status, data.ParentUuid, data.MenuType, data.MenuName, data.HideInMenu, data.ActiveMenu, data.Order, data.RouteName, data.RoutePath, data.Component, data.Icon, data.IconType, data.I18nKey, data.KeepAlive, data.Href, data.MultiTab, data.FixedIndexInTab, data.Query, data.Permissions, data.Constant, data.ButtonCode).BuildWithFlavor(m.flavor)
+			Values(data.Uuid, data.CreateBy, data.UpdateBy, data.Status, data.ParentUuid, data.MenuType, data.MenuName, data.HideInMenu, data.ActiveMenu, data.Order, data.RouteName, data.RoutePath, data.Component, data.Icon, data.IconType, data.I18nKey, data.KeepAlive, data.Href, data.MultiTab, data.FixedIndexInTab, data.Query, data.Permissions, data.Constant, data.ButtonCode).BuildWithFlavor(m.flavor)
 	}
 	var primaryKey int64
 	var err error
@@ -347,9 +347,9 @@ func (m *defaultManageMenuModel) Update(ctx context.Context, session sqlx.Sessio
 
 	var err error
 	if session != nil {
-		_, err = session.ExecCtx(ctx, statement, newData.Uuid, newData.CreateTime, newData.UpdateTime, newData.CreateBy, newData.UpdateBy, newData.Status, newData.ParentUuid, newData.MenuType, newData.MenuName, newData.HideInMenu, newData.ActiveMenu, newData.Order, newData.RouteName, newData.RoutePath, newData.Component, newData.Icon, newData.IconType, newData.I18nKey, newData.KeepAlive, newData.Href, newData.MultiTab, newData.FixedIndexInTab, newData.Query, newData.Permissions, newData.Constant, newData.ButtonCode, newData.Id)
+		_, err = session.ExecCtx(ctx, statement, newData.Uuid, newData.CreateBy, newData.UpdateBy, newData.Status, newData.ParentUuid, newData.MenuType, newData.MenuName, newData.HideInMenu, newData.ActiveMenu, newData.Order, newData.RouteName, newData.RoutePath, newData.Component, newData.Icon, newData.IconType, newData.I18nKey, newData.KeepAlive, newData.Href, newData.MultiTab, newData.FixedIndexInTab, newData.Query, newData.Permissions, newData.Constant, newData.ButtonCode, newData.Id)
 	} else {
-		_, err = m.conn.ExecCtx(ctx, statement, newData.Uuid, newData.CreateTime, newData.UpdateTime, newData.CreateBy, newData.UpdateBy, newData.Status, newData.ParentUuid, newData.MenuType, newData.MenuName, newData.HideInMenu, newData.ActiveMenu, newData.Order, newData.RouteName, newData.RoutePath, newData.Component, newData.Icon, newData.IconType, newData.I18nKey, newData.KeepAlive, newData.Href, newData.MultiTab, newData.FixedIndexInTab, newData.Query, newData.Permissions, newData.Constant, newData.ButtonCode, newData.Id)
+		_, err = m.conn.ExecCtx(ctx, statement, newData.Uuid, newData.CreateBy, newData.UpdateBy, newData.Status, newData.ParentUuid, newData.MenuType, newData.MenuName, newData.HideInMenu, newData.ActiveMenu, newData.Order, newData.RouteName, newData.RoutePath, newData.Component, newData.Icon, newData.IconType, newData.I18nKey, newData.KeepAlive, newData.Href, newData.MultiTab, newData.FixedIndexInTab, newData.Query, newData.Permissions, newData.Constant, newData.ButtonCode, newData.Id)
 	}
 	return err
 }
@@ -382,7 +382,7 @@ func (m *customManageMenuModel) BulkInsert(ctx context.Context, session sqlx.Ses
 	sb.SetFlavor(m.flavor)
 	sb.Cols(manageMenuRowsExpectAutoSet)
 	for _, data := range datas {
-		sb.Values(data.Uuid, data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Status, data.ParentUuid, data.MenuType, data.MenuName, data.HideInMenu, data.ActiveMenu, data.Order, data.RouteName, data.RoutePath, data.Component, data.Icon, data.IconType, data.I18nKey, data.KeepAlive, data.Href, data.MultiTab, data.FixedIndexInTab, data.Query, data.Permissions, data.Constant, data.ButtonCode)
+		sb.Values(data.Uuid, data.CreateBy, data.UpdateBy, data.Status, data.ParentUuid, data.MenuType, data.MenuName, data.HideInMenu, data.ActiveMenu, data.Order, data.RouteName, data.RoutePath, data.Component, data.Icon, data.IconType, data.I18nKey, data.KeepAlive, data.Href, data.MultiTab, data.FixedIndexInTab, data.Query, data.Permissions, data.Constant, data.ButtonCode)
 	}
 	statement, args := sb.BuildWithFlavor(m.flavor)
 

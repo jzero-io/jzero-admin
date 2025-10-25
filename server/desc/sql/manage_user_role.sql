@@ -2,7 +2,7 @@ CREATE TABLE `manage_user_role` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `uuid` varchar(36) NOT NULL UNIQUE,
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `create_by` varchar(36) NOT NULL,
   `update_by` varchar(36) NOT NULL,
   `user_uuid` varchar(36) NOT NULL,

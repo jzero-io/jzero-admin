@@ -16,5 +16,5 @@ gen:
 
   model-driver: mysql
   model-cache: false
-  model-ignore-columns: []
+  model-ignore-columns: ["create_time", "update_time"]
   model-schema: jzero-admin

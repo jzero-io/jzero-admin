@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
-	"time"
 
 	"github.com/google/uuid"
 	"github.com/spf13/cast"
@@ -35,8 +34,6 @@ func (l *Add) Add(req *types.AddRequest) (resp *types.AddResponse, err error) {
 	err = l.svcCtx.SqlxConn.TransactCtx(l.ctx, func(ctx context.Context, session sqlx.Session) error {
 		if _, err = l.svcCtx.Model.ManageMenu.Insert(l.ctx, session, &manage_menu.ManageMenu{
 			Uuid:            uuid.New().String(),
-			CreateTime:      time.Now(),
-			UpdateTime:      time.Now(),
 			Status:          req.Status,
 			ParentUuid:      req.ParentUuid,
 			MenuType:        req.MenuType,

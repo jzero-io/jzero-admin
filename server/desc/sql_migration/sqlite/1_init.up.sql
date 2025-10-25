@@ -167,3 +167,46 @@ CREATE TABLE manage_user_role (
 INSERT INTO manage_user_role (uuid, create_time, update_time, create_by, update_by, user_uuid, role_uuid)
 VALUES
     ('2d3e4f5a-6b7c-8d9e-0f1a-2b3c4d5e6f7a','2024-10-31 09:40:13','2024-10-31 09:40:13',0,0,'1c2d3e4f-5a6b-7c8d-9e0f-1a2b3c4d5e6f','1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d');
+
+-- Triggers for auto-updating update_time
+CREATE TRIGGER manage_email_update_time
+AFTER UPDATE ON manage_email
+FOR EACH ROW
+BEGIN
+    UPDATE manage_email SET update_time = CURRENT_TIMESTAMP WHERE id = OLD.id;
+END;
+
+CREATE TRIGGER manage_menu_update_time
+AFTER UPDATE ON manage_menu
+FOR EACH ROW
+BEGIN
+    UPDATE manage_menu SET update_time = CURRENT_TIMESTAMP WHERE id = OLD.id;
+END;
+
+CREATE TRIGGER manage_role_update_time
+AFTER UPDATE ON manage_role
+FOR EACH ROW
+BEGIN
+    UPDATE manage_role SET update_time = CURRENT_TIMESTAMP WHERE id = OLD.id;
+END;
+
+CREATE TRIGGER manage_role_menu_update_time
+AFTER UPDATE ON manage_role_menu
+FOR EACH ROW
+BEGIN
+    UPDATE manage_role_menu SET update_time = CURRENT_TIMESTAMP WHERE id = OLD.id;
+END;
+
+CREATE TRIGGER manage_user_update_time
+AFTER UPDATE ON manage_user
+FOR EACH ROW
+BEGIN
+    UPDATE manage_user SET update_time = CURRENT_TIMESTAMP WHERE id = OLD.id;
+END;
+
+CREATE TRIGGER manage_user_role_update_time
+AFTER UPDATE ON manage_user_role
+FOR EACH ROW
+BEGIN
+    UPDATE manage_user_role SET update_time = CURRENT_TIMESTAMP WHERE id = OLD.id;
+END;
