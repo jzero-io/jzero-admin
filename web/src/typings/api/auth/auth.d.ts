@@ -12,7 +12,7 @@ declare namespace Api {
     }
 
     interface GetUserInfoResponse {
-      userId: string;
+      userUuid: string;
       username: string;
       roles: string[];
       buttons: string[];

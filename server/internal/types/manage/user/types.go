@@ -24,14 +24,14 @@ type AddResponse struct {
 }
 
 type DeleteRequest struct {
-	Ids []int64 `json:"ids"`
+	Uuids []string `json:"uuids"`
 }
 
 type DeleteResponse struct {
 }
 
 type EditRequest struct {
-	Id         int64    `json:"id"`
+	Uuid       string   `json:"uuid"`
 	Username   string   `json:"username"`
 	UserGender string   `json:"userGender"`
 	NickName   string   `json:"nickName"`
@@ -60,7 +60,7 @@ type ListResponse struct {
 }
 
 type ManageUser struct {
-	Id         int64    `json:"id"`
+	Uuid       string   `json:"uuid"`
 	Username   string   `json:"username"`
 	UserGender string   `json:"userGender"`
 	NickName   string   `json:"nickName"`

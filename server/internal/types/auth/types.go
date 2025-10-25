@@ -25,7 +25,7 @@ type GetUserInfoRequest struct {
 }
 
 type GetUserInfoResponse struct {
-	UserId   string   `json:"userId"`
+	UserUuid string   `json:"userUuid"`
 	Username string   `json:"username"`
 	Roles    []string `json:"roles"`
 	Buttons  []string `json:"buttons"`

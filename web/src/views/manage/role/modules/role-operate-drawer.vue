@@ -64,7 +64,7 @@ const rules: Record<RuleKey, App.Global.FormRule> = {
   status: defaultRequiredRule
 };
 
-const roleId = computed(() => props.rowData?.id || -1);
+const roleUuid = computed(() => props.rowData?.uuid || '');
 
 const isEdit = computed(() => props.operateType === 'edit');
 
@@ -102,7 +102,7 @@ async function handleSubmit() {
     await validate();
     // request
     const editRoleData: Api.Manage.EditRoleRequest = {
-      id: props.rowData?.id,
+      uuid: props.rowData?.uuid,
       roleName: model.roleName,
       roleCode: model.roleCode,
       roleDesc: model.roleDesc,
@@ -148,7 +148,7 @@ watch(visible, () => {
       </NForm>
       <NSpace v-if="isEdit">
         <NButton @click="openMenuAuthModal">{{ $t('page.manage.role.menuAuth') }}</NButton>
-        <MenuAuthModal v-model:visible="menuAuthVisible" :role-id="roleId" />
+        <MenuAuthModal v-model:visible="menuAuthVisible" :role-uuid="roleUuid" />
       </NSpace>
       <template #footer>
         <NSpace :size="16">

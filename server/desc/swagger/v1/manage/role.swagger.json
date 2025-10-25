@@ -83,15 +83,15 @@
             "required": true,
             "schema": {
               "properties": {
-                "ids": {
+                "uuids": {
                   "items": {
-                    "type": "integer"
+                    "type": "string"
                   },
                   "type": "array"
                 }
               },
               "required": [
-                "ids"
+                "uuids"
               ],
               "type": "object"
             }
@@ -136,9 +136,6 @@
             "required": true,
             "schema": {
               "properties": {
-                "id": {
-                  "type": "integer"
-                },
                 "roleCode": {
                   "type": "string"
                 },
@@ -150,10 +147,13 @@
                 },
                 "status": {
                   "type": "string"
+                },
+                "uuid": {
+                  "type": "string"
                 }
               },
               "required": [
-                "id",
+                "uuid",
                 "roleName",
                 "roleCode",
                 "roleDesc",
@@ -201,31 +201,31 @@
             "schema": {
               "items": {
                 "properties": {
-                  "id": {
-                    "type": "integer"
-                  },
                   "roleCode": {
                     "type": "string"
                   },
                   "roleName": {
                     "type": "string"
+                  },
+                  "uuid": {
+                    "type": "string"
                   }
                 },
                 "required": [
-                  "id",
+                  "uuid",
                   "roleName",
                   "roleCode"
                 ],
                 "type": "object"
               },
               "properties": {
-                "id": {
-                  "type": "integer"
-                },
                 "roleCode": {
                   "type": "string"
                 },
                 "roleName": {
+                  "type": "string"
+                },
+                "uuid": {
                   "type": "string"
                 }
               },
@@ -254,9 +254,9 @@
         "parameters": [
           {
             "in": "query",
-            "name": "roleId",
+            "name": "roleUuid",
             "required": true,
-            "type": "integer"
+            "type": "string"
           }
         ],
         "produces": [
@@ -339,9 +339,6 @@
                       "createTime": {
                         "type": "string"
                       },
-                      "id": {
-                        "type": "integer"
-                      },
                       "roleCode": {
                         "type": "string"
                       },
@@ -356,10 +353,13 @@
                       },
                       "updateTime": {
                         "type": "string"
+                      },
+                      "uuid": {
+                        "type": "string"
                       }
                     },
                     "required": [
-                      "id",
+                      "uuid",
                       "roleName",
                       "roleCode",
                       "roleDesc",
@@ -403,9 +403,9 @@
         "parameters": [
           {
             "in": "query",
-            "name": "roleId",
+            "name": "roleUuid",
             "required": true,
-            "type": "integer"
+            "type": "string"
           }
         ],
         "produces": [
@@ -415,10 +415,15 @@
           "200": {
             "description": "",
             "schema": {
-              "items": {
-                "type": "integer"
+              "properties": {
+                "menuUuids": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
               },
-              "type": "array"
+              "type": "object"
             }
           }
         },
@@ -450,19 +455,19 @@
             "required": true,
             "schema": {
               "properties": {
-                "menuIds": {
+                "menuUuids": {
                   "items": {
-                    "type": "integer"
+                    "type": "string"
                   },
                   "type": "array"
                 },
-                "roleId": {
-                  "type": "integer"
+                "roleUuid": {
+                  "type": "string"
                 }
               },
               "required": [
-                "roleId",
-                "menuIds"
+                "roleUuid",
+                "menuUuids"
               ],
               "type": "object"
             }
@@ -510,12 +515,12 @@
                 "home": {
                   "type": "string"
                 },
-                "roleId": {
-                  "type": "integer"
+                "roleUuid": {
+                  "type": "string"
                 }
               },
               "required": [
-                "roleId",
+                "roleUuid",
                 "home"
               ],
               "type": "object"

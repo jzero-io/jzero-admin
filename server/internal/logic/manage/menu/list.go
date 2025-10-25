@@ -41,7 +41,7 @@ func (l *List) List(req *types.ListRequest) (resp *types.ListResponse, err error
 		return nil, err
 	}
 
-	tree := buildMenuTree(convert(list), 0)
+	tree := buildMenuTree(convert(list), "")
 
 	// sort by order asc
 	sort.Slice(tree, func(i, j int) bool {
@@ -72,7 +72,7 @@ func convert(list []*manage_menu.ManageMenu) []*types.SystemMenu {
 		Unmarshal(item.Permissions, &permissions)
 		Unmarshal(item.Query, &query)
 		menu = types.SystemMenu{
-			Id:              item.Id,
+			Uuid:            item.Uuid,
 			ActiveMenu:      item.ActiveMenu,
 			MenuType:        item.MenuType,
 			MenuName:        item.MenuName,
@@ -81,7 +81,7 @@ func convert(list []*manage_menu.ManageMenu) []*types.SystemMenu {
 			Component:       item.Component,
 			Icon:            item.Icon,
 			IconType:        item.IconType,
-			ParentId:        item.ParentId,
+			ParentUuid:      item.ParentUuid,
 			Status:          item.Status,
 			KeepAlive:       cast.ToBool(item.KeepAlive),
 			Constant:        cast.ToBool(item.Constant),
@@ -101,12 +101,12 @@ func convert(list []*manage_menu.ManageMenu) []*types.SystemMenu {
 	return records
 }
 
-func buildMenuTree(menus []*types.SystemMenu, parentId int64) []types.SystemMenu {
+func buildMenuTree(menus []*types.SystemMenu, parentUuid string) []types.SystemMenu {
 	var result []types.SystemMenu
 	for _, menu := range menus {
-		if menu.ParentId == parentId {
+		if menu.ParentUuid == parentUuid {
 			subMenu := *menu
-			subMenu.Children = buildMenuTree(menus, menu.Id)
+			subMenu.Children = buildMenuTree(menus, menu.Uuid)
 			sort.Slice(subMenu.Children, func(i, j int) bool {
 				return subMenu.Children[i].Order < subMenu.Children[j].Order
 			})

@@ -51,20 +51,20 @@ func (l *PwdLogin) PwdLogin(req *types.PwdLoginRequest) (resp *types.LoginRespon
 		return nil, errors.New("用户名或密码错误")
 	}
 	userRoles, err := l.svcCtx.Model.ManageUserRole.FindByCondition(l.ctx, nil, condition.NewChain().
-		Equal(manage_user_role.UserId, user.Id).
+		Equal(manage_user_role.UserUuid, user.Uuid).
 		Build()...)
 	if err != nil {
 		return nil, err
 	}
-	var roleIds []int64
+	var roleIds []string
 	for _, userRole := range userRoles {
-		roleIds = append(roleIds, userRole.RoleId)
+		roleIds = append(roleIds, userRole.RoleUuid)
 	}
 
 	marshal, err := json.Marshal(auth.Auth{
-		Id:       int(user.Id),
-		Username: user.Username,
-		RoleIds:  roleIds,
+		Uuid:      user.Uuid,
+		Username:  user.Username,
+		RoleUuids: roleIds,
 	})
 	if err != nil {
 		return nil, err

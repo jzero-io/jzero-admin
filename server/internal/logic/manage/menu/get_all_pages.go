@@ -32,26 +32,26 @@ func NewGetAllPages(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Req
 
 func (l *GetAllPages) GetAllPages(req *types.GetAllPagesRequest) (resp []string, err error) {
 	var pages []*manage_menu.ManageMenu
-	if req.RoleId != 0 {
+	if req.RoleUuid != "" {
 		roleMenus, err := l.svcCtx.Model.ManageRoleMenu.FindByCondition(l.ctx, nil, condition.NewChain().
-			In(manage_role_menu.RoleId, req.RoleId).
+			Equal(manage_role_menu.RoleUuid, req.RoleUuid).
 			Build()...)
 		if err != nil {
 			return nil, err
 		}
 
-		var menuIds []int64
+		var menuUuids []string
 		for _, roleMenu := range roleMenus {
-			menuIds = append(menuIds, roleMenu.MenuId)
+			menuUuids = append(menuUuids, roleMenu.MenuUuid)
 		}
-		uniqMenuIds := lo.Uniq(menuIds)
+		uniqMenuUuids := lo.Uniq(menuUuids)
 
-		if len(uniqMenuIds) == 0 {
+		if len(uniqMenuUuids) == 0 {
 			return resp, nil
 		}
 
 		pages, err = l.svcCtx.Model.ManageMenu.FindByCondition(l.ctx, nil, condition.NewChain().
-			In(manage_menu.Id, uniqMenuIds).
+			In(manage_menu.Uuid, uniqMenuUuids).
 			Equal(manage_menu.MenuType, "2").
 			Equal(manage_menu.Status, "1").
 			NotEqual(manage_menu.HideInMenu, cast.ToInt(true)).

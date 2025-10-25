@@ -40,7 +40,7 @@ export function EditRole(req: Api.Manage.EditRoleRequest) {
 }
 
 export function GetRoleMenus(params: Api.Manage.GetRoleMenusRequest) {
-  return request<number[]>({
+  return request<{ menuUuids: string[] }>({
     url: '/api/v1/manage/getRoleMenus',
     method: 'get',
     params
@@ -55,12 +55,12 @@ export function SetRoleMenus(req: Api.Manage.SetRoleMenusRequest) {
   });
 }
 
-export function GetRoleHome(roleId: number) {
+export function GetRoleHome(roleUuid: string) {
   return request<string>({
     url: '/api/v1/manage/getRoleHome',
     method: 'get',
     params: {
-      roleId
+      roleUuid
     }
   });
 }
@@ -74,12 +74,12 @@ export function UpdateRoleHome(req: Api.Manage.UpdateRoleHomeRequest) {
 }
 
 /* delete role */
-export function DeleteRole(req: number[]) {
+export function DeleteRole(req: string[]) {
   return request<Api.Common.Empty>({
     url: '/api/v1/manage/deleteRole',
     method: 'post',
     data: {
-      ids: req
+      uuids: req
     }
   });
 }
@@ -102,12 +102,12 @@ export function EditUser(req: Api.Manage.EditUserRequest) {
   });
 }
 
-export function DeleteUser(req: number[]) {
+export function DeleteUser(req: string[]) {
   return request<Api.Common.Empty>({
     url: '/api/v1/manage/deleteUser',
     method: 'post',
     data: {
-      ids: req
+      uuids: req
     }
   });
 }
@@ -137,12 +137,12 @@ export function EditMenu(req: Api.Manage.EditMenuRequest) {
   });
 }
 
-export function DeleteMenu(req: number[]) {
+export function DeleteMenu(req: string[]) {
   return request<Api.Common.Empty>({
     url: '/api/v1/manage/deleteMenu',
     method: 'post',
     data: {
-      ids: req
+      uuids: req
     }
   });
 }
@@ -156,12 +156,12 @@ export function GetMenuList() {
 }
 
 /** get all pages */
-export function GetAllPages(roleId: number) {
+export function GetAllPages(roleUuid: string) {
   return request<string[]>({
     url: '/api/v1/manage/getAllPages',
     method: 'get',
     params: {
-      roleId
+      roleUuid
     }
   });
 }

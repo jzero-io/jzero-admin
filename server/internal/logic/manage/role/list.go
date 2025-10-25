@@ -55,7 +55,7 @@ func (l *List) List(req *types.ListRequest) (resp *types.ListResponse, err error
 	var records []types.ManageRole
 	for _, role := range roles {
 		records = append(records, types.ManageRole{
-			Id:         role.Id,
+			Uuid:       role.Uuid,
 			RoleCode:   role.Code,
 			RoleName:   role.Name,
 			RoleDesc:   role.Desc,

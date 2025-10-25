@@ -50,7 +50,7 @@ func (l *CodeLogin) CodeLogin(req *types.CodeLoginRequest) (resp *types.LoginRes
 	}
 
 	user, err := l.svcCtx.Model.ManageUser.FindOneByCondition(l.ctx, nil, condition.Condition{
-		Field:    manage_user.Email,
+		Field:    manage_user.ManageUserField.Email,
 		Operator: condition.Equal,
 		Value:    req.Email,
 	})
@@ -59,20 +59,20 @@ func (l *CodeLogin) CodeLogin(req *types.CodeLoginRequest) (resp *types.LoginRes
 	}
 
 	userRoles, err := l.svcCtx.Model.ManageUserRole.FindByCondition(l.ctx, nil, condition.NewChain().
-		Equal(manage_user_role.UserId, user.Id).
+		Equal(manage_user_role.ManageUserRoleField.UserUuid, user.Uuid).
 		Build()...)
 	if err != nil {
 		return nil, err
 	}
-	var roleIds []int64
+	var roleUuids []string
 	for _, userRole := range userRoles {
-		roleIds = append(roleIds, userRole.RoleId)
+		roleUuids = append(roleUuids, userRole.RoleUuid)
 	}
 
 	marshal, err := json.Marshal(auth.Auth{
-		Id:       int(user.Id),
-		Username: user.Username,
-		RoleIds:  roleIds,
+		Uuid:      user.Uuid,
+		Username:  user.Username,
+		RoleUuids: roleUuids,
 	})
 	if err != nil {
 		return nil, err

@@ -20,14 +20,14 @@ type AddResponse struct {
 }
 
 type DeleteRequest struct {
-	Ids []int64 `json:"ids"`
+	Uuids []string `json:"uuids"`
 }
 
 type DeleteResponse struct {
 }
 
 type EditRequest struct {
-	Id       int64  `json:"id"`
+	Uuid     string `json:"uuid"`
 	RoleName string `json:"roleName"`
 	RoleCode string `json:"roleCode"`
 	RoleDesc string `json:"roleDesc"`
@@ -41,21 +41,21 @@ type GetAllRequest struct {
 }
 
 type GetAllResponse struct {
-	Id       int64  `json:"id"`
+	Uuid     string `json:"uuid"`
 	RoleName string `json:"roleName"`
 	RoleCode string `json:"roleCode"`
 }
 
 type GetHomeRequest struct {
-	RoleId int64 `form:"roleId"`
+	RoleUuid string `form:"roleUuid"`
 }
 
 type GetMenusRequest struct {
-	RoleId int64 `form:"roleId"`
+	RoleUuid string `form:"roleUuid"`
 }
 
 type GetMenusResponse struct {
-	MenuIds []int64 `json:"menuIds"`
+	MenuUuids []string `json:"menuUuids"`
 }
 
 type ListRequest struct {
@@ -71,7 +71,7 @@ type ListResponse struct {
 }
 
 type ManageRole struct {
-	Id         int64  `json:"id"`
+	Uuid       string `json:"uuid"`
 	RoleName   string `json:"roleName"`
 	RoleCode   string `json:"roleCode"`
 	RoleDesc   string `json:"roleDesc"`
@@ -92,16 +92,16 @@ type PageResponse struct {
 }
 
 type SetMenusRequest struct {
-	RoleId  int64   `json:"roleId"`
-	MenuIds []int64 `json:"menuIds"`
+	RoleUuid  string   `json:"roleUuid"`
+	MenuUuids []string `json:"menuUuids"`
 }
 
 type SetMenusResponse struct {
 }
 
 type UpdateHomeRequest struct {
-	RoleId int64  `json:"roleId"`
-	Home   string `json:"home"`
+	RoleUuid string `json:"roleUuid"`
+	Home     string `json:"home"`
 }
 
 type UpdateHomeResponse struct {

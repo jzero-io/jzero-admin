@@ -23,6 +23,7 @@ var (
 
 	ManageEmailField = struct {
 		Id         condition.Field
+		Uuid       condition.Field
 		CreateTime condition.Field
 		UpdateTime condition.Field
 		CreateBy   condition.Field
@@ -36,6 +37,7 @@ var (
 		IsVerify   condition.Field
 	}{
 		Id:         "id",
+		Uuid:       "uuid",
 		CreateTime: "create_time",
 		UpdateTime: "update_time",
 		CreateBy:   "create_by",
@@ -53,6 +55,7 @@ var (
 // Deprecated use ManageEmailField instead
 const (
 	Id         condition.Field = "id"
+	Uuid       condition.Field = "uuid"
 	CreateTime condition.Field = "create_time"
 	UpdateTime condition.Field = "update_time"
 	CreateBy   condition.Field = "create_by"
@@ -78,6 +81,7 @@ type (
 		// Deprecated: use InsertV2 instead.
 		Insert(ctx context.Context, session sqlx.Session, data *ManageEmail) (sql.Result, error)
 		FindOne(ctx context.Context, session sqlx.Session, id int64) (*ManageEmail, error)
+		FindOneByUuid(ctx context.Context, session sqlx.Session, uuid string) (*ManageEmail, error)
 		Update(ctx context.Context, session sqlx.Session, data *ManageEmail) error
 		Delete(ctx context.Context, session sqlx.Session, id int64) error
 
@@ -103,10 +107,11 @@ type (
 
 	ManageEmail struct {
 		Id         int64     `db:"id"`
+		Uuid       string    `db:"uuid"`
 		CreateTime time.Time `db:"create_time"`
 		UpdateTime time.Time `db:"update_time"`
-		CreateBy   int64     `db:"create_by"`
-		UpdateBy   int64     `db:"update_by"`
+		CreateBy   string    `db:"create_by"`
+		UpdateBy   string    `db:"update_by"`
 		From       string    `db:"from"`
 		Host       string    `db:"host"`
 		Port       int64     `db:"port"`
@@ -181,11 +186,37 @@ func (m *defaultManageEmailModel) FindOne(ctx context.Context, session sqlx.Sess
 	}
 }
 
+func (m *defaultManageEmailModel) FindOneByUuid(ctx context.Context, session sqlx.Session, uuid string) (*ManageEmail, error) {
+	var resp ManageEmail
+	var err error
+
+	sb := sqlbuilder.Select(manageEmailRows).From(m.table)
+	condition.SelectByWhereRawSql(sb, "`uuid` = ?", uuid)
+	sb.Limit(1)
+
+	sql, args := sb.BuildWithFlavor(m.flavor)
+
+	if session != nil {
+		err = session.QueryRowCtx(ctx, &resp, sql, args...)
+	} else {
+		err = m.conn.QueryRowCtx(ctx, &resp, sql, args...)
+	}
+
+	switch err {
+	case nil:
+		return &resp, nil
+	case sqlx.ErrNotFound:
+		return nil, ErrNotFound
+	default:
+		return nil, err
+	}
+}
+
 func (m *defaultManageEmailModel) Insert(ctx context.Context, session sqlx.Session, data *ManageEmail) (sql.Result, error) {
 	statement, args := sqlbuilder.NewInsertBuilder().
 		InsertInto(m.table).
 		Cols(manageEmailRowsExpectAutoSet).
-		Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.From, data.Host, data.Port, data.Username, data.Password, data.EnableSsl, data.IsVerify).BuildWithFlavor(m.flavor)
+		Values(data.Uuid, data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.From, data.Host, data.Port, data.Username, data.Password, data.EnableSsl, data.IsVerify).BuildWithFlavor(m.flavor)
 	if session != nil {
 		return session.ExecCtx(ctx, statement, args...)
 	}
@@ -199,12 +230,12 @@ func (m *defaultManageEmailModel) InsertV2(ctx context.Context, session sqlx.Ses
 		statement, args = sqlbuilder.NewInsertBuilder().
 			InsertInto(m.table).
 			Cols(manageEmailRowsExpectAutoSet).
-			Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.From, data.Host, data.Port, data.Username, data.Password, data.EnableSsl, data.IsVerify).Returning("id").BuildWithFlavor(m.flavor)
+			Values(data.Uuid, data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.From, data.Host, data.Port, data.Username, data.Password, data.EnableSsl, data.IsVerify).Returning("id").BuildWithFlavor(m.flavor)
 	} else {
 		statement, args = sqlbuilder.NewInsertBuilder().
 			InsertInto(m.table).
 			Cols(manageEmailRowsExpectAutoSet).
-			Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.From, data.Host, data.Port, data.Username, data.Password, data.EnableSsl, data.IsVerify).BuildWithFlavor(m.flavor)
+			Values(data.Uuid, data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.From, data.Host, data.Port, data.Username, data.Password, data.EnableSsl, data.IsVerify).BuildWithFlavor(m.flavor)
 	}
 	var primaryKey int64
 	var err error
@@ -244,7 +275,7 @@ func (m *defaultManageEmailModel) InsertV2(ctx context.Context, session sqlx.Ses
 	return err
 }
 
-func (m *defaultManageEmailModel) Update(ctx context.Context, session sqlx.Session, data *ManageEmail) error {
+func (m *defaultManageEmailModel) Update(ctx context.Context, session sqlx.Session, newData *ManageEmail) error {
 	sb := sqlbuilder.Update(m.table)
 	split := strings.Split(manageEmailRowsExpectAutoSet, ",")
 	var assigns []string
@@ -260,9 +291,9 @@ func (m *defaultManageEmailModel) Update(ctx context.Context, session sqlx.Sessi
 
 	var err error
 	if session != nil {
-		_, err = session.ExecCtx(ctx, statement, data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.From, data.Host, data.Port, data.Username, data.Password, data.EnableSsl, data.IsVerify, data.Id)
+		_, err = session.ExecCtx(ctx, statement, newData.Uuid, newData.CreateTime, newData.UpdateTime, newData.CreateBy, newData.UpdateBy, newData.From, newData.Host, newData.Port, newData.Username, newData.Password, newData.EnableSsl, newData.IsVerify, newData.Id)
 	} else {
-		_, err = m.conn.ExecCtx(ctx, statement, data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.From, data.Host, data.Port, data.Username, data.Password, data.EnableSsl, data.IsVerify, data.Id)
+		_, err = m.conn.ExecCtx(ctx, statement, newData.Uuid, newData.CreateTime, newData.UpdateTime, newData.CreateBy, newData.UpdateBy, newData.From, newData.Host, newData.Port, newData.Username, newData.Password, newData.EnableSsl, newData.IsVerify, newData.Id)
 	}
 	return err
 }
@@ -295,7 +326,7 @@ func (m *customManageEmailModel) BulkInsert(ctx context.Context, session sqlx.Se
 	sb.SetFlavor(m.flavor)
 	sb.Cols(manageEmailRowsExpectAutoSet)
 	for _, data := range datas {
-		sb.Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.From, data.Host, data.Port, data.Username, data.Password, data.EnableSsl, data.IsVerify)
+		sb.Values(data.Uuid, data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.From, data.Host, data.Port, data.Username, data.Password, data.EnableSsl, data.IsVerify)
 	}
 	statement, args := sb.BuildWithFlavor(m.flavor)
 

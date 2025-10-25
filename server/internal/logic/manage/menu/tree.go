@@ -37,7 +37,7 @@ func (l *Tree) Tree(req *types.TreeRequest) (resp []types.TreeResponse, err erro
 		return nil, err
 	}
 
-	tree := buildSimpleMenuTree(convert(list), 0)
+	tree := buildSimpleMenuTree(convert(list), "")
 
 	// sort by order asc
 	sort.Slice(tree, func(i, j int) bool {
@@ -49,17 +49,17 @@ func (l *Tree) Tree(req *types.TreeRequest) (resp []types.TreeResponse, err erro
 	return
 }
 
-func buildSimpleMenuTree(menus []*types.SystemMenu, parentId int64) []types.TreeResponse {
+func buildSimpleMenuTree(menus []*types.SystemMenu, parentUuid string) []types.TreeResponse {
 	var result []types.TreeResponse
 	for _, menu := range menus {
-		if menu.ParentId == parentId {
+		if menu.ParentUuid == parentUuid {
 			subMenu := types.TreeResponse{
-				Id:    menu.Id,
+				Uuid:  menu.Uuid,
 				Label: menu.MenuName,
-				PId:   menu.ParentId,
+				PUuid: menu.ParentUuid,
 				Order: menu.Order,
 			}
-			subMenu.Children = buildSimpleMenuTree(menus, menu.Id)
+			subMenu.Children = buildSimpleMenuTree(menus, menu.Uuid)
 			sort.Slice(subMenu.Children, func(i, j int) bool {
 				return subMenu.Children[i].Order < subMenu.Children[j].Order
 			})

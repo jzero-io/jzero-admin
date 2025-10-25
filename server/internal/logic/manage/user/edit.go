@@ -30,7 +30,7 @@ func NewEdit(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Request) *
 }
 
 func (l *Edit) Edit(req *types.EditRequest) (resp *types.EditResponse, err error) {
-	user, err := l.svcCtx.Model.ManageUser.FindOne(l.ctx, nil, req.Id)
+	user, err := l.svcCtx.Model.ManageUser.FindOneByUuid(l.ctx, nil, req.Uuid)
 	if err != nil {
 		return nil, err
 	}
@@ -48,14 +48,13 @@ func (l *Edit) Edit(req *types.EditRequest) (resp *types.EditResponse, err error
 
 	// 更新 system_user_role 表
 	if err = l.svcCtx.Model.ManageUserRole.DeleteByCondition(l.ctx, nil, condition.Condition{
-		Field:    manage_user_role.UserId,
+		Field:    manage_user_role.UserUuid,
 		Operator: condition.Equal,
-		Value:    req.Id,
+		Value:    req.Uuid,
 	}); err != nil {
 		return nil, err
 	}
 	var bulk []*manage_user_role.ManageUserRole
-	var roleIds []int64
 	roles, err := l.svcCtx.Model.ManageRole.FindByCondition(l.ctx, nil, condition.Condition{
 		Field:    manage_role.Code,
 		Operator: condition.In,
@@ -65,14 +64,11 @@ func (l *Edit) Edit(req *types.EditRequest) (resp *types.EditResponse, err error
 		return nil, err
 	}
 	for _, v := range roles {
-		roleIds = append(roleIds, v.Id)
-	}
-	for _, v := range roleIds {
 		bulk = append(bulk, &manage_user_role.ManageUserRole{
 			CreateTime: time.Now(),
 			UpdateTime: time.Now(),
-			UserId:     user.Id,
-			RoleId:     v,
+			UserUuid:   user.Uuid,
+			RoleUuid:   v.Uuid,
 		})
 	}
 

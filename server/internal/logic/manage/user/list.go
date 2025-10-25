@@ -73,7 +73,7 @@ func (l *List) List(req *types.ListRequest) (resp *types.ListResponse, err error
 	var records []types.ManageUser
 	for _, user := range users {
 		records = append(records, types.ManageUser{
-			Id:         user.Id,
+			Uuid:       user.Uuid,
 			Username:   user.Username,
 			UserGender: user.Gender,
 			NickName:   user.Nickname,
@@ -91,26 +91,26 @@ func (l *List) List(req *types.ListRequest) (resp *types.ListResponse, err error
 		}
 	}, func(item int, writer mr.Writer[types.ManageUser], cancel func(error)) {
 		userRoles, err := l.svcCtx.Model.ManageUserRole.FindByCondition(l.ctx, nil, condition.Condition{
-			Field:    manage_user_role.UserId,
+			Field:    manage_user_role.UserUuid,
 			Operator: condition.Equal,
-			Value:    records[item].Id,
+			Value:    records[item].Uuid,
 		})
 		if err != nil {
 			cancel(err)
 			return
 		}
-		var roleIds []int
+		var roleUuids []string
 		for _, userRole := range userRoles {
-			roleIds = append(roleIds, int(userRole.RoleId))
+			roleUuids = append(roleUuids, userRole.RoleUuid)
 		}
-		if len(roleIds) == 0 {
+		if len(roleUuids) == 0 {
 			return
 		}
 
 		roles, err := l.svcCtx.Model.ManageRole.FindByCondition(l.ctx, nil, condition.Condition{
-			Field:    manage_role.Id,
+			Field:    manage_role.Uuid,
 			Operator: condition.In,
-			Value:    roleIds,
+			Value:    roleUuids,
 		})
 		if err != nil {
 			cancel(err)

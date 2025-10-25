@@ -29,19 +29,19 @@ func NewDelete(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Request)
 }
 
 func (l *Delete) Delete(req *types.DeleteRequest) (resp *types.DeleteResponse, err error) {
-	if len(req.Ids) == 0 {
+	if len(req.Uuids) == 0 {
 		return nil, nil
 	}
 
 	err = l.svcCtx.SqlxConn.TransactCtx(l.ctx, func(ctx context.Context, session sqlx.Session) error {
 		if err = l.svcCtx.Model.ManageUser.DeleteByCondition(l.ctx, session, condition.Condition{
-			Field:    manage_user.Id,
+			Field:    manage_user.Uuid,
 			Operator: condition.In,
-			Value:    req.Ids,
+			Value:    req.Uuids,
 		}); err != nil {
 			return err
 		}
-		if err = l.svcCtx.Model.ManageUserRole.DeleteByCondition(l.ctx, session, condition.NewChain().In("user_id", req.Ids).Build()...); err != nil {
+		if err = l.svcCtx.Model.ManageUserRole.DeleteByCondition(l.ctx, session, condition.NewChain().In("user_uuid", req.Uuids).Build()...); err != nil {
 			return err
 		}
 		return nil

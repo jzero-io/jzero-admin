@@ -153,11 +153,11 @@ const { columns, columnChecks, data, loading, pagination, getData, getDataByPage
           <NButton type="primary" ghost size="small" onClick={() => handleEdit(row)}>
             {$t('common.edit')}
           </NButton>
-          <NPopconfirm onPositiveClick={() => handleDelete(row.id)}>
+          <NPopconfirm onPositiveClick={() => handleDelete(row.uuid)}>
             {{
               default: () => $t('common.confirmDelete'),
               trigger: () => (
-                <NButton loading={deleteLoadingStatus[row.id]} type="error" ghost size="small">
+                <NButton loading={deleteLoadingStatus[row.uuid]} type="error" ghost size="small">
                   {$t('common.delete')}
                 </NButton>
               )
@@ -262,7 +262,7 @@ init();
         :flex-height="!appStore.isMobile"
         :scroll-x="1088"
         :loading="loading"
-        :row-key="row => row.id"
+        :row-key="row => row.uuid"
         remote
         :pagination="pagination"
         class="sm:h-full"

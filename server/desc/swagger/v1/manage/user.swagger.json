@@ -106,15 +106,15 @@
             "required": true,
             "schema": {
               "properties": {
-                "ids": {
+                "uuids": {
                   "items": {
-                    "type": "integer"
+                    "type": "string"
                   },
                   "type": "array"
                 }
               },
               "required": [
-                "ids"
+                "uuids"
               ],
               "type": "object"
             }
@@ -159,9 +159,6 @@
             "required": true,
             "schema": {
               "properties": {
-                "id": {
-                  "type": "integer"
-                },
                 "nickName": {
                   "type": "string"
                 },
@@ -185,10 +182,13 @@
                 },
                 "username": {
                   "type": "string"
+                },
+                "uuid": {
+                  "type": "string"
                 }
               },
               "required": [
-                "id",
+                "uuid",
                 "username",
                 "userGender",
                 "nickName",
@@ -299,9 +299,6 @@
                       "createTime": {
                         "type": "string"
                       },
-                      "id": {
-                        "type": "integer"
-                      },
                       "nickName": {
                         "type": "string"
                       },
@@ -328,10 +325,13 @@
                       },
                       "username": {
                         "type": "string"
+                      },
+                      "uuid": {
+                        "type": "string"
                       }
                     },
                     "required": [
-                      "id",
+                      "uuid",
                       "username",
                       "userGender",
                       "nickName",

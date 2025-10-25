@@ -30,7 +30,7 @@ func NewEdit(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Request) *
 }
 
 func (l *Edit) Edit(req *types.EditRequest) (resp *types.EditResponse, err error) {
-	one, err := l.svcCtx.Model.ManageMenu.FindOne(l.ctx, nil, req.Id)
+	one, err := l.svcCtx.Model.ManageMenu.FindOneByUuid(l.ctx, nil, req.Uuid)
 	if err != nil {
 		return nil, err
 	}
@@ -38,7 +38,7 @@ func (l *Edit) Edit(req *types.EditRequest) (resp *types.EditResponse, err error
 	oldPermissionStr := one.Permissions
 
 	one.Status = req.Status
-	one.ParentId = req.ParentId
+	one.ParentUuid = req.ParentUuid
 	one.MenuType = req.MenuType
 	one.MenuName = req.MenuName
 	one.HideInMenu = cast.ToInt64(req.HideInMenu)
@@ -65,7 +65,7 @@ func (l *Edit) Edit(req *types.EditRequest) (resp *types.EditResponse, err error
 		// 更新了权限标识
 		if marshal(req.Permissions) != oldPermissionStr {
 			roleMenus, err := l.svcCtx.Model.ManageRoleMenu.FindByCondition(l.ctx, nil, condition.NewChain().
-				Equal(manage_role_menu.MenuId, req.Id).
+				Equal(manage_role_menu.MenuUuid, req.Uuid).
 				Build()...)
 			if err != nil {
 				return nil, err
@@ -75,7 +75,7 @@ func (l *Edit) Edit(req *types.EditRequest) (resp *types.EditResponse, err error
 				Unmarshal(oldPermissionStr, &oldPermissions)
 				if len(oldPermissions) > 0 {
 					for _, o := range oldPermissions {
-						_, _ = l.svcCtx.CasbinEnforcer.RemovePolicy(cast.ToString(rm.RoleId), o.Code)
+						_, _ = l.svcCtx.CasbinEnforcer.RemovePolicy(rm.RoleUuid, o.Code)
 					}
 				}
 
@@ -84,7 +84,7 @@ func (l *Edit) Edit(req *types.EditRequest) (resp *types.EditResponse, err error
 				permissions := req.Permissions
 
 				for _, p := range permissions {
-					newPolicies = append(newPolicies, []string{cast.ToString(rm.RoleId), p.Code})
+					newPolicies = append(newPolicies, []string{rm.RoleUuid, p.Code})
 				}
 
 				if len(newPolicies) > 0 {

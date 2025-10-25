@@ -30,13 +30,13 @@ func NewGetHome(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Request
 
 func (l *GetHome) GetHome(req *types.GetHomeRequest) (resp string, err error) {
 	roleHomeMenu, err := l.svcCtx.Model.ManageRoleMenu.FindOneByCondition(l.ctx, nil, condition.NewChain().
-		Equal(manage_role_menu.RoleId, req.RoleId).
+		Equal(manage_role_menu.RoleUuid, req.RoleUuid).
 		Equal(manage_role_menu.IsHome, cast.ToInt(true)).
 		Build()...)
 	if err != nil {
 		return "", err
 	}
-	one, err := l.svcCtx.Model.ManageMenu.FindOne(l.ctx, nil, roleHomeMenu.MenuId)
+	one, err := l.svcCtx.Model.ManageMenu.FindOneByUuid(l.ctx, nil, roleHomeMenu.MenuUuid)
 	if err != nil {
 		return "", err
 	}

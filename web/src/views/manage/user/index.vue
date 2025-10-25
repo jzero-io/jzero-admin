@@ -122,14 +122,14 @@ const {
       width: 130,
       render: row => (
         <div class="flex-center gap-8px">
-          <NButton type="primary" ghost size="small" onClick={() => edit(row.id)}>
+          <NButton type="primary" ghost size="small" onClick={() => edit(row.uuid)}>
             {$t('common.edit')}
           </NButton>
-          <NPopconfirm onPositiveClick={() => handleDelete(row.id)}>
+          <NPopconfirm onPositiveClick={() => handleDelete(row.uuid)}>
             {{
               default: () => $t('common.confirmDelete'),
               trigger: () => (
-                <NButton loading={deleteLoadingStatus[row.id]} type="error" ghost size="small">
+                <NButton loading={deleteLoadingStatus[row.uuid]} type="error" ghost size="small">
                   {$t('common.delete')}
                 </NButton>
               )
@@ -214,7 +214,7 @@ function edit(id: number) {
         :scroll-x="962"
         :loading="loading"
         remote
-        :row-key="row => row.id"
+        :row-key="row => row.uuid"
         :pagination="mobilePagination"
         class="sm:h-full"
       />

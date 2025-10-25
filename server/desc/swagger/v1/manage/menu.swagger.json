@@ -66,8 +66,8 @@
                 "order": {
                   "type": "integer"
                 },
-                "parentId": {
-                  "type": "integer"
+                "parentUuid": {
+                  "type": "string"
                 },
                 "permissions": {
                   "items": {
@@ -123,7 +123,7 @@
                 "component",
                 "icon",
                 "iconType",
-                "parentId",
+                "parentUuid",
                 "status",
                 "keepAlive",
                 "constant",
@@ -173,15 +173,15 @@
             "required": true,
             "schema": {
               "properties": {
-                "ids": {
+                "uuids": {
                   "items": {
-                    "type": "integer"
+                    "type": "string"
                   },
                   "type": "array"
                 }
               },
               "required": [
-                "ids"
+                "uuids"
               ],
               "type": "object"
             }
@@ -256,9 +256,6 @@
                 "iconType": {
                   "type": "string"
                 },
-                "id": {
-                  "type": "integer"
-                },
                 "keepAlive": {
                   "type": "boolean"
                 },
@@ -274,8 +271,8 @@
                 "order": {
                   "type": "integer"
                 },
-                "parentId": {
-                  "type": "integer"
+                "parentUuid": {
+                  "type": "string"
                 },
                 "permissions": {
                   "items": {
@@ -321,10 +318,13 @@
                 },
                 "status": {
                   "type": "string"
+                },
+                "uuid": {
+                  "type": "string"
                 }
               },
               "required": [
-                "id",
+                "uuid",
                 "menuType",
                 "menuName",
                 "routeName",
@@ -332,7 +332,7 @@
                 "component",
                 "icon",
                 "iconType",
-                "parentId",
+                "parentUuid",
                 "status",
                 "keepAlive",
                 "constant",
@@ -379,8 +379,8 @@
           {
             "allowEmptyValue": true,
             "in": "query",
-            "name": "roleId",
-            "type": "integer"
+            "name": "roleUuid",
+            "type": "string"
           }
         ],
         "produces": [
@@ -490,9 +490,6 @@
                             "iconType": {
                               "type": "string"
                             },
-                            "id": {
-                              "type": "integer"
-                            },
                             "keepAlive": {
                               "type": "boolean"
                             },
@@ -508,8 +505,8 @@
                             "order": {
                               "type": "integer"
                             },
-                            "parentId": {
-                              "type": "integer"
+                            "parentUuid": {
+                              "type": "string"
                             },
                             "permissions": {
                               "items": {
@@ -531,10 +528,13 @@
                             },
                             "status": {
                               "type": "string"
+                            },
+                            "uuid": {
+                              "type": "string"
                             }
                           },
                           "required": [
-                            "id",
+                            "uuid",
                             "menuType",
                             "menuName",
                             "routeName",
@@ -542,7 +542,7 @@
                             "component",
                             "icon",
                             "iconType",
-                            "parentId",
+                            "parentUuid",
                             "status",
                             "keepAlive",
                             "constant",
@@ -578,9 +578,6 @@
                       "iconType": {
                         "type": "string"
                       },
-                      "id": {
-                        "type": "integer"
-                      },
                       "keepAlive": {
                         "type": "boolean"
                       },
@@ -596,8 +593,8 @@
                       "order": {
                         "type": "integer"
                       },
-                      "parentId": {
-                        "type": "integer"
+                      "parentUuid": {
+                        "type": "string"
                       },
                       "permissions": {
                         "items": {
@@ -643,10 +640,13 @@
                       },
                       "status": {
                         "type": "string"
+                      },
+                      "uuid": {
+                        "type": "string"
                       }
                     },
                     "required": [
-                      "id",
+                      "uuid",
                       "menuType",
                       "menuName",
                       "routeName",
@@ -654,7 +654,7 @@
                       "component",
                       "icon",
                       "iconType",
-                      "parentId",
+                      "parentUuid",
                       "status",
                       "keepAlive",
                       "constant",
@@ -725,20 +725,20 @@
                                 },
                                 "type": "array"
                               },
-                              "id": {
-                                "type": "integer"
-                              },
                               "label": {
                                 "type": "string"
                               },
-                              "pId": {
-                                "type": "integer"
+                              "pUuid": {
+                                "type": "string"
+                              },
+                              "uuid": {
+                                "type": "string"
                               }
                             },
                             "required": [
-                              "id",
+                              "uuid",
                               "label",
-                              "pId",
+                              "pUuid",
                               "-",
                               "children"
                             ],
@@ -746,20 +746,20 @@
                           },
                           "type": "array"
                         },
-                        "id": {
-                          "type": "integer"
-                        },
                         "label": {
                           "type": "string"
                         },
-                        "pId": {
-                          "type": "integer"
+                        "pUuid": {
+                          "type": "string"
+                        },
+                        "uuid": {
+                          "type": "string"
                         }
                       },
                       "required": [
-                        "id",
+                        "uuid",
                         "label",
-                        "pId",
+                        "pUuid",
                         "-",
                         "children"
                       ],
@@ -767,20 +767,20 @@
                     },
                     "type": "array"
                   },
-                  "id": {
-                    "type": "integer"
-                  },
                   "label": {
                     "type": "string"
                   },
-                  "pId": {
-                    "type": "integer"
+                  "pUuid": {
+                    "type": "string"
+                  },
+                  "uuid": {
+                    "type": "string"
                   }
                 },
                 "required": [
-                  "id",
+                  "uuid",
                   "label",
-                  "pId",
+                  "pUuid",
                   "-",
                   "children"
                 ],
@@ -808,20 +808,20 @@
                               },
                               "type": "array"
                             },
-                            "id": {
-                              "type": "integer"
-                            },
                             "label": {
                               "type": "string"
                             },
-                            "pId": {
-                              "type": "integer"
+                            "pUuid": {
+                              "type": "string"
+                            },
+                            "uuid": {
+                              "type": "string"
                             }
                           },
                           "required": [
-                            "id",
+                            "uuid",
                             "label",
-                            "pId",
+                            "pUuid",
                             "-",
                             "children"
                           ],
@@ -829,20 +829,20 @@
                         },
                         "type": "array"
                       },
-                      "id": {
-                        "type": "integer"
-                      },
                       "label": {
                         "type": "string"
                       },
-                      "pId": {
-                        "type": "integer"
+                      "pUuid": {
+                        "type": "string"
+                      },
+                      "uuid": {
+                        "type": "string"
                       }
                     },
                     "required": [
-                      "id",
+                      "uuid",
                       "label",
-                      "pId",
+                      "pUuid",
                       "-",
                       "children"
                     ],
@@ -850,14 +850,14 @@
                   },
                   "type": "array"
                 },
-                "id": {
-                  "type": "integer"
-                },
                 "label": {
                   "type": "string"
                 },
-                "pId": {
-                  "type": "integer"
+                "pUuid": {
+                  "type": "string"
+                },
+                "uuid": {
+                  "type": "string"
                 }
               },
               "type": "array"

@@ -7,7 +7,6 @@ import (
 
 	"github.com/casbin/casbin/v2"
 	"github.com/jzero-io/jzero-admin/core-engine/helper/migrate"
-	"github.com/spf13/cast"
 
 	"github.com/jzero-io/jzero-admin/server/internal/errcodes"
 	"github.com/jzero-io/jzero-admin/server/internal/global"
@@ -68,16 +67,16 @@ func InitCasbinRule(ctx context.Context, model model.Model, enforcer *casbin.Enf
 	var casbinRules [][]string
 	for _, v := range allRoles {
 		for _, arm := range allRoleMenus {
-			if v.Id == arm.RoleId {
+			if v.Uuid == arm.RoleUuid {
 				for _, am := range allMenus {
-					if arm.MenuId == am.Id {
+					if arm.MenuUuid == am.Uuid {
 						var permissions []menutypes.Permission
 						err = json.Unmarshal([]byte(am.Permissions), &permissions)
 						if err == nil {
 							for _, perm := range permissions {
 								if perm.Code != "" {
-									if hasPolicy, _ := enforcer.HasPolicy(cast.ToString(v.Id), perm.Code); !hasPolicy {
-										casbinRules = append(casbinRules, []string{cast.ToString(v.Id), perm.Code})
+									if hasPolicy, _ := enforcer.HasPolicy(v.Uuid, perm.Code); !hasPolicy {
+										casbinRules = append(casbinRules, []string{v.Uuid, perm.Code})
 									}
 								}
 							}

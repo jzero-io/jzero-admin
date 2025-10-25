@@ -26,7 +26,7 @@ func NewEdit(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Request) *
 }
 
 func (l *Edit) Edit(req *types.EditRequest) (resp *types.EditResponse, err error) {
-	role, err := l.svcCtx.Model.ManageRole.FindOne(l.ctx, nil, req.Id)
+	role, err := l.svcCtx.Model.ManageRole.FindOneByUuid(l.ctx, nil, req.Uuid)
 	if err != nil {
 		return nil, err
 	}

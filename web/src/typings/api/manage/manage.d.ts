@@ -28,7 +28,7 @@ declare namespace Api {
     };
 
     type EditRoleRequest = {
-      id: number | undefined;
+      uuid: string | undefined;
       /** role name */
       roleName: string;
       /** role code */
@@ -42,16 +42,16 @@ declare namespace Api {
     type EditRoleResponse = {};
 
     type SetRoleMenusRequest = {
-      roleId: number;
-      menuIds: number[];
+      roleUuid: string;
+      menuUuids: string[];
     };
 
     type GetRoleMenusRequest = {
-      roleId: number;
+      roleUuid: string;
     };
 
     type UpdateRoleHomeRequest = {
-      roleId: number;
+      roleUuid: string;
       home: string;
     };
 
@@ -67,7 +67,7 @@ declare namespace Api {
     type RoleList = Common.PaginatingQueryRecord<Role>;
 
     /** all role */
-    type AllRole = Pick<Role, 'id' | 'roleName' | 'roleCode'>;
+    type AllRole = Pick<Role, 'uuid' | 'roleName' | 'roleCode'>;
 
     /**
      * user gender
@@ -125,7 +125,7 @@ declare namespace Api {
 
     /** edit user request */
     type EditUserRequest = {
-      id: number | undefined;
+      uuid: string | undefined;
       /** username */
       username: string;
       /** user gender */
@@ -196,8 +196,8 @@ declare namespace Api {
     >;
 
     type Menu = Common.CommonRecord<{
-      /** parent menu id */
-      parentId: number;
+      /** parent menu uuid */
+      parentUuid: string;
       /** menu type */
       menuType: MenuType;
       /** menu name */
@@ -225,9 +225,9 @@ declare namespace Api {
     type MenuList = Common.PaginatingQueryRecord<Menu>;
 
     type MenuTree = {
-      id: number;
+      uuid: string;
       label: string;
-      pId: number;
+      pUuid: string;
       children?: MenuTree[];
     };
 
@@ -240,7 +240,7 @@ declare namespace Api {
       i18nKey?: App.I18n.I18nKey | null;
       icon: string;
       iconType: IconType;
-      parentId: number;
+      parentUuid: string;
       status: string | null;
       keepAlive?: boolean | null;
       constant?: boolean | null;
@@ -256,7 +256,7 @@ declare namespace Api {
     };
 
     type EditMenuRequest = {
-      id?: number;
+      uuid?: string;
       menuType: MenuType;
       menuName: string;
       routeName: string;
@@ -265,7 +265,7 @@ declare namespace Api {
       i18nKey?: App.I18n.I18nKey | null;
       icon: string;
       iconType: IconType;
-      parentId: number;
+      parentUuid: string;
       status: string | null;
       keepAlive?: boolean | null;
       constant?: boolean | null;

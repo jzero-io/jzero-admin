@@ -42,35 +42,36 @@ func (l *GetUserRoutes) GetUserRoutes(req *types.GetUserRoutesRequest) (resp *ty
 		return nil, err
 	}
 
-	if info.RoleIds == nil {
+	if info.RoleUuids == nil {
 		return resp, nil
 	}
 
 	roleMenus, err := l.svcCtx.Model.ManageRoleMenu.FindByCondition(l.ctx, nil, condition.NewChain().
-		In(manage_role_menu.RoleId, info.RoleIds).
+		In(manage_role_menu.RoleUuid, info.RoleUuids).
 		Build()...)
 	if err != nil {
 		return nil, err
 	}
 
-	var menuIds []int64
+	var menuUuids []string
 	for _, roleMenu := range roleMenus {
-		menuIds = append(menuIds, roleMenu.MenuId)
+		menuUuids = append(menuUuids, roleMenu.MenuUuid)
 	}
-	uniqMenuIds := lo.Uniq(menuIds)
+	uniqMenuUuids := lo.Uniq(menuUuids)
 
-	if len(uniqMenuIds) == 0 {
+	if len(uniqMenuUuids) == 0 {
 		return resp, nil
 	}
 
 	menus, err := l.svcCtx.Model.ManageMenu.FindByCondition(l.ctx, nil, condition.NewChain().
-		In(manage_menu.Id, uniqMenuIds).
+		In(manage_menu.Uuid, uniqMenuUuids).
 		NotEqual(manage_menu.MenuType, "3").
 		Build()...)
 	if err != nil {
 		return nil, err
 	}
-	list := buildRouteTree(convert(menus), 0)
+	_, uuidMap := convert(menus)
+	list := buildRouteTree(menus, uuidMap, "")
 
 	resp.Routes = list
 
@@ -78,7 +79,7 @@ func (l *GetUserRoutes) GetUserRoutes(req *types.GetUserRoutesRequest) (resp *ty
 	for _, rm := range roleMenus {
 		if cast.ToBool(rm.IsHome) {
 			for _, m := range menus {
-				if m.Id == rm.MenuId {
+				if m.Uuid == rm.MenuUuid {
 					resp.Home = m.RouteName
 				}
 			}
@@ -88,8 +89,9 @@ func (l *GetUserRoutes) GetUserRoutes(req *types.GetUserRoutesRequest) (resp *ty
 	return
 }
 
-func convert(list []*manage_menu.ManageMenu) []*types.Route {
+func convert(list []*manage_menu.ManageMenu) ([]*types.Route, map[string]*types.Route) {
 	var records []*types.Route
+	uuidMap := make(map[string]*types.Route)
 	for _, item := range list {
 		var route types.Route
 		var query []types.Query
@@ -98,7 +100,7 @@ func convert(list []*manage_menu.ManageMenu) []*types.Route {
 
 		route = types.Route{
 			Id:       item.Id,
-			ParentId: item.ParentId,
+			ParentId: 0,
 			Name:     item.RouteName,
 			Path:     item.RoutePath,
 			Meta: types.RouteMeta{
@@ -129,17 +131,20 @@ func convert(list []*manage_menu.ManageMenu) []*types.Route {
 			route.Meta.Icon = ""
 		}
 		records = append(records, &route)
+		uuidMap[item.Uuid] = &route
 	}
-	return records
+	return records, uuidMap
 }
 
-func buildRouteTree(routes []*types.Route, parentId int64) []types.Route {
+func buildRouteTree(menus []*manage_menu.ManageMenu, uuidMap map[string]*types.Route, parentUuid string) []types.Route {
 	var result []types.Route
-	for _, route := range routes {
-		if route.ParentId == parentId {
-			subRoute := *route
-			subRoute.Children = buildRouteTree(routes, route.Id)
-			result = append(result, subRoute)
+	for _, menu := range menus {
+		if menu.ParentUuid == parentUuid {
+			if route, exists := uuidMap[menu.Uuid]; exists {
+				subRoute := *route
+				subRoute.Children = buildRouteTree(menus, uuidMap, menu.Uuid)
+				result = append(result, subRoute)
+			}
 		}
 	}
 	return result

@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	"github.com/zeromicro/go-zero/core/logx"
 
@@ -48,6 +49,7 @@ func (l *Register) Register(req *types.RegisterRequest) (resp *types.RegisterRes
 	}
 
 	_, err = l.svcCtx.Model.ManageUser.Insert(l.ctx, nil, &manage_user.ManageUser{
+		Uuid:       uuid.New().String(),
 		Username:   req.Username,
 		Password:   req.Password,
 		CreateTime: time.Now(),

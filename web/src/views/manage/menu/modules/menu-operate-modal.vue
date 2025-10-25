@@ -100,7 +100,7 @@ function createDefaultModel(): Model {
     i18nKey: null,
     icon: '',
     iconType: '1',
-    parentId: 0,
+    parentUuid: "",
     status: '1',
     keepAlive: false,
     constant: false,
@@ -138,7 +138,7 @@ const localIconOptions = localIcons.map<SelectOption>(item => ({
   value: item
 }));
 
-const showLayout = computed(() => model.parentId === 0);
+const showLayout = computed(() => model.parentUuid === 0);
 
 const showPage = computed(() => model.menuType === '2');
 
@@ -277,7 +277,7 @@ async function handleSubmit() {
       component: params.component,
       icon: params.icon,
       iconType: params.iconType,
-      parentId: params.parentId,
+      parentUuid: params.parentUuid,
       status: params.status,
       keepAlive: params.keepAlive,
       constant: params.constant,
@@ -305,7 +305,7 @@ async function handleSubmit() {
     const params = getSubmitParams();
 
     const editMenuData: Api.Manage.EditMenuRequest = {
-      id: props.rowData?.id,
+      uuid: props.rowData?.uuid,
       activeMenu: params.activeMenu,
       menuType: params.menuType,
       menuName: params.menuName,
@@ -314,7 +314,7 @@ async function handleSubmit() {
       component: params.component,
       icon: params.icon,
       iconType: params.iconType,
-      parentId: params.parentId,
+      parentUuid: params.parentUuid,
       status: params.status,
       keepAlive: params.keepAlive,
       constant: params.constant,

@@ -18,7 +18,7 @@ type AddRequest struct {
 	Component       string       `json:"component"`
 	Icon            string       `json:"icon"`
 	IconType        string       `json:"iconType"`
-	ParentId        int64        `json:"parentId"`
+	ParentUuid      string       `json:"parentUuid"`
 	Status          string       `json:"status"`
 	KeepAlive       bool         `json:"keepAlive"`
 	Constant        bool         `json:"constant"`
@@ -42,14 +42,14 @@ type Button struct {
 }
 
 type DeleteRequest struct {
-	Ids []int64 `json:"ids"`
+	Uuids []string `json:"uuids"`
 }
 
 type DeleteResponse struct {
 }
 
 type EditRequest struct {
-	Id              int64        `json:"id"`
+	Uuid            string       `json:"uuid"`
 	ActiveMenu      string       `json:"activeMenu,optional"`
 	MenuType        string       `json:"menuType"`
 	MenuName        string       `json:"menuName"`
@@ -58,7 +58,7 @@ type EditRequest struct {
 	Component       string       `json:"component"`
 	Icon            string       `json:"icon"`
 	IconType        string       `json:"iconType"`
-	ParentId        int64        `json:"parentId"`
+	ParentUuid      string       `json:"parentUuid"`
 	Status          string       `json:"status"`
 	KeepAlive       bool         `json:"keepAlive"`
 	Constant        bool         `json:"constant"`
@@ -77,7 +77,7 @@ type EditResponse struct {
 }
 
 type GetAllPagesRequest struct {
-	RoleId int64 `form:"roleId,optional"`
+	RoleUuid string `form:"roleUuid,optional"`
 }
 
 type ListRequest struct {
@@ -111,7 +111,7 @@ type Query struct {
 }
 
 type SystemMenu struct {
-	Id              int64        `json:"id"`
+	Uuid            string       `json:"uuid"`
 	ActiveMenu      string       `json:"activeMenu,optional"`
 	MenuType        string       `json:"menuType"`
 	MenuName        string       `json:"menuName"`
@@ -120,7 +120,7 @@ type SystemMenu struct {
 	Component       string       `json:"component"`
 	Icon            string       `json:"icon"`
 	IconType        string       `json:"iconType"`
-	ParentId        int64        `json:"parentId"`
+	ParentUuid      string       `json:"parentUuid"`
 	Status          string       `json:"status"`
 	KeepAlive       bool         `json:"keepAlive"`
 	Constant        bool         `json:"constant"`
@@ -140,9 +140,9 @@ type TreeRequest struct {
 }
 
 type TreeResponse struct {
-	Id       int64          `json:"id"`
+	Uuid     string         `json:"uuid"`
 	Label    string         `json:"label"`
-	PId      int64          `json:"pId"`
+	PUuid    string         `json:"pUuid"`
 	Order    int64          `json:"-"`
 	Children []TreeResponse `json:"children"`
 }

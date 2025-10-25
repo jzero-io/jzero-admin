@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/spf13/cast"
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
@@ -33,10 +34,11 @@ func NewAdd(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Request) *A
 func (l *Add) Add(req *types.AddRequest) (resp *types.AddResponse, err error) {
 	err = l.svcCtx.SqlxConn.TransactCtx(l.ctx, func(ctx context.Context, session sqlx.Session) error {
 		if _, err = l.svcCtx.Model.ManageMenu.Insert(l.ctx, session, &manage_menu.ManageMenu{
+			Uuid:            uuid.New().String(),
 			CreateTime:      time.Now(),
 			UpdateTime:      time.Now(),
 			Status:          req.Status,
-			ParentId:        req.ParentId,
+			ParentUuid:      req.ParentUuid,
 			MenuType:        req.MenuType,
 			MenuName:        req.MenuName,
 			HideInMenu:      cast.ToInt64(req.HideInMenu),

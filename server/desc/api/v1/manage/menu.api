@@ -18,7 +18,7 @@ type AddRequest {
 	Component       string       `json:"component"`
 	Icon            string       `json:"icon"`
 	IconType        string       `json:"iconType"`
-	ParentId        int64        `json:"parentId"`
+	ParentUuid      string       `json:"parentUuid"`
 	Status          string       `json:"status"`
 	KeepAlive       bool         `json:"keepAlive"`
 	Constant        bool         `json:"constant"`
@@ -55,7 +55,7 @@ type ListRequest {
 }
 
 type SystemMenu {
-	Id              int64        `json:"id"`
+	Uuid            string       `json:"uuid"`
 	ActiveMenu      string       `json:"activeMenu,optional"`
 	MenuType        string       `json:"menuType"`
 	MenuName        string       `json:"menuName"`
@@ -64,7 +64,7 @@ type SystemMenu {
 	Component       string       `json:"component"`
 	Icon            string       `json:"icon"`
 	IconType        string       `json:"iconType"`
-	ParentId        int64        `json:"parentId"`
+	ParentUuid      string       `json:"parentUuid"`
 	Status          string       `json:"status"`
 	KeepAlive       bool         `json:"keepAlive"`
 	Constant        bool         `json:"constant"`
@@ -88,25 +88,25 @@ type ListResponse {
 type TreeRequest {}
 
 type TreeResponse {
-	Id       int64          `json:"id"`
+	Uuid     string         `json:"uuid"`
 	Label    string         `json:"label"`
-	PId      int64          `json:"pId"`
+	PUuid    string         `json:"pUuid"`
 	Order    int64          `json:"-"`
 	Children []TreeResponse `json:"children"`
 }
 
 type GetAllPagesRequest {
-	RoleId int64 `form:"roleId,optional"`
+	RoleUuid string `form:"roleUuid,optional"`
 }
 
 type DeleteRequest {
-	Ids []int64 `json:"ids"`
+	Uuids []string `json:"uuids"`
 }
 
 type DeleteResponse {}
 
 type EditRequest {
-	Id              int64        `json:"id"`
+	Uuid            string       `json:"uuid"`
 	ActiveMenu      string       `json:"activeMenu,optional"`
 	MenuType        string       `json:"menuType"`
 	MenuName        string       `json:"menuName"`
@@ -115,7 +115,7 @@ type EditRequest {
 	Component       string       `json:"component"`
 	Icon            string       `json:"icon"`
 	IconType        string       `json:"iconType"`
-	ParentId        int64        `json:"parentId"`
+	ParentUuid      string       `json:"parentUuid"`
 	Status          string       `json:"status"`
 	KeepAlive       bool         `json:"keepAlive"`
 	Constant        bool         `json:"constant"`

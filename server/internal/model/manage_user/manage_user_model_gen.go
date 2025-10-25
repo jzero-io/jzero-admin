@@ -23,6 +23,7 @@ var (
 
 	ManageUserField = struct {
 		Id         condition.Field
+		Uuid       condition.Field
 		CreateTime condition.Field
 		UpdateTime condition.Field
 		CreateBy   condition.Field
@@ -36,6 +37,7 @@ var (
 		Email      condition.Field
 	}{
 		Id:         "id",
+		Uuid:       "uuid",
 		CreateTime: "create_time",
 		UpdateTime: "update_time",
 		CreateBy:   "create_by",
@@ -53,6 +55,7 @@ var (
 // Deprecated use ManageUserField instead
 const (
 	Id         condition.Field = "id"
+	Uuid       condition.Field = "uuid"
 	CreateTime condition.Field = "create_time"
 	UpdateTime condition.Field = "update_time"
 	CreateBy   condition.Field = "create_by"
@@ -79,6 +82,7 @@ type (
 		Insert(ctx context.Context, session sqlx.Session, data *ManageUser) (sql.Result, error)
 		FindOne(ctx context.Context, session sqlx.Session, id int64) (*ManageUser, error)
 		FindOneByUsername(ctx context.Context, session sqlx.Session, username string) (*ManageUser, error)
+		FindOneByUuid(ctx context.Context, session sqlx.Session, uuid string) (*ManageUser, error)
 		Update(ctx context.Context, session sqlx.Session, data *ManageUser) error
 		Delete(ctx context.Context, session sqlx.Session, id int64) error
 
@@ -104,10 +108,11 @@ type (
 
 	ManageUser struct {
 		Id         int64     `db:"id"`
+		Uuid       string    `db:"uuid"`
 		CreateTime time.Time `db:"create_time"`
 		UpdateTime time.Time `db:"update_time"`
-		CreateBy   int64     `db:"create_by"`
-		UpdateBy   int64     `db:"update_by"`
+		CreateBy   string    `db:"create_by"`
+		UpdateBy   string    `db:"update_by"`
 		Username   string    `db:"username"`
 		Password   string    `db:"password"`
 		Nickname   string    `db:"nickname"`
@@ -208,11 +213,37 @@ func (m *defaultManageUserModel) FindOneByUsername(ctx context.Context, session 
 	}
 }
 
+func (m *defaultManageUserModel) FindOneByUuid(ctx context.Context, session sqlx.Session, uuid string) (*ManageUser, error) {
+	var resp ManageUser
+	var err error
+
+	sb := sqlbuilder.Select(manageUserRows).From(m.table)
+	condition.SelectByWhereRawSql(sb, "`uuid` = ?", uuid)
+	sb.Limit(1)
+
+	sql, args := sb.BuildWithFlavor(m.flavor)
+
+	if session != nil {
+		err = session.QueryRowCtx(ctx, &resp, sql, args...)
+	} else {
+		err = m.conn.QueryRowCtx(ctx, &resp, sql, args...)
+	}
+
+	switch err {
+	case nil:
+		return &resp, nil
+	case sqlx.ErrNotFound:
+		return nil, ErrNotFound
+	default:
+		return nil, err
+	}
+}
+
 func (m *defaultManageUserModel) Insert(ctx context.Context, session sqlx.Session, data *ManageUser) (sql.Result, error) {
 	statement, args := sqlbuilder.NewInsertBuilder().
 		InsertInto(m.table).
 		Cols(manageUserRowsExpectAutoSet).
-		Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Username, data.Password, data.Nickname, data.Gender, data.Phone, data.Status, data.Email).BuildWithFlavor(m.flavor)
+		Values(data.Uuid, data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Username, data.Password, data.Nickname, data.Gender, data.Phone, data.Status, data.Email).BuildWithFlavor(m.flavor)
 	if session != nil {
 		return session.ExecCtx(ctx, statement, args...)
 	}
@@ -226,12 +257,12 @@ func (m *defaultManageUserModel) InsertV2(ctx context.Context, session sqlx.Sess
 		statement, args = sqlbuilder.NewInsertBuilder().
 			InsertInto(m.table).
 			Cols(manageUserRowsExpectAutoSet).
-			Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Username, data.Password, data.Nickname, data.Gender, data.Phone, data.Status, data.Email).Returning("id").BuildWithFlavor(m.flavor)
+			Values(data.Uuid, data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Username, data.Password, data.Nickname, data.Gender, data.Phone, data.Status, data.Email).Returning("id").BuildWithFlavor(m.flavor)
 	} else {
 		statement, args = sqlbuilder.NewInsertBuilder().
 			InsertInto(m.table).
 			Cols(manageUserRowsExpectAutoSet).
-			Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Username, data.Password, data.Nickname, data.Gender, data.Phone, data.Status, data.Email).BuildWithFlavor(m.flavor)
+			Values(data.Uuid, data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Username, data.Password, data.Nickname, data.Gender, data.Phone, data.Status, data.Email).BuildWithFlavor(m.flavor)
 	}
 	var primaryKey int64
 	var err error
@@ -287,9 +318,9 @@ func (m *defaultManageUserModel) Update(ctx context.Context, session sqlx.Sessio
 
 	var err error
 	if session != nil {
-		_, err = session.ExecCtx(ctx, statement, newData.CreateTime, newData.UpdateTime, newData.CreateBy, newData.UpdateBy, newData.Username, newData.Password, newData.Nickname, newData.Gender, newData.Phone, newData.Status, newData.Email, newData.Id)
+		_, err = session.ExecCtx(ctx, statement, newData.Uuid, newData.CreateTime, newData.UpdateTime, newData.CreateBy, newData.UpdateBy, newData.Username, newData.Password, newData.Nickname, newData.Gender, newData.Phone, newData.Status, newData.Email, newData.Id)
 	} else {
-		_, err = m.conn.ExecCtx(ctx, statement, newData.CreateTime, newData.UpdateTime, newData.CreateBy, newData.UpdateBy, newData.Username, newData.Password, newData.Nickname, newData.Gender, newData.Phone, newData.Status, newData.Email, newData.Id)
+		_, err = m.conn.ExecCtx(ctx, statement, newData.Uuid, newData.CreateTime, newData.UpdateTime, newData.CreateBy, newData.UpdateBy, newData.Username, newData.Password, newData.Nickname, newData.Gender, newData.Phone, newData.Status, newData.Email, newData.Id)
 	}
 	return err
 }
@@ -322,7 +353,7 @@ func (m *customManageUserModel) BulkInsert(ctx context.Context, session sqlx.Ses
 	sb.SetFlavor(m.flavor)
 	sb.Cols(manageUserRowsExpectAutoSet)
 	for _, data := range datas {
-		sb.Values(data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Username, data.Password, data.Nickname, data.Gender, data.Phone, data.Status, data.Email)
+		sb.Values(data.Uuid, data.CreateTime, data.UpdateTime, data.CreateBy, data.UpdateBy, data.Username, data.Password, data.Nickname, data.Gender, data.Phone, data.Status, data.Email)
 	}
 	statement, args := sb.BuildWithFlavor(m.flavor)
 

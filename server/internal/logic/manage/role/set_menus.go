@@ -38,7 +38,7 @@ func (l *SetMenus) SetMenus(req *types.SetMenusRequest) (resp *types.SetMenusRes
 	if err = l.svcCtx.SqlxConn.TransactCtx(l.ctx, func(ctx context.Context, session sqlx.Session) error {
 		// 找到该角色的首页
 		roleHomeMenu, err := l.svcCtx.Model.ManageRoleMenu.FindOneByCondition(l.ctx, nil, condition.NewChain().
-			Equal(manage_role_menu.RoleId, req.RoleId).
+			Equal(manage_role_menu.RoleUuid, req.RoleUuid).
 			Equal(manage_role_menu.IsHome, cast.ToInt(true)).
 			Build()...)
 		if err != nil {
@@ -46,23 +46,23 @@ func (l *SetMenus) SetMenus(req *types.SetMenusRequest) (resp *types.SetMenusRes
 		}
 		var datas []*manage_role_menu.ManageRoleMenu
 
-		for _, v := range req.MenuIds {
+		for _, v := range req.MenuUuids {
 			data := &manage_role_menu.ManageRoleMenu{
-				RoleId:     req.RoleId,
-				MenuId:     v,
+				RoleUuid:   req.RoleUuid,
+				MenuUuid:   v,
 				CreateTime: time.Now(),
 				UpdateTime: time.Now(),
 			}
-			if data.MenuId == roleHomeMenu.MenuId {
+			if data.MenuUuid == roleHomeMenu.MenuUuid {
 				data.IsHome = cast.ToInt64(true)
 			}
 			datas = append(datas, data)
 		}
 
 		if err = l.svcCtx.Model.ManageRoleMenu.DeleteByCondition(l.ctx, session, condition.Condition{
-			Field:    manage_role_menu.RoleId,
+			Field:    manage_role_menu.RoleUuid,
 			Operator: condition.Equal,
-			Value:    req.RoleId,
+			Value:    req.RoleUuid,
 		}); err != nil {
 			return err
 		}
@@ -77,7 +77,7 @@ func (l *SetMenus) SetMenus(req *types.SetMenusRequest) (resp *types.SetMenusRes
 	}
 
 	// update casbin_rule
-	_, err = l.svcCtx.CasbinEnforcer.RemoveFilteredPolicy(0, cast.ToString(req.RoleId))
+	_, err = l.svcCtx.CasbinEnforcer.RemoveFilteredPolicy(0, req.RoleUuid)
 	if err != nil {
 		return nil, errors.New("fail to remove filtered policy: " + err.Error())
 	}
@@ -91,9 +91,9 @@ func (l *SetMenus) SetMenus(req *types.SetMenusRequest) (resp *types.SetMenusRes
 	var newPolicies [][]string
 	// get menu perms
 	menus, err := l.svcCtx.Model.ManageMenu.FindByCondition(l.ctx, nil, condition.New(condition.Condition{
-		Field:    manage_menu.Id,
+		Field:    manage_menu.Uuid,
 		Operator: condition.In,
-		Value:    req.MenuIds,
+		Value:    req.MenuUuids,
 	})...)
 	if err != nil {
 		return nil, err
@@ -102,7 +102,7 @@ func (l *SetMenus) SetMenus(req *types.SetMenusRequest) (resp *types.SetMenusRes
 		var permissions []menu_types.Permission
 		menu.Unmarshal(v.Permissions, &permissions)
 		for _, perm := range permissions {
-			newPolicies = append(newPolicies, []string{cast.ToString(req.RoleId), perm.Code})
+			newPolicies = append(newPolicies, []string{req.RoleUuid, perm.Code})
 		}
 	}
 

@@ -35,7 +35,7 @@ func (l *GetAll) GetAll(req *types.GetAllRequest) (resp []types.GetAllResponse, 
 	for _, role := range roles {
 		if role.Status == "1" {
 			list = append(list, types.GetAllResponse{
-				Id:       role.Id,
+				Uuid:     role.Uuid,
 				RoleCode: role.Code,
 				RoleName: role.Name,
 			})

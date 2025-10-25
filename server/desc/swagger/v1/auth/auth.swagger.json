@@ -129,7 +129,7 @@
                   },
                   "type": "array"
                 },
-                "userId": {
+                "userUuid": {
                   "type": "string"
                 },
                 "username": {

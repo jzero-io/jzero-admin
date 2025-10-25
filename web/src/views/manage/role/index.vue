@@ -11,7 +11,7 @@ import RoleSearch from './modules/role-search.vue';
 
 const appStore = useAppStore();
 
-type LoadingStatus = Record<number, boolean>;
+type LoadingStatus = Record<string, boolean>;
 const deleteLoadingStatus = reactive<LoadingStatus>({});
 
 const {
@@ -91,14 +91,14 @@ const {
       width: 130,
       render: row => (
         <div class="flex-center gap-8px">
-          <NButton type="primary" ghost size="small" onClick={() => edit(row.id)}>
+          <NButton type="primary" ghost size="small" onClick={() => edit(row.uuid)}>
             {$t('common.edit')}
           </NButton>
-          <NPopconfirm onPositiveClick={() => handleDelete(row.id)}>
+          <NPopconfirm onPositiveClick={() => handleDelete(row.uuid)}>
             {{
               default: () => $t('common.confirmDelete'),
               trigger: () => (
-                <NButton loading={deleteLoadingStatus[row.id]} type="error" ghost size="small">
+                <NButton loading={deleteLoadingStatus[row.uuid]} type="error" ghost size="small">
                   {$t('common.delete')}
                 </NButton>
               )
@@ -125,31 +125,31 @@ const {
 async function handleBatchDelete() {
   // request
 
-  const ids: number[] = checkedRowKeys.value.map(idStr => Number.parseInt(idStr, 10));
+  const uuids: string[] = checkedRowKeys.value as string[];
 
-  ids.forEach(id => {
-    deleteLoadingStatus[id] = true;
+  uuids.forEach(uuid => {
+    deleteLoadingStatus[uuid] = true;
   });
-  const { error } = await DeleteRole(ids);
-  ids.forEach(id => {
-    deleteLoadingStatus[id] = false;
+  const { error } = await DeleteRole(uuids);
+  uuids.forEach(uuid => {
+    deleteLoadingStatus[uuid] = false;
   });
   if (error) return;
   onBatchDeleted();
 }
 
-async function handleDelete(id: number) {
+async function handleDelete(uuid: string) {
   // request
-  const ids: number[] = [id];
-  deleteLoadingStatus[id] = true;
-  const { error } = await DeleteRole(ids);
-  deleteLoadingStatus[id] = false;
+  const uuids: string[] = [uuid];
+  deleteLoadingStatus[uuid] = true;
+  const { error } = await DeleteRole(uuids);
+  deleteLoadingStatus[uuid] = false;
   if (error) return;
   onDeleted();
 }
 
-function edit(id: number) {
-  handleEdit(id);
+function edit(uuid: string) {
+  handleEdit(uuid);
 }
 </script>
 
@@ -178,7 +178,7 @@ function edit(id: number) {
         :scroll-x="702"
         :loading="loading"
         remote
-        :row-key="row => row.id"
+        :row-key="row => row.uuid"
         :pagination="mobilePagination"
         class="sm:h-full"
       />

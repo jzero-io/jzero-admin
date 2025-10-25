@@ -29,8 +29,8 @@ declare namespace Api {
 
     /** common record */
     type CommonRecord<T = any> = {
-      /** record id */
-      id: number;
+      /** record uuid */
+      uuid: string;
       /** record creator */
       createBy: string;
       /** record create time */

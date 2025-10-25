@@ -30,14 +30,14 @@ func NewDelete(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Request)
 }
 
 func (l *Delete) Delete(req *types.DeleteRequest) (resp *types.DeleteResponse, err error) {
-	if len(req.Ids) == 0 {
+	if len(req.Uuids) == 0 {
 		return nil, nil
 	}
 
 	userRoles, err := l.svcCtx.Model.ManageUserRole.FindByCondition(l.ctx, nil, condition.Condition{
-		Field:    manage_user_role.RoleId,
+		Field:    manage_user_role.RoleUuid,
 		Operator: condition.In,
-		Value:    req.Ids,
+		Value:    req.Uuids,
 	})
 	if err != nil {
 		return nil, err
@@ -47,9 +47,9 @@ func (l *Delete) Delete(req *types.DeleteRequest) (resp *types.DeleteResponse, e
 	}
 
 	err = l.svcCtx.Model.ManageRole.DeleteByCondition(l.ctx, nil, condition.Condition{
-		Field:    manage_role.Id,
+		Field:    manage_role.Uuid,
 		Operator: condition.In,
-		Value:    req.Ids,
+		Value:    req.Uuids,
 	})
 	return
 }

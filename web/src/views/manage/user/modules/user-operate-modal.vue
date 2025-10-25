@@ -123,7 +123,7 @@ async function handleSubmit() {
     await validate();
     // request
     const editUserData: Api.Manage.EditUserRequest = {
-      id: props.rowData?.id,
+      uuid: props.rowData?.uuid,
       username: model.username,
       userGender: model.userGender,
       nickName: model.nickName,

@@ -10,7 +10,7 @@ defineOptions({
 
 interface Props {
   /** the roleId */
-  roleId: number;
+  roleUuid: string;
 }
 
 const props = defineProps<Props>();
@@ -42,7 +42,7 @@ const title = computed(() => $t('common.edit') + $t('page.manage.role.menuAuth')
 const home = shallowRef('');
 
 async function getHome() {
-  const { error, data } = await GetRoleHome(props.roleId);
+  const { error, data } = await GetRoleHome(props.roleUuid);
   if (!error) {
     home.value = data;
   }
@@ -51,7 +51,7 @@ async function getHome() {
 async function updateHome(val: string) {
   // request
   const req: Api.Manage.UpdateRoleHomeRequest = {
-    roleId: props.roleId,
+    roleUuid: props.roleUuid,
     home: val
   };
   updateHomeLoadingRef.value = true;
@@ -65,7 +65,7 @@ async function updateHome(val: string) {
 const pages = shallowRef<string[]>([]);
 
 async function getPages() {
-  const { error, data } = await GetAllPages(props.roleId);
+  const { error, data } = await GetAllPages(props.roleUuid);
 
   if (!error) {
     pages.value = data;
@@ -82,21 +82,21 @@ const pageSelectOptions = computed(() => {
 });
 
 const tree = shallowRef<Api.Manage.MenuTree[]>([]);
-const checks = shallowRef<number[]>([]);
+const checks = shallowRef<string[]>([]);
 
 function updateChecks() {
   // 定义递归检查函数
   function checkParent(node: Api.Manage.MenuTree) {
     if (node.children && node.children.length > 0) {
-      const hasCheckedChildren = node.children.some(child => checks.value.includes(child.id));
+      const hasCheckedChildren = node.children.some(child => checks.value.includes(child.uuid));
 
       // 如果有任意子节点被选中，则选中父节点
-      if (hasCheckedChildren && !checks.value.includes(node.id)) {
-        checks.value.push(node.id);
+      if (hasCheckedChildren && !checks.value.includes(node.uuid)) {
+        checks.value.push(node.uuid);
       }
       // 如果没有子节点被选中，并且父节点当前被选中，则取消选中父节点
-      else if (!hasCheckedChildren && checks.value.includes(node.id)) {
-        checks.value.splice(checks.value.indexOf(node.id), 1);
+      else if (!hasCheckedChildren && checks.value.includes(node.uuid)) {
+        checks.value.splice(checks.value.indexOf(node.uuid), 1);
       }
 
       // 对每个子节点递归调用 checkParent 函数
@@ -122,26 +122,26 @@ async function getTree() {
   }
 
   const getRoleMenusRequest: Api.Manage.GetRoleMenusRequest = {
-    roleId: props.roleId
+    roleUuid: props.roleUuid
   };
   const { error: roleMenusError, data: roleMenusData } = await GetRoleMenus(getRoleMenusRequest);
   getTreeDataEndLoading();
   if (!roleMenusError) {
-    checks.value = roleMenusData;
+    checks.value = roleMenusData.menuUuids;
   }
 
   // 定义递归检查函数
   function checkParent(node: Api.Manage.MenuTree) {
     if (node.children && node.children.length > 0) {
-      const allChildrenChecked = node.children.every(child => checks.value.includes(child.id));
+      const allChildrenChecked = node.children.every(child => checks.value.includes(child.uuid));
 
       // 如果所有子节点都被选中，则选中父节点（如果还没有选中的话）
-      if (allChildrenChecked && !checks.value.includes(node.id)) {
-        checks.value.push(node.id);
+      if (allChildrenChecked && !checks.value.includes(node.uuid)) {
+        checks.value.push(node.uuid);
       }
       // 如果不是所有子节点都被选中，并且父节点当前被选中，则取消选中父节点
-      else if (!allChildrenChecked && checks.value.includes(node.id)) {
-        checks.value.splice(checks.value.indexOf(node.id), 1);
+      else if (!allChildrenChecked && checks.value.includes(node.uuid)) {
+        checks.value.splice(checks.value.indexOf(node.uuid), 1);
       }
 
       // 对每个子节点递归调用 checkParent 函数
@@ -159,8 +159,8 @@ async function handleSubmit() {
   updateChecks();
   // request
   const setRoleMenusRequest: Api.Manage.SetRoleMenusRequest = {
-    roleId: props.roleId,
-    menuIds: checks.value
+    roleUuid: props.roleUuid,
+    menuUuids: checks.value.filter(uuid => uuid !== '')
   };
   setMenusConfirmStartLoading();
   const { error } = await SetRoleMenus(setRoleMenusRequest);
@@ -202,7 +202,7 @@ watch(visible, val => {
       <NTree
         v-model:checked-keys="checks"
         :data="tree"
-        key-field="id"
+        key-field="uuid"
         checkable
         expand-on-click
         virtual-scroll
