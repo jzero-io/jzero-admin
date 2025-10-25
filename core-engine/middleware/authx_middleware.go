@@ -31,7 +31,7 @@ func (m *AuthxMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 
 		rctx := r.Context()
 
-		subs := cast.ToStringSlice(authInfo.RoleIds)
+		subs := cast.ToStringSlice(authInfo.RoleUuids)
 		obj := m.Route2CodeFunc(r)
 
 		// verify casbin rule
