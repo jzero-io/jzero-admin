@@ -2,6 +2,7 @@ package role
 
 import (
 	"context"
+	"github.com/google/uuid"
 	"net/http"
 
 	"github.com/jzero-io/jzero/core/stores/condition"
@@ -47,6 +48,7 @@ func (l *SetMenus) SetMenus(req *types.SetMenusRequest) (resp *types.SetMenusRes
 
 		for _, v := range req.MenuUuids {
 			data := &manage_role_menu.ManageRoleMenu{
+				Uuid:     uuid.New().String(),
 				RoleUuid: req.RoleUuid,
 				MenuUuid: v,
 			}
