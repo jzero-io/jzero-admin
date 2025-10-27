@@ -65,7 +65,7 @@ func (l *Edit) Edit(req *types.EditRequest) (resp *types.EditResponse, err error
 		// 更新了权限标识
 		if marshal(req.Permissions) != oldPermissionStr {
 			roleMenus, err := l.svcCtx.Model.ManageRoleMenu.FindByCondition(l.ctx, nil, condition.NewChain().
-				Equal(manage_role_menu.MenuUuid, req.Uuid).
+				Equal(manage_role_menu.ManageRoleMenuField.MenuUuid, req.Uuid).
 				Build()...)
 			if err != nil {
 				return nil, err

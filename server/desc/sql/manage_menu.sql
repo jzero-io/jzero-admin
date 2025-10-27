@@ -3,8 +3,6 @@ CREATE TABLE `manage_menu` (
   `uuid` varchar(36) NOT NULL UNIQUE,
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `create_by` varchar(36) NOT NULL,
-  `update_by` varchar(36) NOT NULL,
   `status` varchar(1) NOT NULL,
   `parent_uuid` varchar(36) NOT NULL,
   `menu_type` varchar(1) NOT NULL,

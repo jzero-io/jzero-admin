@@ -36,11 +36,6 @@ func NewRefreshToken(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Re
 }
 
 func (l *RefreshToken) RefreshToken(req *types.RefreshTokenRequest) (resp *types.RefreshTokenResponse, err error) {
-	config, err := l.svcCtx.ConfigCenter.GetConfig()
-	if err != nil {
-		return nil, err
-	}
-
 	// 解析 refreshToken
 	parser := token.NewTokenParser()
 	tok, err := parser.ParseToken(&http.Request{
@@ -61,13 +56,13 @@ func (l *RefreshToken) RefreshToken(req *types.RefreshTokenRequest) (resp *types
 	}
 
 	// 设置新的过期时间
-	claims["exp"] = time.Now().Add(time.Duration(config.Jwt.AccessExpire) * time.Second).Unix()
+	claims["exp"] = time.Now().Add(time.Duration(l.svcCtx.MustGetConfig().Jwt.AccessExpire) * time.Second).Unix()
 	newAccessToken, err := CreateToken(l.svcCtx.MustGetConfig().Jwt.AccessSecret, claims)
 	if err != nil {
 		return nil, err
 	}
 
-	claims["exp"] = time.Now().Add(time.Duration(config.Jwt.RefreshExpire) * time.Second).Unix()
+	claims["exp"] = time.Now().Add(time.Duration(l.svcCtx.MustGetConfig().Jwt.RefreshExpire) * time.Second).Unix()
 	newRefreshToken, err := CreateToken(l.svcCtx.MustGetConfig().Jwt.AccessSecret, claims)
 	if err != nil {
 		return nil, err

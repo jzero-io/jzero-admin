@@ -67,7 +67,7 @@ func (l *GetUserInfo) GetUserInfo(req *types.GetUserInfoRequest) (resp *types.Ge
 
 	// get role buttons
 	roleMenus, err := l.svcCtx.Model.ManageRoleMenu.FindByCondition(l.ctx, nil, condition.NewChain().
-		In(manage_role_menu.RoleUuid, roleUuids).
+		In(manage_role_menu.ManageRoleMenuField.RoleUuid, roleUuids).
 		Build()...)
 	if err != nil {
 		return nil, err
@@ -77,9 +77,9 @@ func (l *GetUserInfo) GetUserInfo(req *types.GetUserInfoRequest) (resp *types.Ge
 		menuUuids = append(menuUuids, roleMenu.MenuUuid)
 	}
 	menus, err := l.svcCtx.Model.ManageMenu.FindByCondition(l.ctx, nil, condition.NewChain().
-		In(manage_menu.Uuid, menuUuids).
-		Equal(manage_menu.Status, "1").
-		Equal(manage_menu.MenuType, "3").
+		In(manage_menu.ManageMenuField.Uuid, menuUuids).
+		Equal(manage_menu.ManageMenuField.Status, "1").
+		Equal(manage_menu.ManageMenuField.MenuType, "3").
 		Build()...)
 	if err != nil {
 		return nil, err

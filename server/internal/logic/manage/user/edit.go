@@ -3,8 +3,8 @@ package user
 import (
 	"context"
 	"net/http"
-	"time"
 
+	"github.com/google/uuid"
 	"github.com/jzero-io/jzero/core/stores/condition"
 	"github.com/zeromicro/go-zero/core/logx"
 
@@ -40,7 +40,6 @@ func (l *Edit) Edit(req *types.EditRequest) (resp *types.EditResponse, err error
 	user.Phone = req.UserPhone
 	user.Gender = req.UserGender
 	user.Status = req.Status
-	user.UpdateTime = time.Now()
 
 	if err = l.svcCtx.Model.ManageUser.Update(l.ctx, nil, user); err != nil {
 		return nil, err
@@ -48,7 +47,7 @@ func (l *Edit) Edit(req *types.EditRequest) (resp *types.EditResponse, err error
 
 	// 更新 system_user_role 表
 	if err = l.svcCtx.Model.ManageUserRole.DeleteByCondition(l.ctx, nil, condition.Condition{
-		Field:    manage_user_role.UserUuid,
+		Field:    manage_user_role.ManageUserRoleField.UserUuid,
 		Operator: condition.Equal,
 		Value:    req.Uuid,
 	}); err != nil {
@@ -56,7 +55,7 @@ func (l *Edit) Edit(req *types.EditRequest) (resp *types.EditResponse, err error
 	}
 	var bulk []*manage_user_role.ManageUserRole
 	roles, err := l.svcCtx.Model.ManageRole.FindByCondition(l.ctx, nil, condition.Condition{
-		Field:    manage_role.Code,
+		Field:    manage_role.ManageRoleField.Code,
 		Operator: condition.In,
 		Value:    req.UserRoles,
 	})
@@ -65,10 +64,9 @@ func (l *Edit) Edit(req *types.EditRequest) (resp *types.EditResponse, err error
 	}
 	for _, v := range roles {
 		bulk = append(bulk, &manage_user_role.ManageUserRole{
-			CreateTime: time.Now(),
-			UpdateTime: time.Now(),
-			UserUuid:   user.Uuid,
-			RoleUuid:   v.Uuid,
+			Uuid:     uuid.New().String(),
+			UserUuid: user.Uuid,
+			RoleUuid: v.Uuid,
 		})
 	}
 

@@ -26,8 +26,6 @@ var (
 		Uuid       condition.Field
 		CreateTime condition.Field
 		UpdateTime condition.Field
-		CreateBy   condition.Field
-		UpdateBy   condition.Field
 		RoleUuid   condition.Field
 		MenuUuid   condition.Field
 		IsHome     condition.Field
@@ -36,8 +34,6 @@ var (
 		Uuid:       "uuid",
 		CreateTime: "create_time",
 		UpdateTime: "update_time",
-		CreateBy:   "create_by",
-		UpdateBy:   "update_by",
 		RoleUuid:   "role_uuid",
 		MenuUuid:   "menu_uuid",
 		IsHome:     "is_home",
@@ -50,8 +46,6 @@ const (
 	Uuid       condition.Field = "uuid"
 	CreateTime condition.Field = "create_time"
 	UpdateTime condition.Field = "update_time"
-	CreateBy   condition.Field = "create_by"
-	UpdateBy   condition.Field = "update_by"
 	RoleUuid   condition.Field = "role_uuid"
 	MenuUuid   condition.Field = "menu_uuid"
 	IsHome     condition.Field = "is_home"
@@ -98,8 +92,6 @@ type (
 		Uuid       string    `db:"uuid"`
 		CreateTime time.Time `db:"create_time"`
 		UpdateTime time.Time `db:"update_time"`
-		CreateBy   string    `db:"create_by"`
-		UpdateBy   string    `db:"update_by"`
 		RoleUuid   string    `db:"role_uuid"`
 		MenuUuid   string    `db:"menu_uuid"`
 		IsHome     int64     `db:"is_home"`
@@ -200,7 +192,7 @@ func (m *defaultManageRoleMenuModel) Insert(ctx context.Context, session sqlx.Se
 	statement, args := sqlbuilder.NewInsertBuilder().
 		InsertInto(m.table).
 		Cols(manageRoleMenuRowsExpectAutoSet).
-		Values(data.Uuid, data.CreateBy, data.UpdateBy, data.RoleUuid, data.MenuUuid, data.IsHome).BuildWithFlavor(m.flavor)
+		Values(data.Uuid, data.RoleUuid, data.MenuUuid, data.IsHome).BuildWithFlavor(m.flavor)
 	if session != nil {
 		return session.ExecCtx(ctx, statement, args...)
 	}
@@ -214,12 +206,12 @@ func (m *defaultManageRoleMenuModel) InsertV2(ctx context.Context, session sqlx.
 		statement, args = sqlbuilder.NewInsertBuilder().
 			InsertInto(m.table).
 			Cols(manageRoleMenuRowsExpectAutoSet).
-			Values(data.Uuid, data.CreateBy, data.UpdateBy, data.RoleUuid, data.MenuUuid, data.IsHome).Returning("id").BuildWithFlavor(m.flavor)
+			Values(data.Uuid, data.RoleUuid, data.MenuUuid, data.IsHome).Returning("id").BuildWithFlavor(m.flavor)
 	} else {
 		statement, args = sqlbuilder.NewInsertBuilder().
 			InsertInto(m.table).
 			Cols(manageRoleMenuRowsExpectAutoSet).
-			Values(data.Uuid, data.CreateBy, data.UpdateBy, data.RoleUuid, data.MenuUuid, data.IsHome).BuildWithFlavor(m.flavor)
+			Values(data.Uuid, data.RoleUuid, data.MenuUuid, data.IsHome).BuildWithFlavor(m.flavor)
 	}
 	var primaryKey int64
 	var err error
@@ -275,9 +267,9 @@ func (m *defaultManageRoleMenuModel) Update(ctx context.Context, session sqlx.Se
 
 	var err error
 	if session != nil {
-		_, err = session.ExecCtx(ctx, statement, newData.Uuid, newData.CreateBy, newData.UpdateBy, newData.RoleUuid, newData.MenuUuid, newData.IsHome, newData.Id)
+		_, err = session.ExecCtx(ctx, statement, newData.Uuid, newData.RoleUuid, newData.MenuUuid, newData.IsHome, newData.Id)
 	} else {
-		_, err = m.conn.ExecCtx(ctx, statement, newData.Uuid, newData.CreateBy, newData.UpdateBy, newData.RoleUuid, newData.MenuUuid, newData.IsHome, newData.Id)
+		_, err = m.conn.ExecCtx(ctx, statement, newData.Uuid, newData.RoleUuid, newData.MenuUuid, newData.IsHome, newData.Id)
 	}
 	return err
 }
@@ -310,7 +302,7 @@ func (m *customManageRoleMenuModel) BulkInsert(ctx context.Context, session sqlx
 	sb.SetFlavor(m.flavor)
 	sb.Cols(manageRoleMenuRowsExpectAutoSet)
 	for _, data := range datas {
-		sb.Values(data.Uuid, data.CreateBy, data.UpdateBy, data.RoleUuid, data.MenuUuid, data.IsHome)
+		sb.Values(data.Uuid, data.RoleUuid, data.MenuUuid, data.IsHome)
 	}
 	statement, args := sb.BuildWithFlavor(m.flavor)
 

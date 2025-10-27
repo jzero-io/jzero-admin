@@ -41,7 +41,7 @@ func (l *ResetPassword) ResetPassword(req *types.ResetPasswordRequest) (resp *ty
 	}
 
 	user, err := l.svcCtx.Model.ManageUser.FindOneByCondition(l.ctx, nil, condition.Condition{
-		Field:    manage_user.Email,
+		Field:    manage_user.ManageUserField.Email,
 		Operator: condition.Equal,
 		Value:    req.Email,
 	})

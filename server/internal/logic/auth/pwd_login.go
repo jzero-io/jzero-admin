@@ -51,7 +51,7 @@ func (l *PwdLogin) PwdLogin(req *types.PwdLoginRequest) (resp *types.LoginRespon
 		return nil, errors.New("用户名或密码错误")
 	}
 	userRoles, err := l.svcCtx.Model.ManageUserRole.FindByCondition(l.ctx, nil, condition.NewChain().
-		Equal(manage_user_role.UserUuid, user.Uuid).
+		Equal(manage_user_role.ManageUserRoleField.UserUuid, user.Uuid).
 		Build()...)
 	if err != nil {
 		return nil, err

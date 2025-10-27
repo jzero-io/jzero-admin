@@ -26,8 +26,6 @@ var (
 		Uuid       condition.Field
 		CreateTime condition.Field
 		UpdateTime condition.Field
-		CreateBy   condition.Field
-		UpdateBy   condition.Field
 		Username   condition.Field
 		Password   condition.Field
 		Nickname   condition.Field
@@ -40,8 +38,6 @@ var (
 		Uuid:       "uuid",
 		CreateTime: "create_time",
 		UpdateTime: "update_time",
-		CreateBy:   "create_by",
-		UpdateBy:   "update_by",
 		Username:   "username",
 		Password:   "password",
 		Nickname:   "nickname",
@@ -58,8 +54,6 @@ const (
 	Uuid       condition.Field = "uuid"
 	CreateTime condition.Field = "create_time"
 	UpdateTime condition.Field = "update_time"
-	CreateBy   condition.Field = "create_by"
-	UpdateBy   condition.Field = "update_by"
 	Username   condition.Field = "username"
 	Password   condition.Field = "password"
 	Nickname   condition.Field = "nickname"
@@ -111,8 +105,6 @@ type (
 		Uuid       string    `db:"uuid"`
 		CreateTime time.Time `db:"create_time"`
 		UpdateTime time.Time `db:"update_time"`
-		CreateBy   string    `db:"create_by"`
-		UpdateBy   string    `db:"update_by"`
 		Username   string    `db:"username"`
 		Password   string    `db:"password"`
 		Nickname   string    `db:"nickname"`
@@ -243,7 +235,7 @@ func (m *defaultManageUserModel) Insert(ctx context.Context, session sqlx.Sessio
 	statement, args := sqlbuilder.NewInsertBuilder().
 		InsertInto(m.table).
 		Cols(manageUserRowsExpectAutoSet).
-		Values(data.Uuid, data.CreateBy, data.UpdateBy, data.Username, data.Password, data.Nickname, data.Gender, data.Phone, data.Status, data.Email).BuildWithFlavor(m.flavor)
+		Values(data.Uuid, data.Username, data.Password, data.Nickname, data.Gender, data.Phone, data.Status, data.Email).BuildWithFlavor(m.flavor)
 	if session != nil {
 		return session.ExecCtx(ctx, statement, args...)
 	}
@@ -257,12 +249,12 @@ func (m *defaultManageUserModel) InsertV2(ctx context.Context, session sqlx.Sess
 		statement, args = sqlbuilder.NewInsertBuilder().
 			InsertInto(m.table).
 			Cols(manageUserRowsExpectAutoSet).
-			Values(data.Uuid, data.CreateBy, data.UpdateBy, data.Username, data.Password, data.Nickname, data.Gender, data.Phone, data.Status, data.Email).Returning("id").BuildWithFlavor(m.flavor)
+			Values(data.Uuid, data.Username, data.Password, data.Nickname, data.Gender, data.Phone, data.Status, data.Email).Returning("id").BuildWithFlavor(m.flavor)
 	} else {
 		statement, args = sqlbuilder.NewInsertBuilder().
 			InsertInto(m.table).
 			Cols(manageUserRowsExpectAutoSet).
-			Values(data.Uuid, data.CreateBy, data.UpdateBy, data.Username, data.Password, data.Nickname, data.Gender, data.Phone, data.Status, data.Email).BuildWithFlavor(m.flavor)
+			Values(data.Uuid, data.Username, data.Password, data.Nickname, data.Gender, data.Phone, data.Status, data.Email).BuildWithFlavor(m.flavor)
 	}
 	var primaryKey int64
 	var err error
@@ -318,9 +310,9 @@ func (m *defaultManageUserModel) Update(ctx context.Context, session sqlx.Sessio
 
 	var err error
 	if session != nil {
-		_, err = session.ExecCtx(ctx, statement, newData.Uuid, newData.CreateBy, newData.UpdateBy, newData.Username, newData.Password, newData.Nickname, newData.Gender, newData.Phone, newData.Status, newData.Email, newData.Id)
+		_, err = session.ExecCtx(ctx, statement, newData.Uuid, newData.Username, newData.Password, newData.Nickname, newData.Gender, newData.Phone, newData.Status, newData.Email, newData.Id)
 	} else {
-		_, err = m.conn.ExecCtx(ctx, statement, newData.Uuid, newData.CreateBy, newData.UpdateBy, newData.Username, newData.Password, newData.Nickname, newData.Gender, newData.Phone, newData.Status, newData.Email, newData.Id)
+		_, err = m.conn.ExecCtx(ctx, statement, newData.Uuid, newData.Username, newData.Password, newData.Nickname, newData.Gender, newData.Phone, newData.Status, newData.Email, newData.Id)
 	}
 	return err
 }
@@ -353,7 +345,7 @@ func (m *customManageUserModel) BulkInsert(ctx context.Context, session sqlx.Ses
 	sb.SetFlavor(m.flavor)
 	sb.Cols(manageUserRowsExpectAutoSet)
 	for _, data := range datas {
-		sb.Values(data.Uuid, data.CreateBy, data.UpdateBy, data.Username, data.Password, data.Nickname, data.Gender, data.Phone, data.Status, data.Email)
+		sb.Values(data.Uuid, data.Username, data.Password, data.Nickname, data.Gender, data.Phone, data.Status, data.Email)
 	}
 	statement, args := sb.BuildWithFlavor(m.flavor)
 

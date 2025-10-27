@@ -34,7 +34,7 @@ func (l *GetAllPages) GetAllPages(req *types.GetAllPagesRequest) (resp []string,
 	var pages []*manage_menu.ManageMenu
 	if req.RoleUuid != "" {
 		roleMenus, err := l.svcCtx.Model.ManageRoleMenu.FindByCondition(l.ctx, nil, condition.NewChain().
-			Equal(manage_role_menu.RoleUuid, req.RoleUuid).
+			Equal(manage_role_menu.ManageRoleMenuField.RoleUuid, req.RoleUuid).
 			Build()...)
 		if err != nil {
 			return nil, err
@@ -51,19 +51,19 @@ func (l *GetAllPages) GetAllPages(req *types.GetAllPagesRequest) (resp []string,
 		}
 
 		pages, err = l.svcCtx.Model.ManageMenu.FindByCondition(l.ctx, nil, condition.NewChain().
-			In(manage_menu.Uuid, uniqMenuUuids).
-			Equal(manage_menu.MenuType, "2").
-			Equal(manage_menu.Status, "1").
-			NotEqual(manage_menu.HideInMenu, cast.ToInt(true)).
+			In(manage_menu.ManageMenuField.Uuid, uniqMenuUuids).
+			Equal(manage_menu.ManageMenuField.MenuType, "2").
+			Equal(manage_menu.ManageMenuField.Status, "1").
+			NotEqual(manage_menu.ManageMenuField.HideInMenu, cast.ToInt(true)).
 			Build()...)
 		if err != nil {
 			return nil, err
 		}
 	} else {
 		pages, err = l.svcCtx.Model.ManageMenu.FindByCondition(l.ctx, nil, condition.NewChain().
-			Equal(manage_menu.MenuType, "2").
-			Equal(manage_menu.Status, "1").
-			NotEqual(manage_menu.HideInMenu, cast.ToInt(true)).
+			Equal(manage_menu.ManageMenuField.MenuType, "2").
+			Equal(manage_menu.ManageMenuField.Status, "1").
+			NotEqual(manage_menu.ManageMenuField.HideInMenu, cast.ToInt(true)).
 			Build()...)
 		if err != nil {
 			return nil, err

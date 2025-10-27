@@ -31,7 +31,7 @@ func NewTree(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Request) *
 
 func (l *Tree) Tree(req *types.TreeRequest) (resp []types.TreeResponse, err error) {
 	list, err := l.svcCtx.Model.ManageMenu.FindByCondition(l.ctx, nil, condition.NewChain().
-		NotEqual(manage_menu.Constant, cast.ToInt(true)).
+		NotEqual(manage_menu.ManageMenuField.Constant, cast.ToInt(true)).
 		Build()...)
 	if err != nil {
 		return nil, err

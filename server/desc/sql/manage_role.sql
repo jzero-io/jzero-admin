@@ -3,8 +3,6 @@ CREATE TABLE `manage_role` (
   `uuid` varchar(36) NOT NULL UNIQUE,
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `create_by` varchar(36) NOT NULL,
-  `update_by` varchar(36) NOT NULL,
   `name` varchar(50) NOT NULL,
   `status` varchar(1) NOT NULL,
   `code` varchar(255) NOT NULL,

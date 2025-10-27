@@ -26,8 +26,6 @@ var (
 		Uuid       condition.Field
 		CreateTime condition.Field
 		UpdateTime condition.Field
-		CreateBy   condition.Field
-		UpdateBy   condition.Field
 		UserUuid   condition.Field
 		RoleUuid   condition.Field
 	}{
@@ -35,8 +33,6 @@ var (
 		Uuid:       "uuid",
 		CreateTime: "create_time",
 		UpdateTime: "update_time",
-		CreateBy:   "create_by",
-		UpdateBy:   "update_by",
 		UserUuid:   "user_uuid",
 		RoleUuid:   "role_uuid",
 	}
@@ -48,8 +44,6 @@ const (
 	Uuid       condition.Field = "uuid"
 	CreateTime condition.Field = "create_time"
 	UpdateTime condition.Field = "update_time"
-	CreateBy   condition.Field = "create_by"
-	UpdateBy   condition.Field = "update_by"
 	UserUuid   condition.Field = "user_uuid"
 	RoleUuid   condition.Field = "role_uuid"
 )
@@ -95,8 +89,6 @@ type (
 		Uuid       string    `db:"uuid"`
 		CreateTime time.Time `db:"create_time"`
 		UpdateTime time.Time `db:"update_time"`
-		CreateBy   string    `db:"create_by"`
-		UpdateBy   string    `db:"update_by"`
 		UserUuid   string    `db:"user_uuid"`
 		RoleUuid   string    `db:"role_uuid"`
 	}
@@ -196,7 +188,7 @@ func (m *defaultManageUserRoleModel) Insert(ctx context.Context, session sqlx.Se
 	statement, args := sqlbuilder.NewInsertBuilder().
 		InsertInto(m.table).
 		Cols(manageUserRoleRowsExpectAutoSet).
-		Values(data.Uuid, data.CreateBy, data.UpdateBy, data.UserUuid, data.RoleUuid).BuildWithFlavor(m.flavor)
+		Values(data.Uuid, data.UserUuid, data.RoleUuid).BuildWithFlavor(m.flavor)
 	if session != nil {
 		return session.ExecCtx(ctx, statement, args...)
 	}
@@ -210,12 +202,12 @@ func (m *defaultManageUserRoleModel) InsertV2(ctx context.Context, session sqlx.
 		statement, args = sqlbuilder.NewInsertBuilder().
 			InsertInto(m.table).
 			Cols(manageUserRoleRowsExpectAutoSet).
-			Values(data.Uuid, data.CreateBy, data.UpdateBy, data.UserUuid, data.RoleUuid).Returning("id").BuildWithFlavor(m.flavor)
+			Values(data.Uuid, data.UserUuid, data.RoleUuid).Returning("id").BuildWithFlavor(m.flavor)
 	} else {
 		statement, args = sqlbuilder.NewInsertBuilder().
 			InsertInto(m.table).
 			Cols(manageUserRoleRowsExpectAutoSet).
-			Values(data.Uuid, data.CreateBy, data.UpdateBy, data.UserUuid, data.RoleUuid).BuildWithFlavor(m.flavor)
+			Values(data.Uuid, data.UserUuid, data.RoleUuid).BuildWithFlavor(m.flavor)
 	}
 	var primaryKey int64
 	var err error
@@ -271,9 +263,9 @@ func (m *defaultManageUserRoleModel) Update(ctx context.Context, session sqlx.Se
 
 	var err error
 	if session != nil {
-		_, err = session.ExecCtx(ctx, statement, newData.Uuid, newData.CreateBy, newData.UpdateBy, newData.UserUuid, newData.RoleUuid, newData.Id)
+		_, err = session.ExecCtx(ctx, statement, newData.Uuid, newData.UserUuid, newData.RoleUuid, newData.Id)
 	} else {
-		_, err = m.conn.ExecCtx(ctx, statement, newData.Uuid, newData.CreateBy, newData.UpdateBy, newData.UserUuid, newData.RoleUuid, newData.Id)
+		_, err = m.conn.ExecCtx(ctx, statement, newData.Uuid, newData.UserUuid, newData.RoleUuid, newData.Id)
 	}
 	return err
 }
@@ -306,7 +298,7 @@ func (m *customManageUserRoleModel) BulkInsert(ctx context.Context, session sqlx
 	sb.SetFlavor(m.flavor)
 	sb.Cols(manageUserRoleRowsExpectAutoSet)
 	for _, data := range datas {
-		sb.Values(data.Uuid, data.CreateBy, data.UpdateBy, data.UserUuid, data.RoleUuid)
+		sb.Values(data.Uuid, data.UserUuid, data.RoleUuid)
 	}
 	statement, args := sb.BuildWithFlavor(m.flavor)
 

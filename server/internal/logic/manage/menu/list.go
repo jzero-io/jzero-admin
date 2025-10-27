@@ -35,7 +35,7 @@ func (l *List) List(req *types.ListRequest) (resp *types.ListResponse, err error
 	resp = &types.ListResponse{}
 
 	list, err := l.svcCtx.Model.ManageMenu.FindByCondition(l.ctx, nil, condition.NewChain().
-		Equal(manage_menu.Constant, cast.ToInt(false)).
+		Equal(manage_menu.ManageMenuField.Constant, cast.ToInt(false)).
 		Build()...)
 	if err != nil {
 		return nil, err
