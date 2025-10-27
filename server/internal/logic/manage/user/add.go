@@ -32,7 +32,7 @@ func NewAdd(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Request) *A
 
 func (l *Add) Add(req *types.AddRequest) (resp *types.AddResponse, err error) {
 	userUuid := uuid.New().String()
-	if _, err = l.svcCtx.Model.ManageUser.Insert(l.ctx, nil, &manage_user.ManageUser{
+	if err = l.svcCtx.Model.ManageUser.InsertV2(l.ctx, nil, &manage_user.ManageUser{
 		Uuid:     userUuid,
 		Username: req.Username,
 		Password: req.Password,

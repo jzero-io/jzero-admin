@@ -47,7 +47,7 @@ func (l *Register) Register(req *types.RegisterRequest) (resp *types.RegisterRes
 		return nil, errors.New("用户名已存在")
 	}
 
-	_, err = l.svcCtx.Model.ManageUser.Insert(l.ctx, nil, &manage_user.ManageUser{
+	err = l.svcCtx.Model.ManageUser.InsertV2(l.ctx, nil, &manage_user.ManageUser{
 		Uuid:     uuid.New().String(),
 		Username: req.Username,
 		Password: req.Password,
