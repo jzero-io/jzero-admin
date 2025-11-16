@@ -1,6 +1,6 @@
 <script setup lang="ts">
 interface Props {
-  id: string;
+  uuid: string;
 }
 
 defineProps<Props>();

@@ -14,7 +14,7 @@ import MenuOperateModal, { type OperateType } from './modules/menu-operate-modal
 
 const appStore = useAppStore();
 
-type LoadingStatus = Record<number, boolean>;
+type LoadingStatus = Record<string, boolean>;
 const deleteLoadingStatus = reactive<LoadingStatus>({});
 
 const { bool: visible, setTrue: openModal } = useBoolean();
@@ -181,25 +181,25 @@ function handleAdd() {
 async function handleBatchDelete() {
   // request
 
-  const ids: number[] = checkedRowKeys.value.map(idStr => Number.parseInt(idStr, 10));
+  const uuids: string[] = checkedRowKeys.value.map(uuid => uuid);
 
-  ids.forEach(id => {
-    deleteLoadingStatus[id] = true;
+  uuids.forEach(uuid => {
+    deleteLoadingStatus[uuid] = true;
   });
-  const { error } = await DeleteMenu(ids);
-  ids.forEach(id => {
-    deleteLoadingStatus[id] = false;
+  const { error } = await DeleteMenu(uuids);
+  uuids.forEach(uuid => {
+    deleteLoadingStatus[uuid] = false;
   });
   if (error) return;
   onBatchDeleted();
 }
 
-async function handleDelete(id: number) {
+async function handleDelete(uuid: string) {
   // request
-  const ids: number[] = [id];
-  deleteLoadingStatus[id] = true;
-  const { error } = await DeleteMenu(ids);
-  deleteLoadingStatus[id] = false;
+  const uuids: string[] = [uuid];
+  deleteLoadingStatus[uuid] = true;
+  const { error } = await DeleteMenu(uuids);
+  deleteLoadingStatus[uuid] = false;
   if (error) {
     return;
   }
@@ -227,7 +227,7 @@ function handleAddChildMenu(item: Api.Manage.Menu) {
 const allPages = ref<string[]>([]);
 
 async function getAllPages() {
-  const { data: pages } = await GetAllPages(0);
+  const { data: pages } = await GetAllPages('');
   allPages.value = pages || [];
 }
 

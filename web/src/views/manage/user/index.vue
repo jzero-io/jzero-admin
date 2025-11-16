@@ -11,7 +11,7 @@ import UserSearch from './modules/user-search.vue';
 
 const appStore = useAppStore();
 
-type LoadingStatus = Record<number, boolean>;
+type LoadingStatus = Record<string, boolean>;
 const deleteLoadingStatus = reactive<LoadingStatus>({});
 
 const {
@@ -156,15 +156,15 @@ const {
 async function handleBatchDelete() {
   // request
 
-  const ids: number[] = checkedRowKeys.value.map(idStr => Number.parseInt(idStr, 10));
+  const uuids: string[] = checkedRowKeys.value.map(uuid => uuid);
 
-  ids.forEach(id => {
-    deleteLoadingStatus[id] = true;
+  uuids.forEach(uuid => {
+    deleteLoadingStatus[uuid] = true;
   });
-  const { error } = await DeleteUser(ids);
+  const { error } = await DeleteUser(uuids);
 
-  ids.forEach(id => {
-    deleteLoadingStatus[id] = false;
+  uuids.forEach(uuid => {
+    deleteLoadingStatus[uuid] = false;
   });
 
   if (error) return;
@@ -172,20 +172,20 @@ async function handleBatchDelete() {
   onBatchDeleted();
 }
 
-async function handleDelete(id: number) {
+async function handleDelete(uuid: string) {
   // request
-  const ids: number[] = [id];
-  deleteLoadingStatus[id] = true;
-  const { error } = await DeleteUser(ids);
-  deleteLoadingStatus[id] = false;
+  const uuids: string[] = [uuid];
+  deleteLoadingStatus[uuid] = true;
+  const { error } = await DeleteUser(uuids);
+  deleteLoadingStatus[uuid] = false;
   if (error) {
     return;
   }
   onDeleted();
 }
 
-function edit(id: number) {
-  handleEdit(id);
+function edit(uuid: string) {
+  handleEdit(uuid);
 }
 </script>
 

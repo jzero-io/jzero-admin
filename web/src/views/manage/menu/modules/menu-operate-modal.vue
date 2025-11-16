@@ -68,7 +68,7 @@ type Model = Pick<
   | 'icon'
   | 'iconType'
   | 'status'
-  | 'parentId'
+  | 'parentUuid'
   | 'keepAlive'
   | 'constant'
   | 'href'
@@ -138,7 +138,7 @@ const localIconOptions = localIcons.map<SelectOption>(item => ({
   value: item
 }));
 
-const showLayout = computed(() => model.parentUuid === 0);
+const showLayout = computed(() => model.parentUuid === '');
 
 const showPage = computed(() => model.menuType === '2');
 
@@ -199,9 +199,9 @@ function handleInitModel() {
   if (!props.rowData) return;
 
   if (props.operateType === 'addChild') {
-    const { id } = props.rowData;
+    const { uuid } = props.rowData;
 
-    Object.assign(model, { parentId: id });
+    Object.assign(model, { parentUuid: uuid });
   }
 
   if (props.operateType === 'edit') {
@@ -494,7 +494,7 @@ watch(
                 <template #action="{ index, create, remove }">
                   <NSpace class="ml-12px">
                     <NButton size="medium" @click="() => create(index)">
-                      <icon-ic:round-plus class="text-icon" />
+                      <icon-ic-round-plus class="text-icon" />
                     </NButton>
                     <NButton size="medium" @click="() => remove(index)">
                       <icon-ic-round-remove class="text-icon" />

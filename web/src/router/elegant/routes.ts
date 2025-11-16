@@ -137,7 +137,7 @@ export const generatedRoutes: GeneratedRoute[] = [
       },
       {
         name: 'manage_user-detail',
-        path: '/manage/user-detail/:id',
+        path: '/manage/user-detail/:uuid',
         component: 'view.manage_user-detail',
         props: true,
         meta: {
