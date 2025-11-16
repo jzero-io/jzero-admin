@@ -71,38 +71,6 @@
         ]
       }
     },
-    "/api/v1/auth/error": {
-      "post": {
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "description": "接口权限编码:auth:error",
-        "operationId": "authError",
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "schema": {
-              "type": "object"
-            }
-          }
-        },
-        "schemes": [
-          "https"
-        ],
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
-        "summary": "Error",
-        "tags": [
-          "auth"
-        ]
-      }
-    },
     "/api/v1/auth/getUserInfo": {
       "get": {
         "description": "接口权限编码:auth:getUserInfo",

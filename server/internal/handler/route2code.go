@@ -14,7 +14,6 @@ import (
 
 var RoutesCodesMap = map[string]string{
 	"POST:/api/v1/auth/code-login":          "auth:codeLogin",
-	"POST:/api/v1/auth/error":               "auth:error",
 	"GET:/api/v1/auth/getUserInfo":          "auth:getUserInfo",
 	"POST:/api/v1/auth/pwd-login":           "auth:pwdLogin",
 	"POST:/api/v1/auth/refreshToken":        "auth:refreshToken",

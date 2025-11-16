@@ -15,12 +15,6 @@ type CodeLoginRequest struct {
 	VerificationCode string `json:"verificationCode"`
 }
 
-type ErrorRequest struct {
-}
-
-type ErrorResponse struct {
-}
-
 type GetUserInfoRequest struct {
 }
 

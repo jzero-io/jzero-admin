@@ -78,13 +78,3 @@ export function RefreshToken(refreshToken: string) {
     }
   });
 }
-
-/**
- * return custom backend error
- *
- * @param code error code
- * @param msg error message
- */
-export function GetCustomBackendError(code: string, msg: string) {
-  return request({ url: '/api/v1/auth/error', params: { code, msg } });
-}

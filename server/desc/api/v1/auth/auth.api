@@ -48,10 +48,6 @@ type RefreshTokenResponse {
 	RefreshToken string `json:"refreshToken"`
 }
 
-type ErrorRequest {}
-
-type ErrorResponse {}
-
 type SendVerificationCodeRequest {
 	Email            string `form:"email" validate:"email"`
 	VerificationType string `form:"verificationType,option=email|phone"`
@@ -104,8 +100,5 @@ service server {
 service server {
 	@handler GetUserInfo
 	get /auth/getUserInfo (GetUserInfoRequest) returns (GetUserInfoResponse)
-
-	@handler Error
-	post /auth/error (ErrorRequest) returns (ErrorResponse)
 }
 
