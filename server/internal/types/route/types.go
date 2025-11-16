@@ -29,6 +29,7 @@ type GetUserRoutesResponse struct {
 }
 
 type IsRouteExistRequest struct {
+	RouteName string `form:"routeName"`
 }
 
 type Query struct {

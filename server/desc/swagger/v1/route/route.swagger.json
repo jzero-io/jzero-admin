@@ -472,6 +472,14 @@
       "get": {
         "description": "接口权限编码:route:isRouteExist",
         "operationId": "routeIsRouteExist",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "routeName",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "produces": [
           "application/json"
         ],

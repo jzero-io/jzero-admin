@@ -54,7 +54,9 @@ type GetUserRoutesResponse {
 	Home   string  `json:"home"`
 }
 
-type IsRouteExistRequest {}
+type IsRouteExistRequest {
+	RouteName string `form:"routeName"`
+}
 
 @server (
 	prefix:          /api/v1
