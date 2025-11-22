@@ -20,35 +20,8 @@ var (
 	manageUserFieldNames        []string
 	manageUserRows              string
 	manageUserRowsExpectAutoSet string
-
-	ManageUserField = struct {
-		Id         condition.Field
-		Uuid       condition.Field
-		CreateTime condition.Field
-		UpdateTime condition.Field
-		Username   condition.Field
-		Password   condition.Field
-		Nickname   condition.Field
-		Gender     condition.Field
-		Phone      condition.Field
-		Status     condition.Field
-		Email      condition.Field
-	}{
-		Id:         "id",
-		Uuid:       "uuid",
-		CreateTime: "create_time",
-		UpdateTime: "update_time",
-		Username:   "username",
-		Password:   "password",
-		Nickname:   "nickname",
-		Gender:     "gender",
-		Phone:      "phone",
-		Status:     "status",
-		Email:      "email",
-	}
 )
 
-// Deprecated use ManageUserField instead
 const (
 	Id         condition.Field = "id"
 	Uuid       condition.Field = "uuid"

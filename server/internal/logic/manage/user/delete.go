@@ -35,7 +35,7 @@ func (l *Delete) Delete(req *types.DeleteRequest) (resp *types.DeleteResponse, e
 
 	err = l.svcCtx.SqlxConn.TransactCtx(l.ctx, func(ctx context.Context, session sqlx.Session) error {
 		if err = l.svcCtx.Model.ManageUser.DeleteByCondition(l.ctx, session, condition.Condition{
-			Field:    manage_user.ManageUserField.Uuid,
+			Field:    manage_user.Uuid,
 			Operator: condition.In,
 			Value:    req.Uuids,
 		}); err != nil {

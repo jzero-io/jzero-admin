@@ -20,35 +20,8 @@ var (
 	manageEmailFieldNames        []string
 	manageEmailRows              string
 	manageEmailRowsExpectAutoSet string
-
-	ManageEmailField = struct {
-		Id         condition.Field
-		Uuid       condition.Field
-		CreateTime condition.Field
-		UpdateTime condition.Field
-		From       condition.Field
-		Host       condition.Field
-		Port       condition.Field
-		Username   condition.Field
-		Password   condition.Field
-		EnableSsl  condition.Field
-		IsVerify   condition.Field
-	}{
-		Id:         "id",
-		Uuid:       "uuid",
-		CreateTime: "create_time",
-		UpdateTime: "update_time",
-		From:       "from",
-		Host:       "host",
-		Port:       "port",
-		Username:   "username",
-		Password:   "password",
-		EnableSsl:  "enable_ssl",
-		IsVerify:   "is_verify",
-	}
 )
 
-// Deprecated use ManageEmailField instead
 const (
 	Id         condition.Field = "id"
 	Uuid       condition.Field = "uuid"

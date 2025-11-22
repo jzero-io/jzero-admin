@@ -36,7 +36,7 @@ func (l *Delete) Delete(req *types.DeleteRequest) (resp *types.DeleteResponse, e
 	}
 	// whether it has submenu
 	subMenus, err := l.svcCtx.Model.ManageMenu.FindByCondition(l.ctx, nil, condition.Condition{
-		Field:    manage_menu.ManageMenuField.ParentUuid,
+		Field:    manage_menu.ParentUuid,
 		Operator: condition.In,
 		Value:    req.Uuids,
 	})
@@ -45,7 +45,7 @@ func (l *Delete) Delete(req *types.DeleteRequest) (resp *types.DeleteResponse, e
 	}
 	// remove permissions
 	menus, err := l.svcCtx.Model.ManageMenu.FindByCondition(l.ctx, nil, condition.Condition{
-		Field:    manage_menu.ManageMenuField.Uuid,
+		Field:    manage_menu.Uuid,
 		Operator: condition.In,
 		Value:    req.Uuids,
 	})
@@ -55,7 +55,7 @@ func (l *Delete) Delete(req *types.DeleteRequest) (resp *types.DeleteResponse, e
 			Unmarshal(menu.Permissions, &permissions)
 			if len(permissions) > 0 {
 				roles, err := l.svcCtx.Model.ManageRoleMenu.FindByCondition(l.ctx, nil, condition.Condition{
-					Field:    manage_role_menu.ManageRoleMenuField.MenuUuid,
+					Field:    manage_role_menu.MenuUuid,
 					Operator: condition.Equal,
 					Value:    menu.Uuid,
 				})
@@ -71,7 +71,7 @@ func (l *Delete) Delete(req *types.DeleteRequest) (resp *types.DeleteResponse, e
 		}
 	}
 	err = l.svcCtx.Model.ManageMenu.DeleteByCondition(l.ctx, nil, condition.Condition{
-		Field:    manage_menu.ManageMenuField.Uuid,
+		Field:    manage_menu.Uuid,
 		Operator: condition.In,
 		Value:    req.Uuids,
 	})

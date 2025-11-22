@@ -35,13 +35,13 @@ func NewAdd(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Request) *A
 
 func (l *Add) Add(req *types.AddRequest) (resp *types.AddResponse, err error) {
 	// role code 唯一
-	if _, err := l.svcCtx.Model.ManageRole.FindOneByCondition(l.ctx, nil, condition.NewChain().Equal(manage_role.ManageRoleField.Code, req.RoleCode).Build()...); err == nil {
+	if _, err := l.svcCtx.Model.ManageRole.FindOneByCondition(l.ctx, nil, condition.NewChain().Equal(manage_role.Code, req.RoleCode).Build()...); err == nil {
 		return nil, errors.New("角色编码已存在")
 	}
 
 	// find home menu
 	var homeMenuUuid string
-	if home, err := l.svcCtx.Model.ManageMenu.FindOneByCondition(l.ctx, nil, condition.NewChain().Equal(manage_menu.ManageMenuField.RoutePath, "/home").Build()...); err != nil {
+	if home, err := l.svcCtx.Model.ManageMenu.FindOneByCondition(l.ctx, nil, condition.NewChain().Equal(manage_menu.RoutePath, "/home").Build()...); err != nil {
 		return nil, err
 	} else {
 		homeMenuUuid = home.Uuid

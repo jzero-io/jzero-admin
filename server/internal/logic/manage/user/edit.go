@@ -47,7 +47,7 @@ func (l *Edit) Edit(req *types.EditRequest) (resp *types.EditResponse, err error
 
 	// 更新 system_user_role 表
 	if err = l.svcCtx.Model.ManageUserRole.DeleteByCondition(l.ctx, nil, condition.Condition{
-		Field:    manage_user_role.ManageUserRoleField.UserUuid,
+		Field:    manage_user_role.UserUuid,
 		Operator: condition.Equal,
 		Value:    req.Uuid,
 	}); err != nil {
@@ -55,7 +55,7 @@ func (l *Edit) Edit(req *types.EditRequest) (resp *types.EditResponse, err error
 	}
 	var bulk []*manage_user_role.ManageUserRole
 	roles, err := l.svcCtx.Model.ManageRole.FindByCondition(l.ctx, nil, condition.Condition{
-		Field:    manage_role.ManageRoleField.Code,
+		Field:    manage_role.Code,
 		Operator: condition.In,
 		Value:    req.UserRoles,
 	})

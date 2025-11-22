@@ -37,17 +37,17 @@ func (l *List) List(req *types.ListRequest) (resp *types.ListResponse, err error
 		Value:    (req.Current - 1) * req.Size,
 	}, condition.Condition{
 		Skip:     req.RoleName == "",
-		Field:    manage_role.ManageRoleField.Name,
+		Field:    manage_role.Name,
 		Operator: condition.Like,
 		Value:    "%" + req.RoleName + "%",
 	}, condition.Condition{
 		Skip:     req.RoleCode == "",
-		Field:    manage_role.ManageRoleField.Code,
+		Field:    manage_role.Code,
 		Operator: condition.Like,
 		Value:    "%" + req.RoleCode + "%",
 	}, condition.Condition{
 		Skip:     req.Status == "",
-		Field:    manage_role.ManageRoleField.Status,
+		Field:    manage_role.Status,
 		Operator: condition.Equal,
 		Value:    req.Status,
 	})

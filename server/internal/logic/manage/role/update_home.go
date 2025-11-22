@@ -31,7 +31,7 @@ func NewUpdateHome(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Requ
 
 func (l *UpdateHome) UpdateHome(req *types.UpdateHomeRequest) (resp *types.UpdateHomeResponse, err error) {
 	menu, err := l.svcCtx.Model.ManageMenu.FindOneByCondition(l.ctx, nil, condition.NewChain().
-		Equal(manage_menu.ManageMenuField.RouteName, req.Home).
+		Equal(manage_menu.RouteName, req.Home).
 		Build()...)
 	if err != nil {
 		return nil, err
@@ -39,8 +39,8 @@ func (l *UpdateHome) UpdateHome(req *types.UpdateHomeRequest) (resp *types.Updat
 
 	// 找到旧 home
 	oldRoleHomeMenu, err := l.svcCtx.Model.ManageRoleMenu.FindOneByCondition(l.ctx, nil, condition.NewChain().
-		Equal(manage_role_menu.ManageRoleMenuField.RoleUuid, req.RoleUuid).
-		Equal(manage_role_menu.ManageRoleMenuField.IsHome, cast.ToInt(true)).
+		Equal(manage_role_menu.RoleUuid, req.RoleUuid).
+		Equal(manage_role_menu.IsHome, cast.ToInt(true)).
 		Build()...)
 	if err == nil {
 		oldRoleHomeMenu.IsHome = cast.ToInt64(false)
@@ -51,8 +51,8 @@ func (l *UpdateHome) UpdateHome(req *types.UpdateHomeRequest) (resp *types.Updat
 	}
 
 	roleMenu, err := l.svcCtx.Model.ManageRoleMenu.FindOneByCondition(l.ctx, nil, condition.NewChain().
-		Equal(manage_role_menu.ManageRoleMenuField.RoleUuid, req.RoleUuid).
-		Equal(manage_role_menu.ManageRoleMenuField.MenuUuid, menu.Uuid).
+		Equal(manage_role_menu.RoleUuid, req.RoleUuid).
+		Equal(manage_role_menu.MenuUuid, menu.Uuid).
 		Build()...)
 	if err != nil {
 		return nil, err

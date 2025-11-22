@@ -64,8 +64,8 @@ func (l *GetUserRoutes) GetUserRoutes(req *types.GetUserRoutesRequest) (resp *ty
 	}
 
 	menus, err := l.svcCtx.Model.ManageMenu.FindByCondition(l.ctx, nil, condition.NewChain().
-		In(manage_menu.ManageMenuField.Uuid, uniqMenuUuids).
-		NotEqual(manage_menu.ManageMenuField.MenuType, "3").
+		In(manage_menu.Uuid, uniqMenuUuids).
+		NotEqual(manage_menu.MenuType, "3").
 		Build()...)
 	if err != nil {
 		return nil, err

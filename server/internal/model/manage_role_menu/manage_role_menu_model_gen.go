@@ -20,27 +20,8 @@ var (
 	manageRoleMenuFieldNames        []string
 	manageRoleMenuRows              string
 	manageRoleMenuRowsExpectAutoSet string
-
-	ManageRoleMenuField = struct {
-		Id         condition.Field
-		Uuid       condition.Field
-		CreateTime condition.Field
-		UpdateTime condition.Field
-		RoleUuid   condition.Field
-		MenuUuid   condition.Field
-		IsHome     condition.Field
-	}{
-		Id:         "id",
-		Uuid:       "uuid",
-		CreateTime: "create_time",
-		UpdateTime: "update_time",
-		RoleUuid:   "role_uuid",
-		MenuUuid:   "menu_uuid",
-		IsHome:     "is_home",
-	}
 )
 
-// Deprecated use ManageRoleMenuField instead
 const (
 	Id         condition.Field = "id"
 	Uuid       condition.Field = "uuid"

@@ -20,63 +20,8 @@ var (
 	manageMenuFieldNames        []string
 	manageMenuRows              string
 	manageMenuRowsExpectAutoSet string
-
-	ManageMenuField = struct {
-		Id              condition.Field
-		Uuid            condition.Field
-		CreateTime      condition.Field
-		UpdateTime      condition.Field
-		Status          condition.Field
-		ParentUuid      condition.Field
-		MenuType        condition.Field
-		MenuName        condition.Field
-		HideInMenu      condition.Field
-		ActiveMenu      condition.Field
-		Order           condition.Field
-		RouteName       condition.Field
-		RoutePath       condition.Field
-		Component       condition.Field
-		Icon            condition.Field
-		IconType        condition.Field
-		I18nKey         condition.Field
-		KeepAlive       condition.Field
-		Href            condition.Field
-		MultiTab        condition.Field
-		FixedIndexInTab condition.Field
-		Query           condition.Field
-		Permissions     condition.Field
-		Constant        condition.Field
-		ButtonCode      condition.Field
-	}{
-		Id:              "id",
-		Uuid:            "uuid",
-		CreateTime:      "create_time",
-		UpdateTime:      "update_time",
-		Status:          "status",
-		ParentUuid:      "parent_uuid",
-		MenuType:        "menu_type",
-		MenuName:        "menu_name",
-		HideInMenu:      "hide_in_menu",
-		ActiveMenu:      "active_menu",
-		Order:           "order",
-		RouteName:       "route_name",
-		RoutePath:       "route_path",
-		Component:       "component",
-		Icon:            "icon",
-		IconType:        "icon_type",
-		I18nKey:         "i18n_key",
-		KeepAlive:       "keep_alive",
-		Href:            "href",
-		MultiTab:        "multi_tab",
-		FixedIndexInTab: "fixed_index_in_tab",
-		Query:           "query",
-		Permissions:     "permissions",
-		Constant:        "constant",
-		ButtonCode:      "button_code",
-	}
 )
 
-// Deprecated use ManageMenuField instead
 const (
 	Id              condition.Field = "id"
 	Uuid            condition.Field = "uuid"

@@ -47,7 +47,7 @@ func (l *Add) Add(req *types.AddRequest) (resp *types.AddResponse, err error) {
 
 	var bulk []*manage_user_role.ManageUserRole
 	roles, err := l.svcCtx.Model.ManageRole.FindByCondition(l.ctx, nil, condition.Condition{
-		Field:    manage_role.ManageRoleField.Code,
+		Field:    manage_role.Code,
 		Operator: condition.In,
 		Value:    req.UserRoles,
 	})

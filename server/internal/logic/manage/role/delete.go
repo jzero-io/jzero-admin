@@ -35,7 +35,7 @@ func (l *Delete) Delete(req *types.DeleteRequest) (resp *types.DeleteResponse, e
 	}
 
 	userRoles, err := l.svcCtx.Model.ManageUserRole.FindByCondition(l.ctx, nil, condition.Condition{
-		Field:    manage_user_role.ManageUserRoleField.RoleUuid,
+		Field:    manage_user_role.RoleUuid,
 		Operator: condition.In,
 		Value:    req.Uuids,
 	})
@@ -47,7 +47,7 @@ func (l *Delete) Delete(req *types.DeleteRequest) (resp *types.DeleteResponse, e
 	}
 
 	err = l.svcCtx.Model.ManageRole.DeleteByCondition(l.ctx, nil, condition.Condition{
-		Field:    manage_role.ManageRoleField.Uuid,
+		Field:    manage_role.Uuid,
 		Operator: condition.In,
 		Value:    req.Uuids,
 	})

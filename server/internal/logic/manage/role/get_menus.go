@@ -29,7 +29,7 @@ func NewGetMenus(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Reques
 
 func (l *GetMenus) GetMenus(req *types.GetMenusRequest) (resp *types.GetMenusResponse, err error) {
 	menus, err := l.svcCtx.Model.ManageRoleMenu.FindByCondition(l.ctx, nil, condition.Condition{
-		Field:    manage_role_menu.ManageRoleMenuField.RoleUuid,
+		Field:    manage_role_menu.RoleUuid,
 		Operator: condition.Equal,
 		Value:    req.RoleUuid,
 	})

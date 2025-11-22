@@ -20,29 +20,8 @@ var (
 	manageRoleFieldNames        []string
 	manageRoleRows              string
 	manageRoleRowsExpectAutoSet string
-
-	ManageRoleField = struct {
-		Id         condition.Field
-		Uuid       condition.Field
-		CreateTime condition.Field
-		UpdateTime condition.Field
-		Name       condition.Field
-		Status     condition.Field
-		Code       condition.Field
-		Desc       condition.Field
-	}{
-		Id:         "id",
-		Uuid:       "uuid",
-		CreateTime: "create_time",
-		UpdateTime: "update_time",
-		Name:       "name",
-		Status:     "status",
-		Code:       "code",
-		Desc:       "desc",
-	}
 )
 
-// Deprecated use ManageRoleField instead
 const (
 	Id         condition.Field = "id"
 	Uuid       condition.Field = "uuid"

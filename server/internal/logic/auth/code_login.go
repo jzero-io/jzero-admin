@@ -50,7 +50,7 @@ func (l *CodeLogin) CodeLogin(req *types.CodeLoginRequest) (resp *types.LoginRes
 	}
 
 	user, err := l.svcCtx.Model.ManageUser.FindOneByCondition(l.ctx, nil, condition.Condition{
-		Field:    manage_user.ManageUserField.Email,
+		Field:    manage_user.Email,
 		Operator: condition.Equal,
 		Value:    req.Email,
 	})
@@ -59,7 +59,7 @@ func (l *CodeLogin) CodeLogin(req *types.CodeLoginRequest) (resp *types.LoginRes
 	}
 
 	userRoles, err := l.svcCtx.Model.ManageUserRole.FindByCondition(l.ctx, nil, condition.NewChain().
-		Equal(manage_user_role.ManageUserRoleField.UserUuid, user.Uuid).
+		Equal(manage_user_role.UserUuid, user.Uuid).
 		Build()...)
 	if err != nil {
 		return nil, err
