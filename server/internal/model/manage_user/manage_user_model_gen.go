@@ -5,6 +5,7 @@ package manage_user
 import (
 	"context"
 	"database/sql"
+	"slices"
 	"strings"
 	"time"
 
@@ -17,9 +18,10 @@ import (
 )
 
 var (
-	manageUserFieldNames        []string
-	manageUserRows              string
-	manageUserRowsExpectAutoSet string
+	manageUserFieldNames               []string
+	manageUserRows                     string
+	manageUserRowsExpectAutoFieldNames []string
+	manageUserRowsExpectAutoSet        string
 )
 
 const (
@@ -39,7 +41,8 @@ const (
 func initManageUserVars(flavor sqlbuilder.Flavor) {
 	manageUserFieldNames = condition.RawFieldNamesWithFlavor(flavor, &ManageUser{})
 	manageUserRows = strings.Join(manageUserFieldNames, ",")
-	manageUserRowsExpectAutoSet = strings.Join(condition.RemoveIgnoreColumnsWithFlavor(flavor, manageUserFieldNames, "`id`", "`create_time`", "`update_time`"), ",")
+	manageUserRowsExpectAutoFieldNames = condition.RemoveIgnoreColumnsWithFlavor(flavor, manageUserFieldNames, "`id`", "`create_time`", "`update_time`")
+	manageUserRowsExpectAutoSet = strings.Join(manageUserRowsExpectAutoFieldNames, ",")
 }
 
 type (
@@ -104,7 +107,7 @@ func newManageUserModel(conn sqlx.SqlConn, op ...opts.Opt[modelx.ModelOpts]) *de
 		cachedConn: cachedConn,
 		conn:       conn,
 		flavor:     o.Flavor,
-		table:      condition.QuoteWithFlavor(o.Flavor, "`manage_user`"),
+		table:      condition.QuoteWithFlavor(o.Flavor, "manage_user"),
 	}
 }
 
@@ -267,25 +270,52 @@ func (m *defaultManageUserModel) InsertV2(ctx context.Context, session sqlx.Sess
 	return err
 }
 
-func (m *defaultManageUserModel) Update(ctx context.Context, session sqlx.Session, newData *ManageUser) error {
+func (m *defaultManageUserModel) Update(ctx context.Context, session sqlx.Session, data *ManageUser) error {
 	sb := sqlbuilder.Update(m.table)
-	split := strings.Split(manageUserRowsExpectAutoSet, ",")
 	var assigns []string
-	for _, s := range split {
-		if condition.Unquote(s) == condition.Unquote("`id`") {
-			continue
-		}
-		assigns = append(assigns, sb.Assign(s, nil))
+	if slices.Contains(manageUserRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "id")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "id"), data.Id))
 	}
+	if slices.Contains(manageUserRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "uuid")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "uuid"), data.Uuid))
+	}
+	if slices.Contains(manageUserRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "create_time")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "create_time"), data.CreateTime))
+	}
+	if slices.Contains(manageUserRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "update_time")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "update_time"), data.UpdateTime))
+	}
+	if slices.Contains(manageUserRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "username")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "username"), data.Username))
+	}
+	if slices.Contains(manageUserRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "password")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "password"), data.Password))
+	}
+	if slices.Contains(manageUserRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "nickname")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "nickname"), data.Nickname))
+	}
+	if slices.Contains(manageUserRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "gender")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "gender"), data.Gender))
+	}
+	if slices.Contains(manageUserRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "phone")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "phone"), data.Phone))
+	}
+	if slices.Contains(manageUserRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "status")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "status"), data.Status))
+	}
+	if slices.Contains(manageUserRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "email")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "email"), data.Email))
+	}
+
 	sb.Set(assigns...)
-	sb.Where(sb.EQ(condition.QuoteWithFlavor(m.flavor, "`id`"), nil))
-	statement, _ := sb.BuildWithFlavor(m.flavor)
+	sb.Where(sb.EQ(condition.QuoteWithFlavor(m.flavor, "`id`"), data.Id))
+	statement, args := sb.BuildWithFlavor(m.flavor)
 
 	var err error
 	if session != nil {
-		_, err = session.ExecCtx(ctx, statement, newData.Uuid, newData.Username, newData.Password, newData.Nickname, newData.Gender, newData.Phone, newData.Status, newData.Email, newData.Id)
+		_, err = session.ExecCtx(ctx, statement, args...)
 	} else {
-		_, err = m.conn.ExecCtx(ctx, statement, newData.Uuid, newData.Username, newData.Password, newData.Nickname, newData.Gender, newData.Phone, newData.Status, newData.Email, newData.Id)
+		_, err = m.conn.ExecCtx(ctx, statement, args...)
 	}
 	return err
 }

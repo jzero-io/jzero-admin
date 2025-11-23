@@ -5,6 +5,7 @@ package manage_menu
 import (
 	"context"
 	"database/sql"
+	"slices"
 	"strings"
 	"time"
 
@@ -17,9 +18,10 @@ import (
 )
 
 var (
-	manageMenuFieldNames        []string
-	manageMenuRows              string
-	manageMenuRowsExpectAutoSet string
+	manageMenuFieldNames               []string
+	manageMenuRows                     string
+	manageMenuRowsExpectAutoFieldNames []string
+	manageMenuRowsExpectAutoSet        string
 )
 
 const (
@@ -53,7 +55,8 @@ const (
 func initManageMenuVars(flavor sqlbuilder.Flavor) {
 	manageMenuFieldNames = condition.RawFieldNamesWithFlavor(flavor, &ManageMenu{})
 	manageMenuRows = strings.Join(manageMenuFieldNames, ",")
-	manageMenuRowsExpectAutoSet = strings.Join(condition.RemoveIgnoreColumnsWithFlavor(flavor, manageMenuFieldNames, "`id`", "`create_time`", "`update_time`"), ",")
+	manageMenuRowsExpectAutoFieldNames = condition.RemoveIgnoreColumnsWithFlavor(flavor, manageMenuFieldNames, "`id`", "`create_time`", "`update_time`")
+	manageMenuRowsExpectAutoSet = strings.Join(manageMenuRowsExpectAutoFieldNames, ",")
 }
 
 type (
@@ -131,7 +134,7 @@ func newManageMenuModel(conn sqlx.SqlConn, op ...opts.Opt[modelx.ModelOpts]) *de
 		cachedConn: cachedConn,
 		conn:       conn,
 		flavor:     o.Flavor,
-		table:      condition.QuoteWithFlavor(o.Flavor, "`manage_menu`"),
+		table:      condition.QuoteWithFlavor(o.Flavor, "manage_menu"),
 	}
 }
 
@@ -268,25 +271,94 @@ func (m *defaultManageMenuModel) InsertV2(ctx context.Context, session sqlx.Sess
 	return err
 }
 
-func (m *defaultManageMenuModel) Update(ctx context.Context, session sqlx.Session, newData *ManageMenu) error {
+func (m *defaultManageMenuModel) Update(ctx context.Context, session sqlx.Session, data *ManageMenu) error {
 	sb := sqlbuilder.Update(m.table)
-	split := strings.Split(manageMenuRowsExpectAutoSet, ",")
 	var assigns []string
-	for _, s := range split {
-		if condition.Unquote(s) == condition.Unquote("`id`") {
-			continue
-		}
-		assigns = append(assigns, sb.Assign(s, nil))
+	if slices.Contains(manageMenuRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "id")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "id"), data.Id))
 	}
+	if slices.Contains(manageMenuRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "uuid")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "uuid"), data.Uuid))
+	}
+	if slices.Contains(manageMenuRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "create_time")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "create_time"), data.CreateTime))
+	}
+	if slices.Contains(manageMenuRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "update_time")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "update_time"), data.UpdateTime))
+	}
+	if slices.Contains(manageMenuRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "status")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "status"), data.Status))
+	}
+	if slices.Contains(manageMenuRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "parent_uuid")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "parent_uuid"), data.ParentUuid))
+	}
+	if slices.Contains(manageMenuRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "menu_type")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "menu_type"), data.MenuType))
+	}
+	if slices.Contains(manageMenuRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "menu_name")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "menu_name"), data.MenuName))
+	}
+	if slices.Contains(manageMenuRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "hide_in_menu")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "hide_in_menu"), data.HideInMenu))
+	}
+	if slices.Contains(manageMenuRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "active_menu")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "active_menu"), data.ActiveMenu))
+	}
+	if slices.Contains(manageMenuRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "order")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "order"), data.Order))
+	}
+	if slices.Contains(manageMenuRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "route_name")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "route_name"), data.RouteName))
+	}
+	if slices.Contains(manageMenuRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "route_path")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "route_path"), data.RoutePath))
+	}
+	if slices.Contains(manageMenuRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "component")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "component"), data.Component))
+	}
+	if slices.Contains(manageMenuRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "icon")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "icon"), data.Icon))
+	}
+	if slices.Contains(manageMenuRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "icon_type")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "icon_type"), data.IconType))
+	}
+	if slices.Contains(manageMenuRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "i18n_key")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "i18n_key"), data.I18nKey))
+	}
+	if slices.Contains(manageMenuRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "keep_alive")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "keep_alive"), data.KeepAlive))
+	}
+	if slices.Contains(manageMenuRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "href")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "href"), data.Href))
+	}
+	if slices.Contains(manageMenuRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "multi_tab")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "multi_tab"), data.MultiTab))
+	}
+	if slices.Contains(manageMenuRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "fixed_index_in_tab")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "fixed_index_in_tab"), data.FixedIndexInTab))
+	}
+	if slices.Contains(manageMenuRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "query")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "query"), data.Query))
+	}
+	if slices.Contains(manageMenuRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "permissions")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "permissions"), data.Permissions))
+	}
+	if slices.Contains(manageMenuRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "constant")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "constant"), data.Constant))
+	}
+	if slices.Contains(manageMenuRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "button_code")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "button_code"), data.ButtonCode))
+	}
+
 	sb.Set(assigns...)
-	sb.Where(sb.EQ(condition.QuoteWithFlavor(m.flavor, "`id`"), nil))
-	statement, _ := sb.BuildWithFlavor(m.flavor)
+	sb.Where(sb.EQ(condition.QuoteWithFlavor(m.flavor, "`id`"), data.Id))
+	statement, args := sb.BuildWithFlavor(m.flavor)
 
 	var err error
 	if session != nil {
-		_, err = session.ExecCtx(ctx, statement, newData.Uuid, newData.Status, newData.ParentUuid, newData.MenuType, newData.MenuName, newData.HideInMenu, newData.ActiveMenu, newData.Order, newData.RouteName, newData.RoutePath, newData.Component, newData.Icon, newData.IconType, newData.I18nKey, newData.KeepAlive, newData.Href, newData.MultiTab, newData.FixedIndexInTab, newData.Query, newData.Permissions, newData.Constant, newData.ButtonCode, newData.Id)
+		_, err = session.ExecCtx(ctx, statement, args...)
 	} else {
-		_, err = m.conn.ExecCtx(ctx, statement, newData.Uuid, newData.Status, newData.ParentUuid, newData.MenuType, newData.MenuName, newData.HideInMenu, newData.ActiveMenu, newData.Order, newData.RouteName, newData.RoutePath, newData.Component, newData.Icon, newData.IconType, newData.I18nKey, newData.KeepAlive, newData.Href, newData.MultiTab, newData.FixedIndexInTab, newData.Query, newData.Permissions, newData.Constant, newData.ButtonCode, newData.Id)
+		_, err = m.conn.ExecCtx(ctx, statement, args...)
 	}
 	return err
 }

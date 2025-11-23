@@ -5,6 +5,7 @@ package manage_user_role
 import (
 	"context"
 	"database/sql"
+	"slices"
 	"strings"
 	"time"
 
@@ -17,9 +18,10 @@ import (
 )
 
 var (
-	manageUserRoleFieldNames        []string
-	manageUserRoleRows              string
-	manageUserRoleRowsExpectAutoSet string
+	manageUserRoleFieldNames               []string
+	manageUserRoleRows                     string
+	manageUserRoleRowsExpectAutoFieldNames []string
+	manageUserRoleRowsExpectAutoSet        string
 )
 
 const (
@@ -34,7 +36,8 @@ const (
 func initManageUserRoleVars(flavor sqlbuilder.Flavor) {
 	manageUserRoleFieldNames = condition.RawFieldNamesWithFlavor(flavor, &ManageUserRole{})
 	manageUserRoleRows = strings.Join(manageUserRoleFieldNames, ",")
-	manageUserRoleRowsExpectAutoSet = strings.Join(condition.RemoveIgnoreColumnsWithFlavor(flavor, manageUserRoleFieldNames, "`id`", "`create_time`", "`update_time`"), ",")
+	manageUserRoleRowsExpectAutoFieldNames = condition.RemoveIgnoreColumnsWithFlavor(flavor, manageUserRoleFieldNames, "`id`", "`create_time`", "`update_time`")
+	manageUserRoleRowsExpectAutoSet = strings.Join(manageUserRoleRowsExpectAutoFieldNames, ",")
 }
 
 type (
@@ -93,7 +96,7 @@ func newManageUserRoleModel(conn sqlx.SqlConn, op ...opts.Opt[modelx.ModelOpts])
 		cachedConn: cachedConn,
 		conn:       conn,
 		flavor:     o.Flavor,
-		table:      condition.QuoteWithFlavor(o.Flavor, "`manage_user_role`"),
+		table:      condition.QuoteWithFlavor(o.Flavor, "manage_user_role"),
 	}
 }
 
@@ -230,25 +233,37 @@ func (m *defaultManageUserRoleModel) InsertV2(ctx context.Context, session sqlx.
 	return err
 }
 
-func (m *defaultManageUserRoleModel) Update(ctx context.Context, session sqlx.Session, newData *ManageUserRole) error {
+func (m *defaultManageUserRoleModel) Update(ctx context.Context, session sqlx.Session, data *ManageUserRole) error {
 	sb := sqlbuilder.Update(m.table)
-	split := strings.Split(manageUserRoleRowsExpectAutoSet, ",")
 	var assigns []string
-	for _, s := range split {
-		if condition.Unquote(s) == condition.Unquote("`id`") {
-			continue
-		}
-		assigns = append(assigns, sb.Assign(s, nil))
+	if slices.Contains(manageUserRoleRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "id")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "id"), data.Id))
 	}
+	if slices.Contains(manageUserRoleRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "uuid")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "uuid"), data.Uuid))
+	}
+	if slices.Contains(manageUserRoleRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "create_time")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "create_time"), data.CreateTime))
+	}
+	if slices.Contains(manageUserRoleRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "update_time")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "update_time"), data.UpdateTime))
+	}
+	if slices.Contains(manageUserRoleRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "user_uuid")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "user_uuid"), data.UserUuid))
+	}
+	if slices.Contains(manageUserRoleRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "role_uuid")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "role_uuid"), data.RoleUuid))
+	}
+
 	sb.Set(assigns...)
-	sb.Where(sb.EQ(condition.QuoteWithFlavor(m.flavor, "`id`"), nil))
-	statement, _ := sb.BuildWithFlavor(m.flavor)
+	sb.Where(sb.EQ(condition.QuoteWithFlavor(m.flavor, "`id`"), data.Id))
+	statement, args := sb.BuildWithFlavor(m.flavor)
 
 	var err error
 	if session != nil {
-		_, err = session.ExecCtx(ctx, statement, newData.Uuid, newData.UserUuid, newData.RoleUuid, newData.Id)
+		_, err = session.ExecCtx(ctx, statement, args...)
 	} else {
-		_, err = m.conn.ExecCtx(ctx, statement, newData.Uuid, newData.UserUuid, newData.RoleUuid, newData.Id)
+		_, err = m.conn.ExecCtx(ctx, statement, args...)
 	}
 	return err
 }

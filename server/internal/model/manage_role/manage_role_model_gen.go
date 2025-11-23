@@ -5,6 +5,7 @@ package manage_role
 import (
 	"context"
 	"database/sql"
+	"slices"
 	"strings"
 	"time"
 
@@ -17,9 +18,10 @@ import (
 )
 
 var (
-	manageRoleFieldNames        []string
-	manageRoleRows              string
-	manageRoleRowsExpectAutoSet string
+	manageRoleFieldNames               []string
+	manageRoleRows                     string
+	manageRoleRowsExpectAutoFieldNames []string
+	manageRoleRowsExpectAutoSet        string
 )
 
 const (
@@ -36,7 +38,8 @@ const (
 func initManageRoleVars(flavor sqlbuilder.Flavor) {
 	manageRoleFieldNames = condition.RawFieldNamesWithFlavor(flavor, &ManageRole{})
 	manageRoleRows = strings.Join(manageRoleFieldNames, ",")
-	manageRoleRowsExpectAutoSet = strings.Join(condition.RemoveIgnoreColumnsWithFlavor(flavor, manageRoleFieldNames, "`id`", "`create_time`", "`update_time`"), ",")
+	manageRoleRowsExpectAutoFieldNames = condition.RemoveIgnoreColumnsWithFlavor(flavor, manageRoleFieldNames, "`id`", "`create_time`", "`update_time`")
+	manageRoleRowsExpectAutoSet = strings.Join(manageRoleRowsExpectAutoFieldNames, ",")
 }
 
 type (
@@ -97,7 +100,7 @@ func newManageRoleModel(conn sqlx.SqlConn, op ...opts.Opt[modelx.ModelOpts]) *de
 		cachedConn: cachedConn,
 		conn:       conn,
 		flavor:     o.Flavor,
-		table:      condition.QuoteWithFlavor(o.Flavor, "`manage_role`"),
+		table:      condition.QuoteWithFlavor(o.Flavor, "manage_role"),
 	}
 }
 
@@ -234,25 +237,43 @@ func (m *defaultManageRoleModel) InsertV2(ctx context.Context, session sqlx.Sess
 	return err
 }
 
-func (m *defaultManageRoleModel) Update(ctx context.Context, session sqlx.Session, newData *ManageRole) error {
+func (m *defaultManageRoleModel) Update(ctx context.Context, session sqlx.Session, data *ManageRole) error {
 	sb := sqlbuilder.Update(m.table)
-	split := strings.Split(manageRoleRowsExpectAutoSet, ",")
 	var assigns []string
-	for _, s := range split {
-		if condition.Unquote(s) == condition.Unquote("`id`") {
-			continue
-		}
-		assigns = append(assigns, sb.Assign(s, nil))
+	if slices.Contains(manageRoleRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "id")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "id"), data.Id))
 	}
+	if slices.Contains(manageRoleRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "uuid")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "uuid"), data.Uuid))
+	}
+	if slices.Contains(manageRoleRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "create_time")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "create_time"), data.CreateTime))
+	}
+	if slices.Contains(manageRoleRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "update_time")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "update_time"), data.UpdateTime))
+	}
+	if slices.Contains(manageRoleRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "name")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "name"), data.Name))
+	}
+	if slices.Contains(manageRoleRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "status")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "status"), data.Status))
+	}
+	if slices.Contains(manageRoleRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "code")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "code"), data.Code))
+	}
+	if slices.Contains(manageRoleRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "desc")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "desc"), data.Desc))
+	}
+
 	sb.Set(assigns...)
-	sb.Where(sb.EQ(condition.QuoteWithFlavor(m.flavor, "`id`"), nil))
-	statement, _ := sb.BuildWithFlavor(m.flavor)
+	sb.Where(sb.EQ(condition.QuoteWithFlavor(m.flavor, "`id`"), data.Id))
+	statement, args := sb.BuildWithFlavor(m.flavor)
 
 	var err error
 	if session != nil {
-		_, err = session.ExecCtx(ctx, statement, newData.Uuid, newData.Name, newData.Status, newData.Code, newData.Desc, newData.Id)
+		_, err = session.ExecCtx(ctx, statement, args...)
 	} else {
-		_, err = m.conn.ExecCtx(ctx, statement, newData.Uuid, newData.Name, newData.Status, newData.Code, newData.Desc, newData.Id)
+		_, err = m.conn.ExecCtx(ctx, statement, args...)
 	}
 	return err
 }

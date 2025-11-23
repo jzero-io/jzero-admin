@@ -5,6 +5,7 @@ package manage_email
 import (
 	"context"
 	"database/sql"
+	"slices"
 	"strings"
 	"time"
 
@@ -17,9 +18,10 @@ import (
 )
 
 var (
-	manageEmailFieldNames        []string
-	manageEmailRows              string
-	manageEmailRowsExpectAutoSet string
+	manageEmailFieldNames               []string
+	manageEmailRows                     string
+	manageEmailRowsExpectAutoFieldNames []string
+	manageEmailRowsExpectAutoSet        string
 )
 
 const (
@@ -39,7 +41,8 @@ const (
 func initManageEmailVars(flavor sqlbuilder.Flavor) {
 	manageEmailFieldNames = condition.RawFieldNamesWithFlavor(flavor, &ManageEmail{})
 	manageEmailRows = strings.Join(manageEmailFieldNames, ",")
-	manageEmailRowsExpectAutoSet = strings.Join(condition.RemoveIgnoreColumnsWithFlavor(flavor, manageEmailFieldNames, "`id`", "`create_time`", "`update_time`"), ",")
+	manageEmailRowsExpectAutoFieldNames = condition.RemoveIgnoreColumnsWithFlavor(flavor, manageEmailFieldNames, "`id`", "`create_time`", "`update_time`")
+	manageEmailRowsExpectAutoSet = strings.Join(manageEmailRowsExpectAutoFieldNames, ",")
 }
 
 type (
@@ -103,7 +106,7 @@ func newManageEmailModel(conn sqlx.SqlConn, op ...opts.Opt[modelx.ModelOpts]) *d
 		cachedConn: cachedConn,
 		conn:       conn,
 		flavor:     o.Flavor,
-		table:      condition.QuoteWithFlavor(o.Flavor, "`manage_email`"),
+		table:      condition.QuoteWithFlavor(o.Flavor, "manage_email"),
 	}
 }
 
@@ -240,25 +243,52 @@ func (m *defaultManageEmailModel) InsertV2(ctx context.Context, session sqlx.Ses
 	return err
 }
 
-func (m *defaultManageEmailModel) Update(ctx context.Context, session sqlx.Session, newData *ManageEmail) error {
+func (m *defaultManageEmailModel) Update(ctx context.Context, session sqlx.Session, data *ManageEmail) error {
 	sb := sqlbuilder.Update(m.table)
-	split := strings.Split(manageEmailRowsExpectAutoSet, ",")
 	var assigns []string
-	for _, s := range split {
-		if condition.Unquote(s) == condition.Unquote("`id`") {
-			continue
-		}
-		assigns = append(assigns, sb.Assign(s, nil))
+	if slices.Contains(manageEmailRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "id")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "id"), data.Id))
 	}
+	if slices.Contains(manageEmailRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "uuid")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "uuid"), data.Uuid))
+	}
+	if slices.Contains(manageEmailRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "create_time")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "create_time"), data.CreateTime))
+	}
+	if slices.Contains(manageEmailRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "update_time")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "update_time"), data.UpdateTime))
+	}
+	if slices.Contains(manageEmailRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "from")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "from"), data.From))
+	}
+	if slices.Contains(manageEmailRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "host")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "host"), data.Host))
+	}
+	if slices.Contains(manageEmailRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "port")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "port"), data.Port))
+	}
+	if slices.Contains(manageEmailRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "username")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "username"), data.Username))
+	}
+	if slices.Contains(manageEmailRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "password")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "password"), data.Password))
+	}
+	if slices.Contains(manageEmailRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "enable_ssl")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "enable_ssl"), data.EnableSsl))
+	}
+	if slices.Contains(manageEmailRowsExpectAutoFieldNames, condition.QuoteWithFlavor(m.flavor, "is_verify")) {
+		assigns = append(assigns, sb.Assign(condition.QuoteWithFlavor(m.flavor, "is_verify"), data.IsVerify))
+	}
+
 	sb.Set(assigns...)
-	sb.Where(sb.EQ(condition.QuoteWithFlavor(m.flavor, "`id`"), nil))
-	statement, _ := sb.BuildWithFlavor(m.flavor)
+	sb.Where(sb.EQ(condition.QuoteWithFlavor(m.flavor, "`id`"), data.Id))
+	statement, args := sb.BuildWithFlavor(m.flavor)
 
 	var err error
 	if session != nil {
-		_, err = session.ExecCtx(ctx, statement, newData.Uuid, newData.From, newData.Host, newData.Port, newData.Username, newData.Password, newData.EnableSsl, newData.IsVerify, newData.Id)
+		_, err = session.ExecCtx(ctx, statement, args...)
 	} else {
-		_, err = m.conn.ExecCtx(ctx, statement, newData.Uuid, newData.From, newData.Host, newData.Port, newData.Username, newData.Password, newData.EnableSsl, newData.IsVerify, newData.Id)
+		_, err = m.conn.ExecCtx(ctx, statement, args...)
 	}
 	return err
 }
