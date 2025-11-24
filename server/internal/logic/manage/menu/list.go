@@ -7,6 +7,7 @@ import (
 	"sort"
 
 	"github.com/guregu/null/v5"
+	"github.com/jzero-io/jzero/core/slicex"
 	"github.com/jzero-io/jzero/core/stores/condition"
 	"github.com/spf13/cast"
 	"github.com/zeromicro/go-zero/core/logx"
@@ -54,7 +55,7 @@ func (l *List) List(req *types.ListRequest) (resp *types.ListResponse, err error
 		Size:    req.Size,
 		Total:   int64(len(tree)),
 	}
-	resp.Records = paginate(tree, req.Current, req.Size)
+	resp.Records = slicex.Paginate(tree, req.Current, req.Size)
 
 	return
 }
@@ -114,18 +115,4 @@ func buildMenuTree(menus []*types.SystemMenu, parentUuid string) []types.SystemM
 		}
 	}
 	return result
-}
-
-func paginate(list []types.SystemMenu, current, size int) []types.SystemMenu {
-	start := (current - 1) * size
-	if start >= len(list) {
-		return []types.SystemMenu{}
-	}
-
-	end := start + size
-	if end > len(list) {
-		end = len(list)
-	}
-
-	return list[start:end]
 }

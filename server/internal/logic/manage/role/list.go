@@ -29,28 +29,13 @@ func NewList(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Request) *
 }
 
 func (l *List) List(req *types.ListRequest) (resp *types.ListResponse, err error) {
-	roles, total, err := l.svcCtx.Model.ManageRole.PageByCondition(l.ctx, nil, condition.Condition{
-		Operator: condition.Limit,
-		Value:    req.Size,
-	}, condition.Condition{
-		Operator: condition.Offset,
-		Value:    (req.Current - 1) * req.Size,
-	}, condition.Condition{
-		Skip:     req.RoleName == "",
-		Field:    manage_role.Name,
-		Operator: condition.Like,
-		Value:    "%" + req.RoleName + "%",
-	}, condition.Condition{
-		Skip:     req.RoleCode == "",
-		Field:    manage_role.Code,
-		Operator: condition.Like,
-		Value:    "%" + req.RoleCode + "%",
-	}, condition.Condition{
-		Skip:     req.Status == "",
-		Field:    manage_role.Status,
-		Operator: condition.Equal,
-		Value:    req.Status,
-	})
+	roles, total, err := l.svcCtx.Model.ManageRole.PageByCondition(l.ctx, nil, condition.NewChain().
+		Page(req.Current, req.Size).
+		OrderByDesc(manage_role.CreateTime).
+		Like(manage_role.Name, "%"+req.RoleName+"%", condition.WithSkip(req.RoleName == "")).
+		Like(manage_role.Code, "%"+req.RoleCode+"%", condition.WithSkip(req.RoleCode == "")).
+		Equal(manage_role.Status, req.Status, condition.WithSkip(req.Status == "")).
+		Build()...)
 
 	var records []types.ManageRole
 	for _, role := range roles {

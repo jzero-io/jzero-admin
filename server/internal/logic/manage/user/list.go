@@ -32,43 +32,16 @@ func NewList(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Request) *
 }
 
 func (l *List) List(req *types.ListRequest) (resp *types.ListResponse, err error) {
-	users, total, err := l.svcCtx.Model.ManageUser.PageByCondition(l.ctx, nil, condition.Condition{
-		Operator: condition.Limit,
-		Value:    req.Size,
-	}, condition.Condition{
-		Operator: condition.Offset,
-		Value:    (req.Current - 1) * req.Size,
-	}, condition.Condition{
-		Skip:     req.Username == "",
-		Field:    manage_user.Username,
-		Operator: condition.Like,
-		Value:    "%" + req.Username + "%",
-	}, condition.Condition{
-		Skip:     req.UserGender == "",
-		Field:    manage_user.Gender,
-		Operator: condition.Equal,
-		Value:    req.UserGender,
-	}, condition.Condition{
-		Skip:     req.NickName == "",
-		Field:    manage_user.Nickname,
-		Operator: condition.Like,
-		Value:    "%" + req.NickName + "%",
-	}, condition.Condition{
-		Skip:     req.UserPhone == "",
-		Field:    manage_user.Phone,
-		Operator: condition.Like,
-		Value:    "%" + req.UserPhone + "%",
-	}, condition.Condition{
-		Skip:     req.UserEmail == "",
-		Field:    manage_user.Email,
-		Operator: condition.Like,
-		Value:    "%" + req.UserEmail + "%",
-	}, condition.Condition{
-		Skip:     req.Status == "",
-		Field:    manage_user.Status,
-		Operator: condition.Equal,
-		Value:    req.Status,
-	})
+	users, total, err := l.svcCtx.Model.ManageUser.PageByCondition(l.ctx, nil, condition.NewChain().
+		Page(req.Current, req.Size).
+		OrderByDesc(manage_user.CreateTime).
+		Like(manage_user.Username, "%"+req.Username+"%").
+		Equal(manage_user.Gender, req.UserGender, condition.WithSkip(req.UserGender == "")).
+		Like(manage_user.Nickname, "%"+req.NickName+"%", condition.WithSkip(req.NickName == "")).
+		Like(manage_user.Phone, "%"+req.UserPhone+"%", condition.WithSkip(req.UserPhone == "")).
+		Like(manage_user.Email, "%"+req.UserEmail+"%", condition.WithSkip(req.UserEmail == "")).
+		Equal(manage_user.Status, req.Status, condition.WithSkip(req.Status == "")).
+		Build()...)
 
 	var records []types.ManageUser
 	for _, user := range users {
@@ -122,6 +95,10 @@ func (l *List) List(req *types.ListRequest) (resp *types.ListResponse, err error
 		}
 		records[item].UserRoles = roleCodes
 	}, func(pipe <-chan types.ManageUser, cancel func(error)) {})
+
+	if err != nil {
+		return nil, err
+	}
 
 	resp = &types.ListResponse{
 		Records: records,

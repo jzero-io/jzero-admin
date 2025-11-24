@@ -6,6 +6,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/jzero-io/jzero/core/stores/condition"
+	"github.com/samber/lo"
 	"github.com/zeromicro/go-zero/core/logx"
 
 	"github.com/jzero-io/jzero-admin/server/internal/model/manage_role"
@@ -30,18 +31,20 @@ func NewEdit(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Request) *
 }
 
 func (l *Edit) Edit(req *types.EditRequest) (resp *types.EditResponse, err error) {
-	user, err := l.svcCtx.Model.ManageUser.FindOneByUuid(l.ctx, nil, req.Uuid)
+	data, err := l.svcCtx.Model.ManageUser.FindOneByUuid(l.ctx, nil, req.Uuid)
 	if err != nil {
 		return nil, err
 	}
-	user.Username = req.Username
-	user.Nickname = req.NickName
-	user.Email = req.UserEmail
-	user.Phone = req.UserPhone
-	user.Gender = req.UserGender
-	user.Status = req.Status
 
-	if err = l.svcCtx.Model.ManageUser.Update(l.ctx, nil, user); err != nil {
+	newData := lo.FromPtr(data)
+	newData.Username = req.Username
+	newData.Nickname = req.NickName
+	newData.Email = req.UserEmail
+	newData.Phone = req.UserPhone
+	newData.Gender = req.UserGender
+	newData.Status = req.Status
+
+	if err = l.svcCtx.Model.ManageUser.Update(l.ctx, nil, lo.ToPtr(newData)); err != nil {
 		return nil, err
 	}
 
@@ -65,7 +68,7 @@ func (l *Edit) Edit(req *types.EditRequest) (resp *types.EditResponse, err error
 	for _, v := range roles {
 		bulk = append(bulk, &manage_user_role.ManageUserRole{
 			Uuid:     uuid.New().String(),
-			UserUuid: user.Uuid,
+			UserUuid: data.Uuid,
 			RoleUuid: v.Uuid,
 		})
 	}

@@ -6,6 +6,7 @@ import (
 
 	"github.com/jzero-io/jzero/core/stores/condition"
 	"github.com/pkg/errors"
+	"github.com/samber/lo"
 	"github.com/spf13/cast"
 	"github.com/zeromicro/go-zero/core/logx"
 
@@ -30,40 +31,42 @@ func NewEdit(ctx context.Context, svcCtx *svc.ServiceContext, r *http.Request) *
 }
 
 func (l *Edit) Edit(req *types.EditRequest) (resp *types.EditResponse, err error) {
-	one, err := l.svcCtx.Model.ManageMenu.FindOneByUuid(l.ctx, nil, req.Uuid)
+	data, err := l.svcCtx.Model.ManageMenu.FindOneByUuid(l.ctx, nil, req.Uuid)
 	if err != nil {
 		return nil, err
 	}
 	var oldPermissions []types.Permission
-	oldPermissionStr := one.Permissions
 
-	one.Status = req.Status
-	one.ParentUuid = req.ParentUuid
-	one.MenuType = req.MenuType
-	one.MenuName = req.MenuName
-	one.HideInMenu = cast.ToInt64(req.HideInMenu)
-	one.ActiveMenu = req.ActiveMenu
-	one.Order = req.Order
-	one.RouteName = req.RouteName
-	one.RoutePath = req.RoutePath
-	one.Component = req.Component
-	one.Icon = req.Icon
-	one.IconType = req.IconType
-	one.I18nKey = req.I18nKey
-	one.KeepAlive = cast.ToInt64(req.KeepAlive)
-	one.Href = req.Href
-	one.MultiTab = cast.ToInt64(req.MutiTab)
-	one.FixedIndexInTab = cast.ToInt64(req.FixedIndexInTab)
-	one.Query = marshal(req.Query)
-	one.ButtonCode = req.ButtonCode
-	one.Permissions = marshal(req.Permissions)
-	one.Constant = cast.ToInt64(req.Constant)
+	newData := lo.FromPtr(data)
+	newData.Status = req.Status
+	newData.ParentUuid = req.ParentUuid
+	newData.MenuType = req.MenuType
+	newData.MenuName = req.MenuName
+	newData.HideInMenu = cast.ToInt64(req.HideInMenu)
+	newData.ActiveMenu = req.ActiveMenu
+	newData.Order = req.Order
+	newData.RouteName = req.RouteName
+	newData.RoutePath = req.RoutePath
+	newData.Component = req.Component
+	newData.Icon = req.Icon
+	newData.IconType = req.IconType
+	newData.I18nKey = req.I18nKey
+	newData.KeepAlive = cast.ToInt64(req.KeepAlive)
+	newData.Href = req.Href
+	newData.MultiTab = cast.ToInt64(req.MutiTab)
+	newData.FixedIndexInTab = cast.ToInt64(req.FixedIndexInTab)
+	newData.Query = marshal(req.Query)
+	newData.ButtonCode = req.ButtonCode
+	newData.Permissions = marshal(req.Permissions)
+	newData.Constant = cast.ToInt64(req.Constant)
 
-	err = l.svcCtx.Model.ManageMenu.Update(l.ctx, nil, one)
+	if err = l.svcCtx.Model.ManageMenu.Update(l.ctx, nil, lo.ToPtr(newData)); err != nil {
+		return nil, err
+	}
 
 	if req.MenuType == "2" || req.MenuType == "3" {
 		// 更新了权限标识
-		if marshal(req.Permissions) != oldPermissionStr {
+		if marshal(req.Permissions) != data.Permissions {
 			roleMenus, err := l.svcCtx.Model.ManageRoleMenu.FindByCondition(l.ctx, nil, condition.NewChain().
 				Equal(manage_role_menu.MenuUuid, req.Uuid).
 				Build()...)
@@ -72,7 +75,7 @@ func (l *Edit) Edit(req *types.EditRequest) (resp *types.EditResponse, err error
 			}
 			for _, rm := range roleMenus {
 				// remove old casbin_rule for menu
-				Unmarshal(oldPermissionStr, &oldPermissions)
+				Unmarshal(data.Permissions, &oldPermissions)
 				if len(oldPermissions) > 0 {
 					for _, o := range oldPermissions {
 						_, _ = l.svcCtx.CasbinEnforcer.RemovePolicy(rm.RoleUuid, o.Code)
