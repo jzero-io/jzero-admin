@@ -6,7 +6,7 @@
 [![GitHub package version](https://img.shields.io/github/v/release/jzero-io/jzero-admin?include_prereleases&sort=semver&label=Docker%20Image%20version)](https://github.com/jzero-io/jzero-admin/pkgs/container/jzero)
 
 <p align="center">
-<img align="center" width="150px" src="https://oss.jaronnie.com/jzero-admin.jpg">
+<img align="center" width="150px" src="https://oss.jaronnie.com/hiking.svg">
 </p>
 
 基于 [jzero](https://github.com/jzero-io/jzero) 脚手架搭建后台服务, 基于 [soybean](https://github.com/soybeanjs/soybean-admin) 搭建前端服务的下一代后台管理系统.

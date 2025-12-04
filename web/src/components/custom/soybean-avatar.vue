@@ -5,8 +5,8 @@ defineOptions({
 </script>
 
 <template>
-  <div class="size-72px overflow-hidden rd-1/2">
-    <img src="@/assets/imgs/jzero-admin.jpg" class="size-full" />
+  <div class="size-80px overflow-hidden rd-1/2">
+    <img src="@/assets/imgs/jzero.svg" class="size-full" />
   </div>
 </template>
 

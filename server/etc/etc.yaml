@@ -24,4 +24,4 @@ redis:
     host: "${REDIS_HOST:-127.0.0.1:6379}"
     type: "${REDIS_TYPE:-node}"
 
-cacheType: "${CACHE_TYPE:-redis}"
+cacheType: "${CACHE_TYPE:-local}"
