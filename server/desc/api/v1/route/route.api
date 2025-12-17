@@ -1,7 +1,7 @@
 syntax = "v1"
 
 info (
-	go_package: "route"
+	go_package: "v1/route"
 )
 
 type Route {
@@ -60,7 +60,7 @@ type IsRouteExistRequest {
 
 @server (
 	prefix:          /api/v1
-	group:           route
+	group:           v1/route
 	compact_handler: true
 	jwt:             Jwt
 )
@@ -74,7 +74,7 @@ service server {
 
 @server (
 	prefix:          /api/v1
-	group:           route
+	group:           v1/route
 	compact_handler: true
 )
 service server {

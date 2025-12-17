@@ -9,8 +9,8 @@
   "paths": {
     "/api/v1/route/getConstantRoutes": {
       "get": {
-        "description": "接口权限编码:route:getConstantRoutes",
-        "operationId": "routeGetConstantRoutes",
+        "description": "接口权限编码:v1:route:getConstantRoutes",
+        "operationId": "v1/RouteGetConstantRoutes",
         "produces": [
           "application/json"
         ],
@@ -218,14 +218,14 @@
         ],
         "summary": "GetConstantRoutes",
         "tags": [
-          "route"
+          "v1/route"
         ]
       }
     },
     "/api/v1/route/getUserRoutes": {
       "get": {
-        "description": "接口权限编码:route:getUserRoutes",
-        "operationId": "routeGetUserRoutes",
+        "description": "接口权限编码:v1:route:getUserRoutes",
+        "operationId": "v1/RouteGetUserRoutes",
         "produces": [
           "application/json"
         ],
@@ -464,14 +464,14 @@
         ],
         "summary": "GetUserRoutes",
         "tags": [
-          "route"
+          "v1/route"
         ]
       }
     },
     "/api/v1/route/isRouteExist": {
       "get": {
-        "description": "接口权限编码:route:isRouteExist",
-        "operationId": "routeIsRouteExist",
+        "description": "接口权限编码:v1:route:isRouteExist",
+        "operationId": "v1/RouteIsRouteExist",
         "parameters": [
           {
             "in": "query",
@@ -501,7 +501,7 @@
         ],
         "summary": "IsRouteExist",
         "tags": [
-          "route"
+          "v1/route"
         ]
       }
     }

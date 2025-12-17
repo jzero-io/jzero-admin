@@ -7,12 +7,12 @@ import (
 
 	"github.com/zeromicro/go-zero/rest"
 
-	auth "github.com/jzero-io/jzero-admin/server/internal/handler/auth"
-	managemenu "github.com/jzero-io/jzero-admin/server/internal/handler/manage/menu"
-	managerole "github.com/jzero-io/jzero-admin/server/internal/handler/manage/role"
-	manageuser "github.com/jzero-io/jzero-admin/server/internal/handler/manage/user"
-	route "github.com/jzero-io/jzero-admin/server/internal/handler/route"
 	swagger "github.com/jzero-io/jzero-admin/server/internal/handler/swagger"
+	v1auth "github.com/jzero-io/jzero-admin/server/internal/handler/v1/auth"
+	v1managemenu "github.com/jzero-io/jzero-admin/server/internal/handler/v1/manage/menu"
+	v1managerole "github.com/jzero-io/jzero-admin/server/internal/handler/v1/manage/role"
+	v1manageuser "github.com/jzero-io/jzero-admin/server/internal/handler/v1/manage/user"
+	v1route "github.com/jzero-io/jzero-admin/server/internal/handler/v1/route"
 	version "github.com/jzero-io/jzero-admin/server/internal/handler/version"
 	"github.com/jzero-io/jzero-admin/server/internal/svc"
 )
@@ -23,212 +23,6 @@ var (
 )
 
 func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
-	{
-		server.AddRoutes(
-			[]rest.Route{
-				{
-					Method:  http.MethodPost,
-					Path:    "/auth/code-login",
-					Handler: auth.CodeLogin(serverCtx),
-				},
-				{
-					Method:  http.MethodPost,
-					Path:    "/auth/pwd-login",
-					Handler: auth.PwdLogin(serverCtx),
-				},
-				{
-					Method:  http.MethodPost,
-					Path:    "/auth/refreshToken",
-					Handler: auth.RefreshToken(serverCtx),
-				},
-				{
-					Method:  http.MethodPost,
-					Path:    "/auth/register",
-					Handler: auth.Register(serverCtx),
-				},
-				{
-					Method:  http.MethodPost,
-					Path:    "/auth/resetPassword",
-					Handler: auth.ResetPassword(serverCtx),
-				},
-				{
-					Method:  http.MethodGet,
-					Path:    "/auth/sendVerificationCode",
-					Handler: auth.SendVerificationCode(serverCtx),
-				},
-			},
-			rest.WithPrefix("/api/v1"),
-		)
-
-		server.AddRoutes(
-			[]rest.Route{
-				{
-					Method:  http.MethodGet,
-					Path:    "/auth/getUserInfo",
-					Handler: auth.GetUserInfo(serverCtx),
-				},
-			},
-			rest.WithJwt(serverCtx.MustGetConfig().Jwt.AccessSecret),
-			rest.WithPrefix("/api/v1"),
-		)
-	}
-	{
-		server.AddRoutes(
-			rest.WithMiddlewares(
-				[]rest.Middleware{serverCtx.Authx},
-				[]rest.Route{
-					{
-						Method:  http.MethodPost,
-						Path:    "/manage/addMenu",
-						Handler: managemenu.Add(serverCtx),
-					},
-					{
-						Method:  http.MethodPost,
-						Path:    "/manage/deleteMenu",
-						Handler: managemenu.Delete(serverCtx),
-					},
-					{
-						Method:  http.MethodPost,
-						Path:    "/manage/editMenu",
-						Handler: managemenu.Edit(serverCtx),
-					},
-					{
-						Method:  http.MethodGet,
-						Path:    "/manage/getAllPages",
-						Handler: managemenu.GetAllPages(serverCtx),
-					},
-					{
-						Method:  http.MethodGet,
-						Path:    "/manage/getMenuList",
-						Handler: managemenu.List(serverCtx),
-					},
-					{
-						Method:  http.MethodGet,
-						Path:    "/manage/getMenuTree",
-						Handler: managemenu.Tree(serverCtx),
-					},
-				}...,
-			),
-			rest.WithJwt(serverCtx.MustGetConfig().Jwt.AccessSecret),
-			rest.WithPrefix("/api/v1"),
-		)
-	}
-	{
-		server.AddRoutes(
-			rest.WithMiddlewares(
-				[]rest.Middleware{serverCtx.Authx},
-				[]rest.Route{
-					{
-						Method:  http.MethodPost,
-						Path:    "/manage/addRole",
-						Handler: managerole.Add(serverCtx),
-					},
-					{
-						Method:  http.MethodPost,
-						Path:    "/manage/deleteRole",
-						Handler: managerole.Delete(serverCtx),
-					},
-					{
-						Method:  http.MethodPost,
-						Path:    "/manage/editRole",
-						Handler: managerole.Edit(serverCtx),
-					},
-					{
-						Method:  http.MethodGet,
-						Path:    "/manage/getAllRoles",
-						Handler: managerole.GetAll(serverCtx),
-					},
-					{
-						Method:  http.MethodGet,
-						Path:    "/manage/getRoleHome",
-						Handler: managerole.GetHome(serverCtx),
-					},
-					{
-						Method:  http.MethodGet,
-						Path:    "/manage/getRoleList",
-						Handler: managerole.List(serverCtx),
-					},
-					{
-						Method:  http.MethodGet,
-						Path:    "/manage/getRoleMenus",
-						Handler: managerole.GetMenus(serverCtx),
-					},
-					{
-						Method:  http.MethodPost,
-						Path:    "/manage/setRoleMenus",
-						Handler: managerole.SetMenus(serverCtx),
-					},
-					{
-						Method:  http.MethodPost,
-						Path:    "/manage/updateRoleHome",
-						Handler: managerole.UpdateHome(serverCtx),
-					},
-				}...,
-			),
-			rest.WithJwt(serverCtx.MustGetConfig().Jwt.AccessSecret),
-			rest.WithPrefix("/api/v1"),
-		)
-	}
-	{
-		server.AddRoutes(
-			rest.WithMiddlewares(
-				[]rest.Middleware{serverCtx.Authx},
-				[]rest.Route{
-					{
-						Method:  http.MethodPost,
-						Path:    "/manage/addUser",
-						Handler: manageuser.Add(serverCtx),
-					},
-					{
-						Method:  http.MethodPost,
-						Path:    "/manage/deleteUser",
-						Handler: manageuser.Delete(serverCtx),
-					},
-					{
-						Method:  http.MethodPost,
-						Path:    "/manage/editUser",
-						Handler: manageuser.Edit(serverCtx),
-					},
-					{
-						Method:  http.MethodGet,
-						Path:    "/manage/getUserList",
-						Handler: manageuser.List(serverCtx),
-					},
-				}...,
-			),
-			rest.WithJwt(serverCtx.MustGetConfig().Jwt.AccessSecret),
-			rest.WithPrefix("/api/v1"),
-		)
-	}
-	{
-		server.AddRoutes(
-			[]rest.Route{
-				{
-					Method:  http.MethodGet,
-					Path:    "/route/getUserRoutes",
-					Handler: route.GetUserRoutes(serverCtx),
-				},
-				{
-					Method:  http.MethodGet,
-					Path:    "/route/isRouteExist",
-					Handler: route.IsRouteExist(serverCtx),
-				},
-			},
-			rest.WithJwt(serverCtx.MustGetConfig().Jwt.AccessSecret),
-			rest.WithPrefix("/api/v1"),
-		)
-
-		server.AddRoutes(
-			[]rest.Route{
-				{
-					Method:  http.MethodGet,
-					Path:    "/route/getConstantRoutes",
-					Handler: route.GetConstantRoutes(serverCtx),
-				},
-			},
-			rest.WithPrefix("/api/v1"),
-		)
-	}
 	{
 		server.AddRoutes(
 			[]rest.Route{
@@ -244,12 +38,218 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		server.AddRoutes(
 			[]rest.Route{
 				{
+					Method:  http.MethodPost,
+					Path:    "/auth/code-login",
+					Handler: v1auth.CodeLogin(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/auth/pwd-login",
+					Handler: v1auth.PwdLogin(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/auth/refreshToken",
+					Handler: v1auth.RefreshToken(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/auth/register",
+					Handler: v1auth.Register(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/auth/resetPassword",
+					Handler: v1auth.ResetPassword(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/auth/sendVerificationCode",
+					Handler: v1auth.SendVerificationCode(serverCtx),
+				},
+			},
+			rest.WithPrefix("/api/v1"),
+		)
+
+		server.AddRoutes(
+			[]rest.Route{
+				{
+					Method:  http.MethodGet,
+					Path:    "/auth/getUserInfo",
+					Handler: v1auth.GetUserInfo(serverCtx),
+				},
+			},
+			rest.WithJwt(serverCtx.MustGetConfig().Jwt.AccessSecret),
+			rest.WithPrefix("/api/v1"),
+		)
+	}
+	{
+		server.AddRoutes(
+			rest.WithMiddlewares(
+				[]rest.Middleware{serverCtx.Authx},
+				[]rest.Route{
+					{
+						Method:  http.MethodPost,
+						Path:    "/manage/addMenu",
+						Handler: v1managemenu.Add(serverCtx),
+					},
+					{
+						Method:  http.MethodPost,
+						Path:    "/manage/deleteMenu",
+						Handler: v1managemenu.Delete(serverCtx),
+					},
+					{
+						Method:  http.MethodPost,
+						Path:    "/manage/editMenu",
+						Handler: v1managemenu.Edit(serverCtx),
+					},
+					{
+						Method:  http.MethodGet,
+						Path:    "/manage/getAllPages",
+						Handler: v1managemenu.GetAllPages(serverCtx),
+					},
+					{
+						Method:  http.MethodGet,
+						Path:    "/manage/getMenuList",
+						Handler: v1managemenu.List(serverCtx),
+					},
+					{
+						Method:  http.MethodGet,
+						Path:    "/manage/getMenuTree",
+						Handler: v1managemenu.Tree(serverCtx),
+					},
+				}...,
+			),
+			rest.WithJwt(serverCtx.MustGetConfig().Jwt.AccessSecret),
+			rest.WithPrefix("/api/v1"),
+		)
+	}
+	{
+		server.AddRoutes(
+			rest.WithMiddlewares(
+				[]rest.Middleware{serverCtx.Authx},
+				[]rest.Route{
+					{
+						Method:  http.MethodPost,
+						Path:    "/manage/addRole",
+						Handler: v1managerole.Add(serverCtx),
+					},
+					{
+						Method:  http.MethodPost,
+						Path:    "/manage/deleteRole",
+						Handler: v1managerole.Delete(serverCtx),
+					},
+					{
+						Method:  http.MethodPost,
+						Path:    "/manage/editRole",
+						Handler: v1managerole.Edit(serverCtx),
+					},
+					{
+						Method:  http.MethodGet,
+						Path:    "/manage/getAllRoles",
+						Handler: v1managerole.GetAll(serverCtx),
+					},
+					{
+						Method:  http.MethodGet,
+						Path:    "/manage/getRoleHome",
+						Handler: v1managerole.GetHome(serverCtx),
+					},
+					{
+						Method:  http.MethodGet,
+						Path:    "/manage/getRoleList",
+						Handler: v1managerole.List(serverCtx),
+					},
+					{
+						Method:  http.MethodGet,
+						Path:    "/manage/getRoleMenus",
+						Handler: v1managerole.GetMenus(serverCtx),
+					},
+					{
+						Method:  http.MethodPost,
+						Path:    "/manage/setRoleMenus",
+						Handler: v1managerole.SetMenus(serverCtx),
+					},
+					{
+						Method:  http.MethodPost,
+						Path:    "/manage/updateRoleHome",
+						Handler: v1managerole.UpdateHome(serverCtx),
+					},
+				}...,
+			),
+			rest.WithJwt(serverCtx.MustGetConfig().Jwt.AccessSecret),
+			rest.WithPrefix("/api/v1"),
+		)
+	}
+	{
+		server.AddRoutes(
+			rest.WithMiddlewares(
+				[]rest.Middleware{serverCtx.Authx},
+				[]rest.Route{
+					{
+						Method:  http.MethodPost,
+						Path:    "/manage/addUser",
+						Handler: v1manageuser.Add(serverCtx),
+					},
+					{
+						Method:  http.MethodPost,
+						Path:    "/manage/deleteUser",
+						Handler: v1manageuser.Delete(serverCtx),
+					},
+					{
+						Method:  http.MethodPost,
+						Path:    "/manage/editUser",
+						Handler: v1manageuser.Edit(serverCtx),
+					},
+					{
+						Method:  http.MethodGet,
+						Path:    "/manage/getUserList",
+						Handler: v1manageuser.List(serverCtx),
+					},
+				}...,
+			),
+			rest.WithJwt(serverCtx.MustGetConfig().Jwt.AccessSecret),
+			rest.WithPrefix("/api/v1"),
+		)
+	}
+	{
+		server.AddRoutes(
+			[]rest.Route{
+				{
+					Method:  http.MethodGet,
+					Path:    "/route/getUserRoutes",
+					Handler: v1route.GetUserRoutes(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/route/isRouteExist",
+					Handler: v1route.IsRouteExist(serverCtx),
+				},
+			},
+			rest.WithJwt(serverCtx.MustGetConfig().Jwt.AccessSecret),
+			rest.WithPrefix("/api/v1"),
+		)
+
+		server.AddRoutes(
+			[]rest.Route{
+				{
+					Method:  http.MethodGet,
+					Path:    "/route/getConstantRoutes",
+					Handler: v1route.GetConstantRoutes(serverCtx),
+				},
+			},
+			rest.WithPrefix("/api/v1"),
+		)
+	}
+	{
+		server.AddRoutes(
+			[]rest.Route{
+				{
 					Method:  http.MethodGet,
 					Path:    "/version",
 					Handler: version.Version(serverCtx),
 				},
 			},
-			rest.WithPrefix("/api/v1"),
+			rest.WithPrefix("/api"),
 		)
 	}
 

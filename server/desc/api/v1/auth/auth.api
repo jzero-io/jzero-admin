@@ -1,7 +1,7 @@
 syntax = "v1"
 
 info (
-	go_package: "auth"
+	go_package: "v1/auth"
 )
 
 type PwdLoginRequest {
@@ -68,7 +68,7 @@ type ResetPasswordResponse {}
 
 @server (
 	prefix:          /api/v1
-	group:           auth
+	group:           v1/auth
 	compact_handler: true
 )
 service server {
@@ -93,7 +93,7 @@ service server {
 
 @server (
 	prefix:          /api/v1
-	group:           auth
+	group:           v1/auth
 	compact_handler: true
 	jwt:             Jwt
 )

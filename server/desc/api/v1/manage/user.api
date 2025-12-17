@@ -1,7 +1,7 @@
 syntax = "v1"
 
 info (
-	go_package: "manage/user"
+	go_package: "v1/manage/user"
 )
 
 import (
@@ -71,7 +71,7 @@ type DeleteResponse {}
 
 @server (
 	prefix:          /api/v1
-	group:           manage/user
+	group:           v1/manage/user
 	compact_handler: true
 	jwt:             Jwt
 	middleware:      Authx

@@ -11,7 +11,7 @@ import (
 	"github.com/jzero-io/jzero-admin/server/internal/errcodes"
 	"github.com/jzero-io/jzero-admin/server/internal/global"
 	"github.com/jzero-io/jzero-admin/server/internal/model"
-	menutypes "github.com/jzero-io/jzero-admin/server/internal/types/manage/menu"
+	menutypes "github.com/jzero-io/jzero-admin/server/internal/types/v1/manage/menu"
 )
 
 type Custom struct{}

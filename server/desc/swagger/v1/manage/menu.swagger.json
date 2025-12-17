@@ -12,8 +12,8 @@
         "consumes": [
           "application/json"
         ],
-        "description": "接口权限编码:manage:menu:add",
-        "operationId": "manage/MenuAdd",
+        "description": "接口权限编码:v1:manage:menu:add",
+        "operationId": "v1/Manage/MenuAdd",
         "parameters": [
           {
             "in": "body",
@@ -155,7 +155,7 @@
         ],
         "summary": "Add",
         "tags": [
-          "manage/menu"
+          "v1/manage/menu"
         ]
       }
     },
@@ -164,8 +164,8 @@
         "consumes": [
           "application/json"
         ],
-        "description": "接口权限编码:manage:menu:delete",
-        "operationId": "manage/MenuDelete",
+        "description": "接口权限编码:v1:manage:menu:delete",
+        "operationId": "v1/Manage/MenuDelete",
         "parameters": [
           {
             "in": "body",
@@ -208,7 +208,7 @@
         ],
         "summary": "Delete",
         "tags": [
-          "manage/menu"
+          "v1/manage/menu"
         ]
       }
     },
@@ -217,8 +217,8 @@
         "consumes": [
           "application/json"
         ],
-        "description": "接口权限编码:manage:menu:edit",
-        "operationId": "manage/MenuEdit",
+        "description": "接口权限编码:v1:manage:menu:edit",
+        "operationId": "v1/Manage/MenuEdit",
         "parameters": [
           {
             "in": "body",
@@ -367,14 +367,14 @@
         ],
         "summary": "Edit",
         "tags": [
-          "manage/menu"
+          "v1/manage/menu"
         ]
       }
     },
     "/api/v1/manage/getAllPages": {
       "get": {
-        "description": "接口权限编码:manage:menu:getAllPages",
-        "operationId": "manage/MenuGetAllPages",
+        "description": "接口权限编码:v1:manage:menu:getAllPages",
+        "operationId": "v1/Manage/MenuGetAllPages",
         "parameters": [
           {
             "allowEmptyValue": true,
@@ -407,14 +407,14 @@
         ],
         "summary": "GetAllPages",
         "tags": [
-          "manage/menu"
+          "v1/manage/menu"
         ]
       }
     },
     "/api/v1/manage/getMenuList": {
       "get": {
-        "description": "接口权限编码:manage:menu:list",
-        "operationId": "manage/MenuList",
+        "description": "接口权限编码:v1:manage:menu:list",
+        "operationId": "v1/Manage/MenuList",
         "parameters": [
           {
             "allowEmptyValue": true,
@@ -687,14 +687,14 @@
         ],
         "summary": "List",
         "tags": [
-          "manage/menu"
+          "v1/manage/menu"
         ]
       }
     },
     "/api/v1/manage/getMenuTree": {
       "get": {
-        "description": "接口权限编码:manage:menu:tree",
-        "operationId": "manage/MenuTree",
+        "description": "接口权限编码:v1:manage:menu:tree",
+        "operationId": "v1/Manage/MenuTree",
         "produces": [
           "application/json"
         ],
@@ -874,7 +874,7 @@
         ],
         "summary": "Tree",
         "tags": [
-          "manage/menu"
+          "v1/manage/menu"
         ]
       }
     }

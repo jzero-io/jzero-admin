@@ -10,8 +10,8 @@
         "consumes": [
           "application/json"
         ],
-        "description": "接口权限编码:auth:codeLogin",
-        "operationId": "authCodeLogin",
+        "description": "接口权限编码:v1:auth:codeLogin",
+        "operationId": "v1/AuthCodeLogin",
         "parameters": [
           {
             "in": "body",
@@ -67,14 +67,14 @@
         ],
         "summary": "CodeLogin",
         "tags": [
-          "auth"
+          "v1/auth"
         ]
       }
     },
     "/api/v1/auth/getUserInfo": {
       "get": {
-        "description": "接口权限编码:auth:getUserInfo",
-        "operationId": "authGetUserInfo",
+        "description": "接口权限编码:v1:auth:getUserInfo",
+        "operationId": "v1/AuthGetUserInfo",
         "produces": [
           "application/json"
         ],
@@ -116,7 +116,7 @@
         ],
         "summary": "GetUserInfo",
         "tags": [
-          "auth"
+          "v1/auth"
         ]
       }
     },
@@ -125,8 +125,8 @@
         "consumes": [
           "application/json"
         ],
-        "description": "接口权限编码:auth:pwdLogin",
-        "operationId": "authPwdLogin",
+        "description": "接口权限编码:v1:auth:pwdLogin",
+        "operationId": "v1/AuthPwdLogin",
         "parameters": [
           {
             "in": "body",
@@ -178,7 +178,7 @@
         ],
         "summary": "PwdLogin",
         "tags": [
-          "auth"
+          "v1/auth"
         ]
       }
     },
@@ -187,8 +187,8 @@
         "consumes": [
           "application/json"
         ],
-        "description": "接口权限编码:auth:refreshToken",
-        "operationId": "authRefreshToken",
+        "description": "接口权限编码:v1:auth:refreshToken",
+        "operationId": "v1/AuthRefreshToken",
         "parameters": [
           {
             "in": "body",
@@ -236,7 +236,7 @@
         ],
         "summary": "RefreshToken",
         "tags": [
-          "auth"
+          "v1/auth"
         ]
       }
     },
@@ -245,8 +245,8 @@
         "consumes": [
           "application/json"
         ],
-        "description": "接口权限编码:auth:register",
-        "operationId": "authRegister",
+        "description": "接口权限编码:v1:auth:register",
+        "operationId": "v1/AuthRegister",
         "parameters": [
           {
             "in": "body",
@@ -302,7 +302,7 @@
         ],
         "summary": "Register",
         "tags": [
-          "auth"
+          "v1/auth"
         ]
       }
     },
@@ -311,8 +311,8 @@
         "consumes": [
           "application/json"
         ],
-        "description": "接口权限编码:auth:resetPassword",
-        "operationId": "authResetPassword",
+        "description": "接口权限编码:v1:auth:resetPassword",
+        "operationId": "v1/AuthResetPassword",
         "parameters": [
           {
             "in": "body",
@@ -364,14 +364,14 @@
         ],
         "summary": "ResetPassword",
         "tags": [
-          "auth"
+          "v1/auth"
         ]
       }
     },
     "/api/v1/auth/sendVerificationCode": {
       "get": {
-        "description": "接口权限编码:auth:sendVerificationCode",
-        "operationId": "authSendVerificationCode",
+        "description": "接口权限编码:v1:auth:sendVerificationCode",
+        "operationId": "v1/AuthSendVerificationCode",
         "parameters": [
           {
             "in": "query",
@@ -412,7 +412,7 @@
         ],
         "summary": "SendVerificationCode",
         "tags": [
-          "auth"
+          "v1/auth"
         ]
       }
     },
@@ -479,8 +479,8 @@
         "consumes": [
           "application/json"
         ],
-        "description": "接口权限编码:manage:menu:add",
-        "operationId": "manage/MenuAdd",
+        "description": "接口权限编码:v1:manage:menu:add",
+        "operationId": "v1/Manage/MenuAdd",
         "parameters": [
           {
             "in": "body",
@@ -622,7 +622,7 @@
         ],
         "summary": "Add",
         "tags": [
-          "manage/menu"
+          "v1/manage/menu"
         ]
       }
     },
@@ -631,8 +631,8 @@
         "consumes": [
           "application/json"
         ],
-        "description": "接口权限编码:manage:role:add",
-        "operationId": "manage/RoleAdd",
+        "description": "接口权限编码:v1:manage:role:add",
+        "operationId": "v1/Manage/RoleAdd",
         "parameters": [
           {
             "in": "body",
@@ -684,7 +684,7 @@
         ],
         "summary": "Add",
         "tags": [
-          "manage/role"
+          "v1/manage/role"
         ]
       }
     },
@@ -693,8 +693,8 @@
         "consumes": [
           "application/json"
         ],
-        "description": "接口权限编码:manage:user:add",
-        "operationId": "manage/UserAdd",
+        "description": "接口权限编码:v1:manage:user:add",
+        "operationId": "v1/Manage/UserAdd",
         "parameters": [
           {
             "in": "body",
@@ -769,7 +769,7 @@
         ],
         "summary": "Add",
         "tags": [
-          "manage/user"
+          "v1/manage/user"
         ]
       }
     },
@@ -778,8 +778,8 @@
         "consumes": [
           "application/json"
         ],
-        "description": "接口权限编码:manage:menu:delete",
-        "operationId": "manage/MenuDelete",
+        "description": "接口权限编码:v1:manage:menu:delete",
+        "operationId": "v1/Manage/MenuDelete",
         "parameters": [
           {
             "in": "body",
@@ -822,7 +822,7 @@
         ],
         "summary": "Delete",
         "tags": [
-          "manage/menu"
+          "v1/manage/menu"
         ]
       }
     },
@@ -831,8 +831,8 @@
         "consumes": [
           "application/json"
         ],
-        "description": "接口权限编码:manage:role:delete",
-        "operationId": "manage/RoleDelete",
+        "description": "接口权限编码:v1:manage:role:delete",
+        "operationId": "v1/Manage/RoleDelete",
         "parameters": [
           {
             "in": "body",
@@ -875,7 +875,7 @@
         ],
         "summary": "Delete",
         "tags": [
-          "manage/role"
+          "v1/manage/role"
         ]
       }
     },
@@ -884,8 +884,8 @@
         "consumes": [
           "application/json"
         ],
-        "description": "接口权限编码:manage:user:delete",
-        "operationId": "manage/UserDelete",
+        "description": "接口权限编码:v1:manage:user:delete",
+        "operationId": "v1/Manage/UserDelete",
         "parameters": [
           {
             "in": "body",
@@ -928,7 +928,7 @@
         ],
         "summary": "Delete",
         "tags": [
-          "manage/user"
+          "v1/manage/user"
         ]
       }
     },
@@ -937,8 +937,8 @@
         "consumes": [
           "application/json"
         ],
-        "description": "接口权限编码:manage:menu:edit",
-        "operationId": "manage/MenuEdit",
+        "description": "接口权限编码:v1:manage:menu:edit",
+        "operationId": "v1/Manage/MenuEdit",
         "parameters": [
           {
             "in": "body",
@@ -1087,7 +1087,7 @@
         ],
         "summary": "Edit",
         "tags": [
-          "manage/menu"
+          "v1/manage/menu"
         ]
       }
     },
@@ -1096,8 +1096,8 @@
         "consumes": [
           "application/json"
         ],
-        "description": "接口权限编码:manage:role:edit",
-        "operationId": "manage/RoleEdit",
+        "description": "接口权限编码:v1:manage:role:edit",
+        "operationId": "v1/Manage/RoleEdit",
         "parameters": [
           {
             "in": "body",
@@ -1153,7 +1153,7 @@
         ],
         "summary": "Edit",
         "tags": [
-          "manage/role"
+          "v1/manage/role"
         ]
       }
     },
@@ -1162,8 +1162,8 @@
         "consumes": [
           "application/json"
         ],
-        "description": "接口权限编码:manage:user:edit",
-        "operationId": "manage/UserEdit",
+        "description": "接口权限编码:v1:manage:user:edit",
+        "operationId": "v1/Manage/UserEdit",
         "parameters": [
           {
             "in": "body",
@@ -1234,14 +1234,14 @@
         ],
         "summary": "Edit",
         "tags": [
-          "manage/user"
+          "v1/manage/user"
         ]
       }
     },
     "/api/v1/manage/getAllPages": {
       "get": {
-        "description": "接口权限编码:manage:menu:getAllPages",
-        "operationId": "manage/MenuGetAllPages",
+        "description": "接口权限编码:v1:manage:menu:getAllPages",
+        "operationId": "v1/Manage/MenuGetAllPages",
         "parameters": [
           {
             "allowEmptyValue": true,
@@ -1274,14 +1274,14 @@
         ],
         "summary": "GetAllPages",
         "tags": [
-          "manage/menu"
+          "v1/manage/menu"
         ]
       }
     },
     "/api/v1/manage/getAllRoles": {
       "get": {
-        "description": "接口权限编码:manage:role:getAll",
-        "operationId": "manage/RoleGetAll",
+        "description": "接口权限编码:v1:manage:role:getAll",
+        "operationId": "v1/Manage/RoleGetAll",
         "produces": [
           "application/json"
         ],
@@ -1333,14 +1333,14 @@
         ],
         "summary": "GetAll",
         "tags": [
-          "manage/role"
+          "v1/manage/role"
         ]
       }
     },
     "/api/v1/manage/getMenuList": {
       "get": {
-        "description": "接口权限编码:manage:menu:list",
-        "operationId": "manage/MenuList",
+        "description": "接口权限编码:v1:manage:menu:list",
+        "operationId": "v1/Manage/MenuList",
         "parameters": [
           {
             "allowEmptyValue": true,
@@ -1613,14 +1613,14 @@
         ],
         "summary": "List",
         "tags": [
-          "manage/menu"
+          "v1/manage/menu"
         ]
       }
     },
     "/api/v1/manage/getMenuTree": {
       "get": {
-        "description": "接口权限编码:manage:menu:tree",
-        "operationId": "manage/MenuTree",
+        "description": "接口权限编码:v1:manage:menu:tree",
+        "operationId": "v1/Manage/MenuTree",
         "produces": [
           "application/json"
         ],
@@ -1800,14 +1800,14 @@
         ],
         "summary": "Tree",
         "tags": [
-          "manage/menu"
+          "v1/manage/menu"
         ]
       }
     },
     "/api/v1/manage/getRoleHome": {
       "get": {
-        "description": "接口权限编码:manage:role:getHome",
-        "operationId": "manage/RoleGetHome",
+        "description": "接口权限编码:v1:manage:role:getHome",
+        "operationId": "v1/Manage/RoleGetHome",
         "parameters": [
           {
             "in": "query",
@@ -1837,14 +1837,14 @@
         ],
         "summary": "GetHome",
         "tags": [
-          "manage/role"
+          "v1/manage/role"
         ]
       }
     },
     "/api/v1/manage/getRoleList": {
       "get": {
-        "description": "接口权限编码:manage:role:list",
-        "operationId": "manage/RoleList",
+        "description": "接口权限编码:v1:manage:role:list",
+        "operationId": "v1/Manage/RoleList",
         "parameters": [
           {
             "allowEmptyValue": true,
@@ -1949,14 +1949,14 @@
         ],
         "summary": "List",
         "tags": [
-          "manage/role"
+          "v1/manage/role"
         ]
       }
     },
     "/api/v1/manage/getRoleMenus": {
       "get": {
-        "description": "接口权限编码:manage:role:getMenus",
-        "operationId": "manage/RoleGetMenus",
+        "description": "接口权限编码:v1:manage:role:getMenus",
+        "operationId": "v1/Manage/RoleGetMenus",
         "parameters": [
           {
             "in": "query",
@@ -1994,14 +1994,14 @@
         ],
         "summary": "GetMenus",
         "tags": [
-          "manage/role"
+          "v1/manage/role"
         ]
       }
     },
     "/api/v1/manage/getUserList": {
       "get": {
-        "description": "接口权限编码:manage:user:list",
-        "operationId": "manage/UserList",
+        "description": "接口权限编码:v1:manage:user:list",
+        "operationId": "v1/Manage/UserList",
         "parameters": [
           {
             "allowEmptyValue": true,
@@ -2139,7 +2139,7 @@
         ],
         "summary": "List",
         "tags": [
-          "manage/user"
+          "v1/manage/user"
         ]
       }
     },
@@ -2148,8 +2148,8 @@
         "consumes": [
           "application/json"
         ],
-        "description": "接口权限编码:manage:role:setMenus",
-        "operationId": "manage/RoleSetMenus",
+        "description": "接口权限编码:v1:manage:role:setMenus",
+        "operationId": "v1/Manage/RoleSetMenus",
         "parameters": [
           {
             "in": "body",
@@ -2196,7 +2196,7 @@
         ],
         "summary": "SetMenus",
         "tags": [
-          "manage/role"
+          "v1/manage/role"
         ]
       }
     },
@@ -2205,8 +2205,8 @@
         "consumes": [
           "application/json"
         ],
-        "description": "接口权限编码:manage:role:updateHome",
-        "operationId": "manage/RoleUpdateHome",
+        "description": "接口权限编码:v1:manage:role:updateHome",
+        "operationId": "v1/Manage/RoleUpdateHome",
         "parameters": [
           {
             "in": "body",
@@ -2250,14 +2250,14 @@
         ],
         "summary": "UpdateHome",
         "tags": [
-          "manage/role"
+          "v1/manage/role"
         ]
       }
     },
     "/api/v1/route/getConstantRoutes": {
       "get": {
-        "description": "接口权限编码:route:getConstantRoutes",
-        "operationId": "routeGetConstantRoutes",
+        "description": "接口权限编码:v1:route:getConstantRoutes",
+        "operationId": "v1/RouteGetConstantRoutes",
         "produces": [
           "application/json"
         ],
@@ -2465,14 +2465,14 @@
         ],
         "summary": "GetConstantRoutes",
         "tags": [
-          "route"
+          "v1/route"
         ]
       }
     },
     "/api/v1/route/getUserRoutes": {
       "get": {
-        "description": "接口权限编码:route:getUserRoutes",
-        "operationId": "routeGetUserRoutes",
+        "description": "接口权限编码:v1:route:getUserRoutes",
+        "operationId": "v1/RouteGetUserRoutes",
         "produces": [
           "application/json"
         ],
@@ -2711,14 +2711,14 @@
         ],
         "summary": "GetUserRoutes",
         "tags": [
-          "route"
+          "v1/route"
         ]
       }
     },
     "/api/v1/route/isRouteExist": {
       "get": {
-        "description": "接口权限编码:route:isRouteExist",
-        "operationId": "routeIsRouteExist",
+        "description": "接口权限编码:v1:route:isRouteExist",
+        "operationId": "v1/RouteIsRouteExist",
         "parameters": [
           {
             "in": "query",
@@ -2748,11 +2748,54 @@
         ],
         "summary": "IsRouteExist",
         "tags": [
-          "route"
+          "v1/route"
         ]
       }
     },
     "/api/v1/version": {
+      "get": {
+        "description": "接口权限编码:version:version",
+        "operationId": "versionVersion",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "properties": {
+                "commit": {
+                  "type": "string"
+                },
+                "date": {
+                  "type": "string"
+                },
+                "goVersion": {
+                  "type": "string"
+                },
+                "version": {
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "schemes": [
+          "https"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "summary": "Version",
+        "tags": [
+          "version"
+        ]
+      }
+    },
+    "/api/version": {
       "get": {
         "description": "接口权限编码:version:version",
         "operationId": "versionVersion",

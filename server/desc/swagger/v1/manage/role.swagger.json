@@ -12,8 +12,8 @@
         "consumes": [
           "application/json"
         ],
-        "description": "接口权限编码:manage:role:add",
-        "operationId": "manage/RoleAdd",
+        "description": "接口权限编码:v1:manage:role:add",
+        "operationId": "v1/Manage/RoleAdd",
         "parameters": [
           {
             "in": "body",
@@ -65,7 +65,7 @@
         ],
         "summary": "Add",
         "tags": [
-          "manage/role"
+          "v1/manage/role"
         ]
       }
     },
@@ -74,8 +74,8 @@
         "consumes": [
           "application/json"
         ],
-        "description": "接口权限编码:manage:role:delete",
-        "operationId": "manage/RoleDelete",
+        "description": "接口权限编码:v1:manage:role:delete",
+        "operationId": "v1/Manage/RoleDelete",
         "parameters": [
           {
             "in": "body",
@@ -118,7 +118,7 @@
         ],
         "summary": "Delete",
         "tags": [
-          "manage/role"
+          "v1/manage/role"
         ]
       }
     },
@@ -127,8 +127,8 @@
         "consumes": [
           "application/json"
         ],
-        "description": "接口权限编码:manage:role:edit",
-        "operationId": "manage/RoleEdit",
+        "description": "接口权限编码:v1:manage:role:edit",
+        "operationId": "v1/Manage/RoleEdit",
         "parameters": [
           {
             "in": "body",
@@ -184,14 +184,14 @@
         ],
         "summary": "Edit",
         "tags": [
-          "manage/role"
+          "v1/manage/role"
         ]
       }
     },
     "/api/v1/manage/getAllRoles": {
       "get": {
-        "description": "接口权限编码:manage:role:getAll",
-        "operationId": "manage/RoleGetAll",
+        "description": "接口权限编码:v1:manage:role:getAll",
+        "operationId": "v1/Manage/RoleGetAll",
         "produces": [
           "application/json"
         ],
@@ -243,14 +243,14 @@
         ],
         "summary": "GetAll",
         "tags": [
-          "manage/role"
+          "v1/manage/role"
         ]
       }
     },
     "/api/v1/manage/getRoleHome": {
       "get": {
-        "description": "接口权限编码:manage:role:getHome",
-        "operationId": "manage/RoleGetHome",
+        "description": "接口权限编码:v1:manage:role:getHome",
+        "operationId": "v1/Manage/RoleGetHome",
         "parameters": [
           {
             "in": "query",
@@ -280,14 +280,14 @@
         ],
         "summary": "GetHome",
         "tags": [
-          "manage/role"
+          "v1/manage/role"
         ]
       }
     },
     "/api/v1/manage/getRoleList": {
       "get": {
-        "description": "接口权限编码:manage:role:list",
-        "operationId": "manage/RoleList",
+        "description": "接口权限编码:v1:manage:role:list",
+        "operationId": "v1/Manage/RoleList",
         "parameters": [
           {
             "allowEmptyValue": true,
@@ -392,14 +392,14 @@
         ],
         "summary": "List",
         "tags": [
-          "manage/role"
+          "v1/manage/role"
         ]
       }
     },
     "/api/v1/manage/getRoleMenus": {
       "get": {
-        "description": "接口权限编码:manage:role:getMenus",
-        "operationId": "manage/RoleGetMenus",
+        "description": "接口权限编码:v1:manage:role:getMenus",
+        "operationId": "v1/Manage/RoleGetMenus",
         "parameters": [
           {
             "in": "query",
@@ -437,7 +437,7 @@
         ],
         "summary": "GetMenus",
         "tags": [
-          "manage/role"
+          "v1/manage/role"
         ]
       }
     },
@@ -446,8 +446,8 @@
         "consumes": [
           "application/json"
         ],
-        "description": "接口权限编码:manage:role:setMenus",
-        "operationId": "manage/RoleSetMenus",
+        "description": "接口权限编码:v1:manage:role:setMenus",
+        "operationId": "v1/Manage/RoleSetMenus",
         "parameters": [
           {
             "in": "body",
@@ -494,7 +494,7 @@
         ],
         "summary": "SetMenus",
         "tags": [
-          "manage/role"
+          "v1/manage/role"
         ]
       }
     },
@@ -503,8 +503,8 @@
         "consumes": [
           "application/json"
         ],
-        "description": "接口权限编码:manage:role:updateHome",
-        "operationId": "manage/RoleUpdateHome",
+        "description": "接口权限编码:v1:manage:role:updateHome",
+        "operationId": "v1/Manage/RoleUpdateHome",
         "parameters": [
           {
             "in": "body",
@@ -548,7 +548,7 @@
         ],
         "summary": "UpdateHome",
         "tags": [
-          "manage/role"
+          "v1/manage/role"
         ]
       }
     }

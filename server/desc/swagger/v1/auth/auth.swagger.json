@@ -12,8 +12,8 @@
         "consumes": [
           "application/json"
         ],
-        "description": "接口权限编码:auth:codeLogin",
-        "operationId": "authCodeLogin",
+        "description": "接口权限编码:v1:auth:codeLogin",
+        "operationId": "v1/AuthCodeLogin",
         "parameters": [
           {
             "in": "body",
@@ -69,14 +69,14 @@
         ],
         "summary": "CodeLogin",
         "tags": [
-          "auth"
+          "v1/auth"
         ]
       }
     },
     "/api/v1/auth/getUserInfo": {
       "get": {
-        "description": "接口权限编码:auth:getUserInfo",
-        "operationId": "authGetUserInfo",
+        "description": "接口权限编码:v1:auth:getUserInfo",
+        "operationId": "v1/AuthGetUserInfo",
         "produces": [
           "application/json"
         ],
@@ -118,7 +118,7 @@
         ],
         "summary": "GetUserInfo",
         "tags": [
-          "auth"
+          "v1/auth"
         ]
       }
     },
@@ -127,8 +127,8 @@
         "consumes": [
           "application/json"
         ],
-        "description": "接口权限编码:auth:pwdLogin",
-        "operationId": "authPwdLogin",
+        "description": "接口权限编码:v1:auth:pwdLogin",
+        "operationId": "v1/AuthPwdLogin",
         "parameters": [
           {
             "in": "body",
@@ -180,7 +180,7 @@
         ],
         "summary": "PwdLogin",
         "tags": [
-          "auth"
+          "v1/auth"
         ]
       }
     },
@@ -189,8 +189,8 @@
         "consumes": [
           "application/json"
         ],
-        "description": "接口权限编码:auth:refreshToken",
-        "operationId": "authRefreshToken",
+        "description": "接口权限编码:v1:auth:refreshToken",
+        "operationId": "v1/AuthRefreshToken",
         "parameters": [
           {
             "in": "body",
@@ -238,7 +238,7 @@
         ],
         "summary": "RefreshToken",
         "tags": [
-          "auth"
+          "v1/auth"
         ]
       }
     },
@@ -247,8 +247,8 @@
         "consumes": [
           "application/json"
         ],
-        "description": "接口权限编码:auth:register",
-        "operationId": "authRegister",
+        "description": "接口权限编码:v1:auth:register",
+        "operationId": "v1/AuthRegister",
         "parameters": [
           {
             "in": "body",
@@ -304,7 +304,7 @@
         ],
         "summary": "Register",
         "tags": [
-          "auth"
+          "v1/auth"
         ]
       }
     },
@@ -313,8 +313,8 @@
         "consumes": [
           "application/json"
         ],
-        "description": "接口权限编码:auth:resetPassword",
-        "operationId": "authResetPassword",
+        "description": "接口权限编码:v1:auth:resetPassword",
+        "operationId": "v1/AuthResetPassword",
         "parameters": [
           {
             "in": "body",
@@ -366,14 +366,14 @@
         ],
         "summary": "ResetPassword",
         "tags": [
-          "auth"
+          "v1/auth"
         ]
       }
     },
     "/api/v1/auth/sendVerificationCode": {
       "get": {
-        "description": "接口权限编码:auth:sendVerificationCode",
-        "operationId": "authSendVerificationCode",
+        "description": "接口权限编码:v1:auth:sendVerificationCode",
+        "operationId": "v1/AuthSendVerificationCode",
         "parameters": [
           {
             "in": "query",
@@ -414,7 +414,7 @@
         ],
         "summary": "SendVerificationCode",
         "tags": [
-          "auth"
+          "v1/auth"
         ]
       }
     }

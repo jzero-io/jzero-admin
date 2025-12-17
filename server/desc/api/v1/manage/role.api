@@ -1,7 +1,7 @@
 syntax = "v1"
 
 info (
-	go_package: "manage/role"
+	go_package: "v1/manage/role"
 )
 
 import (
@@ -92,7 +92,7 @@ type GetHomeRequest {
 
 @server (
 	prefix:          /api/v1
-	group:           manage/role
+	group:           v1/manage/role
 	compact_handler: true
 	jwt:             Jwt
 	middleware:      Authx

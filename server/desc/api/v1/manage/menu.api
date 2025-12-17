@@ -1,7 +1,7 @@
 syntax = "v1"
 
 info (
-	go_package: "manage/menu"
+	go_package: "v1/manage/menu"
 )
 
 import (
@@ -134,7 +134,7 @@ type EditResponse {}
 
 @server (
 	prefix:          /api/v1
-	group:           manage/menu
+	group:           v1/manage/menu
 	compact_handler: true
 	jwt:             Jwt
 	middleware:      Authx

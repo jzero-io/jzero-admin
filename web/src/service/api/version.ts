@@ -2,7 +2,7 @@ import { request } from '../request';
 
 export function GetVersion() {
   return request({
-    url: '/api/v1/version',
+    url: '/api/version',
     method: 'get'
   });
 }

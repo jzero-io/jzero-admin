@@ -12,8 +12,8 @@
         "consumes": [
           "application/json"
         ],
-        "description": "接口权限编码:manage:user:add",
-        "operationId": "manage/UserAdd",
+        "description": "接口权限编码:v1:manage:user:add",
+        "operationId": "v1/Manage/UserAdd",
         "parameters": [
           {
             "in": "body",
@@ -88,7 +88,7 @@
         ],
         "summary": "Add",
         "tags": [
-          "manage/user"
+          "v1/manage/user"
         ]
       }
     },
@@ -97,8 +97,8 @@
         "consumes": [
           "application/json"
         ],
-        "description": "接口权限编码:manage:user:delete",
-        "operationId": "manage/UserDelete",
+        "description": "接口权限编码:v1:manage:user:delete",
+        "operationId": "v1/Manage/UserDelete",
         "parameters": [
           {
             "in": "body",
@@ -141,7 +141,7 @@
         ],
         "summary": "Delete",
         "tags": [
-          "manage/user"
+          "v1/manage/user"
         ]
       }
     },
@@ -150,8 +150,8 @@
         "consumes": [
           "application/json"
         ],
-        "description": "接口权限编码:manage:user:edit",
-        "operationId": "manage/UserEdit",
+        "description": "接口权限编码:v1:manage:user:edit",
+        "operationId": "v1/Manage/UserEdit",
         "parameters": [
           {
             "in": "body",
@@ -222,14 +222,14 @@
         ],
         "summary": "Edit",
         "tags": [
-          "manage/user"
+          "v1/manage/user"
         ]
       }
     },
     "/api/v1/manage/getUserList": {
       "get": {
-        "description": "接口权限编码:manage:user:list",
-        "operationId": "manage/UserList",
+        "description": "接口权限编码:v1:manage:user:list",
+        "operationId": "v1/Manage/UserList",
         "parameters": [
           {
             "allowEmptyValue": true,
@@ -367,7 +367,7 @@
         ],
         "summary": "List",
         "tags": [
-          "manage/user"
+          "v1/manage/user"
         ]
       }
     }
