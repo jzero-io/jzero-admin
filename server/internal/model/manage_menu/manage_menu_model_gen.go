@@ -73,13 +73,14 @@ type (
 		WithTable(f func(table string) string) manageMenuModel
 		InsertV2(ctx context.Context, session sqlx.Session, data *ManageMenu) error
 		BulkInsert(ctx context.Context, session sqlx.Session, datas []*ManageMenu) error
-		FindByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) ([]*ManageMenu, error)
-		FindSelectedColumnsByCondition(ctx context.Context, session sqlx.Session, columns []string, conds ...condition.Condition) ([]*ManageMenu, error)
-		FindOneByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) (*ManageMenu, error)
-		CountByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) (int64, error)
-		PageByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) ([]*ManageMenu, int64, error)
-		UpdateFieldsByCondition(ctx context.Context, session sqlx.Session, field map[string]any, conds ...condition.Condition) error
-		DeleteByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) error
+		FindByCondition(ctx context.Context, session sqlx.Session, conditions ...condition.Condition) ([]*ManageMenu, error)
+		FindSelectedColumnsByCondition(ctx context.Context, session sqlx.Session, columns []string, conditions ...condition.Condition) ([]*ManageMenu, error)
+		FindOneByCondition(ctx context.Context, session sqlx.Session, conditions ...condition.Condition) (*ManageMenu, error)
+		FindOneSelectedColumnsByCondition(ctx context.Context, session sqlx.Session, columns []string, conditions ...condition.Condition) (*ManageMenu, error)
+		CountByCondition(ctx context.Context, session sqlx.Session, conditions ...condition.Condition) (int64, error)
+		PageByCondition(ctx context.Context, session sqlx.Session, conditions ...condition.Condition) ([]*ManageMenu, int64, error)
+		UpdateFieldsByCondition(ctx context.Context, session sqlx.Session, field map[string]any, conditions ...condition.Condition) error
+		DeleteByCondition(ctx context.Context, session sqlx.Session, conditions ...condition.Condition) error
 	}
 
 	defaultManageMenuModel struct {
@@ -388,7 +389,6 @@ func (m *customManageMenuModel) BulkInsert(ctx context.Context, session sqlx.Ses
 	}
 
 	sb := sqlbuilder.InsertInto(m.table)
-	sb.SetFlavor(m.flavor)
 	sb.Cols(manageMenuRowsExpectAutoSet)
 	for _, data := range datas {
 		sb.Values(data.Uuid, data.Status, data.ParentUuid, data.MenuType, data.MenuName, data.HideInMenu, data.ActiveMenu, data.Order, data.RouteName, data.RoutePath, data.Component, data.Icon, data.IconType, data.I18nKey, data.KeepAlive, data.Href, data.MultiTab, data.FixedIndexInTab, data.Query, data.Permissions, data.Constant, data.ButtonCode)
@@ -404,13 +404,12 @@ func (m *customManageMenuModel) BulkInsert(ctx context.Context, session sqlx.Ses
 	return err
 }
 
-func (m *customManageMenuModel) FindSelectedColumnsByCondition(ctx context.Context, session sqlx.Session, columns []string, conds ...condition.Condition) ([]*ManageMenu, error) {
+func (m *customManageMenuModel) FindSelectedColumnsByCondition(ctx context.Context, session sqlx.Session, columns []string, conditions ...condition.Condition) ([]*ManageMenu, error) {
 	if len(columns) == 0 {
 		columns = manageMenuFieldNames
 	}
-	sb := sqlbuilder.Select(m.withTableColumns(columns...)...).From(m.table)
-	builder := condition.SelectWithFlavor(m.flavor, *sb, conds...)
-	statement, args := builder.BuildWithFlavor(m.flavor)
+
+	statement, args := condition.BuildSelectWithFlavor(m.flavor, sqlbuilder.Select(m.withTableColumns(columns...)...).From(m.table), conditions...)
 
 	var resp []*ManageMenu
 	var err error
@@ -426,26 +425,25 @@ func (m *customManageMenuModel) FindSelectedColumnsByCondition(ctx context.Conte
 	return resp, nil
 }
 
-func (m *customManageMenuModel) FindByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) ([]*ManageMenu, error) {
-	return m.FindSelectedColumnsByCondition(ctx, session, manageMenuFieldNames, conds...)
+func (m *customManageMenuModel) FindByCondition(ctx context.Context, session sqlx.Session, conditions ...condition.Condition) ([]*ManageMenu, error) {
+	return m.FindSelectedColumnsByCondition(ctx, session, manageMenuFieldNames, conditions...)
 }
 
-func (m *customManageMenuModel) CountByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) (int64, error) {
-	countsb := sqlbuilder.Select("count(*)").From(m.table)
-
-	var countConds []condition.Condition
-	for _, cond := range conds {
+func (m *customManageMenuModel) CountByCondition(ctx context.Context, session sqlx.Session, conditions ...condition.Condition) (int64, error) {
+	var countconditions []condition.Condition
+	for _, cond := range conditions {
 		if cond.Operator != condition.Limit && cond.Operator != condition.Offset && cond.Operator != condition.OrderBy && cond.Operator != condition.OrderByDesc && cond.Operator != condition.OrderByAsc {
-			countConds = append(countConds, cond)
+			countconditions = append(countconditions, cond)
 		}
 	}
-	countBuilder := condition.SelectWithFlavor(m.flavor, *countsb, countConds...)
+
+	statement, args := condition.BuildSelectWithFlavor(m.flavor, sqlbuilder.Select("count(*)").From(m.table), countconditions...)
 
 	var (
 		total int64
 		err   error
 	)
-	statement, args := countBuilder.BuildWithFlavor(m.flavor)
+
 	if session != nil {
 		err = session.QueryRowCtx(ctx, &total, statement, args...)
 	} else {
@@ -457,12 +455,12 @@ func (m *customManageMenuModel) CountByCondition(ctx context.Context, session sq
 	return total, nil
 }
 
-func (m *customManageMenuModel) FindOneByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) (*ManageMenu, error) {
-	sb := sqlbuilder.Select(m.withTableColumns(manageMenuFieldNames...)...).From(m.table)
+func (m *customManageMenuModel) FindOneByCondition(ctx context.Context, session sqlx.Session, conditions ...condition.Condition) (*ManageMenu, error) {
+	return m.FindOneSelectedColumnsByCondition(ctx, session, manageMenuFieldNames, conditions...)
+}
 
-	builder := condition.SelectWithFlavor(m.flavor, *sb, conds...)
-	builder.Limit(1)
-	statement, args := builder.BuildWithFlavor(m.flavor)
+func (m *customManageMenuModel) FindOneSelectedColumnsByCondition(ctx context.Context, session sqlx.Session, columns []string, conditions ...condition.Condition) (*ManageMenu, error) {
+	statement, args := condition.BuildSelectWithFlavor(m.flavor, sqlbuilder.Select(m.withTableColumns(columns...)...).From(m.table).Limit(1), conditions...)
 
 	var resp ManageMenu
 	var err error
@@ -478,14 +476,11 @@ func (m *customManageMenuModel) FindOneByCondition(ctx context.Context, session 
 	return &resp, nil
 }
 
-func (m *customManageMenuModel) PageByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) ([]*ManageMenu, int64, error) {
-	sb := sqlbuilder.Select(m.withTableColumns(manageMenuFieldNames...)...).From(m.table)
-	builder := condition.SelectWithFlavor(m.flavor, *sb, conds...)
+func (m *customManageMenuModel) PageByCondition(ctx context.Context, session sqlx.Session, conditions ...condition.Condition) ([]*ManageMenu, int64, error) {
+	statement, args := condition.BuildSelectWithFlavor(m.flavor, sqlbuilder.Select(m.withTableColumns(manageMenuFieldNames...)...).From(m.table), conditions...)
 
 	var resp []*ManageMenu
 	var err error
-
-	statement, args := builder.BuildWithFlavor(m.flavor)
 
 	if session != nil {
 		err = session.QueryRowsCtx(ctx, &resp, statement, args...)
@@ -496,7 +491,7 @@ func (m *customManageMenuModel) PageByCondition(ctx context.Context, session sql
 		return nil, 0, err
 	}
 
-	total, err := m.CountByCondition(ctx, session, conds...)
+	total, err := m.CountByCondition(ctx, session, conditions...)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -504,21 +499,12 @@ func (m *customManageMenuModel) PageByCondition(ctx context.Context, session sql
 	return resp, total, nil
 }
 
-func (m *customManageMenuModel) UpdateFieldsByCondition(ctx context.Context, session sqlx.Session, field map[string]any, conds ...condition.Condition) error {
-	if field == nil {
+func (m *customManageMenuModel) UpdateFieldsByCondition(ctx context.Context, session sqlx.Session, data map[string]any, conditions ...condition.Condition) error {
+	if data == nil {
 		return nil
 	}
 
-	sb := sqlbuilder.Update(m.table)
-	builder := condition.UpdateWithFlavor(m.flavor, *sb, conds...)
-
-	var assigns []string
-	for key, value := range field {
-		assigns = append(assigns, sb.Assign(key, value))
-	}
-	builder.Set(assigns...)
-
-	statement, args := builder.BuildWithFlavor(m.flavor)
+	statement, args := condition.BuildUpdateWithFlavor(m.flavor, sqlbuilder.Update(m.table), data, conditions...)
 
 	var err error
 	if session != nil {
@@ -532,13 +518,11 @@ func (m *customManageMenuModel) UpdateFieldsByCondition(ctx context.Context, ses
 	return nil
 }
 
-func (m *customManageMenuModel) DeleteByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) error {
-	if len(conds) == 0 {
+func (m *customManageMenuModel) DeleteByCondition(ctx context.Context, session sqlx.Session, conditions ...condition.Condition) error {
+	if len(conditions) == 0 {
 		return nil
 	}
-	sb := sqlbuilder.DeleteFrom(m.table)
-	builder := condition.DeleteWithFlavor(m.flavor, *sb, conds...)
-	statement, args := builder.BuildWithFlavor(m.flavor)
+	statement, args := condition.BuildDeleteWithFlavor(m.flavor, sqlbuilder.DeleteFrom(m.table), conditions...)
 
 	var err error
 	if session != nil {

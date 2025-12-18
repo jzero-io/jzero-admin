@@ -59,13 +59,14 @@ type (
 		WithTable(f func(table string) string) manageEmailModel
 		InsertV2(ctx context.Context, session sqlx.Session, data *ManageEmail) error
 		BulkInsert(ctx context.Context, session sqlx.Session, datas []*ManageEmail) error
-		FindByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) ([]*ManageEmail, error)
-		FindSelectedColumnsByCondition(ctx context.Context, session sqlx.Session, columns []string, conds ...condition.Condition) ([]*ManageEmail, error)
-		FindOneByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) (*ManageEmail, error)
-		CountByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) (int64, error)
-		PageByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) ([]*ManageEmail, int64, error)
-		UpdateFieldsByCondition(ctx context.Context, session sqlx.Session, field map[string]any, conds ...condition.Condition) error
-		DeleteByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) error
+		FindByCondition(ctx context.Context, session sqlx.Session, conditions ...condition.Condition) ([]*ManageEmail, error)
+		FindSelectedColumnsByCondition(ctx context.Context, session sqlx.Session, columns []string, conditions ...condition.Condition) ([]*ManageEmail, error)
+		FindOneByCondition(ctx context.Context, session sqlx.Session, conditions ...condition.Condition) (*ManageEmail, error)
+		FindOneSelectedColumnsByCondition(ctx context.Context, session sqlx.Session, columns []string, conditions ...condition.Condition) (*ManageEmail, error)
+		CountByCondition(ctx context.Context, session sqlx.Session, conditions ...condition.Condition) (int64, error)
+		PageByCondition(ctx context.Context, session sqlx.Session, conditions ...condition.Condition) ([]*ManageEmail, int64, error)
+		UpdateFieldsByCondition(ctx context.Context, session sqlx.Session, field map[string]any, conditions ...condition.Condition) error
+		DeleteByCondition(ctx context.Context, session sqlx.Session, conditions ...condition.Condition) error
 	}
 
 	defaultManageEmailModel struct {
@@ -318,7 +319,6 @@ func (m *customManageEmailModel) BulkInsert(ctx context.Context, session sqlx.Se
 	}
 
 	sb := sqlbuilder.InsertInto(m.table)
-	sb.SetFlavor(m.flavor)
 	sb.Cols(manageEmailRowsExpectAutoSet)
 	for _, data := range datas {
 		sb.Values(data.Uuid, data.From, data.Host, data.Port, data.Username, data.Password, data.EnableSsl, data.IsVerify)
@@ -334,13 +334,12 @@ func (m *customManageEmailModel) BulkInsert(ctx context.Context, session sqlx.Se
 	return err
 }
 
-func (m *customManageEmailModel) FindSelectedColumnsByCondition(ctx context.Context, session sqlx.Session, columns []string, conds ...condition.Condition) ([]*ManageEmail, error) {
+func (m *customManageEmailModel) FindSelectedColumnsByCondition(ctx context.Context, session sqlx.Session, columns []string, conditions ...condition.Condition) ([]*ManageEmail, error) {
 	if len(columns) == 0 {
 		columns = manageEmailFieldNames
 	}
-	sb := sqlbuilder.Select(m.withTableColumns(columns...)...).From(m.table)
-	builder := condition.SelectWithFlavor(m.flavor, *sb, conds...)
-	statement, args := builder.BuildWithFlavor(m.flavor)
+
+	statement, args := condition.BuildSelectWithFlavor(m.flavor, sqlbuilder.Select(m.withTableColumns(columns...)...).From(m.table), conditions...)
 
 	var resp []*ManageEmail
 	var err error
@@ -356,26 +355,25 @@ func (m *customManageEmailModel) FindSelectedColumnsByCondition(ctx context.Cont
 	return resp, nil
 }
 
-func (m *customManageEmailModel) FindByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) ([]*ManageEmail, error) {
-	return m.FindSelectedColumnsByCondition(ctx, session, manageEmailFieldNames, conds...)
+func (m *customManageEmailModel) FindByCondition(ctx context.Context, session sqlx.Session, conditions ...condition.Condition) ([]*ManageEmail, error) {
+	return m.FindSelectedColumnsByCondition(ctx, session, manageEmailFieldNames, conditions...)
 }
 
-func (m *customManageEmailModel) CountByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) (int64, error) {
-	countsb := sqlbuilder.Select("count(*)").From(m.table)
-
-	var countConds []condition.Condition
-	for _, cond := range conds {
+func (m *customManageEmailModel) CountByCondition(ctx context.Context, session sqlx.Session, conditions ...condition.Condition) (int64, error) {
+	var countconditions []condition.Condition
+	for _, cond := range conditions {
 		if cond.Operator != condition.Limit && cond.Operator != condition.Offset && cond.Operator != condition.OrderBy && cond.Operator != condition.OrderByDesc && cond.Operator != condition.OrderByAsc {
-			countConds = append(countConds, cond)
+			countconditions = append(countconditions, cond)
 		}
 	}
-	countBuilder := condition.SelectWithFlavor(m.flavor, *countsb, countConds...)
+
+	statement, args := condition.BuildSelectWithFlavor(m.flavor, sqlbuilder.Select("count(*)").From(m.table), countconditions...)
 
 	var (
 		total int64
 		err   error
 	)
-	statement, args := countBuilder.BuildWithFlavor(m.flavor)
+
 	if session != nil {
 		err = session.QueryRowCtx(ctx, &total, statement, args...)
 	} else {
@@ -387,12 +385,12 @@ func (m *customManageEmailModel) CountByCondition(ctx context.Context, session s
 	return total, nil
 }
 
-func (m *customManageEmailModel) FindOneByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) (*ManageEmail, error) {
-	sb := sqlbuilder.Select(m.withTableColumns(manageEmailFieldNames...)...).From(m.table)
+func (m *customManageEmailModel) FindOneByCondition(ctx context.Context, session sqlx.Session, conditions ...condition.Condition) (*ManageEmail, error) {
+	return m.FindOneSelectedColumnsByCondition(ctx, session, manageEmailFieldNames, conditions...)
+}
 
-	builder := condition.SelectWithFlavor(m.flavor, *sb, conds...)
-	builder.Limit(1)
-	statement, args := builder.BuildWithFlavor(m.flavor)
+func (m *customManageEmailModel) FindOneSelectedColumnsByCondition(ctx context.Context, session sqlx.Session, columns []string, conditions ...condition.Condition) (*ManageEmail, error) {
+	statement, args := condition.BuildSelectWithFlavor(m.flavor, sqlbuilder.Select(m.withTableColumns(columns...)...).From(m.table).Limit(1), conditions...)
 
 	var resp ManageEmail
 	var err error
@@ -408,14 +406,11 @@ func (m *customManageEmailModel) FindOneByCondition(ctx context.Context, session
 	return &resp, nil
 }
 
-func (m *customManageEmailModel) PageByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) ([]*ManageEmail, int64, error) {
-	sb := sqlbuilder.Select(m.withTableColumns(manageEmailFieldNames...)...).From(m.table)
-	builder := condition.SelectWithFlavor(m.flavor, *sb, conds...)
+func (m *customManageEmailModel) PageByCondition(ctx context.Context, session sqlx.Session, conditions ...condition.Condition) ([]*ManageEmail, int64, error) {
+	statement, args := condition.BuildSelectWithFlavor(m.flavor, sqlbuilder.Select(m.withTableColumns(manageEmailFieldNames...)...).From(m.table), conditions...)
 
 	var resp []*ManageEmail
 	var err error
-
-	statement, args := builder.BuildWithFlavor(m.flavor)
 
 	if session != nil {
 		err = session.QueryRowsCtx(ctx, &resp, statement, args...)
@@ -426,7 +421,7 @@ func (m *customManageEmailModel) PageByCondition(ctx context.Context, session sq
 		return nil, 0, err
 	}
 
-	total, err := m.CountByCondition(ctx, session, conds...)
+	total, err := m.CountByCondition(ctx, session, conditions...)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -434,21 +429,12 @@ func (m *customManageEmailModel) PageByCondition(ctx context.Context, session sq
 	return resp, total, nil
 }
 
-func (m *customManageEmailModel) UpdateFieldsByCondition(ctx context.Context, session sqlx.Session, field map[string]any, conds ...condition.Condition) error {
-	if field == nil {
+func (m *customManageEmailModel) UpdateFieldsByCondition(ctx context.Context, session sqlx.Session, data map[string]any, conditions ...condition.Condition) error {
+	if data == nil {
 		return nil
 	}
 
-	sb := sqlbuilder.Update(m.table)
-	builder := condition.UpdateWithFlavor(m.flavor, *sb, conds...)
-
-	var assigns []string
-	for key, value := range field {
-		assigns = append(assigns, sb.Assign(key, value))
-	}
-	builder.Set(assigns...)
-
-	statement, args := builder.BuildWithFlavor(m.flavor)
+	statement, args := condition.BuildUpdateWithFlavor(m.flavor, sqlbuilder.Update(m.table), data, conditions...)
 
 	var err error
 	if session != nil {
@@ -462,13 +448,11 @@ func (m *customManageEmailModel) UpdateFieldsByCondition(ctx context.Context, se
 	return nil
 }
 
-func (m *customManageEmailModel) DeleteByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) error {
-	if len(conds) == 0 {
+func (m *customManageEmailModel) DeleteByCondition(ctx context.Context, session sqlx.Session, conditions ...condition.Condition) error {
+	if len(conditions) == 0 {
 		return nil
 	}
-	sb := sqlbuilder.DeleteFrom(m.table)
-	builder := condition.DeleteWithFlavor(m.flavor, *sb, conds...)
-	statement, args := builder.BuildWithFlavor(m.flavor)
+	statement, args := condition.BuildDeleteWithFlavor(m.flavor, sqlbuilder.DeleteFrom(m.table), conditions...)
 
 	var err error
 	if session != nil {

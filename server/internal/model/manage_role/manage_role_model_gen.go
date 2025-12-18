@@ -56,13 +56,14 @@ type (
 		WithTable(f func(table string) string) manageRoleModel
 		InsertV2(ctx context.Context, session sqlx.Session, data *ManageRole) error
 		BulkInsert(ctx context.Context, session sqlx.Session, datas []*ManageRole) error
-		FindByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) ([]*ManageRole, error)
-		FindSelectedColumnsByCondition(ctx context.Context, session sqlx.Session, columns []string, conds ...condition.Condition) ([]*ManageRole, error)
-		FindOneByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) (*ManageRole, error)
-		CountByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) (int64, error)
-		PageByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) ([]*ManageRole, int64, error)
-		UpdateFieldsByCondition(ctx context.Context, session sqlx.Session, field map[string]any, conds ...condition.Condition) error
-		DeleteByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) error
+		FindByCondition(ctx context.Context, session sqlx.Session, conditions ...condition.Condition) ([]*ManageRole, error)
+		FindSelectedColumnsByCondition(ctx context.Context, session sqlx.Session, columns []string, conditions ...condition.Condition) ([]*ManageRole, error)
+		FindOneByCondition(ctx context.Context, session sqlx.Session, conditions ...condition.Condition) (*ManageRole, error)
+		FindOneSelectedColumnsByCondition(ctx context.Context, session sqlx.Session, columns []string, conditions ...condition.Condition) (*ManageRole, error)
+		CountByCondition(ctx context.Context, session sqlx.Session, conditions ...condition.Condition) (int64, error)
+		PageByCondition(ctx context.Context, session sqlx.Session, conditions ...condition.Condition) ([]*ManageRole, int64, error)
+		UpdateFieldsByCondition(ctx context.Context, session sqlx.Session, field map[string]any, conditions ...condition.Condition) error
+		DeleteByCondition(ctx context.Context, session sqlx.Session, conditions ...condition.Condition) error
 	}
 
 	defaultManageRoleModel struct {
@@ -303,7 +304,6 @@ func (m *customManageRoleModel) BulkInsert(ctx context.Context, session sqlx.Ses
 	}
 
 	sb := sqlbuilder.InsertInto(m.table)
-	sb.SetFlavor(m.flavor)
 	sb.Cols(manageRoleRowsExpectAutoSet)
 	for _, data := range datas {
 		sb.Values(data.Uuid, data.Name, data.Status, data.Code, data.Desc)
@@ -319,13 +319,12 @@ func (m *customManageRoleModel) BulkInsert(ctx context.Context, session sqlx.Ses
 	return err
 }
 
-func (m *customManageRoleModel) FindSelectedColumnsByCondition(ctx context.Context, session sqlx.Session, columns []string, conds ...condition.Condition) ([]*ManageRole, error) {
+func (m *customManageRoleModel) FindSelectedColumnsByCondition(ctx context.Context, session sqlx.Session, columns []string, conditions ...condition.Condition) ([]*ManageRole, error) {
 	if len(columns) == 0 {
 		columns = manageRoleFieldNames
 	}
-	sb := sqlbuilder.Select(m.withTableColumns(columns...)...).From(m.table)
-	builder := condition.SelectWithFlavor(m.flavor, *sb, conds...)
-	statement, args := builder.BuildWithFlavor(m.flavor)
+
+	statement, args := condition.BuildSelectWithFlavor(m.flavor, sqlbuilder.Select(m.withTableColumns(columns...)...).From(m.table), conditions...)
 
 	var resp []*ManageRole
 	var err error
@@ -341,26 +340,25 @@ func (m *customManageRoleModel) FindSelectedColumnsByCondition(ctx context.Conte
 	return resp, nil
 }
 
-func (m *customManageRoleModel) FindByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) ([]*ManageRole, error) {
-	return m.FindSelectedColumnsByCondition(ctx, session, manageRoleFieldNames, conds...)
+func (m *customManageRoleModel) FindByCondition(ctx context.Context, session sqlx.Session, conditions ...condition.Condition) ([]*ManageRole, error) {
+	return m.FindSelectedColumnsByCondition(ctx, session, manageRoleFieldNames, conditions...)
 }
 
-func (m *customManageRoleModel) CountByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) (int64, error) {
-	countsb := sqlbuilder.Select("count(*)").From(m.table)
-
-	var countConds []condition.Condition
-	for _, cond := range conds {
+func (m *customManageRoleModel) CountByCondition(ctx context.Context, session sqlx.Session, conditions ...condition.Condition) (int64, error) {
+	var countconditions []condition.Condition
+	for _, cond := range conditions {
 		if cond.Operator != condition.Limit && cond.Operator != condition.Offset && cond.Operator != condition.OrderBy && cond.Operator != condition.OrderByDesc && cond.Operator != condition.OrderByAsc {
-			countConds = append(countConds, cond)
+			countconditions = append(countconditions, cond)
 		}
 	}
-	countBuilder := condition.SelectWithFlavor(m.flavor, *countsb, countConds...)
+
+	statement, args := condition.BuildSelectWithFlavor(m.flavor, sqlbuilder.Select("count(*)").From(m.table), countconditions...)
 
 	var (
 		total int64
 		err   error
 	)
-	statement, args := countBuilder.BuildWithFlavor(m.flavor)
+
 	if session != nil {
 		err = session.QueryRowCtx(ctx, &total, statement, args...)
 	} else {
@@ -372,12 +370,12 @@ func (m *customManageRoleModel) CountByCondition(ctx context.Context, session sq
 	return total, nil
 }
 
-func (m *customManageRoleModel) FindOneByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) (*ManageRole, error) {
-	sb := sqlbuilder.Select(m.withTableColumns(manageRoleFieldNames...)...).From(m.table)
+func (m *customManageRoleModel) FindOneByCondition(ctx context.Context, session sqlx.Session, conditions ...condition.Condition) (*ManageRole, error) {
+	return m.FindOneSelectedColumnsByCondition(ctx, session, manageRoleFieldNames, conditions...)
+}
 
-	builder := condition.SelectWithFlavor(m.flavor, *sb, conds...)
-	builder.Limit(1)
-	statement, args := builder.BuildWithFlavor(m.flavor)
+func (m *customManageRoleModel) FindOneSelectedColumnsByCondition(ctx context.Context, session sqlx.Session, columns []string, conditions ...condition.Condition) (*ManageRole, error) {
+	statement, args := condition.BuildSelectWithFlavor(m.flavor, sqlbuilder.Select(m.withTableColumns(columns...)...).From(m.table).Limit(1), conditions...)
 
 	var resp ManageRole
 	var err error
@@ -393,14 +391,11 @@ func (m *customManageRoleModel) FindOneByCondition(ctx context.Context, session 
 	return &resp, nil
 }
 
-func (m *customManageRoleModel) PageByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) ([]*ManageRole, int64, error) {
-	sb := sqlbuilder.Select(m.withTableColumns(manageRoleFieldNames...)...).From(m.table)
-	builder := condition.SelectWithFlavor(m.flavor, *sb, conds...)
+func (m *customManageRoleModel) PageByCondition(ctx context.Context, session sqlx.Session, conditions ...condition.Condition) ([]*ManageRole, int64, error) {
+	statement, args := condition.BuildSelectWithFlavor(m.flavor, sqlbuilder.Select(m.withTableColumns(manageRoleFieldNames...)...).From(m.table), conditions...)
 
 	var resp []*ManageRole
 	var err error
-
-	statement, args := builder.BuildWithFlavor(m.flavor)
 
 	if session != nil {
 		err = session.QueryRowsCtx(ctx, &resp, statement, args...)
@@ -411,7 +406,7 @@ func (m *customManageRoleModel) PageByCondition(ctx context.Context, session sql
 		return nil, 0, err
 	}
 
-	total, err := m.CountByCondition(ctx, session, conds...)
+	total, err := m.CountByCondition(ctx, session, conditions...)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -419,21 +414,12 @@ func (m *customManageRoleModel) PageByCondition(ctx context.Context, session sql
 	return resp, total, nil
 }
 
-func (m *customManageRoleModel) UpdateFieldsByCondition(ctx context.Context, session sqlx.Session, field map[string]any, conds ...condition.Condition) error {
-	if field == nil {
+func (m *customManageRoleModel) UpdateFieldsByCondition(ctx context.Context, session sqlx.Session, data map[string]any, conditions ...condition.Condition) error {
+	if data == nil {
 		return nil
 	}
 
-	sb := sqlbuilder.Update(m.table)
-	builder := condition.UpdateWithFlavor(m.flavor, *sb, conds...)
-
-	var assigns []string
-	for key, value := range field {
-		assigns = append(assigns, sb.Assign(key, value))
-	}
-	builder.Set(assigns...)
-
-	statement, args := builder.BuildWithFlavor(m.flavor)
+	statement, args := condition.BuildUpdateWithFlavor(m.flavor, sqlbuilder.Update(m.table), data, conditions...)
 
 	var err error
 	if session != nil {
@@ -447,13 +433,11 @@ func (m *customManageRoleModel) UpdateFieldsByCondition(ctx context.Context, ses
 	return nil
 }
 
-func (m *customManageRoleModel) DeleteByCondition(ctx context.Context, session sqlx.Session, conds ...condition.Condition) error {
-	if len(conds) == 0 {
+func (m *customManageRoleModel) DeleteByCondition(ctx context.Context, session sqlx.Session, conditions ...condition.Condition) error {
+	if len(conditions) == 0 {
 		return nil
 	}
-	sb := sqlbuilder.DeleteFrom(m.table)
-	builder := condition.DeleteWithFlavor(m.flavor, *sb, conds...)
-	statement, args := builder.BuildWithFlavor(m.flavor)
+	statement, args := condition.BuildDeleteWithFlavor(m.flavor, sqlbuilder.DeleteFrom(m.table), conditions...)
 
 	var err error
 	if session != nil {
