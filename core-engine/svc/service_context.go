@@ -11,7 +11,6 @@ import (
 	"github.com/jzero-io/jzero/core/stores/modelx"
 	"github.com/pkg/errors"
 	"github.com/zeromicro/go-zero/core/logx"
-	zerocache "github.com/zeromicro/go-zero/core/stores/cache"
 	"github.com/zeromicro/go-zero/core/stores/redis"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 
@@ -48,17 +47,19 @@ func NewServiceContext(c config.Config, route2code func(r *http.Request) string,
 		Config:   c,
 		SqlxConn: modelx.MustNewConn(c.Sqlx.SqlConf),
 	}
-	if c.CacheType == "redis" {
-		svcCtx.Redis = redis.MustNewRedis(c.Redis)
-	} else {
+
+	if c.Redis.MiniRedis {
 		miniRedis, err := miniredis.Run()
 		logx.Must(err)
 		svcCtx.Redis = redis.MustNewRedis(redis.RedisConf{
 			Type: redis.NodeType,
 			Host: miniRedis.Addr(),
 		})
+	} else {
+		svcCtx.Redis = redis.MustNewRedis(c.Redis.RedisConf)
 	}
-	svcCtx.Cache = cache.NewRedisNode(svcCtx.Redis, errors.New("cache not found"), zerocache.WithExpiry(time.Duration(5)*time.Second))
+
+	svcCtx.Cache = cache.NewRedisNode(svcCtx.Redis, errors.New("cache not found"), cache.WithExpiry(time.Duration(5)*time.Second))
 	svcCtx.CasbinEnforcer = MustCasbinEnforcer(svcCtx)
 	svcCtx.Trans = i18n.NewTranslator(c.I18n, i18n.LocaleFS)
 	svcCtx.Middleware = NewMiddleware(svcCtx, route2code)

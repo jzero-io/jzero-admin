@@ -10,21 +10,20 @@ import (
 )
 
 type Config struct {
-	Rest      RestConf
-	Jwt       Jwt
-	Log       LogConf
-	Banner    BannerConf
-	Sqlx      SqlxConf
-	CacheType string          `json:",default=local"`
-	Redis     redis.RedisConf `json:",optional"`
-	I18n      i18n.I18nConf   `json:",optional"`
+	Rest   RestConf
+	Jwt    JwtConf
+	Log    LogConf
+	Banner BannerConf
+	Sqlx   SqlxConf
+	Redis  RedisConf     `json:",optional"`
+	I18n   i18n.I18nConf `json:",optional"`
 }
 
 type RestConf struct {
 	rest.RestConf
 }
 
-type Jwt struct {
+type JwtConf struct {
 	AccessSecret  string `json:",default=jzero-admin"`
 	AccessExpire  int    `json:",default=7200"`
 	RefreshExpire int    `json:",default=86400"`
@@ -42,4 +41,11 @@ type BannerConf struct {
 
 type SqlxConf struct {
 	sqlx.SqlConf
+}
+
+type RedisConf struct {
+	// MiniRedis only for testing
+	MiniRedis bool `json:",default=false"`
+
+	redis.RedisConf
 }

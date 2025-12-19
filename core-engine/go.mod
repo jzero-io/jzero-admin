@@ -11,7 +11,7 @@ require (
 	github.com/go-playground/universal-translator v0.18.1
 	github.com/go-playground/validator/v10 v10.27.0
 	github.com/golang-jwt/jwt/v4 v4.5.2
-	github.com/jzero-io/jzero v1.0.0-beta9
+	github.com/jzero-io/jzero v1.0.0-beta9.0.20251219061702-e0e016d70932
 	github.com/nicksnyder/go-i18n/v2 v2.6.0
 	github.com/pkg/errors v0.9.1
 	github.com/spf13/cast v1.10.0
