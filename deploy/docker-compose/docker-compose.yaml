@@ -5,15 +5,24 @@ services:
     restart: always
     environment:
       - TZ=Asia/Shanghai
-      - DRIVER_NAME=mysql
-      - DATASOURCE=root:123456@tcp(mysql:3306)/jzero-admin?charset=utf8mb4&parseTime=True&loc=Local
-#      # using postgres
+
+      # 使用 sqlite
+      - DRIVER_NAME=sqlite
+      - DATASOURCE=postgres://root:123456@postgres:5432/jzero-admin
+
+#      # 使用 mysql
+#      - DRIVER_NAME=mysql
+#      - DATASOURCE=root:123456@tcp(mysql:3306)/jzero-admin?charset=utf8mb4&parseTime=True&loc=Local
+
+#      # 使用 postgres
 #      - DRIVER_NAME=pgx
 #      - DATASOURCE=postgres://root:123456@postgres:5432/jzero-admin
-      - REDIS_HOST=redis:6379
-      - CACHE_TYPE=redis
-    depends_on:
-      - mysql
+
+      # 使用 miniredis(内存)
+      - REDIS_MINI_REDIS=true
+
+#      # 使用 redis
+#      - REDIS_HOST=redis:6379
   web:
     build:
       context: ../../web

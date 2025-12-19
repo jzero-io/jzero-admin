@@ -10,8 +10,8 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/guregu/null/v5 v5.0.0
 	github.com/huandu/go-sqlbuilder v1.38.1
-	github.com/jzero-io/jzero v1.0.0-beta9
-	github.com/jzero-io/jzero-admin/core-engine v0.0.0-20251218054929-437c8f0b2eb6
+	github.com/jzero-io/jzero v1.0.0-beta9.0.20251219061702-e0e016d70932
+	github.com/jzero-io/jzero-admin/core-engine v0.0.0-20251219070639-727123392fc7
 	github.com/pkg/errors v0.9.1
 	github.com/samber/lo v1.52.0
 	github.com/spf13/cast v1.10.0
