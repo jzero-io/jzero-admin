@@ -47,5 +47,5 @@ type RedisConf struct {
 	// MiniRedis only for testing
 	MiniRedis bool `json:",default=false"`
 
-	redis.RedisConf `json:",optional"`
+	redis.RedisConf
 }
