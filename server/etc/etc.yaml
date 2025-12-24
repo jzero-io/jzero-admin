@@ -22,5 +22,4 @@ sqlx:
 
 redis:
     miniRedis: ${REDIS_MINI_REDIS:-true}
-#    host: "${REDIS_HOST:-127.0.0.1:6379}"
-#    type: "${REDIS_TYPE:-node}"
+    host: "${REDIS_HOST:-127.0.0.1:6379}"
