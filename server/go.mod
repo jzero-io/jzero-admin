@@ -10,8 +10,8 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/guregu/null/v5 v5.0.0
 	github.com/huandu/go-sqlbuilder v1.38.1
-	github.com/jzero-io/jzero v1.0.0-beta9.0.20251219061702-e0e016d70932
-	github.com/jzero-io/jzero-admin/core-engine v0.0.0-20251224032534-9414a9a9c0d9
+	github.com/jzero-io/jzero v1.0.0-beta20
+	github.com/jzero-io/jzero-admin/core-engine v0.0.0-20251225124719-ce3c4b3bf8a3
 	github.com/pkg/errors v0.9.1
 	github.com/samber/lo v1.52.0
 	github.com/spf13/cast v1.10.0
@@ -55,7 +55,7 @@ require (
 	github.com/gabriel-vasile/mimetype v1.4.8 // indirect
 	github.com/go-git/gcfg v1.5.1-0.20230307220236-3a3c6141e376 // indirect
 	github.com/go-git/go-billy/v5 v5.6.2 // indirect
-	github.com/go-git/go-git/v5 v5.16.3 // indirect
+	github.com/go-git/go-git/v5 v5.16.4 // indirect
 	github.com/go-logr/logr v1.4.3 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
@@ -72,7 +72,7 @@ require (
 	github.com/grafana/pyroscope-go v1.2.7 // indirect
 	github.com/grafana/pyroscope-go/godeltaprof v0.1.9 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.27.3 // indirect
-	github.com/hashicorp/go-version v1.7.0 // indirect
+	github.com/hashicorp/go-version v1.8.0 // indirect
 	github.com/huandu/go-clone v1.7.3 // indirect
 	github.com/huandu/xstrings v1.5.0 // indirect
 	github.com/iancoleman/orderedmap v0.3.0 // indirect
@@ -86,15 +86,15 @@ require (
 	github.com/jaronnie/genius v0.6.1 // indirect
 	github.com/jbenet/go-context v0.0.0-20150711004518-d14ea06fba99 // indirect
 	github.com/jhump/protoreflect v1.17.0 // indirect
-	github.com/jzero-io/desc v1.1.0 // indirect
+	github.com/jzero-io/desc v1.2.0 // indirect
 	github.com/jzero-io/go_fmt v0.0.0-20250905015347-1a45352494b7 // indirect
-	github.com/jzero-io/jzero/cmd/jzero v1.0.0-beta9 // indirect
+	github.com/jzero-io/jzero/cmd/jzero v1.0.0-beta20 // indirect
 	github.com/kevinburke/ssh_config v1.2.0 // indirect
 	github.com/klauspost/compress v1.18.1 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
 	github.com/logrusorgru/aurora v2.0.3+incompatible // indirect
 	github.com/mailru/easyjson v0.9.0 // indirect
-	github.com/mark3labs/mcp-go v0.43.0 // indirect
+	github.com/mark3labs/mcp-go v0.43.2 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/mitchellh/copystructure v1.2.0 // indirect
@@ -172,7 +172,7 @@ require (
 	modernc.org/libc v1.67.0 // indirect
 	modernc.org/mathutil v1.7.1 // indirect
 	modernc.org/memory v1.11.0 // indirect
-	modernc.org/sqlite v1.40.1 // indirect
+	modernc.org/sqlite v1.41.0 // indirect
 )
 
 tool github.com/jzero-io/jzero/cmd/jzero

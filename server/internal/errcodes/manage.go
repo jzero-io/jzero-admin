@@ -1,4 +1,4 @@
-package manage
+package errcodes
 
 import "github.com/jzero-io/jzero/core/status"
 
@@ -6,6 +6,6 @@ const (
 	ExistSubMenuCode = 10311
 )
 
-func RegisterManage() {
+func init() {
 	status.Register(ExistSubMenuCode)
 }

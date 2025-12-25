@@ -1,4 +1,4 @@
-package auth
+package errcodes
 
 import "github.com/jzero-io/jzero/core/status"
 
@@ -6,6 +6,6 @@ const (
 	RefreshTokenExpiredCode = 40102
 )
 
-func RegisterAuth() {
+func init() {
 	status.Register(RefreshTokenExpiredCode)
 }
