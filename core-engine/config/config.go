@@ -15,8 +15,8 @@ type Config struct {
 	Log    LogConf
 	Banner BannerConf
 	Sqlx   SqlxConf
-	Redis  RedisConf     `json:",optional"`
-	I18n   i18n.I18nConf `json:",optional"`
+	Redis  RedisConf
+	I18n   i18n.I18nConf
 }
 
 type RestConf struct {
@@ -47,5 +47,5 @@ type RedisConf struct {
 	// MiniRedis only for testing
 	MiniRedis bool `json:",default=false"`
 
-	redis.RedisConf
+	redis.RedisConf `json:",optional"`
 }
