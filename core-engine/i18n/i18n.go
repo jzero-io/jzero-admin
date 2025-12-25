@@ -16,7 +16,7 @@ import (
 
 // I18nConf is the configuration structure for i18n
 type I18nConf struct {
-	Dir string `json:","`
+	Dir string `json:",optional"`
 }
 
 // Translator is a struct storing translating data.
