@@ -11,7 +11,7 @@ require (
 	github.com/guregu/null/v5 v5.0.0
 	github.com/huandu/go-sqlbuilder v1.38.1
 	github.com/jzero-io/jzero v1.0.0-beta20
-	github.com/jzero-io/jzero-admin/core-engine v0.0.0-20251225124719-ce3c4b3bf8a3
+	github.com/jzero-io/jzero-admin/core-engine v0.0.0-20251225134547-40fcd3b6d345
 	github.com/pkg/errors v0.9.1
 	github.com/samber/lo v1.52.0
 	github.com/spf13/cast v1.10.0

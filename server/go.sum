@@ -217,8 +217,8 @@ github.com/jzero-io/go_fmt v0.0.0-20250905015347-1a45352494b7 h1:XamNaWUxHlOd7yt
 github.com/jzero-io/go_fmt v0.0.0-20250905015347-1a45352494b7/go.mod h1:Wupl/J9DdDywVAOC5ExsbfkET0aYuNLhZPlpBF8+OnE=
 github.com/jzero-io/jzero v1.0.0-beta20 h1:U26UozpBp7Tfzo3mr+t02OP/CNFSOCGyVmkhzXQsFPU=
 github.com/jzero-io/jzero v1.0.0-beta20/go.mod h1:Hy8SuHD2lsyExqpXj0RDEe2BvrHosifVnvKmqIUwNS0=
-github.com/jzero-io/jzero-admin/core-engine v0.0.0-20251225124719-ce3c4b3bf8a3 h1:oJYi7GSwA4ZbFDZ6fLob/mMDIN+Ani7Kvm2E5zdhsEI=
-github.com/jzero-io/jzero-admin/core-engine v0.0.0-20251225124719-ce3c4b3bf8a3/go.mod h1:+paZe0BSA9iQytSn5WzQCDJyO4ahVB5WB35SL6fN3Fw=
+github.com/jzero-io/jzero-admin/core-engine v0.0.0-20251225134547-40fcd3b6d345 h1:49Cl0WtnErc+MOdBQXW0f7I/JlIXR+aG2zzKL/Qwybg=
+github.com/jzero-io/jzero-admin/core-engine v0.0.0-20251225134547-40fcd3b6d345/go.mod h1:+paZe0BSA9iQytSn5WzQCDJyO4ahVB5WB35SL6fN3Fw=
 github.com/jzero-io/jzero/cmd/jzero v1.0.0-beta20 h1:PmCc6GkQkizVglz/Q6n7o9Pm12adEgnK68TAYDV2pYM=
 github.com/jzero-io/jzero/cmd/jzero v1.0.0-beta20/go.mod h1:vEB1wsqbfZPq7KA2R3HGDWO4ZgGVpDCt+pnnxo+ANUE=
 github.com/kevinburke/ssh_config v1.2.0 h1:x584FjTGwHzMwvHx18PXxbBVzfnxogHaAReU4gf13a4=
