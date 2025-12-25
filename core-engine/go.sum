@@ -99,6 +99,8 @@ github.com/jackc/puddle/v2 v2.2.2 h1:PR8nw+E/1w0GLuRFSmiioY6UooMp6KJv0/61nB7icHo
 github.com/jackc/puddle/v2 v2.2.2/go.mod h1:vriiEXHvEE654aYKXXjOvZM39qJ0q+azkZFrfEOc3H4=
 github.com/jzero-io/jzero v1.0.0-beta10 h1:6C2N4TmEu8u8qZ1y/rlsiLMLSpTybO8FmLB/0PKRJmw=
 github.com/jzero-io/jzero v1.0.0-beta10/go.mod h1:YMBuEeq8efRGd6UqHASkY6W/Pk/xHQcuJe/G/1uRbKU=
+github.com/jzero-io/jzero v1.0.0-beta20 h1:U26UozpBp7Tfzo3mr+t02OP/CNFSOCGyVmkhzXQsFPU=
+github.com/jzero-io/jzero v1.0.0-beta20/go.mod h1:Hy8SuHD2lsyExqpXj0RDEe2BvrHosifVnvKmqIUwNS0=
 github.com/jzero-io/jzero v1.0.0-beta9.0.20251219061702-e0e016d70932 h1:5i1Y1NObo1QQViRaVu5moZN6WqkR/+yznkJ1dgPc4f4=
 github.com/jzero-io/jzero v1.0.0-beta9.0.20251219061702-e0e016d70932/go.mod h1:YMBuEeq8efRGd6UqHASkY6W/Pk/xHQcuJe/G/1uRbKU=
 github.com/klauspost/compress v1.18.1 h1:bcSGx7UbpBqMChDtsF28Lw6v/G94LPrrbMbdC3JH2co=
@@ -281,6 +283,7 @@ modernc.org/sortutil v1.2.1 h1:+xyoGf15mM3NMlPDnFqrteY07klSFxLElE2PVuWIJ7w=
 modernc.org/sortutil v1.2.1/go.mod h1:7ZI3a3REbai7gzCLcotuw9AC4VZVpYMjDzETGsSMqJE=
 modernc.org/sqlite v1.40.1 h1:VfuXcxcUWWKRBuP8+BR9L7VnmusMgBNNnBYGEe9w/iY=
 modernc.org/sqlite v1.40.1/go.mod h1:9fjQZ0mB1LLP0GYrp39oOJXx/I2sxEnZtzCmEQIKvGE=
+modernc.org/sqlite v1.41.0/go.mod h1:9fjQZ0mB1LLP0GYrp39oOJXx/I2sxEnZtzCmEQIKvGE=
 modernc.org/strutil v1.2.1 h1:UneZBkQA+DX2Rp35KcM69cSsNES9ly8mQWD71HKlOA0=
 modernc.org/strutil v1.2.1/go.mod h1:EHkiggD70koQxjVdSBM3JKM7k6L0FbGE5eymy9i3B9A=
 modernc.org/token v1.1.0 h1:Xl7Ap9dKaEs5kLoOQeQmPWevfnk/DM5qcLcYlA8ys6Y=
