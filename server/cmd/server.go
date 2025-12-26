@@ -7,6 +7,7 @@ import (
 	"github.com/common-nighthawk/go-figure"
 	"github.com/jzero-io/jzero/core/configcenter"
 	"github.com/jzero-io/jzero/core/configcenter/subscriber"
+	"github.com/jzero-io/jzero/core/stores/migrate"
 	"github.com/spf13/cobra"
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/service"
@@ -49,6 +50,11 @@ var serverCmd = &cobra.Command{
 			header.Add("Access-Control-Allow-Headers", "X-Request-Id")
 			header.Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, UPDATE")
 		}, nil, "*"))
+
+		m, err := migrate.NewMigrate(cc.MustGetConfig().Sqlx.SqlConf, migrate.WithSourceAppendDriver(true))
+		logx.Must(err)
+		logx.Must(m.Up())
+		defer m.Close()
 
 		svcCtx := svc.NewServiceContext(cc, handler.Route2Code)
 		global.ServiceContext = *svcCtx

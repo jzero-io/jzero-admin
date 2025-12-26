@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"github.com/casbin/casbin/v2"
-	"github.com/jzero-io/jzero/core/stores/migrate"
 
 	"github.com/jzero-io/jzero-admin/server/internal/global"
 	"github.com/jzero-io/jzero-admin/server/internal/model"
@@ -24,18 +23,8 @@ func (c *Custom) Init() error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
 	defer cancel()
 
-	m, err := migrate.NewMigrate(global.ServiceContext.ConfigCenter.MustGetConfig().Sqlx.SqlConf, migrate.WithSourceAppendDriver(true))
-	if err != nil {
-		return err
-	}
-
-	if err = m.Up(); err != nil {
-		return err
-	}
-	defer m.Close()
-
 	// auto gen casbin rules
-	if err = InitCasbinRule(ctx, global.ServiceContext.Model, global.ServiceContext.CasbinEnforcer); err != nil {
+	if err := InitCasbinRule(ctx, global.ServiceContext.Model, global.ServiceContext.CasbinEnforcer); err != nil {
 		return err
 	}
 
