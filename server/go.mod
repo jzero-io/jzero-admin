@@ -9,9 +9,9 @@ require (
 	github.com/golang-jwt/jwt/v4 v4.5.2
 	github.com/google/uuid v1.6.0
 	github.com/guregu/null/v5 v5.0.0
-	github.com/huandu/go-sqlbuilder v1.38.1
-	github.com/jzero-io/jzero v1.0.0-beta20
-	github.com/jzero-io/jzero-admin/core-engine v0.0.0-20251225134547-40fcd3b6d345
+	github.com/huandu/go-sqlbuilder v1.38.2
+	github.com/jzero-io/jzero v1.0.0
+	github.com/jzero-io/jzero-admin/core-engine v0.0.0-20260101092318-6073c61e5774
 	github.com/pkg/errors v0.9.1
 	github.com/samber/lo v1.52.0
 	github.com/spf13/cast v1.10.0
@@ -88,7 +88,7 @@ require (
 	github.com/jhump/protoreflect v1.17.0 // indirect
 	github.com/jzero-io/desc v1.2.0 // indirect
 	github.com/jzero-io/go_fmt v0.0.0-20250905015347-1a45352494b7 // indirect
-	github.com/jzero-io/jzero/cmd/jzero v1.0.0-beta20 // indirect
+	github.com/jzero-io/jzero/cmd/jzero v1.0.0 // indirect
 	github.com/kevinburke/ssh_config v1.2.0 // indirect
 	github.com/klauspost/compress v1.18.1 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
@@ -172,7 +172,7 @@ require (
 	modernc.org/libc v1.67.0 // indirect
 	modernc.org/mathutil v1.7.1 // indirect
 	modernc.org/memory v1.11.0 // indirect
-	modernc.org/sqlite v1.41.0 // indirect
+	modernc.org/sqlite v1.42.2 // indirect
 )
 
 tool github.com/jzero-io/jzero/cmd/jzero

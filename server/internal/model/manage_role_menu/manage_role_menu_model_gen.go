@@ -107,6 +107,13 @@ func newManageRoleMenuModel(conn sqlx.SqlConn, op ...opts.Opt[modelx.ModelOpts])
 	}
 }
 
+// NewOriginalManageRoleMenuModel returns a original model for the database table.
+func NewOriginalManageRoleMenuModel(conn sqlx.SqlConn) ManageRoleMenuModel {
+	return &customManageRoleMenuModel{
+		defaultManageRoleMenuModel: newManageRoleMenuModel(conn),
+	}
+}
+
 func (m *defaultManageRoleMenuModel) clone() *defaultManageRoleMenuModel {
 	return &defaultManageRoleMenuModel{
 		cachedConn: m.cachedConn,
@@ -305,9 +312,11 @@ func (m *customManageRoleMenuModel) BulkInsert(ctx context.Context, session sqlx
 
 	sb := sqlbuilder.InsertInto(m.table)
 	sb.Cols(manageRoleMenuRowsExpectAutoSet)
+
 	for _, data := range datas {
 		sb.Values(data.Uuid, data.RoleUuid, data.MenuUuid, data.IsHome)
 	}
+
 	statement, args := sb.BuildWithFlavor(m.flavor)
 
 	var err error

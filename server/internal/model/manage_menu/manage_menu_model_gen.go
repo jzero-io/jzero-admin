@@ -143,6 +143,13 @@ func newManageMenuModel(conn sqlx.SqlConn, op ...opts.Opt[modelx.ModelOpts]) *de
 	}
 }
 
+// NewOriginalManageMenuModel returns a original model for the database table.
+func NewOriginalManageMenuModel(conn sqlx.SqlConn) ManageMenuModel {
+	return &customManageMenuModel{
+		defaultManageMenuModel: newManageMenuModel(conn),
+	}
+}
+
 func (m *defaultManageMenuModel) clone() *defaultManageMenuModel {
 	return &defaultManageMenuModel{
 		cachedConn: m.cachedConn,
@@ -395,9 +402,11 @@ func (m *customManageMenuModel) BulkInsert(ctx context.Context, session sqlx.Ses
 
 	sb := sqlbuilder.InsertInto(m.table)
 	sb.Cols(manageMenuRowsExpectAutoSet)
+
 	for _, data := range datas {
 		sb.Values(data.Uuid, data.Status, data.ParentUuid, data.MenuType, data.MenuName, data.HideInMenu, data.ActiveMenu, data.Order, data.RouteName, data.RoutePath, data.Component, data.Icon, data.IconType, data.I18nKey, data.KeepAlive, data.Href, data.MultiTab, data.FixedIndexInTab, data.Query, data.Permissions, data.Constant, data.ButtonCode)
 	}
+
 	statement, args := sb.BuildWithFlavor(m.flavor)
 
 	var err error

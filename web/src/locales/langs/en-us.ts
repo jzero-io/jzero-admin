@@ -271,11 +271,11 @@ const local: App.I18n.Schema = {
       projectNews: {
         title: 'Project News',
         moreNews: 'More News',
-        desc1: 'jaronnie created the open source project jzero on 04/07/2024!',
-        desc2: 'mintsberry became jzero first contributor on May 8, 2024!',
-        desc3: 'jaronnie created the jzero chat group on May 23, 2024!',
-        desc4: 'jaronnie released the first usable version on 03 June 2024!',
-        desc5: 'jaronnie created the open source project jzero-admin on October 14, 2024!'
+         desc1: 'Created the open source project jzero on April 07, 2024!',
+        desc2: 'Created the open source project jzero-admin on October 14, 2024!',
+        desc3: 'Continuously improving and perfecting in 2025!',
+        desc4: 'Created the open source project jzero-intellij on November 30, 2025!',
+        desc5: 'Released jzero v1.0.0 on January 01, 2026!'
       },
       creativity: 'Creativity'
     },

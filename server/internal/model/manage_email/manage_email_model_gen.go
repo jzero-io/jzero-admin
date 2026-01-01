@@ -115,6 +115,13 @@ func newManageEmailModel(conn sqlx.SqlConn, op ...opts.Opt[modelx.ModelOpts]) *d
 	}
 }
 
+// NewOriginalManageEmailModel returns a original model for the database table.
+func NewOriginalManageEmailModel(conn sqlx.SqlConn) ManageEmailModel {
+	return &customManageEmailModel{
+		defaultManageEmailModel: newManageEmailModel(conn),
+	}
+}
+
 func (m *defaultManageEmailModel) clone() *defaultManageEmailModel {
 	return &defaultManageEmailModel{
 		cachedConn: m.cachedConn,
@@ -325,9 +332,11 @@ func (m *customManageEmailModel) BulkInsert(ctx context.Context, session sqlx.Se
 
 	sb := sqlbuilder.InsertInto(m.table)
 	sb.Cols(manageEmailRowsExpectAutoSet)
+
 	for _, data := range datas {
 		sb.Values(data.Uuid, data.From, data.Host, data.Port, data.Username, data.Password, data.EnableSsl, data.IsVerify)
 	}
+
 	statement, args := sb.BuildWithFlavor(m.flavor)
 
 	var err error

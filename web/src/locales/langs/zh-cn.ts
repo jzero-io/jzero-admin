@@ -271,11 +271,11 @@ const local: App.I18n.Schema = {
       projectNews: {
         title: '项目里程碑',
         moreNews: '更多动态',
-        desc1: 'jaronnie 在 2024 年 04 月 07 日创建了开源项目 jzero!',
-        desc2: 'mintsberry 在 2024 年 05 月 08 号成为 jzero 第一个 contributor!',
-        desc3: 'jaronnie 在 2024 年 05 月 23 号建立了 jzero 交流群!',
-        desc4: 'jaronnie 在 2024 年 06 月 03 号发布了第一个可用版本!',
-        desc5: 'jaronnie 在 2024 年 10 月 14 号创建了开源项目 jzero-admin!'
+        desc1: '2024 年 04 月 07 日创建了开源项目 jzero!',
+        desc2: '2024 年 10 月 14 号创建了开源项目 jzero-admin!',
+        desc3: '2025 年不断的改进完善ing!',
+        desc4: '2025 年 11 月 30 号创建了开源项目 jzero-intellij!',
+        desc5: '2026 年 01 月 01 号发布了 jzero v1.0.0!',
       },
       creativity: '创意'
     },
