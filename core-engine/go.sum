@@ -87,6 +87,7 @@ github.com/huandu/go-clone v1.7.3 h1:rtQODA+ABThEn6J5LBTppJfKmZy/FwfpMUWa8d01TTQ
 github.com/huandu/go-clone v1.7.3/go.mod h1:ReGivhG6op3GYr+UY3lS6mxjKp7MIGTknuU5TbTVaXE=
 github.com/huandu/go-sqlbuilder v1.38.1 h1:kajV1CFJQIrJgyTONhQFheJLRFnwDmTnU6e3CfFP5GQ=
 github.com/huandu/go-sqlbuilder v1.38.1/go.mod h1:zdONH67liL+/TvoUMwnZP/sUYGSSvHh9psLe/HpXn8E=
+github.com/huandu/go-sqlbuilder v1.38.2/go.mod h1:zdONH67liL+/TvoUMwnZP/sUYGSSvHh9psLe/HpXn8E=
 github.com/huandu/xstrings v1.5.0 h1:2ag3IFq9ZDANvthTwTiqSSZLjDc+BedvHPAp5tJy2TI=
 github.com/huandu/xstrings v1.5.0/go.mod h1:y5/lhBue+AyNmUVz9RLU9xbLR0o4KIIExikq4ovT0aE=
 github.com/jackc/pgpassfile v1.0.0 h1:/6Hmqy13Ss2zCq62VdNG8tM1wchn8zjSGOBJ6icpsIM=
@@ -103,6 +104,8 @@ github.com/jzero-io/jzero v1.0.0-beta20 h1:U26UozpBp7Tfzo3mr+t02OP/CNFSOCGyVmkhz
 github.com/jzero-io/jzero v1.0.0-beta20/go.mod h1:Hy8SuHD2lsyExqpXj0RDEe2BvrHosifVnvKmqIUwNS0=
 github.com/jzero-io/jzero v1.0.0-beta9.0.20251219061702-e0e016d70932 h1:5i1Y1NObo1QQViRaVu5moZN6WqkR/+yznkJ1dgPc4f4=
 github.com/jzero-io/jzero v1.0.0-beta9.0.20251219061702-e0e016d70932/go.mod h1:YMBuEeq8efRGd6UqHASkY6W/Pk/xHQcuJe/G/1uRbKU=
+github.com/jzero-io/jzero v1.0.0 h1:GCiZWV5+UIFofVRH9YBC+foBrfFcN83HdlhhYR9sYgw=
+github.com/jzero-io/jzero v1.0.0/go.mod h1:CvVPVinNOsIh2NZRAJA+dTJNzk1JxhyzKFbZbgMFTQg=
 github.com/klauspost/compress v1.18.1 h1:bcSGx7UbpBqMChDtsF28Lw6v/G94LPrrbMbdC3JH2co=
 github.com/klauspost/compress v1.18.1/go.mod h1:ZQFFVG+MdnR0P+l6wpXgIL4NTtwiKIdBnrBd8Nrxr+0=
 github.com/kr/pretty v0.3.1 h1:flRD4NNwYAUpkphVc1HcthR4KEIFJ65n8Mw5qdRn3LE=
@@ -284,6 +287,7 @@ modernc.org/sortutil v1.2.1/go.mod h1:7ZI3a3REbai7gzCLcotuw9AC4VZVpYMjDzETGsSMqJ
 modernc.org/sqlite v1.40.1 h1:VfuXcxcUWWKRBuP8+BR9L7VnmusMgBNNnBYGEe9w/iY=
 modernc.org/sqlite v1.40.1/go.mod h1:9fjQZ0mB1LLP0GYrp39oOJXx/I2sxEnZtzCmEQIKvGE=
 modernc.org/sqlite v1.41.0/go.mod h1:9fjQZ0mB1LLP0GYrp39oOJXx/I2sxEnZtzCmEQIKvGE=
+modernc.org/sqlite v1.42.2/go.mod h1:+VkC6v3pLOAE0A0uVucQEcbVW0I5nHCeDaBf+DpsQT8=
 modernc.org/strutil v1.2.1 h1:UneZBkQA+DX2Rp35KcM69cSsNES9ly8mQWD71HKlOA0=
 modernc.org/strutil v1.2.1/go.mod h1:EHkiggD70koQxjVdSBM3JKM7k6L0FbGE5eymy9i3B9A=
 modernc.org/token v1.1.0 h1:Xl7Ap9dKaEs5kLoOQeQmPWevfnk/DM5qcLcYlA8ys6Y=
