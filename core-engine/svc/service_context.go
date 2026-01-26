@@ -55,7 +55,7 @@ func NewServiceContext(c config.Config, route2code func(r *http.Request) string,
 			Type: redis.NodeType,
 			Host: miniRedis.Addr(),
 		})
-	} else {
+	} else if c.Redis.Host != "" {
 		svcCtx.Redis = redis.MustNewRedis(c.Redis.RedisConf)
 	}
 
