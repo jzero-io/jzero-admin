@@ -22,7 +22,7 @@
 
 ### 部署在阿里云函数计算
 
-[demo 演示地址](http://jzero-admin.jaronnie.com)
+[demo 演示地址](https://jzero-admin.jaronnie.com)
 
 ## 本地一键部署
 
