@@ -9,26 +9,26 @@
 <img align="center" width="150px" src="https://oss.jaronnie.com/hiking.svg">
 </p>
 
-English | [简体中文](README.zh-CN.md)
+[English](README.md) | 简体中文
 
-A next-generation admin management system with backend service built on [jzero](https://github.com/jzero-io/jzero) framework and frontend service built on [soybean](https://github.com/soybeanjs/soybean-admin) framework.
+基于 [jzero](https://github.com/jzero-io/jzero) 脚手架搭建后台服务, 基于 [soybean](https://github.com/soybeanjs/soybean-admin) 搭建前端服务的下一代后台管理系统.
 
-## Demo Addresses
+## 演示地址
 
-### Deployed on [Vercel](https://vercel.com) Platform
+### 部署在 [vercel](https://vercel.com) 平台
 
-[Demo Address](https://admin.jzero.io)
+[demo 演示地址](https://admin.jzero.io)
 
-### Deployed on Alibaba Cloud Function Compute
+### 部署在阿里云函数计算
 
-[Demo Address](https://jzero-admin.jaronnie.com)
+[demo 演示地址](https://jzero-admin.jaronnie.com)
 
-## Local One-Click Deployment
+## 本地一键部署
 
 ```shell
 git clone https://github.com/jzero-io/jzero-admin.git
 cd jzero-admin/deploy/docker-compose
 docker-compose up
-# Rebuild after modifying source code
+# 修改源码后重新编译
 # docker-compose up --build
 ```
