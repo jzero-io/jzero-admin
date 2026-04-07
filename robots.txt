@@ -1,0 +1,4 @@
+User-agent:*
+Disallow:
+
+Sitemap: https://docs.admin.jzero.io/sitemap.xml
