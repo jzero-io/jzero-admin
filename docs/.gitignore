@@ -1,0 +1,4 @@
+.idea
+src/.vuepress/.cache
+src/.vuepress/.temp
+node_modules

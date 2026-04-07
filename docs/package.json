@@ -1,0 +1,20 @@
+{
+  "name": "jzero-admin",
+  "version": "1.0.0",
+  "description": "jzero-admin docs",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "docs:build": "vuepress-vite build src",
+    "docs:clean-dev": "vuepress-vite dev src --clean-cache",
+    "docs:dev": "vuepress-vite dev src",
+    "docs:update-package": "pnpm dlx vp-update"
+  },
+  "devDependencies": {
+    "@vuepress/bundler-vite": "2.0.0-rc.26",
+    "sass-embedded": "^1.97.3",
+    "vue": "^3.5.29",
+    "vuepress": "2.0.0-rc.26",
+    "vuepress-theme-hope": "2.0.0-rc.103"
+  }
+}
