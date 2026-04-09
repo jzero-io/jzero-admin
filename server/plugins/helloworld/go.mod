@@ -13,7 +13,7 @@ require (
 )
 
 require (
-	filippo.io/edwards25519 v1.1.0 // indirect
+	filippo.io/edwards25519 v1.1.1 // indirect
 	github.com/Blank-Xu/sql-adapter v1.1.2 // indirect
 	github.com/a8m/envsubst v1.4.3 // indirect
 	github.com/alicebob/miniredis/v2 v2.35.0 // indirect
